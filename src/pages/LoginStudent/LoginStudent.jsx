@@ -11,7 +11,7 @@ function LoginStudent(props) {
     e.preventDefault();
 
     axios
-      .post(`${process.env.REACT_APP_SERVER_HOST}/user/signin`, {
+      .post(`${process.env.REACT_APP_SV_HOST}/user/signin`, {
         username: id,
         password: password,
       })

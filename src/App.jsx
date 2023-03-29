@@ -4,6 +4,7 @@ import Menubar from "./components/Menubar/Menubar";
 import LoginStudent from "./pages/LoginStudent/LoginStudent";
 import SignupStudent from "./pages/SignupStudent/SignupStudent";
 import FindPassword from "./pages/FindPassword/FindPassword";
+import Tutor from "./pages/Tutor/Tutor";
 import "./App.css";
 function App(props) {
   return (
@@ -11,7 +12,7 @@ function App(props) {
       <BrowserRouter>
         <Menubar />
         <Routes>
-          <Route path="/" element={<LoginStudent />} />
+          <Route path="/" element={<Tutor />} />
           <Route path="/loginStudent" element={<LoginStudent />} />
           <Route path="/signStudent" element={<SignupStudent />} />
           <Route path="/home" element={<SignupStudent />} />
