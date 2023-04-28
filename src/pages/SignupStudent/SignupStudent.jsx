@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useRef } from "react";
-import styles from "./SignupStudent.module.css";
+import styles from "./SignupStudent.module.scss";
 function SignupStudent(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -58,7 +58,7 @@ function SignupStudent(props) {
     <div className={styles.Total}>
       <div className={styles.Title}>
         <div className={styles.VerticalLine}></div>
-        <span>학생 회원가입</span>
+        <span>멘티 회원가입</span>
       </div>
       <hr className={styles.horizontalLine} />
       <div className={styles.Form} action="">

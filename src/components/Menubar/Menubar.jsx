@@ -1,4 +1,4 @@
-import styles from "./Menubar.module.css";
+import styles from "./Menubar.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
@@ -42,7 +42,7 @@ function Menubar() {
             <div className={styles.Popup}>
               <span
                 onClick={() => {
-                  setLogin("학생 로그인");
+                  setLogin("멘티 로그인");
                   toggleLogin();
                   setSignup("회원가입");
                 }}
@@ -50,7 +50,7 @@ function Menubar() {
                 <Link
                   to={`http://localhost:3000/loginStudent`}
                   style={
-                    login === "학생 로그인"
+                    login === "멘티 로그인"
                       ? {
                           color: "#3B71B9",
                           fontWeight: "800",
@@ -59,23 +59,23 @@ function Menubar() {
                       : { color: "#2F5383", textDecoration: "none" }
                   }
                 >
-                  학생 로그인
+                  멘티 로그인
                 </Link>
               </span>
               <hr />
               <span
                 style={
-                  login === "선생님 로그인"
+                  login === "멘토 로그인"
                     ? { color: "#3B71B9", fontWeight: "800" }
                     : { color: "#2F5383" }
                 }
                 onClick={() => {
-                  setLogin("선생님 로그인");
+                  setLogin("멘토 로그인");
                   toggleLogin();
                   setSignup("회원가입");
                 }}
               >
-                선생님 로그인
+                멘토 로그인
               </span>
             </div>
           ) : null}
@@ -87,15 +87,15 @@ function Menubar() {
             <div className={[styles.Popup, styles.SignPopup].join(" ")}>
               <span
                 onClick={() => {
-                  setSignup("학생 회원가입");
+                  setSignup("멘토 회원가입");
                   toggleSignup();
                   setLogin("로그인");
                 }}
               >
                 <Link
-                  to={`http://localhost:3000/signStudent`}
+                  to={`http://localhost:3000/signTutor`}
                   style={
-                    signup === "학생 회원가입"
+                    signup === "멘토 회원가입"
                       ? {
                           color: "#3B71B9",
                           fontWeight: "800",
@@ -104,13 +104,13 @@ function Menubar() {
                       : { color: "#2F5383", textDecoration: "none" }
                   }
                 >
-                  학생 회원가입
+                  멘토 회원가입
                 </Link>
               </span>
               <hr />
               <span
                 style={
-                  login === "선생님 회원가입"
+                  login === "멘티 회원가입"
                     ? {
                         color: "#3B71B9",
                         fontWeight: "800",
@@ -119,12 +119,25 @@ function Menubar() {
                     : { color: "#2F5383", textDecoration: "none" }
                 }
                 onClick={() => {
-                  setSignup("선생님 회원가입");
+                  setSignup("멘티 회원가입");
                   toggleSignup();
                   setLogin("로그인");
                 }}
               >
-                선생님 회원가입
+                <Link
+                  to={`http://localhost:3000/signStudent`}
+                  style={
+                    signup === "멘티 회원가입"
+                      ? {
+                          color: "#3B71B9",
+                          fontWeight: "800",
+                          textDecoration: "none",
+                        }
+                      : { color: "#2F5383", textDecoration: "none" }
+                  }
+                >
+                  맨티 회원가입
+                </Link>
               </span>
             </div>
           ) : null}
