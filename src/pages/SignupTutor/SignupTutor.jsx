@@ -224,6 +224,7 @@ function SignupTutor(props) {
             <div className={styles.Subtitle}>
               <VerticalLine size="small" />
               <span>이름</span>
+              <Required>*</Required>
             </div>
             <InputForm>
               <Input
@@ -236,6 +237,7 @@ function SignupTutor(props) {
             <div className={styles.Subtitle}>
               <VerticalLine size="small" />
               <span>아이디</span>
+              <Required>*</Required>
             </div>
             <InputForm>
               <Input
@@ -249,6 +251,7 @@ function SignupTutor(props) {
             <div className={styles.Subtitle}>
               <VerticalLine size="small" />
               <span>닉네임</span>
+              <Required>*</Required>
             </div>
             <InputForm>
               <Input
@@ -262,6 +265,7 @@ function SignupTutor(props) {
             <div className={styles.Subtitle}>
               <VerticalLine size="small" />
               <span>비밀번호</span>
+              <Required>*</Required>
             </div>
             <InputForm>
               <Input
@@ -275,6 +279,7 @@ function SignupTutor(props) {
             <div className={styles.Subtitle}>
               <VerticalLine size="small" />
               <span>비밀번호 확인</span>
+              <Required>*</Required>
             </div>
             <InputForm>
               <Input
@@ -292,6 +297,7 @@ function SignupTutor(props) {
             <div className={styles.Subtitle}>
               <VerticalLine size="small" />
               <span>전화번호</span>
+              <Required>*</Required>
             </div>
             <InputForm>
               <Input
@@ -329,6 +335,7 @@ function SignupTutor(props) {
             <div className={styles.Subtitle}>
               <VerticalLine size="small" />
               <span>성별</span>
+              <Required>*</Required>
             </div>
             <InputForm>
               <label className={styles.Label}>
@@ -363,8 +370,8 @@ function SignupTutor(props) {
             <div className={styles.Subtitle}>
               <VerticalLine size="small" />
               <span>학력</span>
+              <Required>*</Required>
             </div>
-
             <SchoolList schoolList={schoolList} setSchoolList={setSchoolList} />
           </Wrapper>
           <Wrapper>
@@ -378,11 +385,12 @@ function SignupTutor(props) {
             <div className={styles.Subtitle}>
               <VerticalLine size="small" />
               <span>상담 학과 1</span>
+              <Required>*</Required>
             </div>
             <InputForm>
               <Input
                 size="large"
-                placeholder="첫번째 상담학과를 입력하세요."
+                placeholder="첫번째 상담 학과를 입력하세요."
                 onChange={(e) => {
                   setConsult({ ...consult, first: e.target.value });
                 }}
@@ -398,7 +406,7 @@ function SignupTutor(props) {
             <InputForm>
               <Input
                 size="large"
-                placeholder="두번째 상담학과를 입력하세요."
+                placeholder="두번째 상담 학과를 입력하세요."
                 onChange={(e) => {
                   setConsult({ ...consult, second: e.target.value });
                 }}
@@ -414,7 +422,7 @@ function SignupTutor(props) {
             <InputForm>
               <Input
                 size="large"
-                placeholder="세번째 상담학과를 입력하세요."
+                placeholder="세번째 상담 학과를 입력하세요."
                 onChange={(e) => {
                   setConsult({ ...consult, third: e.target.value });
                 }}
@@ -426,6 +434,7 @@ function SignupTutor(props) {
             <div className={styles.Subtitle}>
               <VerticalLine size="small" />
               <span>학력 증명</span>
+              <Required>*</Required>
             </div>
             <div className={styles.FileUpload}>
               {careerFile.length ? (
@@ -638,4 +647,8 @@ const Tag = styled.div`
   .delete-icon {
     cursor: pointer;
   }
+`;
+
+const Required = styled.span`
+  color: red;
 `;

@@ -160,14 +160,14 @@ export default SchoolItem;
 
 const InputForm = styled.div`
   display: flex;
-  min-width: 380px;
+  min-width: 25rem;
   justify-content: space-between;
   margin-bottom: 5px;
   gap: 10px;
   height: 40px;
 `;
 const SchoolSelect = styled.select`
-  min-width: 120px;
+  min-width: 9rem;
   text-align: center;
   background-color: #eaeaea;
   height: 35px;

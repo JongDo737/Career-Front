@@ -31,14 +31,14 @@ const StyledInput = styled.input`
   border: 1px solid gray;
   box-sizing: border-box;
   padding: 0; //나중에 reset.scss or reset.css 로 만들기
-  height: ${(props) => props.height || "35px"};
+  height: ${(props) => props.height || "2.5rem"};
   &.small {
-    width: ${(props) => props.width || "76px"};
+    width: ${(props) => props.width || "6.25rem"};
   }
   &.medium {
-    width: ${(props) => props.width || "250px"};
+    width: ${(props) => props.width || "20rem"};
   }
   &.large {
-    width: ${(props) => props.width || "350px"};
+    width: ${(props) => props.width || "35rem"};
   }
 `;

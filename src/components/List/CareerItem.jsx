@@ -123,7 +123,7 @@ const CareerItem = ({
         <div>
           <span>역할 및 활동내용</span>
           <Input
-            width="30rem"
+            width="40rem"
             height="7rem"
             placeholder="활동내용에 대해 작성해 주세요."
             onChange={(e) => {
@@ -150,7 +150,7 @@ const Form = styled.div`
   height: 40px;
 `;
 const Select = styled.select`
-  min-width: 120px;
+  min-width: 9rem;
   text-align: center;
   background-color: #eaeaea;
   height: 35px;
@@ -160,7 +160,7 @@ const InputForm = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  width: 40rem;
+  width: 48rem;
   padding-left: 30px;
   margin: 20px 0;
   gap: 10px;

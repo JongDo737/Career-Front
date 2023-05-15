@@ -22,12 +22,12 @@ const StyledButton = styled.button`
   border: 1px solid #2f5383;
   font-size: 15px;
   font-weight: 600;
-  height: 35px;
+  height: 2.5rem;
   cursor: pointer;
   &.medium {
-    width: 120px;
+    width: 10rem;
   }
   &.large {
-    width: 250px;
+    width: 20rem;
   }
 `;
