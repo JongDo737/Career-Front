@@ -12,3 +12,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.react-datepicker-wrapper {
+  width: 120px;
+  height: 35px;
+}
+.react-datepicker__input-container {
+  height: 100%;
+  display: flex !important;
+  align-items: center;
+}
+
+.react-datepicker__view-calendar-icon input {
+  padding: 6px 10px 5px 40px !important;
+  width: 150px;
+}
+
+.react-datepicker__input-container input {
+  height: 100% !important;
+  box-sizing: border-box;
+}

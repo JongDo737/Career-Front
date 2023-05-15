@@ -7,6 +7,7 @@ import SignupTutor from "./pages/SignupTutor/SignupTutor";
 import FindPassword from "./pages/FindPassword/FindPassword";
 import Tutor from "./pages/Tutor/Tutor";
 import "./App.css";
+
 function App(props) {
   return (
     <>

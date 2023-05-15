@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-function Input({ size, placeholder, type, height, width }) {
+function Input({ size, placeholder, type, height, width, onChange, value }) {
   return (
     <StyledInput
       className={size}
@@ -8,6 +8,10 @@ function Input({ size, placeholder, type, height, width }) {
       type={type}
       height={height}
       width={width}
+      value={value}
+      onChange={(e) => {
+        onChange(e);
+      }}
     />
   );
 }
@@ -22,10 +26,11 @@ export default Input;
 
 const StyledInput = styled.input`
   text-align: center;
-  box-sizing: border-box;
   font-size: 15px;
   border-radius: 2px;
   border: 1px solid gray;
+  box-sizing: border-box;
+  padding: 0; //나중에 reset.scss or reset.css 로 만들기
   height: ${(props) => props.height || "35px"};
   &.small {
     width: ${(props) => props.width || "76px"};

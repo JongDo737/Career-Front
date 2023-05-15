@@ -126,7 +126,9 @@ const CareerItem = ({
             width="30rem"
             height="7rem"
             placeholder="활동내용에 대해 작성해 주세요."
-            onChange={setContent}
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
           >
             {content}
           </Input>

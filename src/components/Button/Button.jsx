@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-function Button({ children, size, weight }) {
+function Button({ children, size, weight, onClick }) {
   return (
-    <StyledButton className={`Button ${size} ${weight}`}>
+    <StyledButton className={`Button ${size} ${weight}`} onClick={onClick}>
       {children}
     </StyledButton>
   );
@@ -17,10 +17,9 @@ export default Button;
 
 const StyledButton = styled.button`
   background-color: #44638c;
-  border-color: #2f5383;
   border-radius: 5px;
   color: white;
-  border: none;
+  border: 1px solid #2f5383;
   font-size: 15px;
   font-weight: 600;
   height: 35px;

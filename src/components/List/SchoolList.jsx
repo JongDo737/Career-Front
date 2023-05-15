@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
-import SchoolItem from "./ListItem";
-function SchoolList(props) {
+import SchoolItem from "./SchoolItem";
+const SchoolList = (props) => {
   const nextId = useRef(1);
-  const addSchoolList = () => {
-    const schoolInput = {
+  const addSchoolItem = () => {
+    const school = {
       id: nextId.current,
       school: "고등학교",
       schoolName: "",
@@ -11,10 +11,11 @@ function SchoolList(props) {
       endDate: "",
       state: "졸업",
     };
-    props.setSchoolList([...props.schoolList, schoolInput]);
+    props.setSchoolList([...props.schoolList, school]);
     nextId.current += 1;
+    console.log(props.schoolList);
   };
-  const removeSchoolList = (i) => {
+  const removeSchoolItem = (i) => {
     props.setSchoolList(props.schoolList.filter((a) => a.id !== i));
   };
 
@@ -25,16 +26,16 @@ function SchoolList(props) {
           return (
             <SchoolItem
               item={item}
-              i={i}
+              index={i}
               key={item.id}
               length={props.schoolList.length}
-              addSchoolList={addSchoolList}
-              removeSchoolList={removeSchoolList}
+              addSchoolItem={addSchoolItem}
+              removeSchoolItem={removeSchoolItem}
             />
           );
         })}
     </>
   );
-}
+};
 
 export default SchoolList;
