@@ -28,7 +28,7 @@ const MajorItem = ({
         <option value="다중전공">다중전공</option>
       </MajorSelect>
       <Input
-        size="large"
+        size="medium"
         placeholder="학과를 입력해 주세요."
         onChange={(e) => {
           item.major = e.target.value;
