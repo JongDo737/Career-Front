@@ -15,9 +15,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faPlus } from "@fortawesome/free-solid-svg-icons";
 function SignupTutor(props) {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(false);
   const [gender, setGender] = useState(false);
+  const [intro, setIntro] = useState("");
+  const [phoneNumber, setphoneNumber] = useState("");
+  const [numberCode, setNumberCode] = useState("");
+  const [consult, setConsult] = useState([]);
+  const [careerPlan, setCareerPlan] = useState("");
+  const [hobby, setHobby] = useState("");
   const [schoolList, setSchoolList] = useState([
     {
       id: 0,
@@ -38,7 +46,7 @@ function SignupTutor(props) {
       state: "수료",
     },
   ]);
-  const [confirmPassword, setConfirmPassword] = useState(false);
+
   const [image, setImage] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
@@ -178,6 +186,7 @@ function SignupTutor(props) {
               placeholder="소개글을 작성하세요."
               size="large"
               height="150px"
+              onChange={(e) => setIntro(e.target.value)}
             />
             <div className={styles.ButtonDiv}>
               <Button size="medium">저장하기</Button>
@@ -191,7 +200,7 @@ function SignupTutor(props) {
             <InputForm>
               <Input
                 placeholder="당신의 커리어 목표는 무엇인가요."
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setCareerPlan(e.target.value)}
                 size="large"
               />
             </InputForm>
@@ -204,7 +213,7 @@ function SignupTutor(props) {
             <InputForm>
               <Input
                 placeholder="취미를 작성해 주세요."
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setHobby(e.target.value)}
                 size="large"
               />
             </InputForm>
@@ -231,7 +240,7 @@ function SignupTutor(props) {
             <InputForm>
               <Input
                 placeholder="아이디를 입력하세요."
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setId(e.target.value)}
               />
               <Button>중복확인</Button>
             </InputForm>
@@ -256,6 +265,7 @@ function SignupTutor(props) {
             </div>
             <InputForm>
               <Input
+                type="password"
                 placeholder="비밀번호를 입력하세요."
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -268,6 +278,7 @@ function SignupTutor(props) {
             </div>
             <InputForm>
               <Input
+                type="password"
                 placeholder="비밀번호를 다시 입력하세요."
                 onChange={(e) => {
                   password === e.target.value
@@ -286,24 +297,30 @@ function SignupTutor(props) {
               <Input
                 placeholder="010"
                 size="small"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) =>
+                  setphoneNumber({ ...phoneNumber, first: e.target.value })
+                }
               />
               <Input
                 placeholder="1234"
                 size="small"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) =>
+                  setphoneNumber({ ...phoneNumber, second: e.target.value })
+                }
               />
               <Input
                 placeholder="5678"
                 size="small"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) =>
+                  setphoneNumber({ ...phoneNumber, third: e.target.value })
+                }
               />
               <Button>인증코드 전송</Button>
             </InputForm>
             <InputForm>
               <Input
                 placeholder="인증코드를 입력하세요."
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setNumberCode(e.target.value)}
               />
               <Button>확인</Button>
             </InputForm>
@@ -367,7 +384,7 @@ function SignupTutor(props) {
                 size="large"
                 placeholder="첫번째 상담학과를 입력하세요."
                 onChange={(e) => {
-                  setUsername(e.target.value);
+                  setConsult({ ...consult, first: e.target.value });
                 }}
               />
               <Button>등록</Button>
@@ -383,7 +400,7 @@ function SignupTutor(props) {
                 size="large"
                 placeholder="두번째 상담학과를 입력하세요."
                 onChange={(e) => {
-                  setUsername(e.target.value);
+                  setConsult({ ...consult, second: e.target.value });
                 }}
               />
               <Button>등록</Button>
@@ -399,7 +416,7 @@ function SignupTutor(props) {
                 size="large"
                 placeholder="세번째 상담학과를 입력하세요."
                 onChange={(e) => {
-                  setUsername(e.target.value);
+                  setConsult({ ...consult, third: e.target.value });
                 }}
               />
               <Button>등록</Button>
