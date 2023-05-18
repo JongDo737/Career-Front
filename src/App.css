@@ -1,3 +1,27 @@
 :root {
   accent-color: #2f5383;
 }
+
+@media all and (min-width: 1680px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media all and (min-width: 1201px) and (max-width: 1679px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media all and (max-width: 1200px) {
+  html {
+    font-size: 11px;
+  }
+}
+
+@media all and (max-width: 999px) {
+  html {
+    font-size: 9px;
+  }
+}

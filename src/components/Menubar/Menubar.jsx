@@ -93,7 +93,7 @@ function Menubar() {
                 }}
               >
                 <Link
-                  to={`http://localhost:3000/signTutor`}
+                  to={`http://localhost:3000/signMentor`}
                   style={
                     signup === "멘토 회원가입"
                       ? {
@@ -125,7 +125,7 @@ function Menubar() {
                 }}
               >
                 <Link
-                  to={`http://localhost:3000/signStudent`}
+                  to={`http://localhost:3000/signMentee`}
                   style={
                     signup === "멘티 회원가입"
                       ? {

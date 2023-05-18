@@ -14,8 +14,8 @@ code {
 }
 
 .react-datepicker-wrapper {
-  width: 120px;
-  height: 35px;
+  width: 8rem;
+  height: 2.5rem;
 }
 .react-datepicker__input-container {
   height: 100%;
@@ -25,7 +25,7 @@ code {
 
 .react-datepicker__view-calendar-icon input {
   padding: 6px 10px 5px 40px !important;
-  width: 150px;
+  width: 9rem;
 }
 
 .react-datepicker__input-container input {

@@ -153,7 +153,7 @@ const Select = styled.select`
   min-width: 9rem;
   text-align: center;
   background-color: #eaeaea;
-  height: 35px;
+  height: 2.5rem;
 `;
 
 const InputForm = styled.div`
@@ -178,7 +178,7 @@ const Icon = styled.div`
   color: #2f5383;
   height: 100%;
   svg {
-    height: 30px;
+    height: 2rem;
     cursor: pointer;
   }
 `;

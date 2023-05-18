@@ -164,13 +164,13 @@ const InputForm = styled.div`
   justify-content: space-between;
   margin-bottom: 5px;
   gap: 10px;
-  height: 40px;
+  height: 3rem;
 `;
 const SchoolSelect = styled.select`
   min-width: 9rem;
   text-align: center;
   background-color: #eaeaea;
-  height: 35px;
+  height: 2.5rem;
 `;
 
 const Form = styled.div`
@@ -179,7 +179,7 @@ const Form = styled.div`
   padding-left: 30px;
   margin-bottom: 10px;
   gap: 10px;
-  height: 40px;
+  height: 3rem;
 `;
 const Icon = styled.div`
   display: flex;
@@ -188,7 +188,7 @@ const Icon = styled.div`
   color: #2f5383;
   height: 100%;
   svg {
-    height: 30px;
+    height: 2rem;
     cursor: pointer;
   }
 `;
