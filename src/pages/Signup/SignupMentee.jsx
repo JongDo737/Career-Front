@@ -2,18 +2,16 @@ import React from "react";
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import Button from "../../components/Button/Button";
-import VerticalLine from "../../components/Line/VerticalLine";
+import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import Input from "../../components/Input/Input";
-import styles from "./SignupTutor.module.scss";
+import styles from "./SignupMentee.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
-import SchoolList from "../../components/List/SchoolList";
-import CareerList from "../../components/List/CareerList";
 import Image from "../../components/Image/Image";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faPlus } from "@fortawesome/free-solid-svg-icons";
-function SignupTutor(props) {
+function SignupMentee(props) {
   const [username, setUsername] = useState("");
   const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
@@ -137,15 +135,15 @@ function SignupTutor(props) {
   return (
     <>
       <div className={styles.Title}>
-        <VerticalLine />
-        <span>멘토 회원가입</span>
+        <MenuLine />
+        <span>멘티 회원가입</span>
       </div>
       <HorizontalLine />
       <Form>
         <div className="FormHalf">
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>프로필 사진</span>
             </div>
             <img
@@ -179,7 +177,7 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>소개글</span>
             </div>
             <Input
@@ -194,12 +192,12 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
-              <span>커리어 목표</span>
+              <MenuLine size="small" />
+              <span>진로 목표</span>
             </div>
             <InputForm>
               <Input
-                placeholder="당신의 커리어 목표는 무엇인가요."
+                placeholder="당신의 진로 목표는 무엇인가요."
                 onChange={(e) => setCareerPlan(e.target.value)}
                 size="large"
               />
@@ -207,7 +205,7 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>취미</span>
             </div>
             <InputForm>
@@ -222,7 +220,7 @@ function SignupTutor(props) {
         <div className="FormHalf">
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>이름</span>
               <Required>*</Required>
             </div>
@@ -235,7 +233,7 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>아이디</span>
               <Required>*</Required>
             </div>
@@ -249,7 +247,7 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>닉네임</span>
               <Required>*</Required>
             </div>
@@ -263,7 +261,7 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>비밀번호</span>
               <Required>*</Required>
             </div>
@@ -277,7 +275,7 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>비밀번호 확인</span>
               <Required>*</Required>
             </div>
@@ -295,7 +293,7 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>전화번호</span>
               <Required>*</Required>
             </div>
@@ -333,7 +331,7 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>성별</span>
               <Required>*</Required>
             </div>
@@ -368,29 +366,14 @@ function SignupTutor(props) {
         <div className="Form50">
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
-              <span>학력</span>
-              <Required>*</Required>
-            </div>
-            <SchoolList schoolList={schoolList} setSchoolList={setSchoolList} />
-          </Wrapper>
-          <Wrapper>
-            <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
-              <span>경력</span>
-            </div>
-            <CareerList careerList={careerList} setCareerList={setCareerList} />
-          </Wrapper>
-          <Wrapper>
-            <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
-              <span>상담 학과 1</span>
+              <MenuLine size="small" />
+              <span>관심 학과 1</span>
               <Required>*</Required>
             </div>
             <InputForm>
               <Input
                 size="large"
-                placeholder="첫번째 상담 학과를 입력하세요."
+                placeholder="첫번째 관심 학과를 입력하세요."
                 onChange={(e) => {
                   setConsult({ ...consult, first: e.target.value });
                 }}
@@ -400,13 +383,13 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
-              <span>상담 학과 2</span>
+              <MenuLine size="small" />
+              <span>관심 학과 2</span>
             </div>
             <InputForm>
               <Input
                 size="large"
-                placeholder="두번째 상담 학과를 입력하세요."
+                placeholder="두번째 관심 학과를 입력하세요."
                 onChange={(e) => {
                   setConsult({ ...consult, second: e.target.value });
                 }}
@@ -416,13 +399,13 @@ function SignupTutor(props) {
           </Wrapper>
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
-              <span>상담 학과 3</span>
+              <MenuLine size="small" />
+              <span>관심 학과 3</span>
             </div>
             <InputForm>
               <Input
                 size="large"
-                placeholder="세번째 상담 학과를 입력하세요."
+                placeholder="세번째 관심 학과를 입력하세요."
                 onChange={(e) => {
                   setConsult({ ...consult, third: e.target.value });
                 }}
@@ -430,62 +413,13 @@ function SignupTutor(props) {
               <Button>등록</Button>
             </InputForm>
           </Wrapper>
-          <Wrapper>
-            <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
-              <span>학력 증명</span>
-              <Required>*</Required>
-            </div>
-            <div className={styles.FileUpload}>
-              {careerFile.length ? (
-                <div className={styles.FileList}>
-                  {careerFile.map((file) => {
-                    return (
-                      <div key={file.id} className={styles.FileItem}>
-                        <span>{file.name}</span>
-                        <FontAwesomeIcon
-                          className={styles.Icon}
-                          icon={faXmark}
-                          onClick={() => onDeleteFile(file.id)}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div
-                  className={styles.FileList}
-                  style={{
-                    color: "gray",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "0.8rem",
-                  }}
-                >
-                  <span>증명서를 첨부해 주세요.</span>
-                  <span>(졸업 증명서, 재학 증명서, ... 택1)</span>
-                </div>
-              )}
-              <label htmlFor="file" className={styles.UploadBtn}>
-                업로드
-              </label>
-              <input
-                multiple
-                type="file"
-                id="file"
-                onChange={onUploadFile}
-                style={{ display: "none" }}
-                // disabled={isFile}
-              />
-            </div>
-          </Wrapper>
         </div>
       </Form>
       <Form>
         <div className="FormHalf">
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>활동 사진</span>
             </div>
             <ImageWrapper>
@@ -501,7 +435,7 @@ function SignupTutor(props) {
         <div className="FormHalf">
           <Wrapper>
             <div className={styles.Subtitle}>
-              <VerticalLine size="small" />
+              <MenuLine size="small" />
               <span>태그</span>
             </div>
             <InputForm>
@@ -553,7 +487,7 @@ function SignupTutor(props) {
   );
 }
 
-export default SignupTutor;
+export default SignupMentee;
 
 const InputForm = styled.div`
   display: flex;

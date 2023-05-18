@@ -1,23 +1,28 @@
+import { he } from "date-fns/locale";
 import React from "react";
 import styled from "styled-components";
 
-function VerticalLine({ size }) {
-  return <StyledVertical className={size} />;
+function VerticalLine({ size, height }) {
+  return <Line className={size} height={height} />;
 }
 
 VerticalLine.defaultProps = {
-  size: "medium",
+  size: "large",
 };
 
 export default VerticalLine;
 
-const StyledVertical = styled.div`
-  background-color: #334b6c;
-  width: 5px;
+const Line = styled.div`
+  background-color: #bcbcbc;
+  box-sizing: border-box;
+  width: 1px;
   &.small {
-    height: 25px;
+    height: ${(props) => props.height || "20vh"};
   }
   &.medium {
-    height: 35px;
+    height: ${(props) => props.height || "50vh"};
+  }
+  &.large {
+    height: ${(props) => props.height || "80vh"};
   }
 `;

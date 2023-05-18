@@ -20,7 +20,7 @@ const StyledButton = styled.button`
   border-radius: 5px;
   color: white;
   border: 1px solid #2f5383;
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 600;
   height: 2.5rem;
   cursor: pointer;

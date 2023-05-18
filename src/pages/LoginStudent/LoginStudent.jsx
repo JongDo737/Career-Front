@@ -55,7 +55,7 @@ function LoginStudent(props) {
         </span>
         <div className={styles.Option}>
           <span>비밀번호 찾기</span>
-          <div className={styles.VerticalLine}></div>
+          <div className={styles.MenuLine}></div>
           <span>회원가입</span>
         </div>
         <div className={styles.SocialForm}>
