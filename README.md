@@ -9,6 +9,22 @@ If you want to start the project, enter **npm start** and open **http://localhos
 ---  
 .
 
+# Menubar (Before Login)
+![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/7fa846ac-23e7-444c-bdde-8bf1f49ead94)
+
+---
+.
+# Menubar (After Login - Mentor)
+![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/36eff7eb-724a-42d3-bef0-8e9277e9b299)
+
+---
+.
+# Menubar (After Login - Mentee)
+![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/60220d7f-7ac0-44a5-a82d-7a9d50d6e5b6)
+
+---
+.
+
 # Mentor Signup
 ![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/e231b542-9352-4f03-a5fd-ad82b5a3fa9b)
 ![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/a6aeb03f-e904-44b1-ba45-69b812ef5c06)
@@ -24,3 +40,4 @@ If you want to start the project, enter **npm start** and open **http://localhos
 
 # Mentor Page - Home
 ![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/3259c3e6-8b46-496f-abfc-a4dd9e72f726)
+
