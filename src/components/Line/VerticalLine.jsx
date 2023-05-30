@@ -1,4 +1,3 @@
-import { he } from "date-fns/locale";
 import React from "react";
 import styled from "styled-components";
 
