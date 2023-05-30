@@ -102,7 +102,7 @@ function SignupMentee(props) {
     // }
     console.log(username, password, nickname, gender);
     axios
-      .post(`${process.env.REACT_APP_SV_HOST}/user/signup`, {
+      .post(`localhost:3000/user/signup`, {
         username: username,
         password: password,
         nickname: nickname,
