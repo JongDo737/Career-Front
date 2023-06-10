@@ -136,7 +136,11 @@ const Menubar = () => {
                     }}
                   >
                     <Link
-                      to={`http://localhost:3000/setting`}
+                      to={
+                        isMentor
+                          ? `http://localhost:3000/mentor/setting`
+                          : `http://localhost:3000/mentee/setting`
+                      }
                       style={
                         subMenu === "설정"
                           ? {
@@ -158,7 +162,11 @@ const Menubar = () => {
                     }}
                   >
                     <Link
-                      to={`http://localhost:3000/profile`}
+                      to={
+                        isMentor
+                          ? `http://localhost:3000/mentor/profile`
+                          : `http://localhost:3000/mentee/profile`
+                      }
                       style={
                         subMenu === "내 프로필"
                           ? {

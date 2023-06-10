@@ -9,6 +9,7 @@ import Home from "./pages/Home/Home";
 import "./App.css";
 import HomeMentor from "./pages/Mentor/HomeMentor";
 import Setting from "./pages/Setting/Setting";
+import ProfileMentor from "./pages/Mentor/ProfileMentor";
 import ConsultMentor from "./pages/Mentor/ConsultMentor";
 function App(props) {
   return (
@@ -17,9 +18,9 @@ function App(props) {
         <Menubar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/mentor/*" element={<HomeMentor />}>
-            <Route path="setting" element={<Setting />} />
-          </Route>
+          <Route path="/mentor" element={<HomeMentor />} />
+          <Route path="/mentor/setting" element={<Setting />} />
+          <Route path="/mentor/profile" element={<ProfileMentor />} />
           <Route path="/mentor/consult" element={<ConsultMentor />} />
           <Route path="/loginStudent" element={<LoginStudent />} />
           <Route path="/signMentee" element={<SignupMentee />} />

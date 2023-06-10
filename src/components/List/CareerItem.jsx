@@ -12,20 +12,23 @@ const CareerItem = ({
   length,
   addCareerItem,
   removeCareerItem,
+  view,
 }) => {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [content, setContent] = useState("");
+  const [startDate, setStartDate] = useState(item.startDate || "");
+  const [endDate, setEndDate] = useState(item.endDate || "");
+  const [content, setContent] = useState(item.content || "");
 
   return (
     <>
       <Form>
         <Select
           name="career"
+          value={item.career}
           onChange={(e) => {
             item.career = e.target.value;
             console.log(e.target.value);
           }}
+          disabled={view}
         >
           <option name="career" value="교내활동">
             교내활동
@@ -47,13 +50,15 @@ const CareerItem = ({
           placeholder="활동명"
           size="small"
           width="150px"
+          value={item.careerName}
           onChange={(e) => {
             item.careerName = e.target.value;
           }}
+          disabled={view}
         />
         <DatePicker
           placeholderText="시작 날짜"
-          dateFormat="yyyy-MM-dd"
+          dateFormat="yyyy-MM"
           shouldCloseOnSelect
           selected={startDate}
           onChange={(date) => {
@@ -63,12 +68,13 @@ const CareerItem = ({
           showMonthDropdown
           showYearDropdown
           showIcon
+          disabled={view}
         />
         <div style={{ display: "flex", alignItems: "center" }}>~</div>
         <DatePicker
           selected={endDate}
           placeholderText="종료 날짜"
-          dateFormat="yyyy-MM-dd"
+          dateFormat="yyyy-MM"
           minDate={startDate}
           shouldCloseOnSelect
           onChange={(date) => {
@@ -78,13 +84,16 @@ const CareerItem = ({
           showMonthDropdown
           showYearDropdown
           showIcon
+          disabled={view}
         />
 
         <Select
           name="state"
+          value={item.state}
           onChange={(e) => {
             item.state = e.target.value;
           }}
+          disabled={view}
         >
           <option name="state" value="수료">
             수료
@@ -99,7 +108,7 @@ const CareerItem = ({
             완료
           </option>
         </Select>
-        {index !== 0 ? (
+        {(index !== 0) & !view ? (
           <Icon>
             <FontAwesomeIcon
               icon={faMinusCircle}
@@ -111,7 +120,7 @@ const CareerItem = ({
         ) : (
           ""
         )}
-        {index === length - 1 ? (
+        {(index === length - 1) & !view ? (
           <Icon>
             <FontAwesomeIcon icon={faPlusCircle} onClick={addCareerItem} />
           </Icon>
@@ -126,9 +135,11 @@ const CareerItem = ({
             width="40rem"
             height="7rem"
             placeholder="활동내용에 대해 작성해 주세요."
+            value={content}
             onChange={(e) => {
               setContent(e.target.value);
             }}
+            disabled={view}
           >
             {content}
           </Input>

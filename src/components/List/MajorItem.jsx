@@ -12,6 +12,7 @@ const MajorItem = ({
   length,
   addUnivMajorItem,
   removeUnivMajorItem,
+  view,
 }) => {
   return (
     <>
@@ -21,6 +22,8 @@ const MajorItem = ({
         onChange={(e) => {
           item.unit = e.target.value;
         }}
+        value={item.unit}
+        disabled={view}
       >
         <option value="주전공">주전공</option>
         <option value="부전공">부전공</option>
@@ -30,17 +33,18 @@ const MajorItem = ({
       <Input
         size="medium"
         placeholder="학과를 입력해 주세요."
+        value={item.major}
         onChange={(e) => {
           item.major = e.target.value;
         }}
+        disabled={view}
       />
-      <Button>등록</Button>
-      {index !== 0 ? (
+      {view ? "" : <Button>등록</Button>}
+      {(index !== 0) & !view ? (
         <Icon>
           <FontAwesomeIcon
             icon={faMinusCircle}
             onClick={() => {
-              console.log("item ", item.id);
               removeUnivMajorItem(item.id);
             }}
           />
@@ -48,7 +52,7 @@ const MajorItem = ({
       ) : (
         ""
       )}
-      {index === length - 1 ? (
+      {(index === length - 1) & !view ? (
         <Icon>
           <FontAwesomeIcon icon={faPlusCircle} onClick={addUnivMajorItem} />
         </Icon>

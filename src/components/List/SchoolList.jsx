@@ -31,6 +31,7 @@ const SchoolList = (props) => {
               length={props.schoolList.length}
               addSchoolItem={addSchoolItem}
               removeSchoolItem={removeSchoolItem}
+              view={props.view}
             />
           );
         })}
@@ -39,3 +40,7 @@ const SchoolList = (props) => {
 };
 
 export default SchoolList;
+
+SchoolList.defaultProps = {
+  view: false,
+};

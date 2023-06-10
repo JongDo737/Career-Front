@@ -1,6 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-function Input({ size, placeholder, type, height, width, onChange, value }) {
+function Input({
+  size,
+  placeholder,
+  type,
+  height,
+  width,
+  onChange,
+  value,
+  disabled,
+}) {
   return (
     <StyledInput
       className={size}
@@ -12,6 +21,7 @@ function Input({ size, placeholder, type, height, width, onChange, value }) {
       onChange={(e) => {
         onChange(e);
       }}
+      disabled={disabled}
     />
   );
 }
@@ -28,10 +38,12 @@ const StyledInput = styled.input`
   text-align: center;
   font-size: 15px;
   border-radius: 2px;
-  border: 1px solid gray;
+  border: ${(props) =>
+    props.disabled === true ? "1px solid #b7b7b7" : " 1px solid gray"};
+  color: ${(props) => (props.disabled === true ? "#6c6c6c" : "gray")};
   box-sizing: border-box;
   padding: 0; //나중에 reset.scss or reset.css 로 만들기
-  height: ${(props) => props.height || "2.5rem"};
+  height: ${(props) => props.height || "35px"};
   &.small {
     width: ${(props) => props.width || "6.25rem"};
   }

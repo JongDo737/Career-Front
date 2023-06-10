@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-const Image = () => {
+const Image = (props) => {
   const [image, setImage] = useState("");
 
   const onChangeImg = (e) => {
@@ -38,6 +38,7 @@ const Image = () => {
             accept="image/jpg, image/jpeg, image/png"
             onChange={onChangeImg}
             ref={fileInput}
+            disabled={props.disabled || false}
           />
         </>
       ) : (

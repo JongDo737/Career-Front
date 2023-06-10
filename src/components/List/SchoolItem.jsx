@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import Input from "../Input/Input";
@@ -13,18 +13,21 @@ const SchoolItem = ({
   length,
   addSchoolItem,
   removeSchoolItem,
+  view,
 }) => {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [startDate, setStartDate] = useState(item.startDate || "");
+  const [endDate, setEndDate] = useState(item.endDate || "");
   const [school, setSchool] = useState(item.school);
-  const [univMajorList, setUnivMajorList] = useState([
-    {
-      id: 0,
-      unit: "주전공",
-      major: "",
-    },
-  ]);
-  const nextMajorId = useRef(1);
+  const [univMajorList, setUnivMajorList] = useState(
+    item.majorList || [
+      {
+        id: 0,
+        unit: "주전공",
+        major: "",
+      },
+    ]
+  );
+  const nextMajorId = useRef(item.magorList ? item.majorList.length : 1);
   const addUnivMajorItem = () => {
     const majorItem = {
       id: nextMajorId.current,
@@ -39,6 +42,7 @@ const SchoolItem = ({
     setUnivMajorList(univMajorList.filter((a) => a.id !== i));
     console.log("delete major", i);
   };
+
   return (
     <>
       <InputForm>
@@ -49,6 +53,8 @@ const SchoolItem = ({
             console.log(e.target.value);
             setSchool(e.target.value);
           }}
+          disabled={view}
+          value={item.school}
         >
           <option name="school" value="고등학교">
             고등학교
@@ -64,25 +70,29 @@ const SchoolItem = ({
           onChange={(e) => {
             item.schoolName = e.target.value;
           }}
+          value={item.schoolName}
+          disabled={view}
         />
         <DatePicker
           placeholderText="입학 날짜"
-          dateFormat="yyyy-MM-dd"
+          dateFormat="yyyy-MM"
           shouldCloseOnSelect
           selected={startDate}
           onChange={(date) => {
+            console.log(date);
             setStartDate(date);
             item.startDate = date;
           }}
           showMonthDropdown
           showYearDropdown
           showIcon
+          disabled={view}
         />
         <div style={{ display: "flex", alignItems: "center" }}>~</div>
         <DatePicker
           selected={endDate}
           placeholderText="졸업 날짜"
-          dateFormat="yyyy-MM-dd"
+          dateFormat="yyyy-MM"
           minDate={startDate}
           shouldCloseOnSelect
           onChange={(date) => {
@@ -92,6 +102,7 @@ const SchoolItem = ({
           showMonthDropdown
           showYearDropdown
           showIcon
+          disabled={view}
         />
 
         <SchoolSelect
@@ -99,6 +110,8 @@ const SchoolItem = ({
           onChange={(e) => {
             item.state = e.target.value;
           }}
+          disabled={view}
+          value={item.state}
         >
           <option name="state" value="졸업">
             졸업
@@ -116,7 +129,7 @@ const SchoolItem = ({
             자퇴
           </option>
         </SchoolSelect>
-        {index !== 0 ? (
+        {(index !== 0) & !view ? (
           <Icon>
             <FontAwesomeIcon
               icon={faMinusCircle}
@@ -128,7 +141,7 @@ const SchoolItem = ({
         ) : (
           ""
         )}
-        {index === length - 1 ? (
+        {(index === length - 1) & !view ? (
           <Icon>
             <FontAwesomeIcon icon={faPlusCircle} onClick={addSchoolItem} />
           </Icon>
@@ -138,7 +151,6 @@ const SchoolItem = ({
       </InputForm>
       {school === "대학교"
         ? univMajorList.map((majorItem, idx) => {
-            console.log(univMajorList);
             return (
               <Form key={majorItem.id}>
                 <MajorItem
@@ -147,6 +159,7 @@ const SchoolItem = ({
                   length={univMajorList.length}
                   addUnivMajorItem={addUnivMajorItem}
                   removeUnivMajorItem={removeUnivMajorItem}
+                  view={view}
                 />
               </Form>
             );

@@ -31,6 +31,7 @@ const CareerList = (props) => {
               length={props.careerList.length}
               addCareerItem={addCareerItem}
               removeCareerItem={removeCareerItem}
+              view={props.view}
             />
           );
         })}
@@ -39,3 +40,7 @@ const CareerList = (props) => {
 };
 
 export default CareerList;
+
+CareerList.defaultProps = {
+  view: false,
+};
