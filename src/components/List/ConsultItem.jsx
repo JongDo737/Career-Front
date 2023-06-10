@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-const ConsultItem = ({ color, item, index, key }) => {
+const ConsultItem = ({ color, item, index }) => {
   return (
     <Form color={color}>
       <div className="header">{item.name} 학생</div>
@@ -36,7 +36,7 @@ const Form = styled.div`
   border: 1px solid #23354d;
   border-radius: 10px;
   width: 28rem;
-  min-height: 19rem;
+  min-height: 18rem;
   height: 100%;
   color: black;
   box-sizing: border-box;
@@ -86,6 +86,7 @@ const Form = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
     }
   }
 `;

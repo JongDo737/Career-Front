@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-const SubMenubar = ({ subMenuList }) => {
+const SubMenubar = ({ subMenuList, setSubMenu }) => {
   const [select, setSelect] = useState(subMenuList[0]);
 
   return (
@@ -11,6 +11,7 @@ const SubMenubar = ({ subMenuList }) => {
             className={item === select ? "select" : ""}
             onClick={() => {
               setSelect(item);
+              setSubMenu(item);
             }}
             key={idx}
           >
@@ -33,7 +34,7 @@ const SubMenu = styled.div`
   .select {
     color: #3b71b9;
     font-weight: 700;
-    border-bottom: 2px solid #3b71b9;
+    border-bottom: 3px solid #3b71b9;
   }
 `;
 

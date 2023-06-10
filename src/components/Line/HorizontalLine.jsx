@@ -12,7 +12,7 @@ HorizontalLine.defaultProps = {
 export default HorizontalLine;
 
 const StyledHorizontal = styled.div`
-  margin: 0 40px;
+  /* margin: 0 40px; */
   border: none;
   background-color: #f4f4f4;
   height: 3px;

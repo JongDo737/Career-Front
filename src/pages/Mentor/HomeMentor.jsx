@@ -40,12 +40,20 @@ const HomeMentor = () => {
       consultMajor: "컴퓨터소프트웨어학부",
       request: "어떤 공부를 해야할지 궁금해요.",
     },
+    {
+      id: 3,
+      name: "채희문",
+      startTime: new Date(2023, 5, 3, 13, 30, 0),
+      endTime: new Date(2023, 5, 3, 13, 30, 0),
+      consultMajor: "화학공학과",
+      request: "잘할 수 있을까요?",
+    },
   ]);
   const [consultCount, setConsultCount] = useState(consultList.length);
 
   return (
     <Form>
-      <Form30>
+      <FormLeft>
         <Wrapper>
           <div className={styles.NameDiv}>
             <span>{userName}</span>님 반갑습니다!
@@ -66,9 +74,9 @@ const HomeMentor = () => {
           </div>
           <FontAwesomeIcon icon={faAngleRight} />
         </MoveBox>
-      </Form30>
+      </FormLeft>
       {/* <VerticalLine /> */}
-      <Form70>
+      <FormRight>
         <Wrapper>
           <header>곧 진행될 상담</header>
           {consultList.length === 0 ? (
@@ -118,7 +126,7 @@ const HomeMentor = () => {
             </Consult>
           )}
         </Wrapper>
-      </Form70>
+      </FormRight>
     </Form>
   );
 };
@@ -133,7 +141,7 @@ const Form = styled.div`
   box-sizing: border-box;
 `;
 
-const Form30 = styled.div`
+const FormLeft = styled.div`
   min-width: 20rem;
   height: 80vh;
   min-height: 50rem;
@@ -143,8 +151,9 @@ const Form30 = styled.div`
   margin-top: 2rem;
 `;
 
-const Form70 = styled.div`
+const FormRight = styled.div`
   min-width: 50rem;
+  max-width: 90rem;
   height: 100%;
   display: flex;
   flex-direction: column;

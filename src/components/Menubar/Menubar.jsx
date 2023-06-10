@@ -2,7 +2,7 @@ import styles from "./Menubar.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 const Menubar = () => {
@@ -16,6 +16,15 @@ const Menubar = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isMentor, setIsMentor] = useState(true);
   const [subMenu, setSubMenu] = useState("");
+  const [leftLink, setLeftLink] = useState([
+    "http://localhost:3000",
+    "http://localhost:3000",
+    "http://localhost:3000",
+  ]);
+  const [rightLink, setRightLink] = useState([
+    "http://localhost:3000",
+    "http://localhost:3000",
+  ]);
   const [subSelect, setSubSelect] = useState(false);
   const toggleLogin = () => {
     setLoginSelect((current) => !current);
@@ -34,13 +43,38 @@ const Menubar = () => {
     if (!isLogin) {
       setLeftMenu(["홈", "튜터", "게시판"]);
       setRightMenu([]);
+      setLeftLink([
+        "http://localhost:3000",
+        "http://localhost:3000",
+        "http://localhost:3000",
+      ]);
     } else {
       if (isMentor) {
         setLeftMenu(["홈", "상담내역", "시간표", "커뮤니티"]);
         setRightMenu(["초대하기", "추가메뉴"]);
+        setLeftLink([
+          "http://localhost:3000/mentor",
+          "http://localhost:3000/mentor/consult",
+          "http://localhost:3000/mentor",
+          "http://localhost:3000/mentor",
+        ]);
+        setRightLink([
+          "http://localhost:3000/mentor",
+          "http://localhost:3000/mentor",
+        ]);
       } else {
         setLeftMenu(["홈", "튜터", "게시판", "상담"]);
         setRightMenu(["초대하기", "이용권 구매"]);
+        setLeftLink([
+          "http://localhost:3000/mentor",
+          "http://localhost:3000/mentor/consult",
+          "http://localhost:3000/mentor",
+          "http://localhost:3000/mentor",
+        ]);
+        setRightLink([
+          "http://localhost:3000/mentor",
+          "http://localhost:3000/mentor",
+        ]);
       }
     }
   }, [isLogin, isMentor]);
@@ -58,21 +92,27 @@ const Menubar = () => {
           >
             {isLogin ? "로그아웃" : "로그인"}
           </button> */}
-          {leftMenu.map((menu) => {
-            return <div className={styles.MenubarSpan}>{menu}</div>;
+          {leftMenu.map((menu, i) => {
+            return (
+              <Link to={leftLink[i]} className={styles.MenubarSpan} key={i}>
+                {menu}
+              </Link>
+            );
           })}
         </div>
         <div className={styles.MenubarRight}>
           {isLogin ? (
             <>
-              {rightMenu.map((menu) => {
+              {rightMenu.map((menu, i) => {
                 return (
-                  <>
+                  <Fragment key={i}>
                     <div className={[styles.CircleIcon, styles.Icon].join(" ")}>
                       <FontAwesomeIcon icon={faCircle} />
                     </div>
-                    <div className={styles.MenubarSpan}>{menu}</div>
-                  </>
+                    <Link to={rightLink[i]} className={styles.MenubarSpan}>
+                      {menu}
+                    </Link>
+                  </Fragment>
                 );
               })}
 

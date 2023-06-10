@@ -40,7 +40,7 @@ export default ConsultList;
 export const ConsultListShort = (props) => {
   return (
     <ShortWrapper>
-      <Table>
+      <Table color={props.color}>
         <tr className="frame">
           <th className="num">No</th>
           <th className="name">학생 이름</th>
@@ -78,7 +78,7 @@ export const ConsultListShort = (props) => {
 };
 
 ConsultListShort.defaultProps = {
-  color: "white",
+  color: "#23354d",
 };
 
 const Wrapper = styled.div`
@@ -113,16 +113,16 @@ const Table = styled.table`
   border-collapse: collapse;
   .frame {
     height: 3rem;
-    color: white;
-    background-color: #23354d;
+    color: ${(props) => (props.color === "#D9D9D9" ? "black" : "white")};
+    background-color: ${(props) => props.color || "#23354d"};
   }
-  td,
-  th {
+  tr {
     text-align: center;
     border: 1px solid #23354d;
   }
   td {
-    height: 2rem;
+    height: 2.3rem;
+    background-color: white;
   }
 `;
 

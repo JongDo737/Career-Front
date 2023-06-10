@@ -1,7 +1,7 @@
 import React from "react";
 
 const Setting = () => {
-  return <div></div>;
+  return <div>hi</div>;
 };
 
 export default Setting;

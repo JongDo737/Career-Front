@@ -8,13 +8,13 @@
 }
 .MenubarLeft {
   display: flex;
-  width: 70%;
+  width: 60%;
   justify-content: flex-start;
 }
 
 .MenubarRight {
   display: flex;
-  width: 30%;
+  width: 40%;
   justify-content: flex-end;
   align-items: center;
   img {
@@ -31,6 +31,8 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  text-decoration: none;
+  color: #23354d;
   span {
     color: #2f5383;
     font-size: 1.4rem;
