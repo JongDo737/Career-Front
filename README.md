@@ -12,7 +12,7 @@ If you want to start the project, enter **npm start** and open **http://localhos
 <!-- # Menubar (Before Login) (http://localhost:3000)
 ![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/7fa846ac-23e7-444c-bdde-8bf1f49ead94)
 
----
+--- 
 .
 # Menubar (After Login - Mentor) (http://localhost:3000/mentor)
 ![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/36eff7eb-724a-42d3-bef0-8e9277e9b299)
@@ -47,5 +47,13 @@ If you want to start the project, enter **npm start** and open **http://localhos
 ![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/b0cacc64-6a3b-49d3-8fd3-20fdb1a02701)
 ![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/0ba23545-e3f3-4074-a91e-6806637820a8)
 ![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/2684eef7-e701-4545-a9e7-f5b9f788bb30)
-
+--- 
+.
+# Mentor Page - Profile (http://localhost:3000/mentor/profile)
+### View Mode
+  <img width="1649" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/4627242e-5399-41a3-9a20-37427030af1b">
+  .
+  
+### Modify Mode
+  <img width="1612" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/ffd8a6ff-54d2-41d2-aeab-19c53b02d2c9">
 
