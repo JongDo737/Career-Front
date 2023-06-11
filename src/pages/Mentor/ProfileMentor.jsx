@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import Button from "../../components/Button/Button";
@@ -31,7 +31,11 @@ const ProfileMentor = (props) => {
     third: "9805",
   });
   const [numberCode, setNumberCode] = useState("");
-  const [consult, setConsult] = useState([]);
+  const [consult, setConsult] = useState({
+    first: "컴퓨터공학과",
+    second: "전자공학과",
+    third: "화학공학과",
+  });
   const [careerPlan, setCareerPlan] = useState(
     "뛰어난 프론트엔드 개발자가 목표입니다."
   );
@@ -143,13 +147,16 @@ const ProfileMentor = (props) => {
   };
 
   const [tmpTag, setTmpTag] = useState("");
-  const [tag, setTag] = useState([]);
-  const tagId = useRef(0);
+  const [tag, setTag] = useState([
+    { id: 0, name: "머신러닝" },
+    { id: 1, name: "앱개발" },
+    { id: 2, name: "안드로이드" },
+    { id: 3, name: "알고리즘" },
+  ]);
+  const tagId = useRef(tag.length - 1);
   const onUpdateTag = (value) => {
-    console.log("click");
     setTag((current) => [...current, { id: tagId.current, name: value }]);
     tagId.current += 1;
-    console.log(tag);
   };
   const onDeleteTag = (id) => {
     setTag(tag.filter((a) => a.id !== id));
@@ -437,7 +444,15 @@ const ProfileMentor = (props) => {
               <span>상담 학과 1</span>
             </div>
             <InputForm>
-              <Input size="large" disabled={view} />
+              <Input
+                size="large"
+                placeholder="첫번째 상담 학과를 입력하세요."
+                onChange={(e) => {
+                  setConsult({ ...consult, first: e.target.value });
+                }}
+                value={consult.first}
+                disabled={view}
+              />
             </InputForm>
           </Wrapper>
           <Wrapper>
@@ -446,7 +461,15 @@ const ProfileMentor = (props) => {
               <span>상담 학과 2</span>
             </div>
             <InputForm>
-              <Input size="large" disabled={view} />
+              <Input
+                size="large"
+                placeholder="두번째 상담 학과를 입력하세요."
+                onChange={(e) => {
+                  setConsult({ ...consult, second: e.target.value });
+                }}
+                value={consult.second}
+                disabled={view}
+              />
             </InputForm>
           </Wrapper>
           <Wrapper>
@@ -455,7 +478,15 @@ const ProfileMentor = (props) => {
               <span>상담 학과 3</span>
             </div>
             <InputForm>
-              <Input size="large" disabled={view} />
+              <Input
+                size="large"
+                placeholder="세번째 상담 학과를 입력하세요."
+                onChange={(e) => {
+                  setConsult({ ...consult, third: e.target.value });
+                }}
+                value={consult.third}
+                disabled={view}
+              />
             </InputForm>
           </Wrapper>
           <Wrapper>
@@ -539,7 +570,14 @@ const ProfileMentor = (props) => {
               <span>태그</span>
             </div>
             <InputForm>
-              <Input width="200px" disabled={view} />
+              <Input
+                width="200px"
+                placeholder="태그명"
+                onChange={(e) => {
+                  setTmpTag(e.target.value);
+                }}
+                disabled={view}
+              />
               {!view && (
                 <Button
                   onClick={() => {
@@ -554,17 +592,19 @@ const ProfileMentor = (props) => {
               {tag.length
                 ? tag.map((item) => {
                     return (
-                      <>
+                      <Fragment key={item.id}>
                         <Tag>
                           <span className="full-name">{item.name}</span>
                           <span className="short-name">#{item.name}</span>
-                          <FontAwesomeIcon
-                            onClick={() => onDeleteTag(item.id)}
-                            className="delete-icon"
-                            icon={faXmark}
-                          />
+                          {!view && (
+                            <FontAwesomeIcon
+                              onClick={() => onDeleteTag(item.id)}
+                              className="delete-icon"
+                              icon={faXmark}
+                            />
+                          )}
                         </Tag>
-                      </>
+                      </Fragment>
                     );
                   })
                 : ""}

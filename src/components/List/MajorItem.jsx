@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
@@ -14,6 +14,8 @@ const MajorItem = ({
   removeUnivMajorItem,
   view,
 }) => {
+  const [unit, setUnit] = useState(item.unit || "");
+  const [major, setMajor] = useState(item.major || "");
   return (
     <>
       <FontAwesomeIcon icon={faArrowRight} />
@@ -21,8 +23,9 @@ const MajorItem = ({
         name="major"
         onChange={(e) => {
           item.unit = e.target.value;
+          setUnit(e.target.unit);
         }}
-        value={item.unit}
+        value={unit}
         disabled={view}
       >
         <option value="주전공">주전공</option>
@@ -33,9 +36,10 @@ const MajorItem = ({
       <Input
         size="medium"
         placeholder="학과를 입력해 주세요."
-        value={item.major}
+        value={major}
         onChange={(e) => {
           item.major = e.target.value;
+          setMajor(e.target.value);
         }}
         disabled={view}
       />
@@ -67,7 +71,7 @@ export default MajorItem;
 
 const MajorSelect = styled.select`
   min-width: 120px;
-  height: 35px;
+  height: 2.5rem;
   text-align: center;
   background-color: #eaeaea;
 `;

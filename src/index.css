@@ -26,6 +26,11 @@ code {
 .react-datepicker__view-calendar-icon input {
   padding: 6px 10px 5px 40px !important;
   width: 9rem;
+  color: black;
+}
+
+.react-datepicker__view-calendar-icon input:disabled {
+  color: gray;
 }
 
 .react-datepicker__input-container input {

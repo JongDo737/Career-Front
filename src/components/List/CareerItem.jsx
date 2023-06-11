@@ -14,8 +14,11 @@ const CareerItem = ({
   removeCareerItem,
   view,
 }) => {
+  const [career, setCareer] = useState(item.career || "");
+  const [careerName, setCareerName] = useState(item.careerName || "");
   const [startDate, setStartDate] = useState(item.startDate || "");
   const [endDate, setEndDate] = useState(item.endDate || "");
+  const [state, setState] = useState(item.state || "");
   const [content, setContent] = useState(item.content || "");
 
   return (
@@ -23,11 +26,11 @@ const CareerItem = ({
       <Form>
         <Select
           name="career"
-          value={item.career}
           onChange={(e) => {
             item.career = e.target.value;
-            console.log(e.target.value);
+            setCareer(e.target.value);
           }}
+          value={career}
           disabled={view}
         >
           <option name="career" value="교내활동">
@@ -50,10 +53,11 @@ const CareerItem = ({
           placeholder="활동명"
           size="small"
           width="150px"
-          value={item.careerName}
           onChange={(e) => {
             item.careerName = e.target.value;
+            setCareerName(e.target.value);
           }}
+          value={careerName}
           disabled={view}
         />
         <DatePicker
@@ -89,10 +93,11 @@ const CareerItem = ({
 
         <Select
           name="state"
-          value={item.state}
           onChange={(e) => {
             item.state = e.target.value;
+            setState(e.target.value);
           }}
+          value={state}
           disabled={view}
         >
           <option name="state" value="수료">

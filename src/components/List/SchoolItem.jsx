@@ -15,10 +15,12 @@ const SchoolItem = ({
   removeSchoolItem,
   view,
 }) => {
+  const [school, setSchool] = useState(item.school || "");
+  const [schoolName, setSchoolName] = useState(item.schoolName || "");
   const [startDate, setStartDate] = useState(item.startDate || "");
   const [endDate, setEndDate] = useState(item.endDate || "");
-  const [school, setSchool] = useState(item.school);
-  const [univMajorList, setUnivMajorList] = useState(
+  const [state, setState] = useState(item.state || "");
+  const [MajorList, setMajorList] = useState(
     item.majorList || [
       {
         id: 0,
@@ -34,12 +36,12 @@ const SchoolItem = ({
       unit: "주전공",
       major: "",
     };
-    setUnivMajorList((current) => [...current, majorItem]);
+    setMajorList((current) => [...current, majorItem]);
     nextMajorId.current += 1;
     console.log("Add major", majorItem, nextMajorId);
   };
   const removeUnivMajorItem = (i) => {
-    setUnivMajorList(univMajorList.filter((a) => a.id !== i));
+    setMajorList(MajorList.filter((a) => a.id !== i));
     console.log("delete major", i);
   };
 
@@ -50,11 +52,10 @@ const SchoolItem = ({
           name="school"
           onChange={(e) => {
             item.school = e.target.value;
-            console.log(e.target.value);
             setSchool(e.target.value);
           }}
+          value={school}
           disabled={view}
-          value={item.school}
         >
           <option name="school" value="고등학교">
             고등학교
@@ -69,8 +70,9 @@ const SchoolItem = ({
           width="150px"
           onChange={(e) => {
             item.schoolName = e.target.value;
+            setSchoolName(e.target.value || "");
           }}
-          value={item.schoolName}
+          value={schoolName}
           disabled={view}
         />
         <DatePicker
@@ -109,9 +111,10 @@ const SchoolItem = ({
           name="state"
           onChange={(e) => {
             item.state = e.target.value;
+            setState(e.target.value);
           }}
+          value={state}
           disabled={view}
-          value={item.state}
         >
           <option name="state" value="졸업">
             졸업
@@ -150,13 +153,13 @@ const SchoolItem = ({
         )}
       </InputForm>
       {school === "대학교"
-        ? univMajorList.map((majorItem, idx) => {
+        ? MajorList.map((majorItem, idx) => {
             return (
               <Form key={majorItem.id}>
                 <MajorItem
                   item={majorItem}
                   index={idx}
-                  length={univMajorList.length}
+                  length={MajorList.length}
                   addUnivMajorItem={addUnivMajorItem}
                   removeUnivMajorItem={removeUnivMajorItem}
                   view={view}
