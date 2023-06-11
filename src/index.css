@@ -37,3 +37,7 @@ code {
   height: 100% !important;
   box-sizing: border-box;
 }
+
+.fa-star {
+  color: #fee501;
+}

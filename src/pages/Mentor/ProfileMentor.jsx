@@ -12,7 +12,11 @@ import CareerList from "../../components/List/CareerList";
 import Image from "../../components/Image/Image";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faXmark,
+  faStar as faStarFull,
+} from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-regular-svg-icons";
 const ProfileMentor = (props) => {
   const [username, setUsername] = useState("김성애");
   const [id, setId] = useState("seongaekim513");
@@ -160,6 +164,43 @@ const ProfileMentor = (props) => {
   };
   const onDeleteTag = (id) => {
     setTag(tag.filter((a) => a.id !== id));
+  };
+
+  const review = [
+    {
+      writer: "신종민",
+      content: "멘토님 너무 친절하고 재밌으셔서 시간 가는 줄 몰랐습니다.",
+      score: 5,
+    },
+    {
+      writer: "한재준",
+      content: "상담비가 전혀 아깝지 않을 정도로 열정적이세요.",
+      score: 5,
+    },
+    {
+      writer: "채희문",
+      content:
+        "멘토님은 정말 좋으세요. 하지만 사전질문에 대한 답변을 듣지 못해 아쉬웠어요. 다음 상담을 기대해보겠습니다!",
+      score: 4,
+    },
+  ];
+  const scoreToStar = (score) => {
+    const scoreList = [];
+    for (var i = 0; i < Number(score); i++) {
+      scoreList.push(<FontAwesomeIcon icon={faStarFull} />);
+    }
+    for (var j = 0; j < 5 - Number(score); j++) {
+      scoreList.push(<FontAwesomeIcon icon={faStar} />);
+    }
+    return scoreList;
+  };
+
+  const averageScore = () => {
+    var sum = 0;
+    for (var i = 0; i < review.length; i++) {
+      sum += review[i].score;
+    }
+    return Math.round((sum / review.length) * 10) / 10;
   };
   return (
     <>
@@ -613,6 +654,38 @@ const ProfileMentor = (props) => {
         </div>
       </Form>
       <Form>
+        <div className="Form50">
+          <Wrapper>
+            {" "}
+            {/* pagination 추가해야함 */}
+            <div className={styles.Subtitle}>
+              <MenuLine size="small" />
+              <span>나에 대한 리뷰</span>
+            </div>
+            <ScoreTable>
+              <tr>
+                <th>총 리뷰: {review.length} 개 </th>
+                <th></th>
+                <th>평점 : {averageScore()}점</th>
+              </tr>
+              {review.map((item, i) => {
+                return (
+                  <tr key={i}>
+                    <td>{item.content}</td>
+                    <td>
+                      {item.writer.substring(0, 1) +
+                        "*" +
+                        item.writer.substring(2)}
+                    </td>
+                    <td>{scoreToStar(item.score)}</td>
+                  </tr>
+                );
+              })}
+            </ScoreTable>
+          </Wrapper>
+        </div>
+      </Form>
+      <Form>
         <div className={styles.ButtonDiv} style={{ marginBottom: "100px" }}>
           <Button onClick={onChange} size="large">
             {view ? "수정하기" : "저장하기"}
@@ -718,5 +791,33 @@ const Tag = styled.div`
   }
   .delete-icon {
     cursor: pointer;
+  }
+`;
+
+const ScoreTable = styled.table`
+  font-size: 1.1rem;
+  width: 50rem;
+  border-collapse: collapse;
+  margin: 20px 0;
+  td {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    min-height: 2rem;
+    padding: 10px 0;
+  }
+  th {
+    text-align: start;
+  }
+  td:nth-child(1) {
+    width: 60%;
+  }
+  td:nth-child(2) {
+    width: 20%;
+    text-align: center;
+  }
+  td:nth-child(3),
+  th:nth-child(3) {
+    width: 20%;
+    text-align: center;
   }
 `;
