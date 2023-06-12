@@ -653,38 +653,39 @@ const ProfileMentor = (props) => {
           </Wrapper>
         </div>
       </Form>
-      <Form>
-        <div className="Form50">
-          <Wrapper>
-            {" "}
-            {/* pagination 추가해야함 */}
-            <div className={styles.Subtitle}>
-              <MenuLine size="small" />
-              <span>나에 대한 리뷰</span>
-            </div>
-            <ScoreTable>
-              <tr>
-                <th>총 리뷰: {review.length} 개 </th>
-                <th></th>
-                <th>평점 : {averageScore()}점</th>
-              </tr>
-              {review.map((item, i) => {
-                return (
-                  <tr key={i}>
-                    <td>{item.content}</td>
-                    <td>
-                      {item.writer.substring(0, 1) +
-                        "*" +
-                        item.writer.substring(2)}
-                    </td>
-                    <td>{scoreToStar(item.score)}</td>
-                  </tr>
-                );
-              })}
-            </ScoreTable>
-          </Wrapper>
-        </div>
-      </Form>
+      {view && (
+        <Form>
+          <div className="Form50">
+            <Wrapper>
+              {/* pagination 추가해야함 */}
+              <div className={styles.Subtitle}>
+                <MenuLine size="small" />
+                <span>나에 대한 리뷰</span>
+              </div>
+              <ScoreTable>
+                <tr>
+                  <th>총 리뷰: {review.length} 개 </th>
+                  <th></th>
+                  <th>평점 : {averageScore()}점</th>
+                </tr>
+                {review.map((item, i) => {
+                  return (
+                    <tr key={i}>
+                      <td>{item.content}</td>
+                      <td>
+                        {item.writer.substring(0, 1) +
+                          "*" +
+                          item.writer.substring(2)}
+                      </td>
+                      <td>{scoreToStar(item.score)}</td>
+                    </tr>
+                  );
+                })}
+              </ScoreTable>
+            </Wrapper>
+          </div>
+        </Form>
+      )}
       <Form>
         <div className={styles.ButtonDiv} style={{ marginBottom: "100px" }}>
           <Button onClick={onChange} size="large">
