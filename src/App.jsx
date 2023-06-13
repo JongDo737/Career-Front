@@ -3,14 +3,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Menubar from "./components/Menubar/Menubar";
 import LoginStudent from "./pages/LoginStudent/LoginStudent";
 import SignupMentee from "./pages/Signup/SignupMentee";
-import SignupMentor from "./pages/Mentor/SignupMentor";
+import SignupMentor from "./pages/Mentor/Signup";
 import FindPassword from "./pages/FindPassword/FindPassword";
 import Home from "./pages/Home/Home";
 import "./App.css";
-import HomeMentor from "./pages/Mentor/HomeMentor";
-import Setting from "./pages/Setting/Setting";
-import ProfileMentor from "./pages/Mentor/ProfileMentor";
-import ConsultMentor from "./pages/Mentor/ConsultMentor";
+import HomeMentor from "./pages/Mentor/Home";
+import Setting from "./pages/Mentor/Setting";
+import ProfileMentor from "./pages/Mentor/Profile";
+import ConsultMentor from "./pages/Mentor/Consult";
 function App(props) {
   return (
     <>
