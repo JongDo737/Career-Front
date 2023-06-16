@@ -56,4 +56,10 @@ If you want to start the project, enter **npm start** and open **http://localhos
   
 ### Modify Mode
   <img width="1612" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/ffd8a6ff-54d2-41d2-aeab-19c53b02d2c9">
+---
+.
+
+# Mentor page - Setting (http://localhost:3000/mentor/setting)
+<img width="1169" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/447e6c3a-8c3b-444e-8a21-c7f9f21d8b54">
+<img width="1156" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/6fd14a72-641b-4a0d-abff-cbd2f112e557">
 
