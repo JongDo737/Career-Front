@@ -11,6 +11,7 @@ import HomeMentor from "./pages/Mentor/Home";
 import Setting from "./pages/Mentor/Setting";
 import ProfileMentor from "./pages/Mentor/Profile";
 import ConsultMentor from "./pages/Mentor/Consult";
+import HomeMentee from "./pages/Mentee/Home";
 function App(props) {
   return (
     <>
@@ -27,6 +28,7 @@ function App(props) {
           <Route path="/home" element={<SignupMentee />} />
           <Route path="/signMentor" element={<SignupMentor />} />
           <Route path="/findPassword" element={<FindPassword />} />
+          <Route path="/mentee" element={<HomeMentee />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -13,7 +13,7 @@ import {
   faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
-const HomeMentor = () => {
+const Home = () => {
   const [userName, setUserName] = useState("김성애");
   const [consultList, setConsultList] = useState([
     {
@@ -55,9 +55,9 @@ const HomeMentor = () => {
     <Form>
       <FormLeft>
         <Wrapper>
-          <div className={styles.NameDiv}>
+          <NameDiv>
             <span>{userName}</span>님 반갑습니다!
-          </div>
+          </NameDiv>
         </Wrapper>
         <PointBox point="10,000" />
         <MoveBox>
@@ -131,7 +131,7 @@ const HomeMentor = () => {
   );
 };
 
-export default HomeMentor;
+export default Home;
 
 const Form = styled.div`
   height: 70%;
@@ -190,5 +190,17 @@ const Consult = styled.div`
     margin-bottom: 10px;
     text-align: center;
     width: 100%;
+  }
+`;
+
+const NameDiv = styled.div`
+  font-size: 1.7rem;
+  font-weight: 500;
+  width: 100%;
+  span {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #334b6c;
+    padding-right: 1rem;
   }
 `;

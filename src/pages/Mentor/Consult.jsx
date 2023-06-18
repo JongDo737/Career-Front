@@ -5,7 +5,7 @@ import RecommendMenteeItem from "../../components/List/RecommendMenteeItem";
 import ConsultList from "../../components/List/ConsultList";
 import { ConsultListShort } from "../../components/List/ConsultList";
 import HorizontalLine from "../../components/Line/HorizontalLine";
-const ConsultMentor = () => {
+const Consult = () => {
   const subMenuList = ["전체보기", "예정된 상담", "완료된 상담"];
   const [subMenu, setSubMenu] = useState(subMenuList[0]);
 
@@ -93,33 +93,33 @@ const ConsultMentor = () => {
             <Wrapper>
               <header>진행 예정된 상담 ({consultCount})</header>
               {!consultCount ? (
-                <Consult>
+                <ConsultWrapper>
                   <span>진행될 상담이 없습니다.</span>
-                </Consult>
+                </ConsultWrapper>
               ) : (
-                <Consult>
+                <ConsultWrapper>
                   <ConsultList
                     consultList={consultList}
                     setConsultList={setConsultList}
                   />
-                </Consult>
+                </ConsultWrapper>
               )}
             </Wrapper>
             <HorizontalLine />
             <Wrapper>
               <header>완료된 상담 ({consultCount})</header>
               {!consultCount ? (
-                <Consult>
+                <ConsultWrapper>
                   <span>완료된 상담이 없습니다.</span>
-                </Consult>
+                </ConsultWrapper>
               ) : (
-                <Consult>
+                <ConsultWrapper>
                   <ConsultList
                     consultList={consultList}
                     setConsultList={setConsultList}
                     color="#D9D9D9"
                   />
-                </Consult>
+                </ConsultWrapper>
               )}
             </Wrapper>
           </FormRight>
@@ -131,16 +131,16 @@ const ConsultMentor = () => {
             <Wrapper>
               <header>진행 예정된 상담 ({consultCount})</header>
               {!consultCount ? (
-                <Consult>
+                <ConsultWrapper>
                   <span>진행될 상담이 없습니다.</span>
-                </Consult>
+                </ConsultWrapper>
               ) : (
-                <Consult>
+                <ConsultWrapper>
                   <ConsultList
                     consultList={consultList}
                     setConsultList={setConsultList}
                   />
-                </Consult>
+                </ConsultWrapper>
               )}
             </Wrapper>
             <HorizontalLine />
@@ -159,17 +159,17 @@ const ConsultMentor = () => {
             <Wrapper>
               <header>완료된 상담 ({consultCount})</header>
               {!consultCount ? (
-                <Consult>
+                <ConsultWrapper>
                   <span>완료된 상담이 없습니다.</span>
-                </Consult>
+                </ConsultWrapper>
               ) : (
-                <Consult>
+                <ConsultWrapper>
                   <ConsultList
                     consultList={consultList}
                     setConsultList={setConsultList}
                     color="#D9D9D9" // 나중에 state 로 바꾸는 게 어떨까..
                   />
-                </Consult>
+                </ConsultWrapper>
               )}
             </Wrapper>
             <HorizontalLine />
@@ -189,7 +189,7 @@ const ConsultMentor = () => {
   );
 };
 
-export default ConsultMentor;
+export default Consult;
 
 const Form = styled.div`
   height: 80vh;
@@ -238,7 +238,7 @@ const RecommendWrapper = styled.div`
   overflow: auto;
 `;
 
-const Consult = styled.div`
+const ConsultWrapper = styled.div`
   width: 100%;
   min-height: 20rem;
   height: 26vh;

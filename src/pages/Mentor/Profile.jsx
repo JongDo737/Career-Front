@@ -17,7 +17,7 @@ import {
   faStar as faStarFull,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
-const ProfileMentor = (props) => {
+const Profile = (props) => {
   const [username, setUsername] = useState("김성애");
   const [id, setId] = useState("seongaekim513");
   const [nickname, setNickname] = useState("김사장");
@@ -697,7 +697,7 @@ const ProfileMentor = (props) => {
   );
 };
 
-export default ProfileMentor;
+export default Profile;
 
 const InputForm = styled.div`
   display: flex;

@@ -13,7 +13,7 @@ import Image from "../../components/Image/Image";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-function SignupMentor(props) {
+function Signup(props) {
   const [username, setUsername] = useState("");
   const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
@@ -553,7 +553,7 @@ function SignupMentor(props) {
   );
 }
 
-export default SignupMentor;
+export default Signup;
 
 const InputForm = styled.div`
   display: flex;
