@@ -63,3 +63,6 @@ If you want to start the project, enter **npm start** and open **http://localhos
 <img width="1169" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/447e6c3a-8c3b-444e-8a21-c7f9f21d8b54">
 <img width="1156" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/6fd14a72-641b-4a0d-abff-cbd2f112e557">
 
+# Mentee Page - Home (http://localhost:3000/mentee)
+<img width="1666" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/908e2c08-ab17-4754-9401-c8de3023c2e3">
+<img width="1658" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/bdf0861b-555c-4dde-b1f2-4d462c908f2d">
