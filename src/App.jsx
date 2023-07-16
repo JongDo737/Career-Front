@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Menubar from "./components/Menubar/Menubar";
 import LoginStudent from "./pages/LoginStudent/LoginStudent";
-import SignupMentee from "./pages/Signup/SignupMentee";
+import SignupMentee from "./pages/Mentee/Signup";
 import SignupMentor from "./pages/Mentor/Signup";
 import FindPassword from "./pages/FindPassword/FindPassword";
 import Home from "./pages/Home/Home";
@@ -12,6 +12,7 @@ import Setting from "./pages/Mentor/Setting";
 import ProfileMentor from "./pages/Mentor/Profile";
 import ConsultMentor from "./pages/Mentor/Consult";
 import HomeMentee from "./pages/Mentee/Home";
+import MenteeMentor from "./pages/Mentee/Mentor";
 function App(props) {
   return (
     <>
@@ -29,6 +30,7 @@ function App(props) {
           <Route path="/signMentor" element={<SignupMentor />} />
           <Route path="/findPassword" element={<FindPassword />} />
           <Route path="/mentee" element={<HomeMentee />} />
+          <Route path="/mentee/mentor" element={<MenteeMentor />} />
         </Routes>
       </BrowserRouter>
     </>

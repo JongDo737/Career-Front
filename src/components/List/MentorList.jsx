@@ -1,11 +1,23 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-const MentorList = ({ mentors }) => {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
+const MentorList = ({ mentors, rank }) => {
   return (
     <MentorContainer>
       {mentors.map((item, i) => {
         return (
           <MentorCard key={i}>
+            {rank ? (
+              <FontAwesomeIcon
+                className="icon"
+                icon={faCrown}
+                style={{ color: "#ffec00" }}
+              />
+            ) : (
+              ""
+            )}
+
             <img alt="" src={item.image} />
             <div className="content">
               <header>
@@ -45,7 +57,17 @@ const MentorCard = styled.div`
   height: 28rem;
   border: 1px solid black;
   border-radius: 10px;
+  position: relative;
   cursor: pointer;
+  .icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 2rem;
+    background-color: #00000061;
+    padding: 10px;
+    border-radius: 50%;
+  }
   img {
     width: 17rem;
     height: 17rem;
@@ -57,9 +79,8 @@ const MentorCard = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     gap: 10px;
-    padding: 15px;
     text-align: center;
     font-size: 1.2rem;
     height: 11rem;
