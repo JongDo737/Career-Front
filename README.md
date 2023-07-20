@@ -1,3 +1,6 @@
+# Design (Using Figma)
+  https://www.figma.com/file/FxNPsNWZiceVmfQYHHuoon/Design?type=design&node-id=0%3A1&mode=design&t=K3Pq7KnJtSgE6eJx-1
+- 
 
 # Start
 - npm i
