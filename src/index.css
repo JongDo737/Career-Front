@@ -14,8 +14,8 @@ code {
 }
 
 .react-datepicker-wrapper {
-  width: 8rem;
-  height: 2.5rem;
+  min-width: 8rem;
+  height: 2.7rem;
 }
 .react-datepicker__input-container {
   height: 100%;

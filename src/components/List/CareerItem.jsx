@@ -118,7 +118,7 @@ const CareerItem = ({
             <FontAwesomeIcon
               icon={faMinusCircle}
               onClick={() => {
-                removeCareerItem(item.id);
+                removeCareerItem(item.idx);
               }}
             />
           </Icon>
@@ -169,7 +169,7 @@ const Select = styled.select`
   min-width: 9rem;
   text-align: center;
   background-color: #eaeaea;
-  height: 2.5rem;
+  height: 2.7rem;
 `;
 
 const InputForm = styled.div`

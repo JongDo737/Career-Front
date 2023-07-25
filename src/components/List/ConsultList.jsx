@@ -22,7 +22,7 @@ const ConsultList = (props) => {
               color={props.color}
               item={item}
               index={i}
-              key={item.id}
+              key={item.idx}
             />
           );
         })}

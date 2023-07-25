@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import Input from "../Input/Input";
@@ -20,30 +20,37 @@ const SchoolItem = ({
   const [startDate, setStartDate] = useState(item.startDate || "");
   const [endDate, setEndDate] = useState(item.endDate || "");
   const [state, setState] = useState(item.state || "");
-  const [MajorList, setMajorList] = useState(
-    item.majorList || [
-      {
-        id: 0,
-        unit: "주전공",
-        major: "",
-      },
-    ]
-  );
-  const nextMajorId = useRef(item.magorList ? item.majorList.length : 1);
+  const [MajorList, setMajorList] = useState([]);
+
+  useEffect(() => {
+    if (school === "대학교")
+      setMajorList([
+        {
+          idx: 0,
+          unit: "주전공",
+          major: "",
+        },
+      ]);
+    else setMajorList([]);
+  }, [school]);
+  const nextMajorIdx = useRef(item.majorList ? item.majorList.length : 1);
   const addUnivMajorItem = () => {
     const majorItem = {
-      id: nextMajorId.current,
+      idx: nextMajorIdx.current,
       unit: "주전공",
       major: "",
     };
     setMajorList((current) => [...current, majorItem]);
-    nextMajorId.current += 1;
-    console.log("Add major", majorItem, nextMajorId);
+    nextMajorIdx.current += 1;
   };
   const removeUnivMajorItem = (i) => {
-    setMajorList(MajorList.filter((a) => a.id !== i));
-    console.log("delete major", i);
+    setMajorList(MajorList.filter((a) => a.idx !== i));
   };
+
+  useEffect(() => {
+    item.majorList = [...MajorList];
+    console.log(item.majorList);
+  }, [MajorList]);
 
   return (
     <>
@@ -137,7 +144,7 @@ const SchoolItem = ({
             <FontAwesomeIcon
               icon={faMinusCircle}
               onClick={() => {
-                removeSchoolItem(item.id);
+                removeSchoolItem(item.idx);
               }}
             />
           </Icon>
@@ -155,7 +162,7 @@ const SchoolItem = ({
       {school === "대학교"
         ? MajorList.map((majorItem, idx) => {
             return (
-              <Form key={majorItem.id}>
+              <Form key={majorItem.idx}>
                 <MajorItem
                   item={majorItem}
                   index={idx}
@@ -186,7 +193,7 @@ const SchoolSelect = styled.select`
   min-width: 9rem;
   text-align: center;
   background-color: #eaeaea;
-  height: 2.5rem;
+  height: 2.7rem;
 `;
 
 const Form = styled.div`

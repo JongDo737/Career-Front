@@ -43,7 +43,7 @@ const StyledInput = styled.input`
   color: ${(props) => (props.disabled === true ? "gray" : "black")};
   box-sizing: border-box;
   padding: 0; //나중에 reset.scss or reset.css 로 만들기
-  height: ${(props) => props.height || "2.5rem"};
+  height: ${(props) => props.height || "2.7rem"};
   &.small {
     width: ${(props) => props.width || "6.25rem"};
   }

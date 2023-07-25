@@ -7,26 +7,26 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 const LikeList = () => {
   const [likeList, setLikeList] = useState([
     {
-      id: 0,
+      idx: 0,
       title: "화학과 가고 싶은데.. 활동 고민이에요..",
       content:
         "화학화 너무 가고 싶은데 한 활동이 아무것도 없어요. 어디서 어떤 활동을 시작해야 할까요? 입시때 힘들 것 같아서 걱정입니다.",
       like: true,
     },
     {
-      id: 1,
+      idx: 1,
       title: "컴공과 가고 싶은데.. 활동 고민이에요..",
       content: "제가 수학을 못해요..",
       like: true,
     },
     {
-      id: 2,
+      idx: 2,
       title: "도와주세요ㅠㅠ",
       content: "전자과랑 기계과 중에 고민입니다.",
       like: true,
     },
     {
-      id: 3,
+      idx: 3,
       title: "예체능 상담해주실 선생님 없나요?",
       content:
         "안녕하세요. 고등학교 2학년 학생입니다. 미대에 가고 싶은데 돈이 많이 들어서 부모님이 반대해요. ",
@@ -34,18 +34,18 @@ const LikeList = () => {
     },
   ]);
   const likeToggle = (i) => {
-    setLikeList(likeList.filter((a) => a.id !== i));
+    setLikeList(likeList.filter((a) => a.idx !== i));
   };
   return (
     <LikeWrapper>
       {likeList.map((item) => {
         return (
-          <LikeContainer key={item.id}>
+          <LikeContainer key={item.idx}>
             <header>
               <span>{item.title}</span>
               <FontAwesomeIcon
                 icon={faStarFull}
-                onClick={() => likeToggle(item.id)}
+                onClick={() => likeToggle(item.idx)}
               />
             </header>
             <main>{item.content}</main>

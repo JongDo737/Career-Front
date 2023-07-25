@@ -49,7 +49,7 @@ const MajorItem = ({
           <FontAwesomeIcon
             icon={faMinusCircle}
             onClick={() => {
-              removeUnivMajorItem(item.id);
+              removeUnivMajorItem(item.idx);
             }}
           />
         </Icon>

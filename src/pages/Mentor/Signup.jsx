@@ -14,21 +14,42 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 function Signup(props) {
-  const [username, setUsername] = useState("");
-  const [id, setId] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [password, setPassword] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [id, setId] = useState("");
+  // const [nickname, setNickname] = useState("");
+  // const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState(false);
-  const [gender, setGender] = useState(false);
-  const [intro, setIntro] = useState("");
-  const [phoneNumber, setphoneNumber] = useState("");
+  // const [gender, setGender] = useState(false);
+  // const [intro, setIntro] = useState("");
+  // const [phoneNumber, setphoneNumber] = useState("");
   const [numberCode, setNumberCode] = useState("");
   const [consult, setConsult] = useState([]);
-  const [careerPlan, setCareerPlan] = useState("");
-  const [hobby, setHobby] = useState("");
+  // const [careerPlan, setCareerPlan] = useState("");
+  // const [hobby, setHobby] = useState("");
+  const [user, setUser] = useState({
+    name: "",
+    username: "",
+    nickname: "",
+    password: "",
+    birth: "",
+    gender: "",
+    introduce: "",
+    telephone: "",
+    consultMajor1: "",
+    consultMajor2: "",
+    consultMajor3: "",
+    plan: "",
+    hobby: "",
+    profileImg:
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    schoolList: [],
+    careerList: [],
+    tagList: [],
+    activeImg: [],
+  });
   const [schoolList, setSchoolList] = useState([
     {
-      id: 0,
+      idx: 0,
       school: "고등학교",
       schoolName: "",
       startDate: "",
@@ -38,7 +59,7 @@ function Signup(props) {
   ]);
   const [careerList, setCareerList] = useState([
     {
-      id: 0,
+      idx: 0,
       career: "교내활동",
       careerName: "",
       startDate: "",
@@ -47,32 +68,35 @@ function Signup(props) {
     },
   ]);
 
-  const [image, setImage] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  );
   const [careerFile, setCareerFile] = useState([]);
   const [isFile, setIsFile] = useState(false);
   const fileInput = useRef(null);
 
   const onChangeImg = (e) => {
-    if (e.target.files[0]) setImage(e.target.files[0]);
+    console.log(e.target.files[0]);
+    if (e.target.files[0])
+      setUser((user) => ({ ...user, profileImg: e.target.files[0] }));
     else return;
 
     const reader = new FileReader();
     reader.onload = () => {
       console.log(reader);
-      if (reader.readyState === 2) setImage(reader.result);
+      if (reader.readyState === 2)
+        setUser((user) => ({ ...user, profileImg: reader.result }));
     };
     reader.readAsDataURL(e.target.files[0]);
   };
   const onResetImg = () => {
-    setImage(
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-    );
+    setUser((user) => ({
+      ...user,
+      profileImg:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    }));
   };
 
-  const fileUploadId = useRef(0);
+  const fileUploadIdx = useRef(0);
   const onUploadFile = (e) => {
+    //재학 증명서 업로드
     if (!e.target.files?.length) return;
     const files = e.target.files;
     const len = files.length;
@@ -80,38 +104,48 @@ function Signup(props) {
     for (let i = 0; i < len; i++) {
       const file_name = files[i].name.toLowerCase();
       setCareerFile((current) => {
-        return [...current, { id: fileUploadId.current + i, name: file_name }];
+        return [
+          ...current,
+          { idx: fileUploadIdx.current + i, name: file_name },
+        ];
       });
     }
-    // const formData = new FormData();
-    // formData.append("file", file);
     e.target.value = ""; //for firing onChange;
     setIsFile(true);
   };
 
   useEffect(() => {
-    fileUploadId.current = careerFile.length;
+    fileUploadIdx.current = careerFile.length;
   }, [careerFile]);
 
-  const onDeleteFile = (id) => {
-    setCareerFile(careerFile.filter((a) => a.id !== id));
+  const onDeleteFile = (idx) => {
+    setCareerFile(careerFile.filter((a) => a.idx !== idx));
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (!confirmPassword) {
-    //   window.alert("비밀번호가 일치하지 않습니다.");
-    //   return;
-    // }
-    console.log(username, password, nickname, gender);
+    console.log("school list : ", schoolList);
+    const formData = new FormData();
+    formData.append("files", user.profileImg);
+
+    setUser((user) => ({
+      ...user,
+      schoolList: schoolList,
+      careerList: careerList,
+      tagList: [...tag],
+      profileImg: formData,
+    }));
+
+    console.log(user, tag, formData);
     axios
-      .post(`http://localhost:3000/user/signup`, {
-        username: username,
-        password: password,
-        nickname: nickname,
-        gender: true,
-        telephone: "010",
-        name: "seesees",
-      })
+      .post(
+        `https://676e-2001-2d8-e4a2-ceb6-c153-e9ab-55e1-694b.ngrok-free.app/user/signup/mentor`,
+        {
+          ...user,
+        },
+        {
+          headers: { "Content-Type": "multipart/form-data" }, // 반드시 설정해야 함
+        }
+      )
       .then((res) => {
         console.log(res);
         window.alert("success");
@@ -124,15 +158,14 @@ function Signup(props) {
 
   const [tmpTag, setTmpTag] = useState("");
   const [tag, setTag] = useState([]);
-  const tagId = useRef(0);
+  const tagIdx = useRef(0);
   const onUpdateTag = (value) => {
-    console.log("click");
-    setTag((current) => [...current, { id: tagId.current, name: value }]);
-    tagId.current += 1;
+    setTag((current) => [...current, { idx: tagIdx.current, name: value }]);
+    tagIdx.current += 1;
     console.log(tag);
   };
-  const onDeleteTag = (id) => {
-    setTag(tag.filter((a) => a.id !== id));
+  const onDeleteTag = (idx) => {
+    setTag(tag.filter((a) => a.idx !== idx));
   };
   return (
     <>
@@ -150,7 +183,7 @@ function Signup(props) {
             </div>
             <img
               className={styles.ProfileImg}
-              src={image}
+              src={user.profileImg}
               alt=""
               onClick={() => {
                 fileInput.current.click();
@@ -164,6 +197,7 @@ function Signup(props) {
                 cursor: "pointer",
                 fontWeight: "600",
                 marginBottom: "40px",
+                fontSize: "1.2rem",
               }}
               onClick={onResetImg}
             >
@@ -186,7 +220,9 @@ function Signup(props) {
               placeholder="소개글을 작성하세요."
               size="large"
               height="150px"
-              onChange={(e) => setIntro(e.target.value)}
+              onChange={(e) =>
+                setUser((user) => ({ ...user, introduce: e.target.value }))
+              }
             />
             {/* <div className={styles.ButtonDiv}>
               <Button size="medium">저장하기</Button>
@@ -200,7 +236,9 @@ function Signup(props) {
             <InputForm>
               <Input
                 placeholder="당신의 커리어 목표는 무엇인가요."
-                onChange={(e) => setCareerPlan(e.target.value)}
+                onChange={(e) =>
+                  setUser((user) => ({ ...user, plan: e.target.value }))
+                }
                 size="large"
               />
             </InputForm>
@@ -213,7 +251,9 @@ function Signup(props) {
             <InputForm>
               <Input
                 placeholder="취미를 작성해 주세요."
-                onChange={(e) => setHobby(e.target.value)}
+                onChange={(e) =>
+                  setUser((user) => ({ ...user, hobby: e.target.value }))
+                }
                 size="large"
               />
             </InputForm>
@@ -229,7 +269,9 @@ function Signup(props) {
             <InputForm>
               <Input
                 placeholder="이름을 입력하세요."
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) =>
+                  setUser((user) => ({ ...user, name: e.target.value }))
+                }
               />
             </InputForm>
           </Wrapper>
@@ -242,7 +284,9 @@ function Signup(props) {
             <InputForm>
               <Input
                 placeholder="아이디를 입력하세요."
-                onChange={(e) => setId(e.target.value)}
+                onChange={(e) =>
+                  setUser((user) => ({ ...user, username: e.target.value }))
+                }
               />
               <Button>중복확인</Button>
             </InputForm>
@@ -256,7 +300,10 @@ function Signup(props) {
             <InputForm>
               <Input
                 placeholder="닉네임을 입력하세요."
-                onChange={(e) => setNickname(e.target.value)}
+                // onChange={(e) => setNickname(e.target.value)}
+                onChange={(e) =>
+                  setUser((user) => ({ ...user, nickname: e.target.value }))
+                }
               />
               <Button>중복확인</Button>
             </InputForm>
@@ -271,7 +318,10 @@ function Signup(props) {
               <Input
                 type="password"
                 placeholder="비밀번호를 입력하세요."
-                onChange={(e) => setPassword(e.target.value)}
+                // onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) =>
+                  setUser((user) => ({ ...user, password: e.target.value }))
+                }
               />
             </InputForm>
           </Wrapper>
@@ -286,9 +336,25 @@ function Signup(props) {
                 type="password"
                 placeholder="비밀번호를 다시 입력하세요."
                 onChange={(e) => {
-                  password === e.target.value
+                  user.password === e.target.value
                     ? setConfirmPassword(true)
                     : setConfirmPassword(false);
+                }}
+              />
+            </InputForm>
+          </Wrapper>
+          <Wrapper>
+            <div className={styles.Subtitle}>
+              <MenuLine size="small" />
+              <span>생년월일</span>
+              <Required>*</Required>
+            </div>
+            <InputForm>
+              <Input
+                type="date"
+                placeholder="1900"
+                onChange={(e) => {
+                  setUser((user) => ({ ...user, birth: e.target.value }));
                 }}
               />
             </InputForm>
@@ -301,27 +367,17 @@ function Signup(props) {
             </div>
             <InputForm>
               <Input
-                placeholder="010"
-                size="small"
+                placeholder="전화번호를 입력하세요."
                 onChange={(e) =>
-                  setphoneNumber({ ...phoneNumber, first: e.target.value })
+                  setUser((user) => ({
+                    ...user,
+                    telephone: e.target.value,
+                  }))
                 }
               />
-              <Input
-                placeholder="1234"
-                size="small"
-                onChange={(e) =>
-                  setphoneNumber({ ...phoneNumber, second: e.target.value })
-                }
-              />
-              <Input
-                placeholder="5678"
-                size="small"
-                onChange={(e) =>
-                  setphoneNumber({ ...phoneNumber, third: e.target.value })
-                }
-              />
-              <Button>인증코드 전송</Button>
+              <Button onClick={() => alert("인증코드가 전송되었습니다.")}>
+                인증코드 전송
+              </Button>
             </InputForm>
             <InputForm>
               <Input
@@ -343,7 +399,9 @@ function Signup(props) {
                   type="radio"
                   name="gender"
                   value="남자"
-                  onChange={(e) => setGender(true)}
+                  onChange={
+                    (e) => setUser((user) => ({ ...user, gender: true })) //true: 남자, false: 여자
+                  }
                   className={styles.Radio}
                 />
                 <div>남자</div>
@@ -353,8 +411,9 @@ function Signup(props) {
                   type="radio"
                   name="gender"
                   value="여자"
-                  placeholder="닉네임을 입력하세요."
-                  onChange={(e) => setGender(false)}
+                  onChange={
+                    (e) => setUser((user) => ({ ...user, gender: false })) //true: 남자, false: 여자
+                  }
                   className={styles.Radio}
                 />
                 <div>여자</div>
@@ -441,12 +500,12 @@ function Signup(props) {
                 <div className={styles.FileList}>
                   {careerFile.map((file) => {
                     return (
-                      <div key={file.id} className={styles.FileItem}>
+                      <div key={file.idx} className={styles.FileItem}>
                         <span>{file.name}</span>
                         <FontAwesomeIcon
                           className={styles.Icon}
                           icon={faXmark}
-                          onClick={() => onDeleteFile(file.id)}
+                          onClick={() => onDeleteFile(file.idx)}
                         />
                       </div>
                     );
@@ -529,7 +588,7 @@ function Signup(props) {
                           <span className="full-name">{item.name}</span>
                           <span className="short-name">#{item.name}</span>
                           <FontAwesomeIcon
-                            onClick={() => onDeleteTag(item.id)}
+                            onClick={() => onDeleteTag(item.idx)}
                             className="delete-icon"
                             icon={faXmark}
                           />
