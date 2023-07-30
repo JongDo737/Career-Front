@@ -145,7 +145,7 @@ const Home = () => {
         </LineGap>
         <Wrapper>
           <header className="header">오늘의 추천 멘토</header>
-          <div className="notice">* 튜터 프로필 클릭시 상세보기</div>
+          <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
           <MentorList mentors={todayMentors} />
         </Wrapper>
         <LineGap>
@@ -153,7 +153,7 @@ const Home = () => {
         </LineGap>
         <Wrapper>
           <header className="header">이번주 인기 멘토</header>
-          <div className="notice">* 튜터 프로필 클릭시 상세보기</div>
+          <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
           <MentorList mentors={popularMentors} />
         </Wrapper>
       </FormRight>

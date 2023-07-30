@@ -9,13 +9,11 @@ import {
   faAngleRight,
   faCalendar,
   faTicket,
-  faCrown,
 } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
-import EventList from "../../components/List/EventList";
 import MentorList from "../../components/List/MentorList";
 const Mentor = () => {
-  const subMenuList = ["튜터 추천", "튜터 찾기", "내 튜터"];
+  const subMenuList = ["멘토 추천", "멘토 찾기", "내 멘토"];
   const [subMenu, setSubMenu] = useState(subMenuList[0]);
   const [userName, setUserName] = useState("김성애");
   const todayMentors = [
@@ -116,20 +114,53 @@ const Mentor = () => {
             <FontAwesomeIcon icon={faAngleRight} />
           </MoveBox>
         </FormLeft>
+
         <FormRight>
-          <Wrapper>
-            <header className="header">이번주 인기 멘토</header>
-            <div className="notice">* 튜터 프로필 클릭시 상세보기</div>
-            <MentorList mentors={popularMentors} rank={true} />
-          </Wrapper>
-          <LineGap>
-            <HorizontalLine />
-          </LineGap>
-          <Wrapper>
-            <header className="header">오늘의 추천 멘토</header>
-            <div className="notice">* 튜터 프로필 클릭시 상세보기</div>
-            <MentorList mentors={todayMentors} />
-          </Wrapper>
+          {subMenu === subMenuList[0] ? (
+            <>
+              <Wrapper>
+                <header className="header">이번주 인기 멘토</header>
+                <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
+                <MentorList mentors={popularMentors} rank={true} />
+              </Wrapper>
+              <LineGap>
+                <HorizontalLine />
+              </LineGap>
+
+              <Wrapper>
+                <header className="header">오늘의 추천 멘토</header>
+                <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
+                <MentorList mentors={todayMentors} />
+              </Wrapper>
+            </>
+          ) : (
+            ""
+          )}
+          {subMenu === subMenuList[1] ? (
+            <>
+              <Wrapper>
+                <Header>이번주 인기 멘토</Header>
+                <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
+                <MentorList mentors={popularMentors} rank={true} />
+              </Wrapper>
+              <LineGap>
+                <HorizontalLine />
+              </LineGap>
+
+              <Wrapper>
+                <Header>추천 멘토</Header>
+                <SortList>
+                  <div>최신순</div>
+                  <div>후기 많은순</div>
+                  <div>수강 많은순</div>
+                </SortList>
+                <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
+                <MentorList mentors={todayMentors} />
+              </Wrapper>
+            </>
+          ) : (
+            ""
+          )}
         </FormRight>
       </Form>
     </>
@@ -200,31 +231,36 @@ const NameDiv = styled.div`
   }
 `;
 
-const About = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  div {
-    padding: 20px 30px;
-    background-color: white;
-    color: #23354d;
-    border: 1px solid #23354d;
-    font-size: 1.3rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 50px;
-    &:hover {
-      background-color: #44638c;
-      color: white;
-    }
-    span {
-      width: 90%;
-      text-align: center;
-    }
-  }
+const Header = styled.div`
+  border: 1px solid black;
+  width: 8rem;
+  padding: 0.5rem 2rem;
+  background-color: #334b6c;
+  color: white;
+  border-radius: 1.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
 `;
 
+const SortList = styled.div`
+  div {
+    border: 2px solid black;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    &:hover {
+      background-color: #23354d;
+      color: white;
+    }
+  }
+  margin: 1rem 0;
+  display: flex;
+  gap: 1rem;
+`;
 const LineGap = styled.div`
   width: 100%;
   margin: 4rem 0;

@@ -11,7 +11,7 @@ const Menubar = () => {
 
   const [signup, setSignup] = useState("회원가입");
   const [signupSelect, setSignupSelect] = useState(false);
-  const [leftMenu, setLeftMenu] = useState(["홈", "튜터", "게시판"]);
+  const [leftMenu, setLeftMenu] = useState(["홈", "멘토", "게시판"]);
   const [rightMenu, setRightMenu] = useState(["초대하기", "추가메뉴"]);
   const [isLogin, setIsLogin] = useState(true);
   const [isMentor, setIsMentor] = useState(false);
@@ -41,7 +41,7 @@ const Menubar = () => {
   };
   useEffect(() => {
     if (!isLogin) {
-      setLeftMenu(["홈", "튜터", "게시판"]);
+      setLeftMenu(["홈", "멘토", "게시판"]);
       setRightMenu([]);
       setLeftLink([
         "http://localhost:3000",
@@ -56,14 +56,14 @@ const Menubar = () => {
           "http://localhost:3000/mentor",
           "http://localhost:3000/mentor/consult",
           "http://localhost:3000/mentor",
-          "http://localhost:3000/mentor",
+          "http://localhost:3000/mentor/community",
         ]);
         setRightLink([
           "http://localhost:3000/mentor",
           "http://localhost:3000/mentor",
         ]);
       } else {
-        setLeftMenu(["홈", "튜터", "게시판", "상담"]);
+        setLeftMenu(["홈", "멘토", "게시판", "상담"]);
         setRightMenu(["초대하기", "이용권 구매"]);
         setLeftLink([
           "http://localhost:3000/mentee",
@@ -84,7 +84,12 @@ const Menubar = () => {
     <>
       <div className={styles.Menubar}>
         <div className={styles.MenubarLeft}>
-          <div className={styles.Logo}>CAREER</div>
+          <div
+            className={styles.Logo}
+            onClick={() => setIsMentor((current) => !current)}
+          >
+            CAREER
+          </div>
           {/* <button
             onClick={() => {
               setIsLogin((current) => !current);

@@ -13,6 +13,7 @@ import ProfileMentor from "./pages/Mentor/Profile";
 import ConsultMentor from "./pages/Mentor/Consult";
 import HomeMentee from "./pages/Mentee/Home";
 import MenteeMentor from "./pages/Mentee/Mentor";
+import Community from "./pages/Mentor/Community";
 function App(props) {
   return (
     <>
@@ -24,6 +25,7 @@ function App(props) {
           <Route path="/mentor/setting" element={<Setting />} />
           <Route path="/mentor/profile" element={<ProfileMentor />} />
           <Route path="/mentor/consult" element={<ConsultMentor />} />
+          <Route path="/mentor/community" element={<Community />} />
           <Route path="/loginStudent" element={<LoginStudent />} />
           <Route path="/signMentee" element={<SignupMentee />} />
           <Route path="/home" element={<SignupMentee />} />
