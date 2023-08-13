@@ -26,6 +26,7 @@ function Signup(props) {
   const [consult, setConsult] = useState([]);
   // const [careerPlan, setCareerPlan] = useState("");
   // const [hobby, setHobby] = useState("");
+  const [profileImg, setProfileImg] = useState("/initProfileImg.jpg");
   const [user, setUser] = useState({
     name: "",
     username: "",
@@ -40,12 +41,12 @@ function Signup(props) {
     consultMajor3: "",
     plan: "",
     hobby: "",
-    profileImg:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    // profileImg:
+    //   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
     schoolList: [],
     careerList: [],
     tagList: [],
-    activeImg: [],
+    // activeImg: [],
   });
   const [schoolList, setSchoolList] = useState([
     {
@@ -74,24 +75,26 @@ function Signup(props) {
 
   const onChangeImg = (e) => {
     console.log(e.target.files[0]);
-    if (e.target.files[0])
-      setUser((user) => ({ ...user, profileImg: e.target.files[0] }));
+    if (e.target.files[0]) setProfileImg(e.target.files[0]);
+    // setUser((user) => ({ ...user, profileImg: e.target.files[0] }));
     else return;
 
     const reader = new FileReader();
     reader.onload = () => {
       console.log(reader);
       if (reader.readyState === 2)
-        setUser((user) => ({ ...user, profileImg: reader.result }));
+        // setUser((user) => ({ ...user, profileImg: reader.result }));
+        setProfileImg(reader.result);
     };
     reader.readAsDataURL(e.target.files[0]);
   };
   const onResetImg = () => {
-    setUser((user) => ({
-      ...user,
-      profileImg:
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    }));
+    // setUser((user) => ({
+    //   ...user,
+    //   profileImg:
+    //     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    // }));
+    setProfileImg("/initProfileImg.jpg");
   };
 
   const fileUploadIdx = useRef(0);
@@ -124,28 +127,27 @@ function Signup(props) {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log("school list : ", schoolList);
-    const formData = new FormData();
-    formData.append("files", user.profileImg);
+    // formData.append("files", user.profileImg);
 
     setUser((user) => ({
       ...user,
       schoolList: schoolList,
       careerList: careerList,
       tagList: [...tag],
-      profileImg: formData,
+      // profileImg: formData,
     }));
 
-    console.log(user, tag, formData);
+    // console.log(user, tag, formData);
+    const formData = new FormData();
+    formData.append("image", profileImg);
+    alert(formData);
+    console.log(profileImg);
     axios
-      .post(
-        `https://676e-2001-2d8-e4a2-ceb6-c153-e9ab-55e1-694b.ngrok-free.app/user/signup/mentor`,
-        {
-          ...user,
+      .post(`http://localhost:8080/user/file/profile`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
         },
-        {
-          headers: { "Content-Type": "multipart/form-data" }, // 반드시 설정해야 함
-        }
-      )
+      })
       .then((res) => {
         console.log(res);
         window.alert("success");
@@ -183,7 +185,8 @@ function Signup(props) {
             </div>
             <img
               className={styles.ProfileImg}
-              src={user.profileImg}
+              // src={user.profileImg}
+              src={profileImg}
               alt=""
               onClick={() => {
                 fileInput.current.click();

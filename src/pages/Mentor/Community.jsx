@@ -8,6 +8,7 @@ import {
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import PostList from "../../components/List/PostList";
+import CategoryList from "../../components/List/CategoryList";
 
 const Community = () => {
   const subMenuList = ["전체보기", "카테고리", "활동 내역"];
@@ -50,7 +51,20 @@ const Community = () => {
         ) : (
           ""
         )}
-        {subMenu === subMenuList[1] ? <></> : ""}
+        {subMenu === subMenuList[1] ? (
+          <>
+            <Section>
+              <div className="header">
+                <span>게시글 카테고리</span>
+              </div>
+              <CategoryLayout>
+                <CategoryList />
+              </CategoryLayout>
+            </Section>
+          </>
+        ) : (
+          ""
+        )}
       </Form>
     </>
   );
@@ -74,17 +88,8 @@ const Section = styled.div`
   .header {
     margin: 50px 0;
     font-size: 2rem;
-    font-weight: 700;
-    color: #23354d;
-    text-decoration: underline;
-  }
-  .notice {
-    width: 95%;
-    text-align: end;
-    font-size: 1.1rem;
-    color: #334b6c;
     font-weight: 600;
-    margin-bottom: 1rem;
+    color: #23354d;
   }
 `;
 
@@ -143,4 +148,11 @@ const UtilBox = styled.div`
     background-color: #23354d;
     color: white;
   }
+`;
+
+const CategoryLayout = styled.div`
+  width: 70rem;
+  display: grid;
+  grid-template-columns: repeat(2, 35rem);
+  grid-gap: 2rem;
 `;
