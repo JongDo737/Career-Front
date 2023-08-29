@@ -27,13 +27,14 @@ function Signup(props) {
   // const [careerPlan, setCareerPlan] = useState("");
   // const [hobby, setHobby] = useState("");
   const [profileImg, setProfileImg] = useState("/initProfileImg.jpg");
+  const [visibleImg, setVisibleImg] = useState("/initProfileImg.jpg");
   const [user, setUser] = useState({
-    name: "",
-    username: "",
-    nickname: "",
-    password: "",
-    birth: "",
-    gender: "",
+    name: "", //필수
+    username: "", //필수
+    nickname: "", //필수
+    password: "", //필수
+    birth: "", //필수
+    gender: "", //필수
     introduce: "",
     telephone: "",
     consultMajor1: "",
@@ -81,10 +82,10 @@ function Signup(props) {
 
     const reader = new FileReader();
     reader.onload = () => {
-      console.log(reader);
-      if (reader.readyState === 2)
-        // setUser((user) => ({ ...user, profileImg: reader.result }));
-        setProfileImg(reader.result);
+      if (reader.readyState === 2) setVisibleImg(reader.result);
+
+      // setUser((user) => ({ ...user, profileImg: reader.result }));
+      // setProfileImg(reader.result);
     };
     reader.readAsDataURL(e.target.files[0]);
   };
@@ -95,6 +96,7 @@ function Signup(props) {
     //     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
     // }));
     setProfileImg("/initProfileImg.jpg");
+    setVisibleImg("/initProfileImg.jpg");
   };
 
   const fileUploadIdx = useRef(0);
@@ -126,29 +128,143 @@ function Signup(props) {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("school list : ", schoolList);
-    // formData.append("files", user.profileImg);
 
     setUser((user) => ({
       ...user,
       schoolList: schoolList,
       careerList: careerList,
       tagList: [...tag],
-      // profileImg: formData,
     }));
 
-    // console.log(user, tag, formData);
     const formData = new FormData();
     formData.append("image", profileImg);
-    alert(formData);
-    console.log(profileImg);
-    axios
-      .post(`http://localhost:8080/user/file/profile`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
+
+    const jsonData = {
+      name: "seongae7", //필수
+      username: "test7", //필수
+      nickname: "seongae7", //필수
+      password: "123", //필수
+      birth: "20000505", //필수
+      gender: "false", //필수
+      schoolList: [
+        {
+          idx: 0,
+          schoolType: "고등학교",
+          schoolName: "한양",
+          startDate: "20200101",
+          endDate: "20210101",
+          state: "졸업",
         },
-      })
+        {
+          idx: 1,
+          schoolType: "대학교",
+          schoolName: "한양",
+          startDate: "20220101",
+          endDate: "20230101",
+          state: "졸업",
+        },
+      ],
+      tagList: [
+        {
+          idx: 0,
+          name: "컴퓨터",
+        },
+        { idx: 1, name: "전자" },
+      ],
+      careerList: [
+        {
+          idx: 0,
+          careerType: "교내활동",
+          careerName: "프로젝트",
+          startDate: "20201010",
+          endDate: "20201111",
+          state: "수료",
+        },
+        {
+          idx: 1,
+          careerType: "교내활동",
+          careerName: "프로젝트2",
+          startDate: "20201010",
+          endDate: "20201111",
+          state: "수료",
+        },
+      ],
+    };
+    formData.append("json", JSON.stringify(jsonData));
+    axios
+      .post(
+        `https://d9cd-183-107-1-194.ngrok-free.app/user/signup/mentor`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
+          },
+        }
+      )
       .then((res) => {
+        // axios
+        //   .post(
+        //     `https://d9cd-183-107-1-194.ngrok-free.app/user/signup/mentor`,
+        //     {
+        //       name: "seongae6", //필수
+        //       username: "test6", //필수
+        //       nickname: "seongae6", //필수
+        //       password: "123", //필수
+        //       birth: "20000505", //필수
+        //       gender: "false", //필수
+        //       schoolList: [
+        //         {
+        //           idx: 0,
+        //           schoolType: "고등학교",
+        //           schoolName: "한양",
+        //           startDate: "20200101",
+        //           endDate: "20210101",
+        //           state: "졸업",
+        //         },
+        //         {
+        //           idx: 1,
+        //           schoolType: "대학교",
+        //           schoolName: "한양",
+        //           startDate: "20220101",
+        //           endDate: "20230101",
+        //           state: "졸업",
+        //         },
+        //       ],
+        //       tagList: [
+        //         {
+        //           idx: 0,
+        //           name: "컴퓨터",
+        //         },
+        //         { idx: 1, name: "전자" },
+        //       ],
+        //       careerList: [
+        //         {
+        //           idx: 0,
+        //           careerType: "교내활동",
+        //           careerName: "프로젝트",
+        //           startDate: "20201010",
+        //           endDate: "20201111",
+        //           state: "수료",
+        //         },
+        //         {
+        //           idx: 1,
+        //           careerType: "교내활동",
+        //           careerName: "프로젝트2",
+        //           startDate: "20201010",
+        //           endDate: "20201111",
+        //           state: "수료",
+        //         },
+        //       ],
+        //     }
+        //   )
+        //   .then((res) => {
+        //     console.log(res);
+        //     window.alert("success");
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //     window.alert("error");
+        //   });
         console.log(res);
         window.alert("success");
       })
@@ -186,7 +302,7 @@ function Signup(props) {
             <img
               className={styles.ProfileImg}
               // src={user.profileImg}
-              src={profileImg}
+              src={visibleImg}
               alt=""
               onClick={() => {
                 fileInput.current.click();

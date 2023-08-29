@@ -26,8 +26,8 @@ const SubMenubar = ({ subMenuList, setSubMenu }) => {
 export default SubMenubar;
 
 const SubMenu = styled.div`
-  height: 6vh;
-  min-height: 3rem;
+  max-height: 6vh;
+  height: 4rem;
   border-bottom: 2px solid #f4f4f4;
   padding: 0 40px;
   display: flex;
