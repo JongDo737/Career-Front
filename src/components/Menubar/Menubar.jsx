@@ -85,12 +85,24 @@ const Menubar = () => {
   const test = () => {
     console.log(getCookie("jwtToken"));
     axios
-      .post(`https://0b79-183-107-1-194.ngrok-free.app/test/jwt`, {
+      .get(`https://1c05-183-107-1-194.ngrok-free.app/test/jwt`, {
         headers: {
           "Content-Type": "application/json",
+          'ngrok-skip-browser-warning': '69420',
           Authorization: `Bearer ${getCookie("jwtToken")}`,
         },
       })
+      // post로 할 때는 payload가 empty여도 아래 줄과 같이 empty {}를 포함해야함.
+      // ngrok가 get method를 사용하면 cors 에러가 나오는데, ngrok 사이트를 get method로 접근 시 ngork관련 html이 나와 그런 것임.
+      // 이를 무시하기 위해서 다음과 같이 headers에 'ngrok-skip-browser-warning': '69420'를 넣어줘야함.
+      // 관련 설명: https://velog.io/@jy3026/ngrok-CORS-%ED%95%B4%EA%B2%B02
+      // .post(`https://1c05-183-107-1-194.ngrok-free.app/test/jwt`, {}, {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     'ngrok-skip-browser-warning': '69420',
+      //     Authorization: `Bearer ${getCookie("jwtToken")}`,
+      //   },
+      // })
       .then((res) => {
         console.log(res);
         window.alert("success");
