@@ -2,23 +2,34 @@ import React from "react";
 import { useState } from "react";
 import styles from "./LoginStudent.module.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { setCookie } from "../../cookie";
+
 function LoginStudent(props) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     axios
-      .post(`lc/user/signin`, {
+      .post(`https://0b79-183-107-1-194.ngrok-free.app/api/authenticate`, {
         username: id,
         password: password,
       })
       .then((res) => {
         console.log(res.data);
-        if (res.data.success) window.alert("success");
-        else window.alert("로그인 정보가 없습니다.");
+        if (res.data.success && res.data.object.token) {
+          window.alert("success");
+          const jwtToken = res.data.object.token;
+          setCookie("jwtToken", jwtToken, {
+            path: "/",
+            secure: true,
+            sameSite: "none",
+            // httpOnly: true,
+          });
+          navigate("/");
+        } else window.alert("로그인 정보가 없습니다.");
       })
       .catch((err) => {
         console.log(err);

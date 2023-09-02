@@ -5,6 +5,9 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
+import { getCookie } from "../../cookie";
+
 const Menubar = () => {
   const [login, setLogin] = useState("로그인");
   const [loginSelect, setLoginSelect] = useState(false);
@@ -79,6 +82,24 @@ const Menubar = () => {
     }
   }, [isLogin, isMentor]);
 
+  const test = () => {
+    console.log(getCookie("jwtToken"));
+    axios
+      .post(`https://0b79-183-107-1-194.ngrok-free.app/test/jwt`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        window.alert("success");
+      })
+      .catch((err) => {
+        console.log(err);
+        window.alert("error");
+      });
+  };
   useEffect(() => {});
   return (
     <>
@@ -86,7 +107,10 @@ const Menubar = () => {
         <div className={styles.MenubarLeft}>
           <div
             className={styles.Logo}
-            onClick={() => setIsMentor((current) => !current)}
+            onClick={
+              // setIsMentor((current) => !current);
+              test
+            }
           >
             CAREER
           </div>
