@@ -20,12 +20,13 @@ const StyledButton = styled.button`
   border-radius: 5px;
   color: white;
   border: 1px solid #2f5383;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   height: 2.7rem;
   cursor: pointer;
   &.medium {
     width: 10rem;
+    height: 100%;
   }
   &.large {
     width: 20rem;
