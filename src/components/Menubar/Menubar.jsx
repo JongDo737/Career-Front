@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { getCookie } from "../../cookie";
+import { SV_HOST } from "../../constants";
 
 const Menubar = () => {
   const [login, setLogin] = useState("로그인");
@@ -85,7 +86,7 @@ const Menubar = () => {
   const test = () => {
     console.log(getCookie("jwtToken"));
     axios
-      .get(`https://1c05-183-107-1-194.ngrok-free.app/test/jwt`, {
+      .get(`${SV_HOST}/test/jwt`, {
         headers: {
           "Content-Type": "application/json",
           'ngrok-skip-browser-warning': '69420',

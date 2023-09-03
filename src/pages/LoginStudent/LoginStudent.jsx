@@ -4,6 +4,7 @@ import styles from "./LoginStudent.module.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { setCookie } from "../../cookie";
+import { SV_HOST } from "../../constants";
 
 function LoginStudent(props) {
   const [id, setId] = useState("");
@@ -13,7 +14,7 @@ function LoginStudent(props) {
   const onSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`https://0b79-183-107-1-194.ngrok-free.app/api/authenticate`, {
+      .post(`${SV_HOST}/api/authenticate`, {
         username: id,
         password: password,
       })
