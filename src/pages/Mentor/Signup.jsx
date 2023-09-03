@@ -473,7 +473,7 @@ export default Signup;
 const InputForm = styled.div`
   display: flex;
   min-width: 300px;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 5px;
   gap: 10px;
