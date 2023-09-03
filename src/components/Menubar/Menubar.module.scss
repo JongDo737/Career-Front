@@ -3,18 +3,18 @@
   width: 100%;
   max-height: 8vh;
   height: 5.5rem;
-  padding: 20px 40px;
+  padding: 1.3rem 2.3rem;
   box-sizing: border-box;
 }
 .MenubarLeft {
   display: flex;
-  width: 60%;
+  min-width: 50%;
   justify-content: flex-start;
 }
 
 .MenubarRight {
   display: flex;
-  width: 40%;
+  min-width: 50%;
   justify-content: flex-end;
   align-items: center;
   img {
@@ -42,17 +42,17 @@
 }
 
 .MenubarLeft .MenubarSpan {
-  font-size: 20px;
+  font-size: 1.6rem;
   font-weight: 600;
 }
 
 .MenubarRight .MenubarSpan {
-  font-size: 17px;
+  font-size: 1.4rem;
   font-weight: 500;
 }
 .Logo {
   padding: 0 20px;
-  font-size: 30px;
+  font-size: 1.7rem;
   font-weight: 600;
   color: #334b6c;
   display: flex;
@@ -85,7 +85,7 @@
   right: 150px;
   border: 2px solid #2f5383;
   background-color: #f9f9f9;
-  padding: 10px;
+  padding: 0.7rem;
   border-radius: 10px;
   width: 110px;
 }

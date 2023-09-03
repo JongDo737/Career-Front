@@ -74,7 +74,8 @@ const SchoolItem = ({
         <Input
           placeholder="학교명"
           size="small"
-          width="150px"
+          width="10rem"
+          height="100%"
           onChange={(e) => {
             item.schoolName = e.target.value;
             setSchoolName(e.target.value || "");
@@ -185,15 +186,17 @@ const InputForm = styled.div`
   display: flex;
   min-width: 25rem;
   justify-content: space-between;
-  margin-bottom: 5px;
+  align-items: center;
+  margin-bottom: 10px;
   gap: 10px;
-  height: 3rem;
+  height: 3.1rem;
 `;
 const SchoolSelect = styled.select`
   min-width: 9rem;
   text-align: center;
   background-color: #eaeaea;
-  height: 2.7rem;
+  height: 100%;
+  font-size: 1rem;
 `;
 
 const Form = styled.div`
@@ -202,7 +205,7 @@ const Form = styled.div`
   padding-left: 30px;
   margin-bottom: 10px;
   gap: 10px;
-  height: 3rem;
+  height: 2.5rem;
 `;
 const Icon = styled.div`
   display: flex;

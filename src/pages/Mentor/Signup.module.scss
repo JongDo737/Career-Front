@@ -1,16 +1,18 @@
 .Title {
   display: flex;
   align-items: center;
-  font-size: 25px;
+  font-size: 1.7rem;
   font-weight: 600;
-  width: 200px;
+  width: 15rem;
   justify-content: space-evenly;
-  padding: 20px 40px;
+  padding: 1.2rem 2.3rem;
 }
 
 .ProfileImg {
-  width: 200px;
-  height: 220px;
+  max-width: 200px;
+  max-height: 220px;
+  width: 18rem;
+  height: 19rem;
   margin-bottom: 10px;
   cursor: pointer;
 }
@@ -18,7 +20,7 @@
 .Subtitle {
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: 500;
   margin-bottom: 20px;
   span {
@@ -41,7 +43,7 @@
 }
 
 .Label {
-  width: 170px;
+  width: 10rem;
   height: 4rem;
   display: flex;
   justify-content: center;

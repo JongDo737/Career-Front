@@ -36,14 +36,15 @@ export default Input;
 
 const StyledInput = styled.input`
   text-align: center;
-  font-size: 15px;
+  font-size: 1.1rem;
   border-radius: 2px;
   border: ${(props) =>
     props.disabled === true ? "1px solid #b7b7b7" : " 1px solid gray"};
   color: ${(props) => (props.disabled === true ? "gray" : "black")};
   box-sizing: border-box;
   padding: 0; //나중에 reset.scss or reset.css 로 만들기
-  height: ${(props) => props.height || "2.7rem"};
+  height: ${(props) => props.height || "3rem"};
+  max-height: 40px;
   &.small {
     width: ${(props) => props.width || "6.25rem"};
   }

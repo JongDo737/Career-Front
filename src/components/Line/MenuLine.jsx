@@ -13,11 +13,12 @@ export default MenuLine;
 
 const Line = styled.div`
   background-color: #334b6c;
-  width: 5px;
+  width: 0.4rem;
+  max-width: 5px;
   &.small {
-    height: 25px;
+    height: 1.8rem;
   }
   &.medium {
-    height: 35px;
+    height: 2.5rem;
   }
 `;

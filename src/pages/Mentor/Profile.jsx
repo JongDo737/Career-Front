@@ -253,7 +253,6 @@ const Profile = (props) => {
             </div>
             <Input
               size="large"
-              height="150px"
               value={intro}
               placeholder="소개글을 작성하세요."
               onChange={(e) => setIntro(e.target.value)}
@@ -432,7 +431,9 @@ const Profile = (props) => {
                   checked={gender}
                   disabled={view}
                 />
-                <div style={{ color: view ? "gray" : "" }}>남자</div>
+                <div style={{ color: view ? "gray" : "", fontSize: "1.3rem" }}>
+                  남자
+                </div>
               </label>
               <label
                 className={styles.Label}
@@ -448,7 +449,9 @@ const Profile = (props) => {
                   checked={!gender}
                   disabled={view}
                 />
-                <div style={{ color: view ? "gray" : "" }}>여자</div>
+                <div style={{ color: view ? "gray" : "", fontSize: "1.3rem" }}>
+                  여자
+                </div>
               </label>
             </InputForm>
           </Wrapper>
@@ -701,11 +704,11 @@ export default Profile;
 
 const InputForm = styled.div`
   display: flex;
-  min-width: 300px;
+  min-width: 15rem;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
-  gap: 10px;
+  gap: 0.8rem;
 `;
 
 const Wrapper = styled.div`
@@ -734,6 +737,10 @@ const Form = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .profile-btn {
+    position: fixed;
+    bottom: 20rem;
   }
 `;
 

@@ -52,7 +52,8 @@ const CareerItem = ({
         <Input
           placeholder="활동명"
           size="small"
-          width="150px"
+          width="10rem"
+          height="100%"
           onChange={(e) => {
             item.careerName = e.target.value;
             setCareerName(e.target.value);
@@ -169,7 +170,7 @@ const Select = styled.select`
   min-width: 9rem;
   text-align: center;
   background-color: #eaeaea;
-  height: 2.7rem;
+  height: 100%;
 `;
 
 const InputForm = styled.div`

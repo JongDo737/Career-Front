@@ -37,6 +37,7 @@ const MajorItem = ({
         size="medium"
         placeholder="학과를 입력해 주세요."
         value={major}
+        height="100%"
         onChange={(e) => {
           item.major = e.target.value;
           setMajor(e.target.value);
@@ -71,7 +72,7 @@ export default MajorItem;
 
 const MajorSelect = styled.select`
   min-width: 120px;
-  height: 2.5rem;
+  height: 100%;
   text-align: center;
   background-color: #eaeaea;
 `;
