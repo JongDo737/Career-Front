@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import VerticalLine from "../../components/Line/VerticalLine";
 import styles from "./Home.module.scss";
@@ -13,6 +13,9 @@ import {
   faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
+import axios from "axios";
+import { SV_LOCAL } from "../../constants";
+
 const Home = () => {
   const [userName, setUserName] = useState("김성애");
   const [consultList, setConsultList] = useState([
@@ -50,7 +53,22 @@ const Home = () => {
     },
   ]);
   const [consultCount, setConsultCount] = useState(consultList.length);
+  const [lastUpcomingConsult, setLastUpcomingConsult] = useState([]);
+  const [upcomingConsult, setUpcomingConsult] = useState([]);
+  const [previousConsult, setPreviousConsult] = useState([]);
 
+  useEffect(() => {
+    axios
+      .get(`${SV_LOCAL}/consultation/mentor/10`)
+      .then((response) => {
+        console.log(response.data);
+        const responseData = response.data;
+        setLastUpcomingConsult(responseData.object.lastUpcomingConsult);
+        setUpcomingConsult(responseData.object.lastUpcomingConsult);
+        setPreviousConsult(responseData.object.previousConsult);
+      })
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <Form>
       <FormLeft>
@@ -87,8 +105,8 @@ const Home = () => {
           ) : (
             <Consult>
               <ConsultList
-                consultList={consultList}
-                setConsultList={setConsultList}
+                consultList={lastUpcomingConsult}
+                setConsultList={setLastUpcomingConsult}
               />
             </Consult>
           )}
@@ -103,8 +121,8 @@ const Home = () => {
           ) : (
             <Consult>
               <ConsultList
-                consultList={consultList}
-                setConsultList={setConsultList}
+                consultList={upcomingConsult}
+                setConsultList={setUpcomingConsult}
               />
             </Consult>
           )}
@@ -119,8 +137,8 @@ const Home = () => {
           ) : (
             <Consult>
               <ConsultList
-                consultList={consultList}
-                setConsultList={setConsultList}
+                consultList={previousConsult}
+                setConsultList={setPreviousConsult}
                 color="#D9D9D9"
               />
             </Consult>
