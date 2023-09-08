@@ -2,24 +2,30 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const ConsultItem = ({ color, item, index }) => {
+  console.log(item);
+  useEffect(() => {
+    console.log(item);
+  }, []);
   return (
     <Form color={color}>
-      <div className="header">{item.name} 학생</div>
+      <div className="header">{item.student.nickname} 학생</div>
       <div className="main">
         <div className="time">
-          {item.startTime.getFullYear()}.{item.startTime.getMonth()}.
+          {/* {item.startTime.getFullYear()}.{item.startTime.getMonth()}.
           {item.startTime.getDate()} {item.startTime.getHours()}:
           {item.startTime.getMinutes()} ~ {item.endTime.getFullYear()}.
-          {item.endTime.getMonth()}. {item.endTime.getDate()}{" "}
-          {item.endTime.getHours()}:{item.endTime.getMinutes()} 예정
+          {item.endTime.getMonth()}. {item.endTime.getDate()}
+          {item.endTime.getHours()}:{item.endTime.getMinutes()} 예정 */}
+          {item.startTime.replace("T", " ")} ~ {item.endTime.replace("T", " ")}{" "}
+          예정
         </div>
         <div className="major">
           <div>상담할 전공 : </div>
-          <div className="majorName">{item.consultMajor}</div>
+          <div className="majorName">{item.major}</div>
         </div>
         <div className="request">
           <div>요청 사항 :</div>
-          <div>{item.request}</div>
+          <div>{item.studentRequest.flow || "질문이 없습니다"}</div>
         </div>
       </div>
       <div className="footer">

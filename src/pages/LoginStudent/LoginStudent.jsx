@@ -4,7 +4,7 @@ import styles from "./LoginStudent.module.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { setCookie } from "../../cookie";
-import { SV_HOST } from "../../constants";
+import { SV_HOST, SV_LOCAL } from "../../constants";
 
 function LoginStudent(props) {
   const [id, setId] = useState("");
@@ -14,15 +14,15 @@ function LoginStudent(props) {
   const onSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`${SV_HOST}/api/authenticate`, {
+      .post(`${SV_LOCAL}/api/authenticate`, {
         username: id,
         password: password,
       })
       .then((res) => {
         console.log(res.data);
-        if (res.data.success && res.data.object.token) {
+        if (res.data.token) {
           window.alert("success");
-          const jwtToken = res.data.object.token;
+          const jwtToken = res.data.token;
           setCookie("jwtToken", jwtToken, {
             path: "/",
             secure: true,

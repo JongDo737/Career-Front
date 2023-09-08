@@ -14,7 +14,7 @@ const ConsultList = (props) => {
   };
   return (
     <Div>
-      <div className="left" onClick={onMoveLeft}></div>{" "}
+      <div className="left" onClick={onMoveLeft}></div>
       <Wrapper style={{ transform: `translateX(${moveIndex}%)` }}>
         {props.consultList.map((item, i) => {
           return (
@@ -22,7 +22,7 @@ const ConsultList = (props) => {
               color={props.color}
               item={item}
               index={i}
-              key={item.idx}
+              key={item.consultId}
             />
           );
         })}

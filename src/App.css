@@ -21,11 +21,13 @@ html {
 @media all and (max-width: 1200px) {
   html {
     font-size: 11px;
+    /* font-size: 13px; */
   }
 }
 
 @media all and (max-width: 999px) {
   html {
-    font-size: 9px;
+    /* font-size: 9px; */
+    font-size: 10px;
   }
 }
