@@ -9,11 +9,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import PostList from "../../components/List/PostList";
 import CategoryList from "../../components/List/CategoryList";
+import CommunityWrite from "../../components/CommunityWrite";
 
 const Community = () => {
   const subMenuList = ["전체보기", "카테고리", "활동 내역"];
   const [subMenu, setSubMenu] = useState(subMenuList[0]);
-
+  const [isWrite, setIsWrite] = useState(false);
   const ScrollUp = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
@@ -23,31 +24,38 @@ const Community = () => {
       <SubMenubar subMenuList={subMenuList} setSubMenu={setSubMenu} />
       <Form>
         {subMenu === subMenuList[0] ? (
-          <>
-            <Section>
-              <Search>
-                <span>키워드 검색</span>
-                <input type="text" className="search" />
-                <FontAwesomeIcon
-                  icon={faMagnifyingGlass}
-                  className="glass-icon"
-                />
-              </Search>
-              <Wrapper>
-                <PostList />
-              </Wrapper>
-              <UtilBox>
-                <div className="write">
-                  <FontAwesomeIcon icon={faPencil} />
-                  <span>글쓰기</span>
-                </div>
-                <div className="up" onClick={ScrollUp}>
-                  <FontAwesomeIcon icon={faChevronUp} />
-                  <span>위로</span>
-                </div>
-              </UtilBox>
-            </Section>
-          </>
+          !isWrite ? (
+            <>
+              <Section>
+                <Search>
+                  <span>키워드 검색</span>
+                  <input type="text" className="search" />
+                  <FontAwesomeIcon
+                    icon={faMagnifyingGlass}
+                    className="glass-icon"
+                  />
+                </Search>
+                <Wrapper>
+                  <PostList />
+                </Wrapper>
+                <UtilBox>
+                  <div
+                    className="util-item write"
+                    onClick={() => setIsWrite(true)}
+                  >
+                    <FontAwesomeIcon icon={faPencil} />
+                    <span>글쓰기</span>
+                  </div>
+                  <div className="util-item up" onClick={ScrollUp}>
+                    <FontAwesomeIcon icon={faChevronUp} />
+                    <span>위로</span>
+                  </div>
+                </UtilBox>
+              </Section>
+            </>
+          ) : (
+            <CommunityWrite setIsWrite={setIsWrite} />
+          )
         ) : (
           ""
         )}
@@ -131,18 +139,25 @@ const UtilBox = styled.div`
   position: fixed;
   bottom: 2rem;
   right: 3rem;
-  div {
+  .util-item {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    gap: 0.3rem;
     border: 1px solid black;
     border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
     padding: 0.7rem;
     font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
   }
   .write {
     background-color: #eaeaea;
+    text-decoration: none;
+    color: black;
   }
   .up {
     background-color: #23354d;

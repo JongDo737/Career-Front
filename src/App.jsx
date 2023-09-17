@@ -14,18 +14,20 @@ import ConsultMentor from "./pages/Mentor/Consult";
 import HomeMentee from "./pages/Mentee/Home";
 import MenteeMentor from "./pages/Mentee/Mentor";
 import Community from "./pages/Mentor/Community";
-function App(props) {
+import CommunityWrite from "./components/CommunityWrite";
+function App() {
   return (
     <>
       <BrowserRouter>
         <Menubar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<LoginStudent />} />
           <Route path="/mentor" element={<HomeMentor />} />
           <Route path="/mentor/setting" element={<Setting />} />
           <Route path="/mentor/profile" element={<ProfileMentor />} />
           <Route path="/mentor/consult" element={<ConsultMentor />} />
           <Route path="/mentor/community" element={<Community />} />
+          <Route path="/community/write" element={<CommunityWrite />} />
           <Route path="/loginStudent" element={<LoginStudent />} />
           <Route path="/signMentee" element={<SignupMentee />} />
           <Route path="/home" element={<SignupMentee />} />
