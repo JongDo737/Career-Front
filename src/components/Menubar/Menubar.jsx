@@ -60,7 +60,7 @@ const Menubar = () => {
           "http://localhost:3000/mentor",
           "http://localhost:3000/mentor/consult",
           "http://localhost:3000/mentor",
-          "http://localhost:3000/mentor/community",
+          "http://localhost:3000/community",
         ]);
         setRightLink([
           "http://localhost:3000/mentor",

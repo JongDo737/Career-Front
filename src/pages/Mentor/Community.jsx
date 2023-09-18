@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +19,9 @@ const Community = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
   };
+  useEffect(() => {
+    setIsWrite(false);
+  }, [subMenu]);
   return (
     <>
       <SubMenubar subMenuList={subMenuList} setSubMenu={setSubMenu} />
@@ -68,6 +71,19 @@ const Community = () => {
               <CategoryLayout>
                 <CategoryList />
               </CategoryLayout>
+              <UtilBox>
+                <div
+                  className="util-item write"
+                  onClick={() => setIsWrite(true)}
+                >
+                  <FontAwesomeIcon icon={faPencil} />
+                  <span>글쓰기</span>
+                </div>
+                <div className="util-item up" onClick={ScrollUp}>
+                  <FontAwesomeIcon icon={faChevronUp} />
+                  <span>위로</span>
+                </div>
+              </UtilBox>
             </Section>
           </>
         ) : (

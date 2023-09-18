@@ -67,7 +67,7 @@ const CommunityWrite = ({ setIsWrite }) => {
 export default React.memo(CommunityWrite);
 
 const WriteLayout = styled.div`
-  width: 70rem;
+  width: 60rem;
   /* height: 92vh; */
   margin: 0 auto;
   display: flex;
@@ -123,6 +123,7 @@ const WriteWrapper = styled.div`
       border-radius: 5px;
       padding: 0.5rem;
       box-sizing: border-box;
+      font-size: 1.1rem;
       &::placeholder {
         text-align: center;
       }
@@ -138,16 +139,17 @@ const WriteWrapper = styled.div`
     gap: 2rem;
     &__input {
       width: 90%;
-      height: 30rem;
+      height: 25rem;
       border: 1px solid gray;
       border-radius: 5px;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 0.5rem;
+      font-size: 1.1rem;
       &::placeholder {
         text-align: center;
-        line-height: 30rem;
+        line-height: 25rem;
       }
     }
   }

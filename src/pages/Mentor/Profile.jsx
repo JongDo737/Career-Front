@@ -17,6 +17,9 @@ import {
   faStar as faStarFull,
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
+import { SV_LOCAL } from "../../constants";
+import { getCookie } from "../../cookie";
+
 const Profile = (props) => {
   const [username, setUsername] = useState("김성애");
   const [id, setId] = useState("seongaekim513");
@@ -29,6 +32,7 @@ const Profile = (props) => {
   const [confirmPassword, setConfirmPassword] = useState(false);
   const [gender, setGender] = useState(false);
   const [intro, setIntro] = useState("안녕하세요. 김사장입니다.");
+  const [birth, setBirth] = useState(new Date());
   const [phoneNumber, setphoneNumber] = useState({
     first: "010",
     second: "3941",
@@ -103,6 +107,24 @@ const Profile = (props) => {
   const [isFile, setIsFile] = useState(false);
   const fileInput = useRef(null);
 
+  //서버에서 받아오는 데이터
+  const [user, setUser] = useState({
+    name: "",
+    username: "",
+    nickname: "",
+    password: "",
+    telephone: "",
+    gender: null,
+    introduce: "",
+    plan: "",
+    hobby: "",
+    schoolList: [],
+    careerList: [],
+    consultMajor1: "",
+    consultMajor2: "",
+    consultMajor3: "",
+    tagList: [],
+  });
   const onChangeImg = (e) => {
     if (e.target.files[0]) setImage(e.target.files[0]);
     else return;
@@ -141,6 +163,34 @@ const Profile = (props) => {
   useEffect(() => {
     fileUploadId.current = careerFile.length;
   }, [careerFile]);
+
+  useEffect(() => {
+    console.log(getCookie("jwtToken"));
+    axios
+      .get(`${SV_LOCAL}/user/mentor/profile`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+      })
+      .then((res) => {
+        window.alert("success");
+        const data = res.data;
+        console.log(data);
+        setUser({
+          ...data,
+          birth: `${data.birth.slice(0, 4)}-${data.birth.slice(
+            4,
+            6
+          )}-${data.birth.slice(6, 8)}`,
+        });
+      })
+      .then(() => console.log(user))
+      .catch((err) => {
+        console.log(err);
+        window.alert("error");
+      });
+  }, []);
 
   const onDeleteFile = (id) => {
     setCareerFile(careerFile.filter((a) => a.id !== id));
@@ -253,9 +303,11 @@ const Profile = (props) => {
             </div>
             <Input
               size="large"
-              value={intro}
+              value={user.introduce}
               placeholder="소개글을 작성하세요."
-              onChange={(e) => setIntro(e.target.value)}
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, introduce: e.target.value }))
+              }
               disabled={view}
             />
           </Wrapper>
@@ -267,9 +319,11 @@ const Profile = (props) => {
             <InputForm>
               <Input
                 size="large"
-                value={careerPlan}
+                value={user.plan}
                 placeholder="당신의 커리어 목표는 무엇인가요."
-                onChange={(e) => setCareerPlan(e.target.value)}
+                onChange={(e) =>
+                  setUser((prev) => ({ ...prev, plan: e.target.value }))
+                }
                 disabled={view}
               />
             </InputForm>
@@ -282,9 +336,11 @@ const Profile = (props) => {
             <InputForm>
               <Input
                 size="large"
-                value={hobby}
+                value={user.hobby}
                 placeholder="취미를 작성해 주세요."
-                onChange={(e) => setHobby(e.target.value)}
+                onChange={(e) =>
+                  setUser((prev) => ({ ...prev, hobby: e.target.value }))
+                }
                 disabled={view}
               />
             </InputForm>
@@ -298,9 +354,11 @@ const Profile = (props) => {
             </div>
             <InputForm>
               <Input
-                value={username}
+                value={user.name}
                 placeholder="이름을 입력하세요."
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) =>
+                  setUser((prev) => ({ ...prev, name: e.target.value }))
+                }
                 disabled={view}
               />
             </InputForm>
@@ -313,8 +371,10 @@ const Profile = (props) => {
             <InputForm>
               <Input
                 placeholder="아이디를 입력하세요."
-                onChange={(e) => setId(e.target.value)}
-                value={id}
+                value={user.username}
+                onChange={(e) =>
+                  setUser((prev) => ({ ...prev, username: e.target.value }))
+                }
                 disabled={view}
               />
               {!view && <Button>중복확인</Button>}
@@ -327,9 +387,11 @@ const Profile = (props) => {
             </div>
             <InputForm>
               <Input
-                value={nickname}
+                value={user.nickname}
                 placeholder="닉네임을 입력하세요."
-                onChange={(e) => setNickname(e.target.value)}
+                onChange={(e) =>
+                  setUser((prev) => ({ ...prev, nickname: e.target.value }))
+                }
                 disabled={view}
               />
               {!view && <Button>중복확인</Button>}
@@ -343,9 +405,11 @@ const Profile = (props) => {
             <InputForm>
               <Input
                 type="password"
-                value={password}
+                value={user.password}
                 placeholder="비밀번호를 입력하세요."
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) =>
+                  setUser((prev) => ({ ...prev, password: e.target.value }))
+                }
                 disabled={view}
               />
             </InputForm>
@@ -362,7 +426,7 @@ const Profile = (props) => {
                   value={password}
                   placeholder="비밀번호를 다시 입력하세요."
                   onChange={(e) => {
-                    password === e.target.value
+                    user.password === e.target.value
                       ? setConfirmPassword(true)
                       : setConfirmPassword(false);
                   }}
@@ -373,6 +437,22 @@ const Profile = (props) => {
           <Wrapper>
             <div className={styles.Subtitle}>
               <MenuLine size="small" />
+              <span>생년월일</span>
+            </div>
+            <InputForm>
+              <Input
+                type="date"
+                value={user.birth}
+                onChange={(e) =>
+                  setUser((prev) => ({ ...prev, birth: e.target.value }))
+                }
+                disabled={view}
+              />
+            </InputForm>
+          </Wrapper>
+          <Wrapper>
+            <div className={styles.Subtitle}>
+              <MenuLine size="small" />
               <span>전화번호</span>
             </div>
             <InputForm>
@@ -380,7 +460,7 @@ const Profile = (props) => {
                 size="small"
                 value={phoneNumber.first}
                 onChange={(e) =>
-                  setphoneNumber({ ...phoneNumber, first: e.target.value })
+                  setUser((prev) => ({ ...prev, username: e.target.value }))
                 }
                 disabled={view}
               />
@@ -426,9 +506,11 @@ const Profile = (props) => {
                   type="radio"
                   name="gender"
                   value="남자"
-                  onChange={(e) => setGender(true)}
+                  onChange={() =>
+                    setUser((prev) => ({ ...prev, gender: true }))
+                  }
                   className={styles.Radio}
-                  checked={gender}
+                  checked={user.gender}
                   disabled={view}
                 />
                 <div style={{ color: view ? "gray" : "", fontSize: "1.3rem" }}>
@@ -444,9 +526,11 @@ const Profile = (props) => {
                   name="gender"
                   value="여자"
                   placeholder="닉네임을 입력하세요."
-                  onChange={(e) => setGender(false)}
+                  onChange={() =>
+                    setUser((prev) => ({ ...prev, gender: false }))
+                  }
                   className={styles.Radio}
-                  checked={!gender}
+                  checked={!user.gender}
                   disabled={view}
                 />
                 <div style={{ color: view ? "gray" : "", fontSize: "1.3rem" }}>
