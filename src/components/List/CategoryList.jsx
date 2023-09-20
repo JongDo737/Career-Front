@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -10,6 +10,8 @@ import {
   faStar as faStarFill,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import CategoryPost from "../../pages/Community/CategoryPost";
 
 const CategoryList = () => {
   const categories = [
@@ -62,36 +64,55 @@ const CategoryList = () => {
       message: "1,546",
     },
   ];
+
+  const [selectCategory, setSelectCategory] = useState("");
+  useEffect(() => {
+    setSelectCategory("");
+  }, []);
+
   return (
     <>
-      {categories.map((item, idx) => (
-        <Category key={idx}>
-          <header>
-            <div className="title">
-              <span className="name">{item.title}</span>
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                style={{ fontSize: "1.4rem" }}
-              />
-            </div>
-          </header>
-          <main>
-            <div className="info">{item.info}</div>
-            <div className="content">{`> ${item.content}`}</div>
-          </main>
-          <footer>
-            <FontAwesomeIcon icon={faStar} className="icon" />
-            <span>{item.like}</span>
-            <FontAwesomeIcon icon={faMessage} className="icon" />
-            <span>{item.message}</span>
-          </footer>
-        </Category>
-      ))}
+      {selectCategory === "" ? (
+        categories.map((item, idx) => (
+          <Category key={idx}>
+            <Link
+              to={`/community/category/${idx}`}
+              className="category-header"
+              onClick={() => setSelectCategory(idx)}
+            >
+              {/* <header className="category-header" > */}
+              <div className="title">
+                <span className="name">{item.title}</span>
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  style={{ fontSize: "1.4rem" }}
+                />
+              </div>
+              {/* </header> */}
+            </Link>
+            <main>
+              <div className="info">{item.info}</div>
+              <div className="content">{`> ${item.content}`}</div>
+            </main>
+            <footer>
+              <FontAwesomeIcon icon={faStar} className="icon" />
+              <span>{item.like}</span>
+              <FontAwesomeIcon icon={faMessage} className="icon" />
+              <span>{item.message}</span>
+            </footer>
+          </Category>
+        ))
+      ) : (
+        <CategoryPost
+          category={selectCategory}
+          title={categories[selectCategory].title}
+        />
+      )}
     </>
   );
 };
 
-export default CategoryList;
+export default React.memo(CategoryList);
 
 const Category = styled.div`
   display: flex;
@@ -99,7 +120,8 @@ const Category = styled.div`
   border: 1.5px solid #b3b3b3;
   border-radius: 5px;
   height: 17rem;
-  header {
+  cursor: default;
+  .category-header {
     width: 85%;
     height: 30%;
     border-bottom: 1px solid #b3b3b3;
@@ -108,6 +130,9 @@ const Category = styled.div`
     gap: 3rem;
     box-sizing: border-box;
     margin: 0 auto;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
     .title {
       display: flex;
       align-items: center;
@@ -151,6 +176,7 @@ const Category = styled.div`
     .icon {
       font-size: 1.4rem;
       color: black;
+      cursor: pointer;
     }
     span {
       font-size: 1rem;

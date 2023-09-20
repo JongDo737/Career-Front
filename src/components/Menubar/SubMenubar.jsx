@@ -1,22 +1,26 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-const SubMenubar = ({ subMenuList, setSubMenu }) => {
+const SubMenubar = ({ subMenuList, setSubMenu, subMenuLinkList }) => {
   const [select, setSelect] = useState(subMenuList[0]);
 
   return (
     <SubMenu>
       {subMenuList.map((item, idx) => {
         return (
-          <SubMenuItem
-            className={item === select ? "select" : ""}
+          <Link
+            className={
+              item === select ? "select submenu__item" : "submenu__item"
+            }
             onClick={() => {
               setSelect(item);
               setSubMenu(item);
             }}
+            to={subMenuLinkList[idx]}
             key={idx}
           >
             {item}
-          </SubMenuItem>
+          </Link>
         );
       })}
     </SubMenu>
@@ -35,6 +39,18 @@ const SubMenu = styled.div`
     color: #3b71b9;
     font-weight: 700;
     border-bottom: 3px solid #3b71b9;
+  }
+  .submenu__item {
+    height: 100%;
+    font-size: 1.3rem;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #23354d;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
   }
 `;
 

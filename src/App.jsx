@@ -13,8 +13,10 @@ import ProfileMentor from "./pages/Mentor/Profile";
 import ConsultMentor from "./pages/Mentor/Consult";
 import HomeMentee from "./pages/Mentee/Home";
 import MenteeMentor from "./pages/Mentee/Mentor";
-import Community from "./pages/Mentor/Community";
+import Community from "./pages/Community/Community";
 import CommunityWrite from "./components/CommunityWrite";
+import CategoryPost from "./pages/Community/CategoryPost";
+import CategoryList from "./components/List/CategoryList";
 function App() {
   return (
     <>
@@ -28,6 +30,7 @@ function App() {
           <Route path="/mentor/consult" element={<ConsultMentor />} />
           <Route path="/community" element={<Community />} />
           <Route path="/community/write" element={<CommunityWrite />} />
+          <Route path="/community/category" element={<CategoryList />} />
           <Route path="/loginStudent" element={<LoginStudent />} />
           <Route path="/signMentee" element={<SignupMentee />} />
           <Route path="/home" element={<SignupMentee />} />

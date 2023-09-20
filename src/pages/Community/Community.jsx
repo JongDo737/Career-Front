@@ -10,9 +10,11 @@ import {
 import PostList from "../../components/List/PostList";
 import CategoryList from "../../components/List/CategoryList";
 import CommunityWrite from "../../components/CommunityWrite";
+import { Route, Routes } from "react-router-dom";
 
 const Community = () => {
   const subMenuList = ["전체보기", "카테고리", "활동 내역"];
+  const subMenuLinkList = ["/community", "/community/category", "/community"];
   const [subMenu, setSubMenu] = useState(subMenuList[0]);
   const [isWrite, setIsWrite] = useState(false);
   const ScrollUp = () => {
@@ -24,8 +26,12 @@ const Community = () => {
   }, [subMenu]);
   return (
     <>
-      <SubMenubar subMenuList={subMenuList} setSubMenu={setSubMenu} />
-      <Form>
+      <SubMenubar
+        subMenuList={subMenuList}
+        setSubMenu={setSubMenu}
+        subMenuLinkList={subMenuLinkList}
+      />
+      {/* <Form>
         {subMenu === subMenuList[0] ? (
           !isWrite ? (
             <>
@@ -89,7 +95,10 @@ const Community = () => {
         ) : (
           ""
         )}
-      </Form>
+      </Form> */}
+      <Routes>
+        <Route exact path={"/category"} element={<CategoryList />} />
+      </Routes>
     </>
   );
 };
