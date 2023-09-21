@@ -14,9 +14,9 @@ import ConsultMentor from "./pages/Mentor/Consult";
 import HomeMentee from "./pages/Mentee/Home";
 import MenteeMentor from "./pages/Mentee/Mentor";
 import Community from "./pages/Community/Community";
-import CommunityWrite from "./components/CommunityWrite";
-import CategoryPost from "./pages/Community/CategoryPost";
-import CategoryList from "./components/List/CategoryList";
+import CommunityWrite from "./pages/Community/CommunityWrite";
+import Category from "./pages/Community/Category";
+
 function App() {
   return (
     <>
@@ -28,9 +28,10 @@ function App() {
           <Route path="/mentor/setting" element={<Setting />} />
           <Route path="/mentor/profile" element={<ProfileMentor />} />
           <Route path="/mentor/consult" element={<ConsultMentor />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/community/write" element={<CommunityWrite />} />
-          <Route path="/community/category" element={<CategoryList />} />
+          <Route path="/community" element={<Community />}>
+            <Route path="/community/category" element={<Category />} />
+            <Route path="/community/write" element={<CommunityWrite />} />
+          </Route>
           <Route path="/loginStudent" element={<LoginStudent />} />
           <Route path="/signMentee" element={<SignupMentee />} />
           <Route path="/home" element={<SignupMentee />} />

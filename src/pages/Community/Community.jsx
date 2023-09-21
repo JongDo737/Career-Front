@@ -9,8 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import PostList from "../../components/List/PostList";
 import CategoryList from "../../components/List/CategoryList";
-import CommunityWrite from "../../components/CommunityWrite";
-import { Route, Routes } from "react-router-dom";
+import CommunityWrite from "./CommunityWrite";
+import { Outlet } from "react-router-dom";
 
 const Community = () => {
   const subMenuList = ["전체보기", "카테고리", "활동 내역"];
@@ -22,7 +22,7 @@ const Community = () => {
     window.scrollTo(0, 0);
   };
   useEffect(() => {
-    setIsWrite(false);
+    // setIsWrite(false);
   }, [subMenu]);
   return (
     <>
@@ -31,74 +31,34 @@ const Community = () => {
         setSubMenu={setSubMenu}
         subMenuLinkList={subMenuLinkList}
       />
-      {/* <Form>
-        {subMenu === subMenuList[0] ? (
-          !isWrite ? (
-            <>
-              <Section>
-                <Search>
-                  <span>키워드 검색</span>
-                  <input type="text" className="search" />
-                  <FontAwesomeIcon
-                    icon={faMagnifyingGlass}
-                    className="glass-icon"
-                  />
-                </Search>
-                <Wrapper>
-                  <PostList />
-                </Wrapper>
-                <UtilBox>
-                  <div
-                    className="util-item write"
-                    onClick={() => setIsWrite(true)}
-                  >
-                    <FontAwesomeIcon icon={faPencil} />
-                    <span>글쓰기</span>
-                  </div>
-                  <div className="util-item up" onClick={ScrollUp}>
-                    <FontAwesomeIcon icon={faChevronUp} />
-                    <span>위로</span>
-                  </div>
-                </UtilBox>
-              </Section>
-            </>
-          ) : (
-            <CommunityWrite setIsWrite={setIsWrite} />
-          )
-        ) : (
-          ""
-        )}
-        {subMenu === subMenuList[1] ? (
-          <>
-            <Section>
-              <div className="header">
-                <span>게시글 카테고리</span>
+      <Outlet />
+      {subMenu === subMenuList[0] && (
+        <Form>
+          <Section>
+            <Search>
+              <span>키워드 검색</span>
+              <input type="text" className="search" />
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                className="glass-icon"
+              />
+            </Search>
+            <Wrapper>
+              <PostList />
+            </Wrapper>
+            <UtilBox>
+              <div className="util-item write" onClick={() => setIsWrite(true)}>
+                <FontAwesomeIcon icon={faPencil} />
+                <span>글쓰기</span>
               </div>
-              <CategoryLayout>
-                <CategoryList />
-              </CategoryLayout>
-              <UtilBox>
-                <div
-                  className="util-item write"
-                  onClick={() => setIsWrite(true)}
-                >
-                  <FontAwesomeIcon icon={faPencil} />
-                  <span>글쓰기</span>
-                </div>
-                <div className="util-item up" onClick={ScrollUp}>
-                  <FontAwesomeIcon icon={faChevronUp} />
-                  <span>위로</span>
-                </div>
-              </UtilBox>
-            </Section>
-          </>
-        ) : (
-          ""
-        )}
-      </Form> */}
-      <Routes>
-        <Route exact path={"/category"} element={<CategoryList />} />
-      </Routes>
+              <div className="util-item up" onClick={ScrollUp}>
+                <FontAwesomeIcon icon={faChevronUp} />
+                <span>위로</span>
+              </div>
+            </UtilBox>
+          </Section>
+        </Form>
+      )}
     </>
   );
 };
