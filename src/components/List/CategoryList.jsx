@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import CategoryPost from "../../pages/Community/CategoryPost";
 
 const CategoryList = () => {
-  const categories = [
+  const [categories, setCategories] = useState([
     {
       title: "진로고민",
       info: "진로 관련된 상담이 필요한 게시글입니다.",
@@ -22,6 +22,7 @@ const CategoryList = () => {
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
       like: "3,041",
       message: "1,546",
+      interest: false,
     },
     {
       title: "공부고민",
@@ -30,6 +31,7 @@ const CategoryList = () => {
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
       like: "3,041",
       message: "1,546",
+      interest: true,
     },
     {
       title: "일상고민",
@@ -38,6 +40,7 @@ const CategoryList = () => {
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
       like: "3,041",
       message: "1,546",
+      interest: true,
     },
     {
       title: "입시상담",
@@ -46,6 +49,7 @@ const CategoryList = () => {
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
       like: "3,041",
       message: "1,546",
+      interest: false,
     },
     {
       title: "진로고민",
@@ -54,6 +58,7 @@ const CategoryList = () => {
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
       like: "3,041",
       message: "1,546",
+      interest: false,
     },
     {
       title: "진로고민",
@@ -62,8 +67,9 @@ const CategoryList = () => {
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
       like: "3,041",
       message: "1,546",
+      interest: true,
     },
-  ];
+  ]);
 
   const [selectCategory, setSelectCategory] = useState("");
   useEffect(() => {
@@ -76,7 +82,7 @@ const CategoryList = () => {
         categories.map((item, idx) => (
           <Category key={idx}>
             <Link
-              to={`/community/category/${idx}`}
+              to={`/community/category/${item.title}`}
               className="category-header"
               onClick={() => setSelectCategory(idx)}
             >
@@ -95,7 +101,29 @@ const CategoryList = () => {
               <div className="content">{`> ${item.content}`}</div>
             </main>
             <footer>
-              <FontAwesomeIcon icon={faStar} className="icon" />
+              {item.interest ? (
+                <FontAwesomeIcon
+                  icon={faStarFill}
+                  className="icon"
+                  onClick={() =>
+                    setCategories((prev) => [
+                      ...prev,
+                      (prev[idx] = { ...item, interest: !item.interest }),
+                    ])
+                  }
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faStar}
+                  className="icon"
+                  onClick={() =>
+                    setCategories((prev) => [
+                      ...prev,
+                      (prev[idx] = { ...item, interest: !item.interest }),
+                    ])
+                  }
+                />
+              )}
               <span>{item.like}</span>
               <FontAwesomeIcon icon={faMessage} className="icon" />
               <span>{item.message}</span>
@@ -117,8 +145,9 @@ export default React.memo(CategoryList);
 const Category = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1.5px solid #b3b3b3;
+  border: 2px solid #516684;
   border-radius: 5px;
+  box-shadow: 0.1rem 0.1rem 5px 1px rgba(0, 0, 0, 0.2);
   height: 17rem;
   cursor: default;
   .category-header {
