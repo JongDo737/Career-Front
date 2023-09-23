@@ -179,7 +179,7 @@ const Form = styled.div`
 
 const FormLeft = styled.div`
   min-width: 20rem;
-  height: 80vh;
+  height: 73vh;
   min-height: 50rem;
   display: flex;
   flex-direction: column;
@@ -190,6 +190,7 @@ const FormLeft = styled.div`
 const FormRight = styled.div`
   min-width: 50rem;
   max-width: 70rem;
+  min-height: 73vh;
   height: 100%;
   display: flex;
   flex-direction: column;

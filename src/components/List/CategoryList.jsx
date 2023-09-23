@@ -20,7 +20,7 @@ const CategoryList = () => {
       info: "진로 관련된 상담이 필요한 게시글입니다.",
       content:
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-      like: "3,041",
+      likeCount: "3,041",
       message: "1,546",
       interest: false,
     },
@@ -29,7 +29,7 @@ const CategoryList = () => {
       info: "공부 관련된 상담이 필요한 게시글입니다.",
       content:
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-      like: "3,041",
+      likeCount: "3,041",
       message: "1,546",
       interest: true,
     },
@@ -38,7 +38,7 @@ const CategoryList = () => {
       info: "일상 관련된 상담이 필요한 게시글입니다.",
       content:
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-      like: "3,041",
+      likeCount: "3,041",
       message: "1,546",
       interest: true,
     },
@@ -47,7 +47,7 @@ const CategoryList = () => {
       info: "입시 관련된 상담이 필요한 게시글입니다.",
       content:
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-      like: "3,041",
+      likeCount: "3,041",
       message: "1,546",
       interest: false,
     },
@@ -56,7 +56,7 @@ const CategoryList = () => {
       info: "진로 관련된 상담이 필요한 게시글입니다.",
       content:
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-      like: "3,041",
+      likeCount: "3,041",
       message: "1,546",
       interest: false,
     },
@@ -65,7 +65,7 @@ const CategoryList = () => {
       info: "진로 관련된 상담이 필요한 게시글입니다.",
       content:
         "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-      like: "3,041",
+      likeCount: "3,041",
       message: "1,546",
       interest: true,
     },
@@ -124,7 +124,7 @@ const CategoryList = () => {
                   }
                 />
               )}
-              <span>{item.like}</span>
+              <span>{item.likeCount}</span>
               <FontAwesomeIcon icon={faMessage} className="icon" />
               <span>{item.message}</span>
             </footer>

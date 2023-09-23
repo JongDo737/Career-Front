@@ -192,7 +192,6 @@ const Consult = () => {
 export default Consult;
 
 const Form = styled.div`
-  height: 80vh;
   display: flex;
   margin: 60px 0;
   justify-content: center;
@@ -205,12 +204,13 @@ const FormLeft = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 5rem;
-  height: 100%;
+  height: 73vh;
 `;
 
 const FormRight = styled.div`
   min-width: 50rem;
   max-width: 90rem;
+  min-height: 73vh;
   height: 100%;
   display: flex;
   flex-direction: column;

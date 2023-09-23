@@ -14,7 +14,11 @@ import { Outlet } from "react-router-dom";
 
 const Community = () => {
   const subMenuList = ["전체보기", "카테고리", "활동 내역"];
-  const subMenuLinkList = ["/community", "/community/category", "/community"];
+  const subMenuLinkList = [
+    "/community",
+    "/community/category",
+    "/community/activity",
+  ];
   const [subMenu, setSubMenu] = useState(subMenuList[0]);
   const [isWrite, setIsWrite] = useState(false);
   const ScrollUp = () => {
@@ -33,7 +37,7 @@ const Community = () => {
       category: "성적고민",
       content:
         "수능 최저2 합4를 맞춰야 합니다. 영어랑 생윤을 준비중인데 하나 더 공부를 하려구요. 단기간 공부하기에 어떤 게 좋을까요?",
-      like: 10,
+      likeCount: 10,
       message: 4,
       img: "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
     },
@@ -44,7 +48,7 @@ const Community = () => {
       category: "진로고민",
       content:
         "희망하는 과가 부모님 생각과 달라서 트러블이 생기는데 어떻게 하면 좋을까요. 부모님을 설득해야 하는데 설득할 자신이 없어요. 제가 좋아하는 과를 가는 게 맞을까요? 아니면 부모님 말씀처럼 유망한 과를 가는 게 맞을까요? 도와주세요 ㅠㅠㅠㅠ",
-      like: 25,
+      likeCount: 25,
       message: 11,
       img: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
     },
@@ -55,7 +59,7 @@ const Community = () => {
       category: "진로고민",
       content:
         "희망하는 과가 부모님 생각과 달라서 트러블이 생기는데 어떻게 하면 좋을까요. 부모님을 설득해야 하는데 설득할 자신이 없어요. 제가 좋아하는 과를 가는 게 맞을까요? 아니면 부모님 말씀처럼 유망한 과를 가는 게 맞을까요? 도와주세요 ㅠㅠㅠㅠ",
-      like: 4,
+      likeCount: 4,
       message: 13,
       img: "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
     },
@@ -66,7 +70,7 @@ const Community = () => {
       category: "공부고민",
       content:
         "수능 최저2 합4를 맞춰야 합니다. 영어랑 생윤을 준비중인데 하나 더 공부를 하려구요. 단기간 공부하기에 어떤 게 좋을까요?",
-      like: 21,
+      likeCount: 21,
       message: 7,
       img: "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
     },
@@ -77,7 +81,7 @@ const Community = () => {
       category: "진로고민",
       content:
         "희망하는 과가 부모님 생각과 달라서 트러블이 생기는데 어떻게 하면 좋을까요. 부모님을 설득해야 하는데 설득할 자신이 없어요. 제가 좋아하는 과를 가는 게 맞을까요? 아니면 부모님 말씀처럼 유망한 과를 가는 게 맞을까요? 도와주세요 ㅠㅠㅠㅠ",
-      like: 5,
+      likeCount: 5,
       message: 13,
       img: "",
     },
@@ -88,7 +92,7 @@ const Community = () => {
       category: "성적고민",
       content:
         "수능 최저2 합4를 맞춰야 합니다. 영어랑 생윤을 준비중인데 하나 더 공부를 하려구요. 단기간 공부하기에 어떤 게 좋을까요?",
-      like: 10,
+      likeCount: 10,
       message: 4,
       img: "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
     },
@@ -99,7 +103,7 @@ const Community = () => {
       category: "진로고민",
       content:
         "희망하는 과가 부모님 생각과 달라서 트러블이 생기는데 어떻게 하면 좋을까요. 부모님을 설득해야 하는데 설득할 자신이 없어요. 제가 좋아하는 과를 가는 게 맞을까요? 아니면 부모님 말씀처럼 유망한 과를 가는 게 맞을까요? 도와주세요 ㅠㅠㅠㅠ",
-      like: 25,
+      likeCount: 25,
       message: 11,
       img: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
     },
@@ -110,7 +114,7 @@ const Community = () => {
       category: "진로고민",
       content:
         "희망하는 과가 부모님 생각과 달라서 트러블이 생기는데 어떻게 하면 좋을까요. 부모님을 설득해야 하는데 설득할 자신이 없어요. 제가 좋아하는 과를 가는 게 맞을까요? 아니면 부모님 말씀처럼 유망한 과를 가는 게 맞을까요? 도와주세요 ㅠㅠㅠㅠ",
-      like: 4,
+      likeCount: 4,
       message: 13,
       img: "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
     },
@@ -121,7 +125,7 @@ const Community = () => {
       category: "진로고민",
       content:
         "수능 최저2 합4를 맞춰야 합니다. 영어랑 생윤을 준비중인데 하나 더 공부를 하려구요. 단기간 공부하기에 어떤 게 좋을까요?",
-      like: 21,
+      likeCount: 21,
       message: 7,
       img: "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
     },
@@ -132,7 +136,7 @@ const Community = () => {
       category: "진로고민",
       content:
         "희망하는 과가 부모님 생각과 달라서 트러블이 생기는데 어떻게 하면 좋을까요. 부모님을 설득해야 하는데 설득할 자신이 없어요. 제가 좋아하는 과를 가는 게 맞을까요? 아니면 부모님 말씀처럼 유망한 과를 가는 게 맞을까요? 도와주세요 ㅠㅠㅠㅠ",
-      like: 5,
+      likeCount: 5,
       message: 13,
       img: "",
     },
@@ -157,7 +161,7 @@ const Community = () => {
               />
             </Search>
             <Wrapper>
-              <PostList posts={posts} />
+              <PostList posts={posts} postStyle="category" />
             </Wrapper>
             <UtilBox>
               <div className="util-item write" onClick={() => setIsWrite(true)}>
@@ -227,7 +231,7 @@ const Wrapper = styled.div`
   width: 50rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
 `;
 
 const UtilBox = styled.div`

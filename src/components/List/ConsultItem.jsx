@@ -16,8 +16,8 @@ const ConsultItem = ({ color, item, index }) => {
           {item.startTime.getMinutes()} ~ {item.endTime.getFullYear()}.
           {item.endTime.getMonth()}. {item.endTime.getDate()}
           {item.endTime.getHours()}:{item.endTime.getMinutes()} 예정 */}
-          {item.startTime.replace("T", " ")} ~ {item.endTime.replace("T", " ")}{" "}
-          예정
+          {/* {item.startTime.replace("T", " ")} ~ {item.endTime.replace("T", " ")}{" "}
+          예정 */}
         </div>
         <div className="major">
           <div>상담할 전공 : </div>
@@ -25,7 +25,7 @@ const ConsultItem = ({ color, item, index }) => {
         </div>
         <div className="request">
           <div>요청 사항 :</div>
-          <div>{item.studentRequest.flow || "질문이 없습니다"}</div>
+          {/* <div>{item.studentRequest.flow || "질문이 없습니다"}</div> */}
         </div>
       </div>
       <div className="footer">

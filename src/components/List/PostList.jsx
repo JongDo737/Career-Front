@@ -1,9 +1,43 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart,
+  faMessage,
+  faTrashCan,
+} from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart as faHeartFull,
+  faPencil,
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, postStyle }) => {
+  const postStyleRendering = (item) => {
+    switch (postStyle) {
+      case "category":
+        return <div className="category">{item.category}</div>;
+      case "edit": // onClick 시 item 과 연관지어서 함수 실행 추가하기
+        return (
+          <div className="icon-wrapper">
+            <FontAwesomeIcon icon={faPencil} className="icon fa-white" />
+          </div>
+        );
+      case "delete": // onClick 시 item 과 연관지어서 함수 실행 추가하기
+        return (
+          <div className="icon-wrapper">
+            {/* <img src="/svg/delete.svg" alt="edit-btn" className="icon" /> */}
+            <FontAwesomeIcon icon={faTrashCan} className="icon fa-white" />
+          </div>
+        );
+      case "editDelete": // onClick 시 item 과 연관지어서 함수 실행 추가하기
+        return (
+          <div className="icon-wrapper">
+            <FontAwesomeIcon icon={faPencil} className="icon fa-white" />
+            <FontAwesomeIcon icon={faTrashCan} className="icon fa-white" />
+          </div>
+        );
+    }
+  };
   return (
     <>
       {posts.map((item, idx) => (
@@ -18,14 +52,19 @@ const PostList = ({ posts }) => {
                 <span className="date">작성일 {item.date}</span>
               </div>
             </div>
-            <div className="header-right">
-              <div className="category">{item.category}</div>
-            </div>
+            <div className="header-right">{postStyleRendering(item)}</div>
           </header>
-          <main>{item.content}</main>
+          <main>
+            <div className="main-title">{item.title}</div>
+            <div className="main-content">{item.content}</div>
+          </main>
           <footer>
-            <FontAwesomeIcon icon={faHeart} className="icon" />
-            <span>{item.like}</span>
+            {item.like ? (
+              <FontAwesomeIcon icon={faHeartFull} className="icon heart-full" />
+            ) : (
+              <FontAwesomeIcon icon={faHeart} className="icon" />
+            )}
+            <span>{item.likeCount}</span>
             <FontAwesomeIcon icon={faMessage} className="icon" />
             <span>{item.message}</span>
           </footer>
@@ -43,6 +82,7 @@ const Post = styled.div`
   border: 1.5px solid #b3b3b3;
   border-radius: 5px;
   height: 17rem;
+  cursor: pointer;
   header {
     /* background-color: #eeeeee; */
     background-color: #2f5383;
@@ -89,6 +129,10 @@ const Post = styled.div`
       font-weight: 600;
       color: #fee501;
     }
+    .icon-wrapper {
+      display: flex;
+      gap: 1rem;
+    }
   }
   main {
     padding: 2rem 3rem;
@@ -97,6 +141,10 @@ const Post = styled.div`
     box-sizing: border-box;
     font-size: 1rem;
     line-height: 1.5rem;
+    .main-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
   }
   footer {
     display: flex;
@@ -108,10 +156,15 @@ const Post = styled.div`
     gap: 0.5rem;
     .icon {
       font-size: 1.4rem;
+      cursor: pointer;
     }
     span {
       font-size: 1rem;
       margin-right: 1rem;
     }
+  }
+  .fa-white {
+    font-size: 1.4rem;
+    color: white;
   }
 `;
