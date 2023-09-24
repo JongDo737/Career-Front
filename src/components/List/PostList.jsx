@@ -10,6 +10,7 @@ import {
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const PostList = ({ posts, postStyle }) => {
   const postStyleRendering = (item) => {
@@ -41,7 +42,7 @@ const PostList = ({ posts, postStyle }) => {
   return (
     <>
       {posts.map((item, idx) => (
-        <Post key={idx} img={item.img}>
+        <Post key={idx} img={item.img} to={`/community/post/${idx}`}>
           <header>
             <div className="header-left">
               <div className="img-container"></div>
@@ -76,13 +77,13 @@ const PostList = ({ posts, postStyle }) => {
 
 export default PostList;
 
-const Post = styled.div`
+const Post = styled(Link)`
   display: flex;
   flex-direction: column;
   border: 1.5px solid #b3b3b3;
   border-radius: 5px;
   height: 17rem;
-  cursor: pointer;
+  text-decoration: none;
   header {
     /* background-color: #eeeeee; */
     background-color: #2f5383;
@@ -141,6 +142,7 @@ const Post = styled.div`
     box-sizing: border-box;
     font-size: 1rem;
     line-height: 1.5rem;
+    color: black;
     .main-title {
       font-size: 1.1rem;
       font-weight: 700;

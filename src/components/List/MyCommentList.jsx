@@ -4,7 +4,7 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import styled from "styled-components";
 
-const CommentList = ({ comments }) => {
+const MyCommentList = ({ comments }) => {
   return (
     <>
       {comments.map((item, idx) => (
@@ -34,7 +34,7 @@ const CommentList = ({ comments }) => {
   );
 };
 
-export default CommentList;
+export default MyCommentList;
 
 const Comment = styled.div`
   border: 1px solid black;

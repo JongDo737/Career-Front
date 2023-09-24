@@ -18,7 +18,7 @@ import CommunityWrite from "./pages/Community/CommunityWrite";
 import Category from "./pages/Community/Category";
 import CategoryPost from "./pages/Community/CategoryPost";
 import MyActivity from "./pages/Community/MyActivity";
-import PostDetail from "./components/List/PostDetail";
+import PostDetail from "./pages/Community/PostDetail";
 
 function App() {
   return (
@@ -37,9 +37,10 @@ function App() {
               exact
               path="/community/category/:id"
               element={<CategoryPost />}
-            ></Route>
+            />
             <Route exact path="/community/write" element={<CommunityWrite />} />
             <Route exact path="/community/activity" element={<MyActivity />} />
+            <Route exact path="/community/post/:id" element={<PostDetail />} />
           </Route>
           <Route path="/loginStudent" element={<LoginStudent />} />
           <Route path="/signMentee" element={<SignupMentee />} />

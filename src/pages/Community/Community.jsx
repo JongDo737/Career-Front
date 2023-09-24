@@ -10,7 +10,7 @@ import {
 import PostList from "../../components/List/PostList";
 import CategoryList from "../../components/List/CategoryList";
 import CommunityWrite from "./CommunityWrite";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const Community = () => {
   const subMenuList = ["전체보기", "카테고리", "활동 내역"];
@@ -164,10 +164,14 @@ const Community = () => {
               <PostList posts={posts} postStyle="category" />
             </Wrapper>
             <UtilBox>
-              <div className="util-item write" onClick={() => setIsWrite(true)}>
+              <Link
+                className="util-item write"
+                // onClick={() => setIsWrite(true)}
+                to={"/community/write"}
+              >
                 <FontAwesomeIcon icon={faPencil} />
                 <span>글쓰기</span>
-              </div>
+              </Link>
               <div className="util-item up" onClick={ScrollUp}>
                 <FontAwesomeIcon icon={faChevronUp} />
                 <span>위로</span>

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-function HorizontalLine({ size, color }) {
-  return <StyledHorizontal className={size} color={color} />;
+function HorizontalLine({ size, color, height }) {
+  return <StyledHorizontal className={size} color={color} height={height} />;
 }
 
 HorizontalLine.defaultProps = {
@@ -13,7 +13,8 @@ export default HorizontalLine;
 
 const StyledHorizontal = styled.div`
   /* margin: 0 40px; */
+  width: 100%;
   border: none;
   background-color: ${(props) => props.color || "#f4f4f4"};
-  height: 3px;
+  height: ${(props) => props.height || "3px"};
 `;

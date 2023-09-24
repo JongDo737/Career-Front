@@ -12,7 +12,7 @@ import HorizontalLine from "../../components/Line/HorizontalLine";
 import EventList from "../../components/List/EventList";
 import MentorList from "../../components/List/MentorList";
 import PostList from "../../components/List/PostList";
-import CommentList from "../../components/List/CommentList";
+import MyCommentList from "../../components/List/MyCommentList";
 
 const MyActivity = () => {
   const [selectMenu, setSelectMenu] = useState(0);
@@ -267,7 +267,7 @@ const MyActivity = () => {
       return (
         <PostWrapper>
           <div className="selected-menu-header">내가 남긴 댓글</div>
-          <CommentList comments={comments} />
+          <MyCommentList comments={comments} />
         </PostWrapper>
       );
     }
