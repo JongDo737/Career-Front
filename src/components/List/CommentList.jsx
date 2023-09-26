@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -93,6 +93,21 @@ const CommentItem = () => {
   const [commentInput, setCommentInput] = useState("");
   const [replyInput, setreplyInput] = useState("");
 
+  const replyInputRef = useRef(null);
+  const replyIRef = useRef(null);
+  const scrollToReplyInput = () => {
+    if (replyIRef.current) {
+      replyIRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log("here");
+    if (isAddReply && replyInputRef.current) replyInputRef.current.focus();
+  }, [isAddReply]);
   return (
     <>
       {comments.map((comment, commentIdx) => (
@@ -130,6 +145,7 @@ const CommentItem = () => {
                     setReplyTarget(comment.name);
                     setTargetIsComment(true);
                     setReplyTargetIdx(commentIdx);
+                    scrollToReplyInput();
                   }}
                 >
                   답글쓰기
@@ -137,54 +153,6 @@ const CommentItem = () => {
               </div>
             </footer>
           </Comment>
-          {isAddReply && targetIsComment && commentIdx === replyTargetIdx ? (
-            <ReplyInput>
-              <input
-                type="text"
-                placeholder={`@${replyTarget} 님께 답글쓰기`}
-                onChange={(e) => setreplyInput(e.target.value)}
-                value={replyInput}
-              />
-              <div className="reply-title">답글쓰기</div>
-              <div className="reply-option">
-                <div
-                  className="reply-cancel"
-                  onClick={() => setIsAddReply(false)}
-                >
-                  취소
-                </div>
-                <div
-                  className="reply-enter"
-                  onClick={() => {
-                    const updatedComments = [...comments];
-
-                    updatedComments[commentIdx].replyList.push({
-                      name: "새로운 아이",
-                      age: "한국대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
-                      date: `${new Date().getFullYear()}.${String(
-                        new Date().getMonth() + 1
-                      ).padStart(2, "0")}.${String(
-                        new Date().getDate()
-                      ).padStart(2, "0")}`, // 파싱 생각해보기
-                      content: replyInput,
-                      like: false,
-                      likeCount: 0,
-                      message: 0,
-                      img: "",
-                      target: comment.name,
-                    });
-                    setComments(updatedComments);
-                    setreplyInput("");
-                    setIsAddReply(false);
-                  }}
-                >
-                  등록
-                </div>
-              </div>
-            </ReplyInput>
-          ) : (
-            ""
-          )}
           {comment.replyList.map((item, idx) => (
             <>
               <Comment img={item.img} key={idx} style={{ width: "90%" }}>
@@ -201,9 +169,11 @@ const CommentItem = () => {
                 </header>
                 <main>
                   <div className="main-content">
-                    <span style={{ color: "#2F5383", fontWeight: "600" }}>
-                      @{item.target}
-                    </span>{" "}
+                    {item.target && (
+                      <span style={{ color: "#2F5383", fontWeight: "600" }}>
+                        @{item.target}
+                      </span>
+                    )}
                     {item.content}
                   </div>
                 </main>
@@ -218,25 +188,15 @@ const CommentItem = () => {
                       <FontAwesomeIcon icon={faHeart} className="icon" />
                     )}
                     <span>{item.likeCount}</span>
-                    <span
-                      style={{ cursor: "pointer" }}
-                      onClick={() => {
-                        setIsAddReply(true);
-                        setReplyTarget(item.name);
-                        setTargetIsComment(false);
-                        setReplyTargetIdx(idx);
-                      }}
-                    >
-                      답글쓰기
-                    </span>
                   </div>
                 </footer>
               </Comment>
-              {isAddReply && !targetIsComment && idx === replyTargetIdx ? (
-                <ReplyInput>
+
+              {/* {isAddReply && !targetIsComment && idx === replyTargetIdx ? (
+                <ReplyInput style={{ width: "90%" }}>
                   <input
                     type="text"
-                    placeholder={`@${replyTarget} 님께 답글쓰기`}
+                    placeholder={`답글쓰기`}
                     onChange={(e) => setreplyInput(e.target.value)}
                     value={replyInput}
                   />
@@ -266,7 +226,7 @@ const CommentItem = () => {
                           likeCount: 0,
                           message: 0,
                           img: "",
-                          target: item.name,
+                          target: "",
                         });
                         setComments(updatedComments);
                         setreplyInput("");
@@ -279,10 +239,57 @@ const CommentItem = () => {
                 </ReplyInput>
               ) : (
                 ""
-              )}
+              )} */}
             </>
           ))}
+          {isAddReply && commentIdx === replyTargetIdx ? (
+            <ReplyInput style={{ width: "90%" }} ref={replyIRef}>
+              <input
+                type="text"
+                placeholder={`${replyTarget}님 댓글에 답글쓰기`}
+                onChange={(e) => setreplyInput(e.target.value)}
+                value={replyInput}
+              />
+              <div className="reply-title">답글쓰기</div>
+              <div className="reply-option">
+                <div
+                  className="reply-cancel"
+                  onClick={() => setIsAddReply(false)}
+                >
+                  취소
+                </div>
+                <div
+                  className="reply-enter"
+                  onClick={() => {
+                    const updatedComments = [...comments];
 
+                    updatedComments[commentIdx].replyList.push({
+                      name: "새로운 아이",
+                      age: "한국대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
+                      date: `${new Date().getFullYear()}.${String(
+                        new Date().getMonth() + 1
+                      ).padStart(2, "0")}.${String(
+                        new Date().getDate()
+                      ).padStart(2, "0")}`, // 파싱 생각해보기
+                      content: replyInput,
+                      like: false,
+                      likeCount: 0,
+                      message: 0,
+                      img: "",
+                      target: "",
+                    });
+                    setComments(updatedComments);
+                    setreplyInput("");
+                    setIsAddReply(false);
+                  }}
+                >
+                  등록
+                </div>
+              </div>
+            </ReplyInput>
+          ) : (
+            ""
+          )}
           <HorizontalLine color="#929292" height="1px" />
         </>
       ))}
@@ -421,7 +428,7 @@ const Comment = styled.div`
 `;
 
 const ReplyInput = styled.div`
-  width: 90%;
+  width: 100%;
   /* border: 1px solid black; */
   font-size: 1.2rem;
   position: relative;

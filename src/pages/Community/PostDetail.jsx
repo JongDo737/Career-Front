@@ -13,7 +13,7 @@ import {
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
-import CommentItem from "../../components/List/CommentItem";
+import CommentList from "../../components/List/CommentList";
 
 const PostDetail = () => {
   const post = {
@@ -73,7 +73,7 @@ const PostDetail = () => {
         >
           댓글 (10)
         </div>
-        <CommentItem />
+        <CommentList />
       </CommentWrapper>
       <UtilBox>
         <Link className="util-item write" to={"/community/write"}>
