@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,19 +9,36 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import PostList from "../../components/List/PostList";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { SV_LOCAL } from "../../constants";
+import { getCookie } from "../../cookie";
+import { CommunityMenu, CommunityMenuLinkList } from "../../settings/config";
 
 const Community = () => {
-  const subMenuList = ["전체보기", "카테고리", "활동 내역"];
-  const subMenuLinkList = [
-    "/community",
-    "/community/category",
-    "/community/activity",
-  ];
+  const subMenuList = CommunityMenu;
+  const subMenuLinkList = CommunityMenuLinkList;
   const ScrollUp = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
   };
 
+  useEffect(() => {
+    axios
+      .get(`${SV_LOCAL}/community/article/all`, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+        params: {
+          page: 0,
+          size: 5,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
   const posts = [
     {
       name: "김성애",

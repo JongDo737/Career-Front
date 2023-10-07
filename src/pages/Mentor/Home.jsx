@@ -194,7 +194,8 @@ const Wrapper = styled.div`
 const Consult = styled.div`
   width: 100%;
   min-height: 20rem;
-  height: 26vh;
+  height: 200px;
+  max-height: 26vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

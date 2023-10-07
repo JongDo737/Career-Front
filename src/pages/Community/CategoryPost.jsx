@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PostList from "../../components/List/PostList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +8,9 @@ import {
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams } from "react-router-dom";
+import axios from "axios";
+import { getCookie } from "../../cookie";
+import { SV_LOCAL } from "../../constants";
 
 const CategoryPost = () => {
   const { id } = useParams();
@@ -15,6 +18,24 @@ const CategoryPost = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
   };
+  useEffect(() => {
+    axios
+      .get(`${SV_LOCAL}/community/article/all_category`, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+        params: {
+          categoryId: id,
+          page: 0,
+          size: 2,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.error(err));
+  }, [id]);
   const posts = [
     {
       name: "김성애",

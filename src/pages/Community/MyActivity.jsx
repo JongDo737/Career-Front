@@ -14,14 +14,11 @@ import MentorList from "../../components/List/MentorList";
 import PostList from "../../components/List/PostList";
 import MyCommentList from "../../components/List/MyCommentList";
 import SubMenubar from "../../components/Menubar/SubMenubar";
+import { CommunityMenu, CommunityMenuLinkList } from "../../settings/config";
 
 const MyActivity = () => {
-  const subMenuList = ["전체보기", "카테고리", "활동 내역"];
-  const subMenuLinkList = [
-    "/community",
-    "/community/category",
-    "/community/activity",
-  ];
+  const subMenuList = CommunityMenu;
+  const subMenuLinkList = CommunityMenuLinkList;
   const [selectMenu, setSelectMenu] = useState(0);
   const menuList = ["작성한 게시글", "좋아요한 게시글", "댓글 목록"];
   const ScrollUp = () => {

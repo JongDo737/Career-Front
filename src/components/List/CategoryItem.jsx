@@ -13,7 +13,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import CategoryPost from "../../pages/Community/CategoryPost";
 
-const CategoryList = () => {
+const CategoryItem = () => {
   const [categories, setCategories] = useState([
     {
       title: "진로고민",
@@ -140,7 +140,7 @@ const CategoryList = () => {
   );
 };
 
-export default React.memo(CategoryList);
+export default React.memo(CategoryItem);
 
 const Category = styled.div`
   display: flex;
