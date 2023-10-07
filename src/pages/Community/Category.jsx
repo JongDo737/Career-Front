@@ -1,44 +1,51 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMagnifyingGlass,
-  faChevronUp,
-  faPencil,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronUp, faPencil } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import CategoryList from "../../components/List/CategoryList";
 import { Link } from "react-router-dom";
+import SubMenubar from "../../components/Menubar/SubMenubar";
 
 const Category = () => {
+  const subMenuList = ["전체보기", "카테고리", "활동 내역"];
+  const subMenuLinkList = [
+    "/community",
+    "/community/category",
+    "/community/activity",
+  ];
+
   const ScrollUp = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
   };
   return (
-    <Form>
-      <Section>
-        <div className="header">
-          <span>게시글 카테고리</span>
-        </div>
-        <CategoryLayout>
-          <CategoryList />
-        </CategoryLayout>
-        <UtilBox>
-          <Link
-            className="util-item write"
-            // onClick={() => setIsWrite(true)}
-            to={"/community/write"}
-          >
-            <FontAwesomeIcon icon={faPencil} />
-            <span>글쓰기</span>
-          </Link>
-          <div className="util-item up" onClick={ScrollUp}>
-            <FontAwesomeIcon icon={faChevronUp} />
-            <span>위로</span>
+    <>
+      <SubMenubar
+        subMenuList={subMenuList}
+        selectMenu={subMenuList[1]} // 카테고리
+        subMenuLinkList={subMenuLinkList}
+      />
+      <Form>
+        <Section>
+          <div className="header">
+            <span>게시글 카테고리</span>
           </div>
-        </UtilBox>
-      </Section>
-    </Form>
+          <CategoryLayout>
+            <CategoryList />
+          </CategoryLayout>
+          <UtilBox>
+            <Link className="util-item write" to={"/community/write"}>
+              <FontAwesomeIcon icon={faPencil} />
+              <span>글쓰기</span>
+            </Link>
+            <div className="util-item up" onClick={ScrollUp}>
+              <FontAwesomeIcon icon={faChevronUp} />
+              <span>위로</span>
+            </div>
+          </UtilBox>
+        </Section>
+      </Form>
+    </>
   );
 };
 

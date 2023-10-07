@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,9 +8,7 @@ import {
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import PostList from "../../components/List/PostList";
-import CategoryList from "../../components/List/CategoryList";
-import CommunityWrite from "./CommunityWrite";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Community = () => {
   const subMenuList = ["전체보기", "카테고리", "활동 내역"];
@@ -19,15 +17,10 @@ const Community = () => {
     "/community/category",
     "/community/activity",
   ];
-  const [subMenu, setSubMenu] = useState(subMenuList[0]);
-  const [isWrite, setIsWrite] = useState(false);
   const ScrollUp = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
   };
-  useEffect(() => {
-    // setIsWrite(false);
-  }, [subMenu]);
 
   const posts = [
     {
@@ -145,41 +138,31 @@ const Community = () => {
     <>
       <SubMenubar
         subMenuList={subMenuList}
-        setSubMenu={setSubMenu}
+        selectMenu={subMenuList[0]} // 전체보기
         subMenuLinkList={subMenuLinkList}
       />
-      <Outlet />
-      {subMenu === subMenuList[0] && (
-        <Form>
-          <Section>
-            <Search>
-              <span>키워드 검색</span>
-              <input type="text" className="search" />
-              <FontAwesomeIcon
-                icon={faMagnifyingGlass}
-                className="glass-icon"
-              />
-            </Search>
-            <Wrapper>
-              <PostList posts={posts} postStyle="category" />
-            </Wrapper>
-            <UtilBox>
-              <Link
-                className="util-item write"
-                // onClick={() => setIsWrite(true)}
-                to={"/community/write"}
-              >
-                <FontAwesomeIcon icon={faPencil} />
-                <span>글쓰기</span>
-              </Link>
-              <div className="util-item up" onClick={ScrollUp}>
-                <FontAwesomeIcon icon={faChevronUp} />
-                <span>위로</span>
-              </div>
-            </UtilBox>
-          </Section>
-        </Form>
-      )}
+      <Form>
+        <Section>
+          <Search>
+            <span>키워드 검색</span>
+            <input type="text" className="search" />
+            <FontAwesomeIcon icon={faMagnifyingGlass} className="glass-icon" />
+          </Search>
+          <Wrapper>
+            <PostList posts={posts} postStyle="category" />
+          </Wrapper>
+          <UtilBox>
+            <Link className="util-item write" to={"/community/write"}>
+              <FontAwesomeIcon icon={faPencil} />
+              <span>글쓰기</span>
+            </Link>
+            <div className="util-item up" onClick={ScrollUp}>
+              <FontAwesomeIcon icon={faChevronUp} />
+              <span>위로</span>
+            </div>
+          </UtilBox>
+        </Section>
+      </Form>
     </>
   );
 };
@@ -269,11 +252,4 @@ const UtilBox = styled.div`
     background-color: #23354d;
     color: white;
   }
-`;
-
-const CategoryLayout = styled.div`
-  width: 70rem;
-  display: grid;
-  grid-template-columns: repeat(2, 35rem);
-  grid-gap: 2rem;
 `;

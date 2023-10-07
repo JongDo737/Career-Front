@@ -13,8 +13,15 @@ import EventList from "../../components/List/EventList";
 import MentorList from "../../components/List/MentorList";
 import PostList from "../../components/List/PostList";
 import MyCommentList from "../../components/List/MyCommentList";
+import SubMenubar from "../../components/Menubar/SubMenubar";
 
 const MyActivity = () => {
+  const subMenuList = ["전체보기", "카테고리", "활동 내역"];
+  const subMenuLinkList = [
+    "/community",
+    "/community/category",
+    "/community/activity",
+  ];
   const [selectMenu, setSelectMenu] = useState(0);
   const menuList = ["작성한 게시글", "좋아요한 게시글", "댓글 목록"];
   const ScrollUp = () => {
@@ -273,34 +280,41 @@ const MyActivity = () => {
     }
   };
   return (
-    <Form>
-      <FormLeft>
-        <div className="menu-list">
-          {menuList.map((item, idx) => (
-            <div
-              key={idx}
-              className={
-                selectMenu === idx
-                  ? "menu-list__item menu-list__item-selected"
-                  : "menu-list__item"
-              }
-              onClick={() => setSelectMenu(idx)}
-            >
-              {item}
-            </div>
-          ))}
-          {/*댓글 목록이라고 하는 게 좋을지?*/}
-        </div>
-      </FormLeft>
-      {/* <VerticalLine /> */}
-      <FormRight>{selectedMenuRendering()}</FormRight>
-      <UtilBox>
-        <div className="util-item up" onClick={ScrollUp}>
-          <FontAwesomeIcon icon={faChevronUp} />
-          <span>위로</span>
-        </div>
-      </UtilBox>
-    </Form>
+    <>
+      <SubMenubar
+        subMenuList={subMenuList}
+        selectMenu={subMenuList[2]} // 활동 내역
+        subMenuLinkList={subMenuLinkList}
+      />
+      <Form>
+        <FormLeft>
+          <div className="menu-list">
+            {menuList.map((item, idx) => (
+              <div
+                key={idx}
+                className={
+                  selectMenu === idx
+                    ? "menu-list__item menu-list__item-selected"
+                    : "menu-list__item"
+                }
+                onClick={() => setSelectMenu(idx)}
+              >
+                {item}
+              </div>
+            ))}
+            {/*댓글 목록이라고 하는 게 좋을지?*/}
+          </div>
+        </FormLeft>
+        {/* <VerticalLine /> */}
+        <FormRight>{selectedMenuRendering()}</FormRight>
+        <UtilBox>
+          <div className="util-item up" onClick={ScrollUp}>
+            <FontAwesomeIcon icon={faChevronUp} />
+            <span>위로</span>
+          </div>
+        </UtilBox>
+      </Form>
+    </>
   );
 };
 

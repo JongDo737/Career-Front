@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-const SubMenubar = ({ subMenuList, setSubMenu, subMenuLinkList }) => {
+const SubMenubar = ({ subMenuList, selectMenu, subMenuLinkList }) => {
   const [select, setSelect] = useState(subMenuList[0]);
 
   return (
@@ -10,12 +10,8 @@ const SubMenubar = ({ subMenuList, setSubMenu, subMenuLinkList }) => {
         return (
           <Link
             className={
-              item === select ? "select submenu__item" : "submenu__item"
+              item === selectMenu ? "select submenu__item" : "submenu__item"
             }
-            onClick={() => {
-              setSelect(item);
-              setSubMenu(item);
-            }}
             to={subMenuLinkList[idx]}
             key={idx}
           >
@@ -27,7 +23,7 @@ const SubMenubar = ({ subMenuList, setSubMenu, subMenuLinkList }) => {
   );
 };
 
-export default SubMenubar;
+export default React.memo(SubMenubar);
 
 const SubMenu = styled.div`
   max-height: 6vh;
