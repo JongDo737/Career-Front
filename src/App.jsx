@@ -31,17 +31,16 @@ function App() {
           <Route path="/mentor/setting" element={<Setting />} />
           <Route path="/mentor/profile" element={<ProfileMentor />} />
           <Route path="/mentor/consult" element={<ConsultMentor />} />
-          <Route exact path="/community" element={<Community />}>
-            <Route exact path="/community/category" element={<Category />} />
-            <Route
-              exact
-              path="/community/category/:id"
-              element={<CategoryPost />}
-            />
-            <Route exact path="/community/write" element={<CommunityWrite />} />
-            <Route exact path="/community/activity" element={<MyActivity />} />
-            <Route exact path="/community/post/:id" element={<PostDetail />} />
-          </Route>
+          <Route exact path="/community" element={<Community />}></Route>
+          <Route exact path="/community/category" element={<Category />} />
+          <Route
+            exact
+            path="/community/category/:id"
+            element={<CategoryPost />}
+          />
+          <Route exact path="/community/write" element={<CommunityWrite />} />
+          <Route exact path="/community/activity" element={<MyActivity />} />
+          <Route exact path="/community/post/:id" element={<PostDetail />} />
           <Route path="/loginStudent" element={<LoginStudent />} />
           <Route path="/signMentee" element={<SignupMentee />} />
           <Route path="/home" element={<SignupMentee />} />
