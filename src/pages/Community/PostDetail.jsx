@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,8 +12,11 @@ import {
   faMessage,
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import CommentList from "../../components/List/CommentList";
+import axios from "axios";
+import { SV_LOCAL } from "../../constants";
+import { getCookie } from "../../cookie";
 
 const PostDetail = () => {
   const post = {
@@ -30,10 +33,31 @@ const PostDetail = () => {
     img: "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   };
 
+  const { id } = useParams();
+  const [comments, setComments] = useState([]);
   const ScrollUp = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
   };
+
+  useEffect(() => {
+    axios
+      .get(`${SV_LOCAL}/community/article/detail`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+        params: {
+          // id: id
+          id: 13,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        const data = res.data;
+        setComments(data.comments);
+      })
+      .catch((err) => console.error(err));
+  }, []);
   return (
     <Form>
       <Post img={post.img}>

@@ -1,23 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faPencil } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import CategoryList from "../../components/List/CategoryList";
+import CategoryList from "../../components/List/CategoryItem";
 import { Link } from "react-router-dom";
 import SubMenubar from "../../components/Menubar/SubMenubar";
+import { CommunityMenu, CommunityMenuLinkList } from "../../settings/config";
+import axios from "axios";
+import { SV_LOCAL } from "../../constants";
+import { getCookie } from "../../cookie";
+import CategoryItem from "../../components/List/CategoryItem";
 
 const Category = () => {
-  const subMenuList = ["전체보기", "카테고리", "활동 내역"];
-  const subMenuLinkList = [
-    "/community",
-    "/community/category",
-    "/community/activity",
-  ];
+  const subMenuList = CommunityMenu;
+  const subMenuLinkList = CommunityMenuLinkList;
 
   const ScrollUp = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
   };
+
+  useEffect(() => {
+    axios
+      .get(`${SV_LOCAL}/community/article/count-by-category`, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
   return (
     <>
       <SubMenubar
@@ -31,7 +46,7 @@ const Category = () => {
             <span>게시글 카테고리</span>
           </div>
           <CategoryLayout>
-            <CategoryList />
+            <CategoryItem />
           </CategoryLayout>
           <UtilBox>
             <Link className="util-item write" to={"/community/write"}>

@@ -87,7 +87,6 @@ const CommentItem = () => {
   ]);
 
   const [isAddReply, setIsAddReply] = useState(false);
-  const [targetIsComment, setTargetIsComment] = useState(true); //댓글작성자에게 답글을 달지, 대댓글작성자에게 답글을 달지
   const [replyTargetIdx, setReplyTargetIdx] = useState(0);
   const [replyTarget, setReplyTarget] = useState("");
   const [commentInput, setCommentInput] = useState("");
@@ -104,10 +103,53 @@ const CommentItem = () => {
     }
   };
 
+  const onEnterReply = (commentIdx) => {
+    const updatedComments = [...comments];
+    updatedComments[commentIdx].replyList.push({
+      name: "새로운 아이",
+      age: "한국대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
+      date: `${new Date().getFullYear()}.${String(
+        new Date().getMonth() + 1
+      ).padStart(2, "0")}.${String(new Date().getDate()).padStart(2, "0")}`, // 파싱 생각해보기
+      content: replyInput,
+      like: false,
+      likeCount: 0,
+      message: 0,
+      img: "",
+      target: "",
+    });
+    setComments(updatedComments);
+    setreplyInput("");
+    setIsAddReply(false);
+  };
+
+  const onEnterComment = () => {
+    setComments((prev) => [
+      ...prev,
+      {
+        name: "새로운 아이",
+        age: "한국대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
+        date: `${new Date().getFullYear()}.${String(
+          new Date().getMonth() + 1
+        ).padStart(2, "0")}.${String(new Date().getDate()).padStart(2, "0")}`, // 파싱 생각해보기
+        content: commentInput,
+        like: false,
+        likeCount: 0,
+        message: 0,
+        img: "",
+        replyList: [],
+      },
+    ]);
+    setCommentInput("");
+  };
   useEffect(() => {
-    console.log("here");
     if (isAddReply && replyInputRef.current) replyInputRef.current.focus();
   }, [isAddReply]);
+
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, [comments]);
+
   return (
     <>
       {comments.map((comment, commentIdx) => (
@@ -143,7 +185,6 @@ const CommentItem = () => {
                   onClick={() => {
                     setIsAddReply(true);
                     setReplyTarget(comment.name);
-                    setTargetIsComment(true);
                     setReplyTargetIdx(commentIdx);
                     scrollToReplyInput();
                   }}
@@ -243,7 +284,14 @@ const CommentItem = () => {
             </>
           ))}
           {isAddReply && commentIdx === replyTargetIdx ? (
-            <ReplyInput style={{ width: "90%" }} ref={replyIRef}>
+            <ReplyInput
+              style={{ width: "90%" }}
+              ref={replyIRef}
+              onSubmit={(e) => {
+                e.preventDefault();
+                onEnterReply(commentIdx);
+              }}
+            >
               <input
                 type="text"
                 placeholder={`${replyTarget}님 댓글에 답글쓰기`}
@@ -253,34 +301,15 @@ const CommentItem = () => {
               <div className="reply-title">답글쓰기</div>
               <div className="reply-option">
                 <div
-                  className="reply-cancel"
+                  className="reply-option__item"
                   onClick={() => setIsAddReply(false)}
                 >
                   취소
                 </div>
                 <div
-                  className="reply-enter"
+                  className="reply-option__item"
                   onClick={() => {
-                    const updatedComments = [...comments];
-
-                    updatedComments[commentIdx].replyList.push({
-                      name: "새로운 아이",
-                      age: "한국대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
-                      date: `${new Date().getFullYear()}.${String(
-                        new Date().getMonth() + 1
-                      ).padStart(2, "0")}.${String(
-                        new Date().getDate()
-                      ).padStart(2, "0")}`, // 파싱 생각해보기
-                      content: replyInput,
-                      like: false,
-                      likeCount: 0,
-                      message: 0,
-                      img: "",
-                      target: "",
-                    });
-                    setComments(updatedComments);
-                    setreplyInput("");
-                    setIsAddReply(false);
+                    onEnterReply(commentIdx);
                   }}
                 >
                   등록
@@ -293,7 +322,12 @@ const CommentItem = () => {
           <HorizontalLine color="#929292" height="1px" />
         </>
       ))}
-      <ReplyInput>
+      <ReplyInput
+        onSubmit={(e) => {
+          e.preventDefault();
+          onEnterComment();
+        }}
+      >
         <input
           type="text"
           placeholder="여기에 댓글을 입력해주세요."
@@ -302,31 +336,7 @@ const CommentItem = () => {
         />
         <div className="reply-title">댓글쓰기</div>
         <div className="reply-option">
-          <div
-            className="reply-enter"
-            onClick={() => {
-              setComments((prev) => [
-                ...prev,
-                {
-                  name: "새로운 아이",
-                  age: "한국대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
-                  date: `${new Date().getFullYear()}.${String(
-                    new Date().getMonth() + 1
-                  ).padStart(2, "0")}.${String(new Date().getDate()).padStart(
-                    2,
-                    "0"
-                  )}`, // 파싱 생각해보기
-                  content: commentInput,
-                  like: false,
-                  likeCount: 0,
-                  message: 0,
-                  img: "",
-                  replyList: [],
-                },
-              ]);
-              setCommentInput("");
-            }}
-          >
+          <div className="reply-option__item" onClick={onEnterComment}>
             등록
           </div>
         </div>
@@ -427,7 +437,7 @@ const Comment = styled.div`
   }
 `;
 
-const ReplyInput = styled.div`
+const ReplyInput = styled.form`
   width: 100%;
   /* border: 1px solid black; */
   font-size: 1.2rem;
@@ -454,8 +464,9 @@ const ReplyInput = styled.div`
     right: 2rem;
     color: gray;
     font-weight: 600;
-    > div {
+    &__item:hover {
       cursor: pointer;
+      color: black;
     }
   }
 `;

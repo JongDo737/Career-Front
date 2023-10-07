@@ -1,6 +1,10 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { SV_LOCAL } from "../../constants";
+import { getCookie } from "../../cookie";
+import { CommunityCategoryList } from "../../settings/config";
 
 const CommunityWrite = ({ backLink }) => {
   const [files, setFiles] = useState([]);
@@ -11,17 +15,69 @@ const CommunityWrite = ({ backLink }) => {
     setFiles(files.filter((file) => file !== fileName));
   };
 
+  const [newPost, setNewPost] = useState({
+    categoryId: "",
+    title: "",
+    content: "",
+  });
+
+  const navigate = useNavigate();
+
+  const onEnterPost = () => {
+    console.log(newPost);
+    axios
+      .post(
+        `${SV_LOCAL}/community/article/add`,
+        { json: JSON.stringify(newPost) },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        window.alert("게시글이 등록되었습니다.");
+        navigate("/community");
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
-    <WriteLayout>
+    <WriteLayout
+      onSubmit={(e) => {
+        e.preventDefault();
+        onEnterPost();
+      }}
+    >
       <div className="write-menu">게시글 작성하기</div>
       <WriteWrapper>
         <div className="write-header">
+          <select
+            name="category-select"
+            className="category-select"
+            onChange={(e) => {
+              console.log(e.target.value);
+              setNewPost({ ...newPost, categoryId: e.target.value });
+            }}
+            required
+          >
+            <option value="">카테고리</option>
+            {CommunityCategoryList.map((category, idx) => (
+              <option value={idx} key={idx}>
+                {category}
+              </option>
+            ))}
+          </select>
+          {/* <span className="category-select__info">카테고리를 선택하세요.</span> */}
           <span className="write-header__title">제목</span>
           <input
             type="text"
             className="write-header__input"
             placeholder="제목을 작성해 주세요."
             required
+            onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
           />
         </div>
         <div className="write-content">
@@ -31,6 +87,9 @@ const CommunityWrite = ({ backLink }) => {
             placeholder={`무슨 이야기를 나누고 싶으신가요? 가벼운 이야기부터 시작해 보세요!`}
             maxLength="500"
             required
+            onChange={(e) =>
+              setNewPost({ ...newPost, content: e.target.value })
+            }
           ></textarea>
           <div className="write-file">
             <input
@@ -60,14 +119,16 @@ const CommunityWrite = ({ backLink }) => {
           <span>뒤로</span>
         </Link>
       </UtilBox>
-      <div className="write-submit">등록하기</div>
+      <button type="submit" className="write-submit">
+        등록하기
+      </button>
     </WriteLayout>
   );
 };
 
 export default React.memo(CommunityWrite);
 
-const WriteLayout = styled.div`
+const WriteLayout = styled.form`
   width: 60rem;
   height: 85vh;
   margin: 0 auto;
@@ -92,6 +153,7 @@ const WriteLayout = styled.div`
     align-items: center;
     background-color: #2f5383;
     color: white;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
     &:hover {
@@ -114,6 +176,21 @@ const WriteWrapper = styled.div`
     align-items: center;
     justify-content: center;
     gap: 2rem;
+    position: relative;
+    .category-select {
+      width: 10rem;
+      height: 2.3rem;
+      text-align: center;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+      &__info {
+        position: absolute;
+        left: 4rem;
+        top: 4rem;
+        font-size: 1rem;
+        color: red;
+      }
+    }
     &__title {
       font-size: 1.7rem;
       font-weight: 500;

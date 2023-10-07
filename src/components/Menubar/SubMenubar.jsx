@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 const SubMenubar = ({ subMenuList, selectMenu, subMenuLinkList }) => {
-  const [select, setSelect] = useState(subMenuList[0]);
-
   return (
     <SubMenu>
       {subMenuList.map((item, idx) => {
