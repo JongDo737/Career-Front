@@ -12,79 +12,79 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import HorizontalLine from "../Line/HorizontalLine";
 
-const CommentItem = () => {
-  const [comments, setComments] = useState([
-    {
-      name: "김성애",
-      age: "한양대 졸업", //나중에 나이 숫자로 주면 파싱 생각해보기
-      date: "2023.09.30", // 파싱 생각해보기
-      content:
-        "컴퓨터공학과로 진학하고 싶은 분들 있나요? \n어떤 걸 준비해야 하는지 모르거나 막막한 분들은 \n댓글 달아주시거나 상담 신청해주세요~!",
-      like: true,
-      likeCount: 10,
-      message: 4,
-      img: "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
-      replyList: [
-        {
-          name: "신종민",
-          age: "부산대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
-          date: "2023.09.30", // 파싱 생각해보기
-          content: "오메메메 이런 일이???",
-          like: false,
-          likeCount: 22,
-          message: "",
-          img: "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
-          target: "김성애",
-        },
-        {
-          name: "채희문",
-          age: "카이스트 졸업", //나중에 나이 숫자로 주면 파싱 생각해보기
-          date: "2023.09.30", // 파싱 생각해보기
-          content:
-            "어떤 걸 준비해야 하는지 모르거나 막막한 분들은 \n댓글 달아주시거나 상담 신청해주세요~!",
-          like: false,
-          likeCount: 13,
-          message: "",
-          img: "",
-          target: "김성애",
-        },
-      ],
-    },
-    {
-      name: "홍길동동이",
-      age: "서울대 졸업", //나중에 나이 숫자로 주면 파싱 생각해보기
-      date: "2023.09.30", // 파싱 생각해보기
-      content: "아니 나만 힘든 거 아니지?ㅠㅠㅠㅠㅠㅠ",
-      like: true,
-      likeCount: 11,
-      message: 3,
-      img: "",
-      replyList: [
-        {
-          name: "한재준",
-          age: "카이스트 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
-          date: "2023.09.30", // 파싱 생각해보기
-          content: "내가 제일 힘들다ㅠㅠㅠ",
-          like: false,
-          likeCount: 22,
-          message: "",
-          img: "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
-          target: "홍길동동이",
-        },
-        {
-          name: "김동동애",
-          age: "한양대 졸업", //나중에 나이 숫자로 주면 파싱 생각해보기
-          date: "2023.09.30", // 파싱 생각해보기
-          content: "사장들 안되겠네 ㅋ",
-          like: false,
-          likeCount: 13,
-          message: "",
-          img: "",
-          target: "한재준",
-        },
-      ],
-    },
-  ]);
+const CommentItem = ({ comments, setComments }) => {
+  // const [comments, setComments] = useState([
+  //   {
+  //     name: "김성애",
+  //     age: "한양대 졸업", //나중에 나이 숫자로 주면 파싱 생각해보기
+  //     date: "2023.09.30", // 파싱 생각해보기
+  //     content:
+  //       "컴퓨터공학과로 진학하고 싶은 분들 있나요? \n어떤 걸 준비해야 하는지 모르거나 막막한 분들은 \n댓글 달아주시거나 상담 신청해주세요~!",
+  //     like: true,
+  //     likeCount: 10,
+  //     message: 4,
+  //     img: "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  //     replyList: [
+  //       {
+  //         name: "신종민",
+  //         age: "부산대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
+  //         date: "2023.09.30", // 파싱 생각해보기
+  //         content: "오메메메 이런 일이???",
+  //         like: false,
+  //         likeCount: 22,
+  //         message: "",
+  //         img: "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  //         target: "김성애",
+  //       },
+  //       {
+  //         name: "채희문",
+  //         age: "카이스트 졸업", //나중에 나이 숫자로 주면 파싱 생각해보기
+  //         date: "2023.09.30", // 파싱 생각해보기
+  //         content:
+  //           "어떤 걸 준비해야 하는지 모르거나 막막한 분들은 \n댓글 달아주시거나 상담 신청해주세요~!",
+  //         like: false,
+  //         likeCount: 13,
+  //         message: "",
+  //         img: "",
+  //         target: "김성애",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     name: "홍길동동이",
+  //     age: "서울대 졸업", //나중에 나이 숫자로 주면 파싱 생각해보기
+  //     date: "2023.09.30", // 파싱 생각해보기
+  //     content: "아니 나만 힘든 거 아니지?ㅠㅠㅠㅠㅠㅠ",
+  //     like: true,
+  //     likeCount: 11,
+  //     message: 3,
+  //     img: "",
+  //     replyList: [
+  //       {
+  //         name: "한재준",
+  //         age: "카이스트 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
+  //         date: "2023.09.30", // 파싱 생각해보기
+  //         content: "내가 제일 힘들다ㅠㅠㅠ",
+  //         like: false,
+  //         likeCount: 22,
+  //         message: "",
+  //         img: "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  //         target: "홍길동동이",
+  //       },
+  //       {
+  //         name: "김동동애",
+  //         age: "한양대 졸업", //나중에 나이 숫자로 주면 파싱 생각해보기
+  //         date: "2023.09.30", // 파싱 생각해보기
+  //         content: "사장들 안되겠네 ㅋ",
+  //         like: false,
+  //         likeCount: 13,
+  //         message: "",
+  //         img: "",
+  //         target: "한재준",
+  //       },
+  //     ],
+  //   },
+  // ]);
 
   const [isAddReply, setIsAddReply] = useState(false);
   const [replyTargetIdx, setReplyTargetIdx] = useState(0);
@@ -160,7 +160,8 @@ const CommentItem = () => {
                 <div className="img-container"></div>
                 <div className="info">
                   <span className="name">
-                    {comment.name} ({comment.age})
+                    {comment.userNickname || "익명"} (
+                    {comment.isTutor ? "멘토" : "멘티"})
                   </span>
                   <span className="date">작성일 {comment.date}</span>
                 </div>
@@ -179,7 +180,7 @@ const CommentItem = () => {
                 ) : (
                   <FontAwesomeIcon icon={faHeart} className="icon" />
                 )}
-                <span>{comment.likeCount}</span>
+                <span>{comment.heartCnt}</span>
                 <span
                   style={{ cursor: "pointer" }}
                   onClick={() => {
@@ -194,7 +195,7 @@ const CommentItem = () => {
               </div>
             </footer>
           </Comment>
-          {comment.replyList.map((item, idx) => (
+          {/* {comment.replyList.map((item, idx) => (
             <>
               <Comment img={item.img} key={idx} style={{ width: "90%" }}>
                 <header>
@@ -232,55 +233,6 @@ const CommentItem = () => {
                   </div>
                 </footer>
               </Comment>
-
-              {/* {isAddReply && !targetIsComment && idx === replyTargetIdx ? (
-                <ReplyInput style={{ width: "90%" }}>
-                  <input
-                    type="text"
-                    placeholder={`답글쓰기`}
-                    onChange={(e) => setreplyInput(e.target.value)}
-                    value={replyInput}
-                  />
-                  <div className="reply-title">답글쓰기</div>
-                  <div className="reply-option">
-                    <div
-                      className="reply-cancel"
-                      onClick={() => setIsAddReply(false)}
-                    >
-                      취소
-                    </div>
-                    <div
-                      className="reply-enter"
-                      onClick={() => {
-                        const updatedComments = [...comments];
-
-                        updatedComments[commentIdx].replyList.push({
-                          name: "새로운 아이",
-                          age: "한국대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
-                          date: `${new Date().getFullYear()}.${String(
-                            new Date().getMonth() + 1
-                          ).padStart(2, "0")}.${String(
-                            new Date().getDate()
-                          ).padStart(2, "0")}`, // 파싱 생각해보기
-                          content: replyInput,
-                          like: false,
-                          likeCount: 0,
-                          message: 0,
-                          img: "",
-                          target: "",
-                        });
-                        setComments(updatedComments);
-                        setreplyInput("");
-                        setIsAddReply(false);
-                      }}
-                    >
-                      등록
-                    </div>
-                  </div>
-                </ReplyInput>
-              ) : (
-                ""
-              )} */}
             </>
           ))}
           {isAddReply && commentIdx === replyTargetIdx ? (
@@ -318,7 +270,7 @@ const CommentItem = () => {
             </ReplyInput>
           ) : (
             ""
-          )}
+          )} */}
           <HorizontalLine color="#929292" height="1px" />
         </>
       ))}

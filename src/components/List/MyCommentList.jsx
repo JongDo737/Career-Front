@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const MyCommentList = ({ comments }) => {
   return (
@@ -20,13 +21,16 @@ const MyCommentList = ({ comments }) => {
             />
           </header>
           <footer>
-            <div className="comment-title-wrapper">
-              <div className="comment-title">{item.postTitle}</div>
+            <Link
+              className="comment-title-wrapper"
+              to={`/community/post/${item.articleId}`}
+            >
+              <div className="comment-title">{item.articleTitle}</div>
               <FontAwesomeIcon
                 icon={faChevronRight}
                 style={{ fontSize: "1.2rem" }}
               />
-            </div>
+            </Link>
           </footer>
         </Comment>
       ))}
@@ -34,7 +38,7 @@ const MyCommentList = ({ comments }) => {
   );
 };
 
-export default MyCommentList;
+export default React.memo(MyCommentList);
 
 const Comment = styled.div`
   border: 1px solid black;
@@ -70,6 +74,8 @@ const Comment = styled.div`
       align-items: center;
       gap: 1rem;
       width: 70%;
+      color: black;
+      text-decoration: none;
       cursor: pointer;
       .comment-title {
         font-size: 1.2rem;
