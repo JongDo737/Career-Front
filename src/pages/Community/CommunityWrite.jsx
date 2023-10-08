@@ -6,7 +6,7 @@ import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { CommunityCategoryList } from "../../settings/config";
 
-const CommunityWrite = ({ backLink }) => {
+const CommunityWrite = () => {
   const [files, setFiles] = useState([]);
   const onChangeFiles = (e) => {
     setFiles(Object.values(e.target.files));
@@ -66,11 +66,15 @@ const CommunityWrite = ({ backLink }) => {
             <option value="">카테고리</option>
             {CommunityCategoryList.map((category, idx) => (
               <option value={idx} key={idx}>
-                {category}
+                {category.title}
               </option>
             ))}
           </select>
-          {/* <span className="category-select__info">카테고리를 선택하세요.</span> */}
+          {/* {newPost.categoryId === "" && (
+            <span className="category-select__info">
+              카테고리를 선택하세요.
+            </span>
+          )} */}
           <span className="write-header__title">제목</span>
           <input
             type="text"
@@ -87,9 +91,9 @@ const CommunityWrite = ({ backLink }) => {
             placeholder={`무슨 이야기를 나누고 싶으신가요? 가벼운 이야기부터 시작해 보세요!`}
             maxLength="500"
             required
-            onChange={(e) =>
-              setNewPost({ ...newPost, content: e.target.value })
-            }
+            // onChange={(e) =>
+            //   setNewPost({ ...newPost, content: e.target.value })
+            // }
           ></textarea>
           <div className="write-file">
             <input
@@ -126,7 +130,7 @@ const CommunityWrite = ({ backLink }) => {
   );
 };
 
-export default React.memo(CommunityWrite);
+export default CommunityWrite;
 
 const WriteLayout = styled.form`
   width: 60rem;
