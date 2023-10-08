@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PointBox from "../../components/Box/PointBox";
 import MoveBox from "../../components/Box/MoveBox";
@@ -15,16 +15,23 @@ import PostList from "../../components/List/PostList";
 import MyCommentList from "../../components/List/MyCommentList";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import { CommunityMenu, CommunityMenuLinkList } from "../../settings/config";
+import axios from "axios";
+import { SV_LOCAL } from "../../constants";
+import { getCookie } from "../../cookie";
 
 const MyActivity = () => {
   const subMenuList = CommunityMenu;
   const subMenuLinkList = CommunityMenuLinkList;
   const [selectMenu, setSelectMenu] = useState(0);
   const menuList = ["작성한 게시글", "좋아요한 게시글", "댓글 목록"];
+  const [comments, setComments] = useState([]);
   const ScrollUp = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
   };
+
+  useEffect(() => {}, [selectMenu]);
+
   const selectedMenuRendering = () => {
     if (selectMenu === 0) {
       const posts = [
@@ -245,37 +252,58 @@ const MyActivity = () => {
       );
     } else if (selectMenu === 2) {
       //post 부분은 axios 로 추후 수정
-      const comments = [
-        {
-          content: "와 저도 참여할래요~",
-          date: "2023.09.23", // 파싱 생각해보기
-          postTitle: "부산사나이 종민의 스프링 특강 오픈합니다!",
-        },
-        {
-          content: "채사장 인기멘토 등극이네요 ㅎ",
-          date: "2023.09.23", // 파싱 생각해보기
-          postTitle:
-            "채사장은 오늘도 열일 중이에요. 채사장은 어제도 열일했는데 오늘도 하고 있어요. 대단해요. ",
-        },
-        {
-          content: "아 진짜 할 일 많다아아아아아 그래도 해야지 어쩌겠어 ㅋ",
-          date: "2023.09.23", // 파싱 생각해보기
-          postTitle: "성애의 열심히 개발하는 삶..",
-        },
-        {
-          content: "한사장 파이팅~ 힘내자구",
-          date: "2023.09.23", // 파싱 생각해보기
-          postTitle: "한사장의 개발 일기",
-        },
-      ];
-      return (
-        <PostWrapper>
-          <div className="selected-menu-header">내가 남긴 댓글</div>
-          <MyCommentList comments={comments} />
-        </PostWrapper>
-      );
+      // const comments = [
+      //   {
+      //     content: "와 저도 참여할래요~",
+      //     date: "2023.09.23", // 파싱 생각해보기
+      //     postTitle: "부산사나이 종민의 스프링 특강 오픈합니다!",
+      //   },
+      //   {
+      //     content: "채사장 인기멘토 등극이네요 ㅎ",
+      //     date: "2023.09.23", // 파싱 생각해보기
+      //     postTitle:
+      //       "채사장은 오늘도 열일 중이에요. 채사장은 어제도 열일했는데 오늘도 하고 있어요. 대단해요. ",
+      //   },
+      //   {
+      //     content: "아 진짜 할 일 많다아아아아아 그래도 해야지 어쩌겠어 ㅋ",
+      //     date: "2023.09.23", // 파싱 생각해보기
+      //     postTitle: "성애의 열심히 개발하는 삶..",
+      //   },
+      //   {
+      //     content: "한사장 파이팅~ 힘내자구",
+      //     date: "2023.09.23", // 파싱 생각해보기
+      //     postTitle: "한사장의 개발 일기",
+      //   },
+      // ];
+      // let comments = [];
     }
+    return (
+      <PostWrapper>
+        <div className="selected-menu-header">내가 남긴 댓글</div>
+        <MyCommentList comments={comments} />
+      </PostWrapper>
+    );
   };
+
+  useEffect(() => {
+    axios
+      .get(`${SV_LOCAL}/community/comment/my_comments`, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+        params: {
+          page: 0,
+          size: 10,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        // const comments = res.data;
+        setComments(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <>
       <SubMenubar

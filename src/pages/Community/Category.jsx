@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faPencil } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -14,7 +14,7 @@ import CategoryItem from "../../components/List/CategoryItem";
 const Category = () => {
   const subMenuList = CommunityMenu;
   const subMenuLinkList = CommunityMenuLinkList;
-
+  const [categories, setCategories] = useState([]);
   const ScrollUp = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
@@ -30,6 +30,7 @@ const Category = () => {
       })
       .then((res) => {
         console.log(res.data);
+        setCategories(res.data);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -46,7 +47,10 @@ const Category = () => {
             <span>게시글 카테고리</span>
           </div>
           <CategoryLayout>
-            <CategoryItem />
+            <CategoryItem
+              categories={categories}
+              setCategories={setCategories}
+            />
           </CategoryLayout>
           <UtilBox>
             <Link className="util-item write" to={"/community/write"}>

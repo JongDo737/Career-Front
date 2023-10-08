@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { dateParse } from "../../utils/dateParse";
 
 const PostList = ({ posts, postStyle }) => {
   const postStyleRendering = (item) => {
@@ -37,20 +38,23 @@ const PostList = ({ posts, postStyle }) => {
             <FontAwesomeIcon icon={faTrashCan} className="icon fa-white" />
           </div>
         );
+      default:
+        return;
     }
   };
   return (
     <>
       {posts.map((item, idx) => (
-        <Post key={idx} img={item.img} to={`/community/post/${idx}`}>
+        <Post key={idx} img={item.img} to={`/community/post/${item.id}`}>
           <header>
             <div className="header-left">
               <div className="img-container"></div>
               <div className="info">
                 <span className="name">
-                  {item.name} ({item.age})
+                  {item.userNickname || "익명"} (
+                  {item.isTutor ? "멘토" : "멘티"})
                 </span>
-                <span className="date">작성일 {item.date}</span>
+                <span className="date">작성일 {dateParse(item.createdAt)}</span>
               </div>
             </div>
             <div className="header-right">{postStyleRendering(item)}</div>
@@ -65,9 +69,9 @@ const PostList = ({ posts, postStyle }) => {
             ) : (
               <FontAwesomeIcon icon={faHeart} className="icon" />
             )}
-            <span>{item.likeCount}</span>
+            <span>{item.heartCnt}</span>
             <FontAwesomeIcon icon={faMessage} className="icon" />
-            <span>{item.message}</span>
+            <span>{item.commentCnt}</span>
           </footer>
         </Post>
       ))}
