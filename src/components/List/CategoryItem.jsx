@@ -97,6 +97,7 @@ const CategoryItem = ({ categories, setCategories }) => {
               }`}</div>
             </main>
             <footer>
+
               {/* {item.interest ? (
                 <FontAwesomeIcon
                   icon={faStarFill}
