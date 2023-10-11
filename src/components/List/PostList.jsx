@@ -45,14 +45,18 @@ const PostList = ({ posts, postStyle }) => {
   return (
     <>
       {posts.map((item, idx) => (
-        <Post key={idx} img={item.img} to={`/community/post/${item.id}`}>
+        <Post
+          key={idx}
+          img={item.user.profileImg}
+          to={`/community/post/${item.id}`}
+        >
           <header>
             <div className="header-left">
               <div className="img-container"></div>
               <div className="info">
                 <span className="name">
-                  {item.userNickname || "익명"} (
-                  {item.isTutor ? "멘토" : "멘티"})
+                  {item.user.nickname || "익명"} (
+                  {item.user.isTutor ? "멘토" : "멘티"})
                 </span>
                 <span className="date">작성일 {dateParse(item.createdAt)}</span>
               </div>
