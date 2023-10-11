@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart,
-  faMessage,
-  faStar,
-} from "@fortawesome/free-regular-svg-icons";
+import { faFileLines } from "@fortawesome/free-regular-svg-icons";
 import {
   faChevronRight,
   faStar as faStarFill,
@@ -101,7 +97,8 @@ const CategoryItem = ({ categories, setCategories }) => {
               }`}</div>
             </main>
             <footer>
-              {item.interest ? (
+
+              {/* {item.interest ? (
                 <FontAwesomeIcon
                   icon={faStarFill}
                   className="icon"
@@ -124,9 +121,9 @@ const CategoryItem = ({ categories, setCategories }) => {
                   }
                 />
               )}
-              <span>{item.likeCount}</span>
-              <FontAwesomeIcon icon={faMessage} className="icon" />
-              <span>{item.message}</span>
+              <span>{item.likeCount}</span> */}
+              <FontAwesomeIcon icon={faFileLines} className="icon" />
+              <span>{item.count}</span>
             </footer>
           </Category>
         ))
@@ -201,14 +198,14 @@ const Category = styled.div`
     margin-bottom: 5%;
     box-sizing: border-box;
     color: #646464;
-    gap: 0.5rem;
+    gap: 0.7rem;
     .icon {
-      font-size: 1.4rem;
+      font-size: 1.7rem;
       color: black;
       cursor: pointer;
     }
     span {
-      font-size: 1rem;
+      font-size: 1.2rem;
       margin-right: 1rem;
     }
   }
