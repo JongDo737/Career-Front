@@ -6,6 +6,7 @@ import {
   faChevronUp,
   faPencil,
   faHeart as faHeartFull,
+  faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart,
@@ -19,6 +20,7 @@ import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { dateParse } from "../../utils/dateParse";
 import HorizontalLine from "../../components/Line/HorizontalLine";
+import { getIdFromToken } from "../../auth/jwtFunctions";
 
 const PostDetail = () => {
   // const post = {
@@ -43,10 +45,15 @@ const PostDetail = () => {
   const [replyTarget, setReplyTarget] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [replyInput, setreplyInput] = useState("");
-
+  const [postUserId, setPostUserId] = useState();
   const [updateComment, setUpdateComment] = useState(true);
+  const [optionClick, setOptionClick] = useState(false);
+  const [editPostContent, setEditPostContent] = useState(false);
+
   const replyInputRef = useRef(null);
   const replyIRef = useRef(null);
+  const postInputRef = useRef(null);
+
   const scrollToReplyInput = () => {
     if (replyIRef.current) {
       replyIRef.current.scrollIntoView({
@@ -103,6 +110,33 @@ const PostDetail = () => {
     if (isAddReply && replyInputRef.current) replyInputRef.current.focus();
   }, [isAddReply]);
 
+  const onEditPostContent = () => {
+    console.log({
+      id: post.id,
+      categoryId: post.categoryId,
+      title: post.title,
+      content: post.content,
+    });
+    axios.post(
+      `${SV_LOCAL}/community/article/modify`,
+      {
+        json: JSON.stringify({
+          id: post.id,
+          categoryId: post.categoryId,
+          title: post.title,
+          content: post.content,
+          removedImageUrls: [],
+        }),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+  };
+
   useEffect(() => {
     if (updateComment) {
       axios
@@ -117,43 +151,153 @@ const PostDetail = () => {
         .then((res) => {
           console.log(res.data);
           const data = res.data;
+          // setPost(data.article);
+          // setComments(data.comments);
+          // setPostUserId(data.article.user.id);
           setPost(data.article);
-          setComments(data.comments);
+          setComments(data.comments || []);
+          setPostUserId(data.article?.user?.id || "");
         })
         .catch((err) => console.error(err));
       setUpdateComment(false);
     }
   }, [id, updateComment]);
 
+  // useEffect(() => {
+  //   setUserId(getIdFromToken(getCookie("jwtToken")));
+  //   console.log(post.user);
+  // }, []);
   return (
     <Form>
-      <Post img={post.img}>
-        <header>
-          <div className="post-header-title">{post.title}</div>
-          <div className="post-header-date">
-            작성일 {dateParse(post.createdAt)}
-          </div>
-        </header>
-        <main>
-          <div className="post-main-info">
-            <div className="post-main-info__img"></div>
-            <span className="post-main-info__name">
-              {post.userNickname || "익명"} ({post.isTutor ? "멘토" : "멘티"})
-            </span>
-          </div>
-          <pre className="post-main-content">{post.content}</pre>
-        </main>
-        <footer>
-          {post.like ? (
-            <FontAwesomeIcon icon={faHeartFull} className="icon heart-full" />
-          ) : (
-            <FontAwesomeIcon icon={faHeart} className="icon" />
-          )}
-          <span>{post.heartCnt}</span>
-          <FontAwesomeIcon icon={faMessage} className="icon" />
-          <span>{comments.length}</span>
-        </footer>
-      </Post>
+      {editPostContent ? (
+        <Post img={post.img}>
+          <header>
+            <span className="post-header__title">제목</span>
+            <input
+              type="text"
+              className="post-header__input"
+              placeholder="제목을 작성해 주세요."
+              value={post.title}
+              required
+              onChange={(e) => setPost({ ...post, title: e.target.value })}
+            />
+          </header>
+          <main style={{ padding: "2rem 3rem" }}>
+            <textarea
+              className={
+                editPostContent
+                  ? "post-content post-content-write"
+                  : "post-content"
+              }
+              value={post.content}
+              disabled={!editPostContent}
+              ref={postInputRef}
+              onChange={(e) => {
+                setPost({ ...post, content: e.target.value });
+              }}
+            />
+          </main>
+          <footer>
+            <button
+              onClick={() => {
+                onEditPostContent();
+                setEditPostContent(false);
+              }}
+            >
+              등록
+            </button>
+          </footer>
+        </Post>
+      ) : (
+        <Post img={post.img}>
+          <header>
+            <div className="post-header__title">{post.title}</div>
+            <FontAwesomeIcon
+              icon={faEllipsisVertical}
+              className="post-option__btn"
+              onClick={() => {
+                setOptionClick((current) => !current);
+                console.log(optionClick);
+              }}
+            />
+            {optionClick ? (
+              postUserId === getIdFromToken(getCookie("jwtToken")) ? (
+                <div className="post-options">
+                  <div className="post-options__item">
+                    <FontAwesomeIcon icon={faPencil} className="icon" />
+                    <span
+                      onClick={() => {
+                        setEditPostContent(true);
+                        setOptionClick(false);
+                        setTimeout(() => {
+                          postInputRef.current.focus();
+                          const textLength = postInputRef.current.value.length;
+                          postInputRef.current.setSelectionRange(
+                            textLength,
+                            textLength
+                          );
+                        }, 0);
+                      }}
+                    >
+                      편집
+                    </span>
+                  </div>
+                  <div className="post-options__item">
+                    <FontAwesomeIcon icon={faTrashCan} className="icon" />
+                    <span>삭제</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="post-options">
+                  <div className="post-options__item">
+                    <FontAwesomeIcon icon={faPencil} className="icon" />
+                    <span>신고</span>
+                  </div>
+                </div>
+              )
+            ) : (
+              ""
+            )}
+          </header>
+          <main>
+            <div className="post-main-info">
+              <div className="post-main-info__img"></div>
+              <span className="post-main-info__name">
+                {post.user?.nickname || ""} (
+                {post.user?.isTutor ? "멘토" : "멘티"})
+              </span>
+            </div>
+            <div className="post-date">
+              작성일 {dateParse(post.createdAt)}
+              {post.createdAt !== post.updatedAt ? " (수정됨)" : ""}
+            </div>
+            <textarea
+              className={
+                editPostContent
+                  ? "post-content post-content-write"
+                  : "post-content"
+              }
+              value={post.content}
+              disabled={!editPostContent}
+              ref={postInputRef}
+              onChange={(e) => {
+                setPost({ ...post, content: e.target.value });
+              }}
+            />
+          </main>
+
+          <footer>
+            {post.isHeartClicked ? (
+              <FontAwesomeIcon icon={faHeartFull} className="icon heart-full" />
+            ) : (
+              <FontAwesomeIcon icon={faHeart} className="icon" />
+            )}
+            <span>{post.heartCnt}</span>
+            <FontAwesomeIcon icon={faMessage} className="icon" />
+            <span>{comments.length}</span>
+          </footer>
+        </Post>
+      )}
       <CommentWrapper>
         <div
           style={{
@@ -212,8 +356,7 @@ const PostDetail = () => {
                 </div>
               </footer>
             </Comment>
-            {/* {comment.replyList.map((item, idx) => (
-            <>
+            {comment.recomments.map((item, idx) => (
               <Comment img={item.img} key={idx} style={{ width: "90%" }}>
                 <header>
                   <div className="header-left">
@@ -250,44 +393,43 @@ const PostDetail = () => {
                   </div>
                 </footer>
               </Comment>
-            </>
-          ))}
-          {isAddReply && commentIdx === replyTargetIdx ? (
-            <ReplyInput
-              style={{ width: "90%" }}
-              ref={replyIRef}
-              onSubmit={(e) => {
-                e.preventDefault();
-                onEnterReply(commentIdx);
-              }}
-            >
-              <input
-                type="text"
-                placeholder={`${replyTarget}님 댓글에 답글쓰기`}
-                onChange={(e) => setreplyInput(e.target.value)}
-                value={replyInput}
-              />
-              <div className="reply-title">답글쓰기</div>
-              <div className="reply-option">
-                <div
-                  className="reply-option__item"
-                  onClick={() => setIsAddReply(false)}
-                >
-                  취소
+            ))}
+            {isAddReply && commentIdx === replyTargetIdx ? (
+              <ReplyInput
+                style={{ width: "90%" }}
+                ref={replyIRef}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onEnterReply(commentIdx);
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder={`${replyTarget}님 댓글에 답글쓰기`}
+                  onChange={(e) => setreplyInput(e.target.value)}
+                  value={replyInput}
+                />
+                <div className="reply-title">답글쓰기</div>
+                <div className="reply-option">
+                  <div
+                    className="reply-option__item"
+                    onClick={() => setIsAddReply(false)}
+                  >
+                    취소
+                  </div>
+                  <div
+                    className="reply-option__item"
+                    onClick={() => {
+                      onEnterReply(commentIdx);
+                    }}
+                  >
+                    등록
+                  </div>
                 </div>
-                <div
-                  className="reply-option__item"
-                  onClick={() => {
-                    onEnterReply(commentIdx);
-                  }}
-                >
-                  등록
-                </div>
-              </div>
-            </ReplyInput>
-          ) : (
-            ""
-          )} */}
+              </ReplyInput>
+            ) : (
+              ""
+            )}
             <HorizontalLine color="#929292" height="1px" />
           </Fragment>
         ))}
@@ -342,22 +484,60 @@ const Post = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   overflow: hidden;
-  position: relative;
   > header {
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 1.5rem;
     background-color: #2f5383;
     color: white;
-    .post-header-title {
+    position: relative;
+    height: 2rem;
+    gap: 2rem;
+    .post-header__title {
       font-size: 1.4rem;
       font-weight: 600;
     }
-    .post-header-date {
+    .post-header__input {
+      width: 60%;
+      border: 1px solid gray;
+      border-radius: 5px;
+      padding: 0.5rem;
+    }
+    .post-option__btn {
       position: absolute;
-      top: 1.7rem;
       right: 2rem;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .post-options {
+      position: absolute;
+      top: 4rem;
+      right: 1.4rem;
+      padding: 1rem;
+      border: 1px solid gray;
+      border-radius: 0.8rem;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      z-index: 99;
+      &__item {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        font-size: 1.3rem;
+        cursor: pointer;
+        .icon,
+        span {
+          color: black;
+          &:hover {
+            font-weight: 700;
+          }
+        }
+      }
     }
   }
   > main {
@@ -365,6 +545,14 @@ const Post = styled.div`
     flex-direction: column;
     padding: 2rem 3rem 0;
     gap: 0.5rem;
+    position: relative;
+
+    .post-date {
+      position: absolute;
+      top: 1.7rem;
+      right: 2rem;
+      font-size: 1.2rem;
+    }
     .post-main-info {
       display: flex;
       align-items: center;
@@ -385,9 +573,18 @@ const Post = styled.div`
         font-weight: 600;
       }
     }
-    .post-main-content {
+    .post-content {
       font-size: 1.2rem;
       line-height: 2.5rem;
+      border: none;
+      background-color: transparent;
+      color: black;
+      resize: none;
+    }
+    .post-content-write {
+      min-height: 25rem;
+      vertical-align: top;
+      align-items: start;
     }
   }
   > footer {
@@ -406,6 +603,21 @@ const Post = styled.div`
     span {
       font-size: 1.2rem;
       margin-right: 1rem;
+    }
+    > button {
+      width: 5rem;
+      height: 2.5rem;
+      align-items: center;
+      background-color: #516a8b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 1.5rem;
+      font-size: 1.2rem;
+      &:hover {
+        background-color: #2f5383;
+      }
     }
   }
 `;

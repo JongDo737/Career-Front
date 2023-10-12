@@ -91,9 +91,9 @@ const CommunityWrite = () => {
             placeholder={`무슨 이야기를 나누고 싶으신가요? 가벼운 이야기부터 시작해 보세요!`}
             maxLength="500"
             required
-            // onChange={(e) =>
-            //   setNewPost({ ...newPost, content: e.target.value })
-            // }
+            onChange={(e) =>
+              setNewPost({ ...newPost, content: e.target.value })
+            }
           ></textarea>
           <div className="write-file">
             <input
@@ -155,13 +155,13 @@ const WriteLayout = styled.form`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #2f5383;
+    background-color: #516a8b;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     &:hover {
-      background-color: #516a8b;
+      background-color: #2f5383;
     }
   }
 `;
