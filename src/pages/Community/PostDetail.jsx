@@ -21,6 +21,7 @@ import { getCookie } from "../../cookie";
 import { dateParse } from "../../utils/dateParse";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import { getIdFromToken } from "../../auth/jwtFunctions";
+import { CommunityCategoryList } from "../../settings/config";
 
 const PostDetail = () => {
   // const post = {
@@ -111,12 +112,6 @@ const PostDetail = () => {
   }, [isAddReply]);
 
   const onEditPostContent = () => {
-    console.log({
-      id: post.id,
-      categoryId: post.categoryId,
-      title: post.title,
-      content: post.content,
-    });
     axios.post(
       `${SV_LOCAL}/community/article/modify`,
       {
@@ -139,6 +134,7 @@ const PostDetail = () => {
 
   useEffect(() => {
     if (updateComment) {
+      console.log("here");
       axios
         .get(`${SV_LOCAL}/community/article/detail`, {
           headers: {
@@ -149,11 +145,11 @@ const PostDetail = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
           const data = res.data;
           // setPost(data.article);
           // setComments(data.comments);
           // setPostUserId(data.article.user.id);
+          console.log(data);
           setPost(data.article);
           setComments(data.comments || []);
           setPostUserId(data.article?.user?.id || "");
@@ -161,17 +157,79 @@ const PostDetail = () => {
         .catch((err) => console.error(err));
       setUpdateComment(false);
     }
-  }, [id, updateComment]);
+  }, [id, updateComment, post, comments]);
 
   // useEffect(() => {
   //   setUserId(getIdFromToken(getCookie("jwtToken")));
   //   console.log(post.user);
   // }, []);
+
+  const onAddHeart = (type, id) => {
+    axios
+      .post(
+        `${SV_LOCAL}/community/heart/add`,
+        { typeId: id, type: type },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        if (type === 0) setPost(res.article);
+        else setComments(res.comments || []);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const onDeleteHeart = (type, id) => {
+    axios
+      .delete(
+        `${SV_LOCAL}/community/heart/delete`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+
+          data: { typeId: id, type: type },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        if (type === 0) setPost(res.article);
+        else setComments(res.comments || []);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
-    <Form>
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onEditPostContent();
+        setEditPostContent(false);
+      }}
+    >
       {editPostContent ? (
         <Post img={post.img}>
           <header>
+            <select
+              name="category-select"
+              className="category-select"
+              value={post.categoryId} //
+              onChange={(e) => {
+                setPost({ ...post, categoryId: e.target.value });
+              }}
+              required
+            >
+              <option value="">카테고리</option>
+              {CommunityCategoryList.map((category, idx) => (
+                <option value={idx} key={idx}>
+                  {category.title}
+                </option>
+              ))}
+            </select>
             <span className="post-header__title">제목</span>
             <input
               type="text"
@@ -189,6 +247,7 @@ const PostDetail = () => {
                   ? "post-content post-content-write"
                   : "post-content"
               }
+              required
               value={post.content}
               disabled={!editPostContent}
               ref={postInputRef}
@@ -198,14 +257,7 @@ const PostDetail = () => {
             />
           </main>
           <footer>
-            <button
-              onClick={() => {
-                onEditPostContent();
-                setEditPostContent(false);
-              }}
-            >
-              등록
-            </button>
+            <button type="submit">등록</button>
           </footer>
         </Post>
       ) : (
@@ -217,7 +269,6 @@ const PostDetail = () => {
               className="post-option__btn"
               onClick={() => {
                 setOptionClick((current) => !current);
-                console.log(optionClick);
               }}
             />
             {optionClick ? (
@@ -288,9 +339,23 @@ const PostDetail = () => {
 
           <footer>
             {post.isHeartClicked ? (
-              <FontAwesomeIcon icon={faHeartFull} className="icon heart-full" />
+              <FontAwesomeIcon
+                icon={faHeartFull}
+                className="icon heart-full"
+                onClick={() => {
+                  console.log("clicked");
+                  setPost({ ...post, isHeartClicked: false });
+                }}
+              />
             ) : (
-              <FontAwesomeIcon icon={faHeart} className="icon" />
+              <FontAwesomeIcon
+                icon={faHeart}
+                className="icon"
+                onClick={() => {
+                  console.log("clicked");
+                  setPost({ ...post, isHeartClicked: true });
+                }}
+              />
             )}
             <span>{post.heartCnt}</span>
             <FontAwesomeIcon icon={faMessage} className="icon" />
@@ -319,8 +384,8 @@ const PostDetail = () => {
                   <div className="img-container"></div>
                   <div className="info">
                     <span className="name">
-                      {comment.userNickname || "익명"} (
-                      {comment.isTutor ? "멘토" : "멘티"})
+                      {comment.user.nickname || "익명"} (
+                      {comment.user.isTutor ? "멘토" : "멘티"})
                     </span>
                     <span className="date">
                       작성일 {dateParse(comment.createdAt)}
@@ -333,13 +398,24 @@ const PostDetail = () => {
               </main>
               <footer>
                 <div className="footer-left">
-                  {comment.like ? (
+                  {comment.isHeartClicked ? (
                     <FontAwesomeIcon
                       icon={faHeartFull}
                       className="icon heart-full"
+                      onClick={() => {
+                        onDeleteHeart(1, comment.id); //댓글은 type 1
+                        setUpdateComment(true);
+                      }}
                     />
                   ) : (
-                    <FontAwesomeIcon icon={faHeart} className="icon" />
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      className="icon"
+                      onClick={() => {
+                        onAddHeart(1, comment.id); //댓글은 type 1
+                        setUpdateComment(true);
+                      }}
+                    />
                   )}
                   <span>{comment.heartCnt}</span>
                   <span
@@ -356,40 +432,52 @@ const PostDetail = () => {
                 </div>
               </footer>
             </Comment>
-            {comment.recomments.map((item, idx) => (
-              <Comment img={item.img} key={idx} style={{ width: "90%" }}>
+            {comment.recomments.map((recomment, idx) => (
+              <Comment img={recomment.img} key={idx} style={{ width: "90%" }}>
                 <header>
                   <div className="header-left">
                     <div className="img-container"></div>
                     <div className="info">
                       <span className="name">
-                        {item.name} ({item.age})
+                        {recomment.user.nickname} (
+                        {recomment.user.isTutor ? "멘토" : "멘티"})
                       </span>
-                      <span className="date">작성일 {item.date}</span>
+                      <span className="date">작성일 {recomment.date}</span>
                     </div>
                   </div>
                 </header>
                 <main>
                   <div className="main-content">
-                    {item.target && (
+                    {recomment.target && (
                       <span style={{ color: "#2F5383", fontWeight: "600" }}>
-                        @{item.target}
+                        @{recomment.target}
                       </span>
                     )}
-                    {item.content}
+                    {recomment.content}
                   </div>
                 </main>
                 <footer>
                   <div className="footer-left">
-                    {item.like ? (
+                    {recomment.isHeartClicked ? (
                       <FontAwesomeIcon
                         icon={faHeartFull}
                         className="icon heart-full"
+                        onClick={() => {
+                          onDeleteHeart(2, recomment.id); //대댓글은 type 2
+                          setUpdateComment(true);
+                        }}
                       />
                     ) : (
-                      <FontAwesomeIcon icon={faHeart} className="icon" />
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        className="icon"
+                        onClick={() => {
+                          onAddHeart(2, recomment.id); //대댓글은 type 2
+                          setUpdateComment(true);
+                        }}
+                      />
                     )}
-                    <span>{item.likeCount}</span>
+                    <span>{recomment.heartCnt}</span>
                   </div>
                 </footer>
               </Comment>
@@ -469,7 +557,7 @@ const PostDetail = () => {
 
 export default PostDetail;
 
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   margin: 8rem 0;
   align-items: center;
@@ -494,6 +582,20 @@ const Post = styled.div`
     position: relative;
     height: 2rem;
     gap: 2rem;
+    .category-select {
+      width: 10rem;
+      height: 2.3rem;
+      text-align: center;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+      &__info {
+        position: absolute;
+        left: 4rem;
+        top: 4rem;
+        font-size: 1rem;
+        color: red;
+      }
+    }
     .post-header__title {
       font-size: 1.4rem;
       font-weight: 600;
