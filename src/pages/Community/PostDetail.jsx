@@ -101,7 +101,6 @@ const PostDetail = () => {
           },
         }
       )
-      .then((res) => console.log(res))
       .catch((err) => console.log(err));
     setCommentInput("");
     setUpdateComment(true);
@@ -134,7 +133,6 @@ const PostDetail = () => {
 
   useEffect(() => {
     if (updateComment) {
-      console.log("here");
       axios
         .get(`${SV_LOCAL}/community/article/detail`, {
           headers: {
@@ -149,7 +147,6 @@ const PostDetail = () => {
           // setPost(data.article);
           // setComments(data.comments);
           // setPostUserId(data.article.user.id);
-          console.log(data);
           setPost(data.article);
           setComments(data.comments || []);
           setPostUserId(data.article?.user?.id || "");
@@ -176,7 +173,6 @@ const PostDetail = () => {
         }
       )
       .then((res) => {
-        console.log(res);
         if (type === 0) setPost(res.article);
         else setComments(res.comments || []);
       })
@@ -197,7 +193,6 @@ const PostDetail = () => {
         }
       )
       .then((res) => {
-        console.log(res);
         if (type === 0) setPost(res.article);
         else setComments(res.comments || []);
       })
@@ -343,7 +338,6 @@ const PostDetail = () => {
                 icon={faHeartFull}
                 className="icon heart-full"
                 onClick={() => {
-                  console.log("clicked");
                   setPost({ ...post, isHeartClicked: false });
                 }}
               />
@@ -352,7 +346,6 @@ const PostDetail = () => {
                 icon={faHeart}
                 className="icon"
                 onClick={() => {
-                  console.log("clicked");
                   setPost({ ...post, isHeartClicked: true });
                 }}
               />
