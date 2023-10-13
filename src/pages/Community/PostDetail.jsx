@@ -6,6 +6,7 @@ import {
   faChevronUp,
   faPencil,
   faHeart as faHeartFull,
+  faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart,
@@ -19,6 +20,8 @@ import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { dateParse } from "../../utils/dateParse";
 import HorizontalLine from "../../components/Line/HorizontalLine";
+import { getIdFromToken } from "../../auth/jwtFunctions";
+import { CommunityCategoryList } from "../../settings/config";
 
 const PostDetail = () => {
   // const post = {
@@ -43,10 +46,15 @@ const PostDetail = () => {
   const [replyTarget, setReplyTarget] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [replyInput, setreplyInput] = useState("");
-
+  const [postUserId, setPostUserId] = useState();
   const [updateComment, setUpdateComment] = useState(true);
+  const [optionClick, setOptionClick] = useState(false);
+  const [editPostContent, setEditPostContent] = useState(false);
+
   const replyInputRef = useRef(null);
   const replyIRef = useRef(null);
+  const postInputRef = useRef(null);
+
   const scrollToReplyInput = () => {
     if (replyIRef.current) {
       replyIRef.current.scrollIntoView({
@@ -93,7 +101,6 @@ const PostDetail = () => {
           },
         }
       )
-      .then((res) => console.log(res))
       .catch((err) => console.log(err));
     setCommentInput("");
     setUpdateComment(true);
@@ -102,6 +109,27 @@ const PostDetail = () => {
   useEffect(() => {
     if (isAddReply && replyInputRef.current) replyInputRef.current.focus();
   }, [isAddReply]);
+
+  const onEditPostContent = () => {
+    axios.post(
+      `${SV_LOCAL}/community/article/modify`,
+      {
+        json: JSON.stringify({
+          id: post.id,
+          categoryId: post.categoryId,
+          title: post.title,
+          content: post.content,
+          removedImageUrls: [],
+        }),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+  };
 
   useEffect(() => {
     if (updateComment) {
@@ -115,45 +143,219 @@ const PostDetail = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
           const data = res.data;
+          // setPost(data.article);
+          // setComments(data.comments);
+          // setPostUserId(data.article.user.id);
           setPost(data.article);
-          setComments(data.comments);
+          setComments(data.comments || []);
+          setPostUserId(data.article?.user?.id || "");
         })
         .catch((err) => console.error(err));
       setUpdateComment(false);
     }
-  }, [id, updateComment]);
+  }, [id, updateComment, post, comments]);
 
+  // useEffect(() => {
+  //   setUserId(getIdFromToken(getCookie("jwtToken")));
+  //   console.log(post.user);
+  // }, []);
+
+  const onAddHeart = (type, id) => {
+    axios
+      .post(
+        `${SV_LOCAL}/community/heart/add`,
+        { typeId: id, type: type },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (type === 0) setPost(res.article);
+        else setComments(res.comments || []);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const onDeleteHeart = (type, id) => {
+    axios
+      .delete(
+        `${SV_LOCAL}/community/heart/delete`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+
+          data: { typeId: id, type: type },
+        }
+      )
+      .then((res) => {
+        if (type === 0) setPost(res.article);
+        else setComments(res.comments || []);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
-    <Form>
-      <Post img={post.img}>
-        <header>
-          <div className="post-header-title">{post.title}</div>
-          <div className="post-header-date">
-            작성일 {dateParse(post.createdAt)}
-          </div>
-        </header>
-        <main>
-          <div className="post-main-info">
-            <div className="post-main-info__img"></div>
-            <span className="post-main-info__name">
-              {post.userNickname || "익명"} ({post.isTutor ? "멘토" : "멘티"})
-            </span>
-          </div>
-          <pre className="post-main-content">{post.content}</pre>
-        </main>
-        <footer>
-          {post.like ? (
-            <FontAwesomeIcon icon={faHeartFull} className="icon heart-full" />
-          ) : (
-            <FontAwesomeIcon icon={faHeart} className="icon" />
-          )}
-          <span>{post.heartCnt}</span>
-          <FontAwesomeIcon icon={faMessage} className="icon" />
-          <span>{comments.length}</span>
-        </footer>
-      </Post>
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onEditPostContent();
+        setEditPostContent(false);
+      }}
+    >
+      {editPostContent ? (
+        <Post img={post.img}>
+          <header>
+            <select
+              name="category-select"
+              className="category-select"
+              value={post.categoryId} //
+              onChange={(e) => {
+                setPost({ ...post, categoryId: e.target.value });
+              }}
+              required
+            >
+              <option value="">카테고리</option>
+              {CommunityCategoryList.map((category, idx) => (
+                <option value={idx} key={idx}>
+                  {category.title}
+                </option>
+              ))}
+            </select>
+            <span className="post-header__title">제목</span>
+            <input
+              type="text"
+              className="post-header__input"
+              placeholder="제목을 작성해 주세요."
+              value={post.title}
+              required
+              onChange={(e) => setPost({ ...post, title: e.target.value })}
+            />
+          </header>
+          <main style={{ padding: "2rem 3rem" }}>
+            <textarea
+              className={
+                editPostContent
+                  ? "post-content post-content-write"
+                  : "post-content"
+              }
+              required
+              value={post.content}
+              disabled={!editPostContent}
+              ref={postInputRef}
+              onChange={(e) => {
+                setPost({ ...post, content: e.target.value });
+              }}
+            />
+          </main>
+          <footer>
+            <button type="submit">등록</button>
+          </footer>
+        </Post>
+      ) : (
+        <Post img={post.img}>
+          <header>
+            <div className="post-header__title">{post.title}</div>
+            <FontAwesomeIcon
+              icon={faEllipsisVertical}
+              className="post-option__btn"
+              onClick={() => {
+                setOptionClick((current) => !current);
+              }}
+            />
+            {optionClick ? (
+              postUserId === getIdFromToken(getCookie("jwtToken")) ? (
+                <div className="post-options">
+                  <div className="post-options__item">
+                    <FontAwesomeIcon icon={faPencil} className="icon" />
+                    <span
+                      onClick={() => {
+                        setEditPostContent(true);
+                        setOptionClick(false);
+                        setTimeout(() => {
+                          postInputRef.current.focus();
+                          const textLength = postInputRef.current.value.length;
+                          postInputRef.current.setSelectionRange(
+                            textLength,
+                            textLength
+                          );
+                        }, 0);
+                      }}
+                    >
+                      편집
+                    </span>
+                  </div>
+                  <div className="post-options__item">
+                    <FontAwesomeIcon icon={faTrashCan} className="icon" />
+                    <span>삭제</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="post-options">
+                  <div className="post-options__item">
+                    <FontAwesomeIcon icon={faPencil} className="icon" />
+                    <span>신고</span>
+                  </div>
+                </div>
+              )
+            ) : (
+              ""
+            )}
+          </header>
+          <main>
+            <div className="post-main-info">
+              <div className="post-main-info__img"></div>
+              <span className="post-main-info__name">
+                {post.user?.nickname || ""} (
+                {post.user?.isTutor ? "멘토" : "멘티"})
+              </span>
+            </div>
+            <div className="post-date">
+              작성일 {dateParse(post.createdAt)}
+              {post.createdAt !== post.updatedAt ? " (수정됨)" : ""}
+            </div>
+            <textarea
+              className={
+                editPostContent
+                  ? "post-content post-content-write"
+                  : "post-content"
+              }
+              value={post.content}
+              disabled={!editPostContent}
+              ref={postInputRef}
+              onChange={(e) => {
+                setPost({ ...post, content: e.target.value });
+              }}
+            />
+          </main>
+
+          <footer>
+            {post.isHeartClicked ? (
+              <FontAwesomeIcon
+                icon={faHeartFull}
+                className="icon heart-full"
+                onClick={() => {
+                  setPost({ ...post, isHeartClicked: false });
+                }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faHeart}
+                className="icon"
+                onClick={() => {
+                  setPost({ ...post, isHeartClicked: true });
+                }}
+              />
+            )}
+            <span>{post.heartCnt}</span>
+            <FontAwesomeIcon icon={faMessage} className="icon" />
+            <span>{comments.length}</span>
+          </footer>
+        </Post>
+      )}
       <CommentWrapper>
         <div
           style={{
@@ -175,8 +377,8 @@ const PostDetail = () => {
                   <div className="img-container"></div>
                   <div className="info">
                     <span className="name">
-                      {comment.userNickname || "익명"} (
-                      {comment.isTutor ? "멘토" : "멘티"})
+                      {comment.user.nickname || "익명"} (
+                      {comment.user.isTutor ? "멘토" : "멘티"})
                     </span>
                     <span className="date">
                       작성일 {dateParse(comment.createdAt)}
@@ -189,13 +391,24 @@ const PostDetail = () => {
               </main>
               <footer>
                 <div className="footer-left">
-                  {comment.like ? (
+                  {comment.isHeartClicked ? (
                     <FontAwesomeIcon
                       icon={faHeartFull}
                       className="icon heart-full"
+                      onClick={() => {
+                        onDeleteHeart(1, comment.id); //댓글은 type 1
+                        setUpdateComment(true);
+                      }}
                     />
                   ) : (
-                    <FontAwesomeIcon icon={faHeart} className="icon" />
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      className="icon"
+                      onClick={() => {
+                        onAddHeart(1, comment.id); //댓글은 type 1
+                        setUpdateComment(true);
+                      }}
+                    />
                   )}
                   <span>{comment.heartCnt}</span>
                   <span
@@ -212,82 +425,92 @@ const PostDetail = () => {
                 </div>
               </footer>
             </Comment>
-            {/* {comment.replyList.map((item, idx) => (
-            <>
-              <Comment img={item.img} key={idx} style={{ width: "90%" }}>
+            {comment.recomments.map((recomment, idx) => (
+              <Comment img={recomment.img} key={idx} style={{ width: "90%" }}>
                 <header>
                   <div className="header-left">
                     <div className="img-container"></div>
                     <div className="info">
                       <span className="name">
-                        {item.name} ({item.age})
+                        {recomment.user.nickname} (
+                        {recomment.user.isTutor ? "멘토" : "멘티"})
                       </span>
-                      <span className="date">작성일 {item.date}</span>
+                      <span className="date">작성일 {recomment.date}</span>
                     </div>
                   </div>
                 </header>
                 <main>
                   <div className="main-content">
-                    {item.target && (
+                    {recomment.target && (
                       <span style={{ color: "#2F5383", fontWeight: "600" }}>
-                        @{item.target}
+                        @{recomment.target}
                       </span>
                     )}
-                    {item.content}
+                    {recomment.content}
                   </div>
                 </main>
                 <footer>
                   <div className="footer-left">
-                    {item.like ? (
+                    {recomment.isHeartClicked ? (
                       <FontAwesomeIcon
                         icon={faHeartFull}
                         className="icon heart-full"
+                        onClick={() => {
+                          onDeleteHeart(2, recomment.id); //대댓글은 type 2
+                          setUpdateComment(true);
+                        }}
                       />
                     ) : (
-                      <FontAwesomeIcon icon={faHeart} className="icon" />
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        className="icon"
+                        onClick={() => {
+                          onAddHeart(2, recomment.id); //대댓글은 type 2
+                          setUpdateComment(true);
+                        }}
+                      />
                     )}
-                    <span>{item.likeCount}</span>
+                    <span>{recomment.heartCnt}</span>
                   </div>
                 </footer>
               </Comment>
-            </>
-          ))}
-          {isAddReply && commentIdx === replyTargetIdx ? (
-            <ReplyInput
-              style={{ width: "90%" }}
-              ref={replyIRef}
-              onSubmit={(e) => {
-                e.preventDefault();
-                onEnterReply(commentIdx);
-              }}
-            >
-              <input
-                type="text"
-                placeholder={`${replyTarget}님 댓글에 답글쓰기`}
-                onChange={(e) => setreplyInput(e.target.value)}
-                value={replyInput}
-              />
-              <div className="reply-title">답글쓰기</div>
-              <div className="reply-option">
-                <div
-                  className="reply-option__item"
-                  onClick={() => setIsAddReply(false)}
-                >
-                  취소
+            ))}
+            {isAddReply && commentIdx === replyTargetIdx ? (
+              <ReplyInput
+                style={{ width: "90%" }}
+                ref={replyIRef}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onEnterReply(commentIdx);
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder={`${replyTarget}님 댓글에 답글쓰기`}
+                  onChange={(e) => setreplyInput(e.target.value)}
+                  value={replyInput}
+                />
+                <div className="reply-title">답글쓰기</div>
+                <div className="reply-option">
+                  <div
+                    className="reply-option__item"
+                    onClick={() => setIsAddReply(false)}
+                  >
+                    취소
+                  </div>
+                  <div
+                    className="reply-option__item"
+                    onClick={() => {
+                      onEnterReply(commentIdx);
+                    }}
+                  >
+                    등록
+                  </div>
                 </div>
-                <div
-                  className="reply-option__item"
-                  onClick={() => {
-                    onEnterReply(commentIdx);
-                  }}
-                >
-                  등록
-                </div>
-              </div>
-            </ReplyInput>
-          ) : (
-            ""
-          )} */}
+              </ReplyInput>
+            ) : (
+              ""
+            )}
             <HorizontalLine color="#929292" height="1px" />
           </Fragment>
         ))}
@@ -327,7 +550,7 @@ const PostDetail = () => {
 
 export default PostDetail;
 
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   margin: 8rem 0;
   align-items: center;
@@ -342,22 +565,74 @@ const Post = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   overflow: hidden;
-  position: relative;
   > header {
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 1.5rem;
     background-color: #2f5383;
     color: white;
-    .post-header-title {
+    position: relative;
+    height: 2rem;
+    gap: 2rem;
+    .category-select {
+      width: 10rem;
+      height: 2.3rem;
+      text-align: center;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+      &__info {
+        position: absolute;
+        left: 4rem;
+        top: 4rem;
+        font-size: 1rem;
+        color: red;
+      }
+    }
+    .post-header__title {
       font-size: 1.4rem;
       font-weight: 600;
     }
-    .post-header-date {
+    .post-header__input {
+      width: 60%;
+      border: 1px solid gray;
+      border-radius: 5px;
+      padding: 0.5rem;
+    }
+    .post-option__btn {
       position: absolute;
-      top: 1.7rem;
       right: 2rem;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .post-options {
+      position: absolute;
+      top: 4rem;
+      right: 1.4rem;
+      padding: 1rem;
+      border: 1px solid gray;
+      border-radius: 0.8rem;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      z-index: 99;
+      &__item {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        font-size: 1.3rem;
+        cursor: pointer;
+        .icon,
+        span {
+          color: black;
+          &:hover {
+            font-weight: 700;
+          }
+        }
+      }
     }
   }
   > main {
@@ -365,6 +640,14 @@ const Post = styled.div`
     flex-direction: column;
     padding: 2rem 3rem 0;
     gap: 0.5rem;
+    position: relative;
+
+    .post-date {
+      position: absolute;
+      top: 1.7rem;
+      right: 2rem;
+      font-size: 1.2rem;
+    }
     .post-main-info {
       display: flex;
       align-items: center;
@@ -385,9 +668,18 @@ const Post = styled.div`
         font-weight: 600;
       }
     }
-    .post-main-content {
+    .post-content {
       font-size: 1.2rem;
       line-height: 2.5rem;
+      border: none;
+      background-color: transparent;
+      color: black;
+      resize: none;
+    }
+    .post-content-write {
+      min-height: 25rem;
+      vertical-align: top;
+      align-items: start;
     }
   }
   > footer {
@@ -406,6 +698,21 @@ const Post = styled.div`
     span {
       font-size: 1.2rem;
       margin-right: 1rem;
+    }
+    > button {
+      width: 5rem;
+      height: 2.5rem;
+      align-items: center;
+      background-color: #516a8b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 1.5rem;
+      font-size: 1.2rem;
+      &:hover {
+        background-color: #2f5383;
+      }
     }
   }
 `;

@@ -67,13 +67,14 @@ const Menubar = () => {
           "http://localhost:3000/mentor",
         ]);
       } else {
-        setLeftMenu(["홈", "멘토", "게시판", "상담"]);
+        setLeftMenu(["홈", "멘토", "게시판", "상담", "커뮤니티"]);
         setRightMenu(["초대하기", "이용권 구매"]);
         setLeftLink([
           "http://localhost:3000/mentee",
           "http://localhost:3000/mentee/mentor",
           "http://localhost:3000/mentee",
           "http://localhost:3000/mentee",
+          "http://localhost:3000/community",
         ]);
         setRightLink([
           "http://localhost:3000/mentee",
