@@ -2,19 +2,18 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faMagnifyingGlass,
   faChevronUp,
   faPencil,
   faHeart as faHeartFull,
   faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import {
+  faFlag,
   faHeart,
   faMessage,
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
 import { Link, useParams } from "react-router-dom";
-import CommentList from "../../components/List/CommentList";
 import axios from "axios";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
@@ -43,17 +42,27 @@ const PostDetail = () => {
 
   const [isAddReply, setIsAddReply] = useState(false);
   const [replyTargetIdx, setReplyTargetIdx] = useState(0);
-  const [replyTarget, setReplyTarget] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [replyInput, setreplyInput] = useState("");
+  const [originalPost, setOriginalPost] = useState();
+
   const [postUserId, setPostUserId] = useState();
   const [updateComment, setUpdateComment] = useState(true);
-  const [optionClick, setOptionClick] = useState(false);
-  const [editPostContent, setEditPostContent] = useState(false);
+  const [updatePost, setUpdatePost] = useState(true);
 
+  const [postOptionClick, setPostOptionClick] = useState(false);
+  const [commentOptionClick, setCommentOptionClick] = useState("");
+  const [replyOptionClick, setReplyOptionClick] = useState(false);
+
+  const [editPostContent, setEditPostContent] = useState(false);
+  const [editCommentContent, setEditCommentContent] = useState("");
+  const [editReplyContent, setEditReplyContent] = useState(false);
+
+  const postInputRef = useRef(null);
+  const commentInputRef = useRef([]);
   const replyInputRef = useRef(null);
   const replyIRef = useRef(null);
-  const postInputRef = useRef(null);
+  const deleteModalRef = useRef(null);
 
   const scrollToReplyInput = () => {
     if (replyIRef.current) {
@@ -68,6 +77,87 @@ const PostDetail = () => {
     if (!window.scrollY) return;
     window.scrollTo(0, 0);
   };
+
+  const [deleteOption, setDeleteOption] = useState({
+    type: "",
+    id: "",
+  });
+
+  const onDeletePostOrComment = () => {
+    console.log("here");
+    document.body.style.overflowY = "hidden";
+    // post, comment, relpy 삭제
+    return (
+      <DeleteWrapper
+        onClick={() => {
+          setDeleteOption({ type: "", id: "" });
+        }}
+      >
+        <DeleteModal onClick={(e) => e.stopPropagation()}>
+          <header>
+            <span>
+              {deleteOption.type !== "0" ? "댓글" : "게시글"}을
+              삭제하시겠습니까?
+            </span>
+          </header>
+          <main>
+            <div
+              className="button"
+              onClick={() => {
+                setDeleteOption({ type: "", id: "" });
+              }}
+            >
+              취소
+            </div>
+            <div className="button" onClick={onDeletePost}>
+              삭제
+            </div>
+          </main>
+        </DeleteModal>
+      </DeleteWrapper>
+    );
+  };
+
+  const onDeletePost = () => {
+    if (deleteOption.type === "0") {
+      axios
+        .delete(
+          `${SV_LOCAL}/community/article/delete`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${getCookie("jwtToken")}`,
+            },
+
+            data: { id: deleteOption.id },
+          }
+        )
+        .then(() => deleteOption({ type: "", id: "" }))
+        .catch((err) => console.log(err));
+    } else {
+      console.log(deleteOption.id);
+      axios
+        .delete(
+          `${SV_LOCAL}/community/comment/delete`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${getCookie("jwtToken")}`,
+            },
+
+            data: { id: deleteOption.id },
+          }
+        )
+        .then(() => deleteOption({ type: "", id: "" }))
+        .catch((err) => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    if (!deleteOption) {
+      document.body.style.overflowY = "auto";
+    }
+  }, [deleteOption]);
 
   const onEnterReply = (commentIdx) => {
     const updatedComments = [...comments];
@@ -93,7 +183,7 @@ const PostDetail = () => {
     axios
       .post(
         `${SV_LOCAL}/community/comment/add`,
-        { articleId: id, content: commentInput },
+        { articleId: post.id, content: commentInput },
         {
           headers: {
             "ngrok-skip-browser-warning": "69420",
@@ -111,28 +201,55 @@ const PostDetail = () => {
   }, [isAddReply]);
 
   const onEditPostContent = () => {
-    axios.post(
-      `${SV_LOCAL}/community/article/modify`,
-      {
-        json: JSON.stringify({
-          id: post.id,
-          categoryId: post.categoryId,
-          title: post.title,
-          content: post.content,
-          removedImageUrls: [],
-        }),
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${getCookie("jwtToken")}`,
-          "Content-Type": "multipart/form-data",
+    axios
+      .post(
+        `${SV_LOCAL}/community/article/modify`,
+        {
+          json: JSON.stringify({
+            id: post.id,
+            categoryId: post.categoryId,
+            title: post.title,
+            content: post.content,
+            removedImageUrls: [],
+          }),
         },
-      }
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then(() => {
+        setEditPostContent(false);
+        setUpdatePost(true);
+      });
+  };
+
+  const onEditCommentContent = (id, idx) => {
+    axios
+      .post(
+        `${SV_LOCAL}/community/comment/modify`,
+        {
+          id: id,
+          content: comments[idx].content,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      )
+      .then(() => {
+        // setTmpCommentInput("");
+        setEditCommentContent("");
+        setUpdateComment(true);
+      });
   };
 
   useEffect(() => {
-    if (updateComment) {
+    console.log("detail api");
+    if (updateComment || updatePost) {
       axios
         .get(`${SV_LOCAL}/community/article/detail`, {
           headers: {
@@ -144,23 +261,29 @@ const PostDetail = () => {
         })
         .then((res) => {
           const data = res.data;
-          // setPost(data.article);
-          // setComments(data.comments);
-          // setPostUserId(data.article.user.id);
-          setPost(data.article);
+          console.log(data);
+          setPost(data.article || {});
           setComments(data.comments || []);
           setPostUserId(data.article?.user?.id || "");
+          setOriginalPost(data);
         })
         .catch((err) => console.error(err));
       setUpdateComment(false);
+      setUpdatePost(false);
     }
-  }, [id, updateComment, post, comments]);
+  }, [id, updateComment, updatePost]);
 
+  useEffect(() => {}, []);
   // useEffect(() => {
   //   setUserId(getIdFromToken(getCookie("jwtToken")));
   //   console.log(post.user);
   // }, []);
 
+  const optionInitialize = () => {
+    setPostOptionClick(false);
+    setCommentOptionClick("");
+    setReplyOptionClick("");
+  };
   const onAddHeart = (type, id) => {
     axios
       .post(
@@ -173,7 +296,7 @@ const PostDetail = () => {
         }
       )
       .then((res) => {
-        if (type === 0) setPost(res.article);
+        if (type === 0) setPost(res.article || {});
         else setComments(res.comments || []);
       })
       .catch((err) => console.log(err));
@@ -193,88 +316,106 @@ const PostDetail = () => {
         }
       )
       .then((res) => {
-        if (type === 0) setPost(res.article);
+        if (type === 0) setPost(res.article || {});
         else setComments(res.comments || []);
       })
       .catch((err) => console.log(err));
   };
   return (
-    <Form
-      onSubmit={(e) => {
-        e.preventDefault();
-        onEditPostContent();
-        setEditPostContent(false);
-      }}
-    >
-      {editPostContent ? (
-        <Post img={post.img}>
-          <header>
-            <select
-              name="category-select"
-              className="category-select"
-              value={post.categoryId} //
-              onChange={(e) => {
-                setPost({ ...post, categoryId: e.target.value });
-              }}
-              required
-            >
-              <option value="">카테고리</option>
-              {CommunityCategoryList.map((category, idx) => (
-                <option value={idx} key={idx}>
-                  {category.title}
-                </option>
-              ))}
-            </select>
-            <span className="post-header__title">제목</span>
-            <input
-              type="text"
-              className="post-header__input"
-              placeholder="제목을 작성해 주세요."
-              value={post.title}
-              required
-              onChange={(e) => setPost({ ...post, title: e.target.value })}
-            />
-          </header>
-          <main style={{ padding: "2rem 3rem" }}>
-            <textarea
-              className={
-                editPostContent
-                  ? "post-content post-content-write"
-                  : "post-content"
-              }
-              required
-              value={post.content}
-              disabled={!editPostContent}
-              ref={postInputRef}
-              onChange={(e) => {
-                setPost({ ...post, content: e.target.value });
-              }}
-            />
-          </main>
-          <footer>
-            <button type="submit">등록</button>
-          </footer>
-        </Post>
-      ) : (
-        <Post img={post.img}>
-          <header>
-            <div className="post-header__title">{post.title}</div>
-            <FontAwesomeIcon
-              icon={faEllipsisVertical}
-              className="post-option__btn"
-              onClick={() => {
-                setOptionClick((current) => !current);
-              }}
-            />
-            {optionClick ? (
-              postUserId === getIdFromToken(getCookie("jwtToken")) ? (
-                <div className="post-options">
-                  <div className="post-options__item">
-                    <FontAwesomeIcon icon={faPencil} className="icon" />
-                    <span
+    <>
+      <Form>
+        {editPostContent ? (
+          <Post
+            img={post.img || ""}
+            onSubmit={(e) => {
+              e.preventDefault();
+              onEditPostContent();
+            }}
+          >
+            <header>
+              <select
+                name="category-select"
+                className="category-select"
+                value={post.categoryId} //
+                onChange={(e) => {
+                  setPost({ ...post, categoryId: e.target.value });
+                }}
+                required
+              >
+                <option value="">카테고리</option>
+                {CommunityCategoryList.map((category, idx) => (
+                  <option value={idx} key={idx}>
+                    {category.title}
+                  </option>
+                ))}
+              </select>
+              <span className="post-header__title">제목</span>
+              <input
+                type="text"
+                className="post-header__input"
+                placeholder="제목을 작성해 주세요."
+                value={post.title}
+                required
+                onChange={(e) => setPost({ ...post, title: e.target.value })}
+              />
+            </header>
+            <main style={{ padding: "2rem 3rem" }}>
+              <textarea
+                className={
+                  editPostContent
+                    ? "post-content post-content-write"
+                    : "post-content"
+                }
+                required
+                value={post.content}
+                disabled={!editPostContent}
+                ref={postInputRef}
+                onChange={(e) => {
+                  setPost({ ...post, content: e.target.value });
+                }}
+              />
+            </main>
+            <footer>
+              <div
+                className="button"
+                style={{ margin: "0" }}
+                onClick={() => {
+                  setEditPostContent(false);
+                  setPost({
+                    ...post,
+                    content: originalPost.article.content,
+                    categoryId: originalPost.article.categoryId,
+                    title: originalPost.article.title,
+                  });
+                }}
+              >
+                취소
+              </div>
+              <button type="submit">등록</button>
+            </footer>
+          </Post>
+        ) : (
+          <Post img={post.img || ""}>
+            <header>
+              <div className="post-header__title">{post.title}</div>
+              <FontAwesomeIcon
+                icon={faEllipsisVertical}
+                className="post-option__btn"
+                onClick={() => {
+                  optionInitialize();
+                  if (!postOptionClick) setPostOptionClick(true);
+
+                  //setPostOptionClick((current) => !current);
+                }}
+              />
+              {postOptionClick &&
+                (postUserId === getIdFromToken(getCookie("jwtToken")) ? (
+                  <div className="post-options">
+                    <div
+                      className="post-options__item"
                       onClick={() => {
                         setEditPostContent(true);
-                        setOptionClick(false);
+                        setPostOptionClick(false);
                         setTimeout(() => {
                           postInputRef.current.focus();
                           const textLength = postInputRef.current.value.length;
@@ -285,272 +426,415 @@ const PostDetail = () => {
                         }, 0);
                       }}
                     >
-                      편집
-                    </span>
+                      <FontAwesomeIcon icon={faPencil} className="icon" />
+                      <span>편집</span>
+                    </div>
+                    <div
+                      className="post-options__item"
+                      onClick={() => {
+                        setPostOptionClick(false);
+                        setDeleteOption({ type: "0", id: post.id });
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTrashCan} className="icon" />
+                      <span>삭제</span>
+                    </div>
                   </div>
-                  <div className="post-options__item">
-                    <FontAwesomeIcon icon={faTrashCan} className="icon" />
-                    <span>삭제</span>
+                ) : (
+                  <div className="post-options">
+                    <div
+                      className="post-options__item"
+                      onClick={() => setPostOptionClick(false)}
+                    >
+                      <FontAwesomeIcon icon={faFlag} className="icon" />
+                      <span>신고</span>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className="post-options">
-                  <div className="post-options__item">
-                    <FontAwesomeIcon icon={faPencil} className="icon" />
-                    <span>신고</span>
-                  </div>
-                </div>
-              )
-            ) : (
-              ""
-            )}
-          </header>
-          <main>
-            <div className="post-main-info">
-              <div className="post-main-info__img"></div>
-              <span className="post-main-info__name">
-                {post.user?.nickname || ""} (
-                {post.user?.isTutor ? "멘토" : "멘티"})
-              </span>
-            </div>
-            <div className="post-date">
-              작성일 {dateParse(post.createdAt)}
-              {post.createdAt !== post.updatedAt ? " (수정됨)" : ""}
-            </div>
-            <textarea
-              className={
-                editPostContent
-                  ? "post-content post-content-write"
-                  : "post-content"
-              }
-              value={post.content}
-              disabled={!editPostContent}
-              ref={postInputRef}
-              onChange={(e) => {
-                setPost({ ...post, content: e.target.value });
-              }}
-            />
-          </main>
+                ))}
+            </header>
+            <main>
+              <div className="post-main-info">
+                <div className="post-main-info__img"></div>
+                <span className="post-main-info__name">
+                  {post.user?.nickname || ""} (
+                  {post.user?.isTutor ? "멘토" : "멘티"})
+                </span>
+              </div>
+              <div className="post-date">
+                작성일 {dateParse(post.createdAt)}
+                {post.createdAt !== post.updatedAt ? " (수정됨)" : ""}
+              </div>
+              <textarea
+                className={"post-content"}
+                value={post.content}
+                disabled={!editPostContent}
+                ref={postInputRef}
+                onChange={(e) => {
+                  setPost({ ...post, content: e.target.value });
+                }}
+              />
+            </main>
 
-          <footer>
-            {post.isHeartClicked ? (
-              <FontAwesomeIcon
-                icon={faHeartFull}
-                className="icon heart-full"
-                onClick={() => {
-                  setPost({ ...post, isHeartClicked: false });
-                }}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faHeart}
-                className="icon"
-                onClick={() => {
-                  setPost({ ...post, isHeartClicked: true });
-                }}
-              />
-            )}
-            <span>{post.heartCnt}</span>
-            <FontAwesomeIcon icon={faMessage} className="icon" />
-            <span>{comments.length}</span>
-          </footer>
-        </Post>
-      )}
-      <CommentWrapper>
-        <div
-          style={{
-            fontSize: "1.35rem",
-            fontWeight: "500",
-            margin: "1rem 0",
-            width: "100%",
-            textAlign: "start",
-          }}
-        >
-          댓글 ({comments.length})
-        </div>
-        {/*위 댓글수와 중복되긴 함*/}
-        {comments.map((comment, commentIdx) => (
-          <Fragment key={comment.id}>
-            <Comment img={comment.img}>
-              <header>
-                <div className="header-left">
-                  <div className="img-container"></div>
-                  <div className="info">
-                    <span className="name">
-                      {comment.user.nickname || "익명"} (
-                      {comment.user.isTutor ? "멘토" : "멘티"})
-                    </span>
-                    <span className="date">
-                      작성일 {dateParse(comment.createdAt)}
-                    </span>
-                  </div>
-                </div>
-              </header>
-              <main>
-                <div className="main-content">{comment.content}</div>
-              </main>
-              <footer>
-                <div className="footer-left">
-                  {comment.isHeartClicked ? (
-                    <FontAwesomeIcon
-                      icon={faHeartFull}
-                      className="icon heart-full"
-                      onClick={() => {
-                        onDeleteHeart(1, comment.id); //댓글은 type 1
-                        setUpdateComment(true);
-                      }}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      className="icon"
-                      onClick={() => {
-                        onAddHeart(1, comment.id); //댓글은 type 1
-                        setUpdateComment(true);
-                      }}
-                    />
-                  )}
-                  <span>{comment.heartCnt}</span>
-                  <span
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      setIsAddReply(true);
-                      setReplyTarget(comment.name);
-                      setReplyTargetIdx(commentIdx);
-                      scrollToReplyInput();
-                    }}
-                  >
-                    답글쓰기
-                  </span>
-                </div>
-              </footer>
-            </Comment>
-            {comment.recomments.map((recomment, idx) => (
-              <Comment img={recomment.img} key={idx} style={{ width: "90%" }}>
+            <footer>
+              {post.isHeartClicked ? (
+                <FontAwesomeIcon
+                  icon={faHeartFull}
+                  className="icon heart-full"
+                  onClick={() => {
+                    onDeleteHeart(0, post.id); //게시글은 type 0
+                    setUpdatePost(true);
+                  }}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  className="icon"
+                  onClick={() => {
+                    onAddHeart(0, post.id); //게시글은 type 0
+                    setUpdatePost(true);
+                  }}
+                />
+              )}
+              <span>{post.heartCnt}</span>
+              <FontAwesomeIcon icon={faMessage} className="icon" />
+              <span>{post.commentCnt}</span>
+            </footer>
+          </Post>
+        )}
+        <CommentWrapper>
+          <div
+            style={{
+              fontSize: "1.35rem",
+              fontWeight: "500",
+              margin: "1rem 0",
+              width: "100%",
+              textAlign: "start",
+            }}
+          >
+            댓글 ({comments.length})
+          </div>
+          {/*위 댓글수와 중복되긴 함*/}
+          {comments.map((comment, commentIdx) => (
+            <Fragment key={comment.id}>
+              <Comment img={comment.img || ""}>
                 <header>
                   <div className="header-left">
                     <div className="img-container"></div>
                     <div className="info">
                       <span className="name">
-                        {recomment.user.nickname} (
-                        {recomment.user.isTutor ? "멘토" : "멘티"})
+                        {comment.user.nickname || "익명"} (
+                        {comment.user.isTutor ? "멘토" : "멘티"})
                       </span>
-                      <span className="date">작성일 {recomment.date}</span>
+                      <span className="date">
+                        작성일 {dateParse(comment.createdAt)}
+                        {comment.createdAt !== comment.updatedAt
+                          ? " (수정됨)"
+                          : ""}
+                      </span>
                     </div>
                   </div>
+                  <FontAwesomeIcon
+                    icon={faEllipsisVertical}
+                    className="post-option__btn"
+                    style={{ color: "black" }}
+                    onClick={() => {
+                      optionInitialize();
+                      if (commentOptionClick === "")
+                        setCommentOptionClick(commentIdx);
+                      else if (commentOptionClick !== commentIdx)
+                        setCommentOptionClick(commentIdx);
+                    }}
+                  />
+                  {commentOptionClick === commentIdx &&
+                    (comment.user.id ===
+                    getIdFromToken(getCookie("jwtToken")) ? (
+                      <div className="post-options">
+                        <div
+                          className="post-options__item"
+                          onClick={() => {
+                            setEditCommentContent(commentIdx);
+                            setCommentOptionClick("");
+                            setTimeout(() => {
+                              commentInputRef[commentIdx].current.focus();
+                              const textLength =
+                                commentInputRef[commentIdx].current.value
+                                  .length;
+                              commentInputRef[
+                                commentIdx
+                              ].current.setSelectionRange(
+                                textLength,
+                                textLength
+                              );
+                            }, 0);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faPencil} className="icon" />
+                          <span>편집</span>
+                        </div>
+                        <div
+                          className="post-options__item"
+                          onClick={() => {
+                            setCommentOptionClick("");
+                            setDeleteOption({ type: "1", id: comment.id });
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} className="icon" />
+                          <span>삭제</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="post-options">
+                        <div
+                          className="post-options__item"
+                          onClick={() => {
+                            setCommentOptionClick("");
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faFlag} className="icon" />
+                          <span>신고</span>
+                        </div>
+                      </div>
+                    ))}
                 </header>
                 <main>
-                  <div className="main-content">
-                    {recomment.target && (
-                      <span style={{ color: "#2F5383", fontWeight: "600" }}>
-                        @{recomment.target}
-                      </span>
-                    )}
-                    {recomment.content}
-                  </div>
+                  <textarea
+                    className={
+                      editCommentContent === commentIdx
+                        ? "main-content-write main-content"
+                        : "main-content"
+                    }
+                    disabled={!(editCommentContent === commentIdx)}
+                    value={comment.content}
+                    ref={(inputRef) => {
+                      if (!commentInputRef[commentIdx]) {
+                        commentInputRef[commentIdx] = React.createRef();
+                      }
+                      commentInputRef[commentIdx].current = inputRef;
+                    }}
+                    onChange={(e) => {
+                      const updatedComment = [...comments];
+                      updatedComment[commentIdx].content = e.target.value;
+                      // console.log(updatedComment[commentIdx]);
+                      setComments(updatedComment);
+                      // setTmpCommentInput(e.target.value);
+                    }}
+                  />
                 </main>
-                <footer>
-                  <div className="footer-left">
-                    {recomment.isHeartClicked ? (
-                      <FontAwesomeIcon
-                        icon={faHeartFull}
-                        className="icon heart-full"
-                        onClick={() => {
-                          onDeleteHeart(2, recomment.id); //대댓글은 type 2
-                          setUpdateComment(true);
-                        }}
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        icon={faHeart}
-                        className="icon"
-                        onClick={() => {
-                          onAddHeart(2, recomment.id); //대댓글은 type 2
-                          setUpdateComment(true);
-                        }}
-                      />
-                    )}
-                    <span>{recomment.heartCnt}</span>
-                  </div>
-                </footer>
-              </Comment>
-            ))}
-            {isAddReply && commentIdx === replyTargetIdx ? (
-              <ReplyInput
-                style={{ width: "90%" }}
-                ref={replyIRef}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  onEnterReply(commentIdx);
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder={`${replyTarget}님 댓글에 답글쓰기`}
-                  onChange={(e) => setreplyInput(e.target.value)}
-                  value={replyInput}
-                />
-                <div className="reply-title">답글쓰기</div>
-                <div className="reply-option">
-                  <div
-                    className="reply-option__item"
-                    onClick={() => setIsAddReply(false)}
-                  >
-                    취소
-                  </div>
-                  <div
-                    className="reply-option__item"
-                    onClick={() => {
-                      onEnterReply(commentIdx);
+
+                {editCommentContent === commentIdx ? (
+                  <footer
+                    style={{
+                      justifyContent: "flex-end",
+                      padding: "0 2.5rem",
+                      gap: "0.5rem",
                     }}
                   >
-                    등록
+                    <button
+                      style={{ margin: "0" }}
+                      onClick={() => {
+                        setEditCommentContent("");
+                        const updatedComment = [...comments];
+                        updatedComment[commentIdx].content =
+                          originalPost.comments[commentIdx].content;
+                        console.log(
+                          updatedComment,
+                          originalPost.comments[commentIdx].content
+                        );
+                        setComments(updatedComment);
+                      }}
+                    >
+                      취소
+                    </button>
+                    <button
+                      type="submit"
+                      style={{ margin: "0" }}
+                      onClick={() => {
+                        // onEditCommentContent 함수를 호출하면 detail 을 받아오는 api 도 호출돼서 아래 코드 setComments 를 통해 업데이트해줄 필요가 없지만 api 불러오는 딜레이를 없애기 위해 추가하였음
+                        // const updatedComment = [...comments];
+                        // updatedComment[commentIdx].content = tmpCommentInput;
+                        // setComments(updatedComment);
+                        //
+                        onEditCommentContent(comment.id, commentIdx);
+                      }}
+                    >
+                      등록
+                    </button>
+                  </footer>
+                ) : (
+                  <footer>
+                    <div className="footer-left">
+                      {comment.isHeartClicked ? (
+                        <FontAwesomeIcon
+                          icon={faHeartFull}
+                          className="icon heart-full"
+                          onClick={() => {
+                            onDeleteHeart(1, comment.id); //댓글은 type 1
+                            setUpdateComment(true);
+                          }}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          className="icon"
+                          onClick={() => {
+                            onAddHeart(1, comment.id); //댓글은 type 1
+                            setUpdateComment(true);
+                          }}
+                        />
+                      )}
+                      <span>{comment.heartCnt}</span>
+                      <FontAwesomeIcon icon={faMessage} className="icon" />
+                      <span>{comment.recommentCnt}</span>
+                      <span
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          setIsAddReply(true);
+                          setReplyTargetIdx(commentIdx);
+                          scrollToReplyInput();
+                        }}
+                      >
+                        답글쓰기
+                      </span>
+                    </div>
+                  </footer>
+                )}
+              </Comment>
+              {comment.recomments.map((recomment, idx) => (
+                <Comment
+                  img={recomment.img || ""}
+                  key={idx}
+                  style={{ width: "90%" }}
+                >
+                  <header>
+                    <div className="header-left">
+                      <div className="img-container"></div>
+                      <div className="info">
+                        <span className="name">
+                          {recomment.user.nickname} (
+                          {recomment.user.isTutor ? "멘토" : "멘티"})
+                        </span>
+                        <span className="date">
+                          작성일 {dateParse(recomment.createdAt)}
+                        </span>
+                        {recomment.createdAt !== recomment.updatedAt
+                          ? " (수정됨)"
+                          : ""}
+                      </div>
+                    </div>
+                  </header>
+                  <main>
+                    <div className="main-content">
+                      {recomment.target && (
+                        <span style={{ color: "#2F5383", fontWeight: "600" }}>
+                          @{recomment.target}
+                        </span>
+                      )}
+                      {recomment.content}
+                    </div>
+                  </main>
+                  <footer>
+                    <div className="footer-left">
+                      {recomment.isHeartClicked ? (
+                        <FontAwesomeIcon
+                          icon={faHeartFull}
+                          className="icon heart-full"
+                          onClick={() => {
+                            onDeleteHeart(2, recomment.id); //대댓글은 type 2
+                            setUpdateComment(true);
+                          }}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          className="icon"
+                          onClick={() => {
+                            onAddHeart(2, recomment.id); //대댓글은 type 2
+                            setUpdateComment(true);
+                          }}
+                        />
+                      )}
+                      <span>{recomment.heartCnt}</span>
+                    </div>
+                  </footer>
+                </Comment>
+              ))}
+              {isAddReply && commentIdx === replyTargetIdx ? (
+                <ReplyInput
+                  style={{ width: "90%" }}
+                  ref={replyIRef}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    onEnterReply(commentIdx);
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder={`${comment.user.nickname}님 댓글에 답글쓰기`}
+                    onChange={(e) => setreplyInput(e.target.value)}
+                    value={replyInput}
+                  />
+                  <div className="reply-title">답글쓰기</div>
+                  <div className="reply-option">
+                    <div
+                      className="reply-option__item"
+                      onClick={() => setIsAddReply(false)}
+                    >
+                      취소
+                    </div>
+                    <div
+                      className="reply-option__item"
+                      onClick={() => {
+                        onEnterReply(commentIdx);
+                      }}
+                    >
+                      등록
+                    </div>
                   </div>
-                </div>
-              </ReplyInput>
-            ) : (
-              ""
-            )}
-            <HorizontalLine color="#929292" height="1px" />
-          </Fragment>
-        ))}
-        <ReplyInput
-          onSubmit={(e) => {
-            e.preventDefault();
-            onEnterComment();
-          }}
-        >
-          <input
-            type="text"
-            placeholder="여기에 댓글을 입력해주세요."
-            onChange={(e) => setCommentInput(e.target.value)}
-            value={commentInput}
-          />
-          <div className="reply-title">댓글쓰기</div>
-          <div className="reply-option">
-            <div className="reply-option__item" onClick={onEnterComment}>
-              등록
+                </ReplyInput>
+              ) : (
+                ""
+              )}
+              <HorizontalLine color="#929292" height="1px" />
+            </Fragment>
+          ))}
+          <ReplyInput>
+            <input
+              type="text"
+              placeholder="여기에 댓글을 입력해주세요."
+              onChange={(e) => setCommentInput(e.target.value)}
+              value={commentInput}
+            />
+            <div className="reply-title">댓글쓰기</div>
+            <div className="reply-option">
+              <div className="reply-option__item" onClick={onEnterComment}>
+                등록
+              </div>
             </div>
+          </ReplyInput>
+        </CommentWrapper>
+        <UtilBox>
+          <Link className="util-item write" to={"/community/write"}>
+            <FontAwesomeIcon icon={faPencil} />
+            <span>글쓰기</span>
+          </Link>
+          <div className="util-item up" onClick={ScrollUp}>
+            <FontAwesomeIcon icon={faChevronUp} />
+            <span>위로</span>
           </div>
-        </ReplyInput>
-      </CommentWrapper>
-      <UtilBox>
-        <Link className="util-item write" to={"/community/write"}>
-          <FontAwesomeIcon icon={faPencil} />
-          <span>글쓰기</span>
-        </Link>
-        <div className="util-item up" onClick={ScrollUp}>
-          <FontAwesomeIcon icon={faChevronUp} />
-          <span>위로</span>
-        </div>
-      </UtilBox>
-    </Form>
+        </UtilBox>
+      </Form>
+      {deleteOption.type !== ""
+        ? onDeletePostOrComment()
+        : () => {
+            document.body.style.overflowY = "auto";
+          }}
+    </>
   );
 };
 
 export default PostDetail;
 
-const Form = styled.form`
+const Form = styled.div`
   display: flex;
   margin: 8rem 0;
   align-items: center;
@@ -558,9 +842,80 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  .post-option__btn {
+    position: absolute;
+    right: 2rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  .post-options {
+    position: absolute;
+    top: 4rem;
+    right: 1.4rem;
+    padding: 1rem;
+    border: 1px solid gray;
+    border-radius: 0.8rem;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    z-index: 99;
+    &__item {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 1.3rem;
+      cursor: pointer;
+
+      .icon,
+      span {
+        color: black;
+        &:hover {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+  button,
+  .button {
+    width: 5rem;
+    height: 2.5rem;
+    align-items: center;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 1.5rem;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    &:hover {
+      font-weight: 600;
+      background-color: #e9e9e9;
+    }
+  }
+  button[type="submit"] {
+    width: 5rem;
+    height: 2.5rem;
+    align-items: center;
+    background-color: #516a8b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 1.5rem;
+    font-size: 1.2rem;
+    &:hover {
+      background-color: #2f5383;
+    }
+  }
 `;
 
-const Post = styled.div`
+const Post = styled.form`
   width: 60rem;
   border: 1px solid black;
   border-radius: 10px;
@@ -598,41 +953,6 @@ const Post = styled.div`
       border: 1px solid gray;
       border-radius: 5px;
       padding: 0.5rem;
-    }
-    .post-option__btn {
-      position: absolute;
-      right: 2rem;
-      font-size: 1.4rem;
-      cursor: pointer;
-    }
-    .post-options {
-      position: absolute;
-      top: 4rem;
-      right: 1.4rem;
-      padding: 1rem;
-      border: 1px solid gray;
-      border-radius: 0.8rem;
-      background-color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      z-index: 99;
-      &__item {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        font-size: 1.3rem;
-        cursor: pointer;
-        .icon,
-        span {
-          color: black;
-          &:hover {
-            font-weight: 700;
-          }
-        }
-      }
     }
   }
   > main {
@@ -680,6 +1000,7 @@ const Post = styled.div`
       min-height: 25rem;
       vertical-align: top;
       align-items: start;
+      border: 1px solid gray;
     }
   }
   > footer {
@@ -698,21 +1019,6 @@ const Post = styled.div`
     span {
       font-size: 1.2rem;
       margin-right: 1rem;
-    }
-    > button {
-      width: 5rem;
-      height: 2.5rem;
-      align-items: center;
-      background-color: #516a8b;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-right: 1.5rem;
-      font-size: 1.2rem;
-      &:hover {
-        background-color: #2f5383;
-      }
     }
   }
 `;
@@ -757,13 +1063,6 @@ const UtilBox = styled.div`
   }
 `;
 
-const CategoryLayout = styled.div`
-  width: 70rem;
-  display: grid;
-  grid-template-columns: repeat(2, 35rem);
-  grid-gap: 2rem;
-`;
-
 const Comment = styled.div`
   width: 100%;
   border: 1px solid black;
@@ -778,6 +1077,7 @@ const Comment = styled.div`
     align-items: center;
     padding: 0.8rem 2rem;
     box-sizing: border-box;
+    position: relative;
     .header-left {
       display: flex;
       gap: 3rem;
@@ -830,6 +1130,16 @@ const Comment = styled.div`
       font-size: 1.1rem;
       font-weight: 700;
     }
+    .main-content {
+      resize: none;
+      display: block;
+      width: 100%;
+      background-color: white;
+      border: none;
+    }
+    .main-content-write {
+      border: 1px solid gray;
+    }
   }
   > footer {
     display: flex;
@@ -854,7 +1164,7 @@ const Comment = styled.div`
   }
 `;
 
-const ReplyInput = styled.form`
+const ReplyInput = styled.div`
   width: 100%;
   /* border: 1px solid black; */
   font-size: 1.2rem;
@@ -884,6 +1194,61 @@ const ReplyInput = styled.form`
     &__item:hover {
       cursor: pointer;
       color: black;
+    }
+  }
+`;
+
+const DeleteWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: #8080806d;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`;
+
+const DeleteModal = styled.div`
+  width: 20rem;
+  height: 10rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  > header {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+  }
+  > main {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.3rem;
+    .button {
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      border-radius: 0.7rem;
+      &:nth-of-type(1) {
+        background-color: #f5f5f5;
+        &:hover {
+          background-color: #e9e9e9;
+        }
+      }
+      &:nth-of-type(2) {
+        background-color: #516a8b;
+        color: white;
+        &:hover {
+          background-color: #2f5383;
+        }
+      }
     }
   }
 `;
