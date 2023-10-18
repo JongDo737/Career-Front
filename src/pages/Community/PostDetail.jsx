@@ -265,7 +265,7 @@ const PostDetail = () => {
           setPost(data.article || {});
           setComments(data.comments || []);
           setPostUserId(data.article?.user?.id || "");
-          setOriginalPost(data);
+          setOriginalPost({ ...data });
         })
         .catch((err) => console.error(err));
       setUpdateComment(false);
@@ -613,7 +613,10 @@ const PostDetail = () => {
                     }}
                     onChange={(e) => {
                       const updatedComment = [...comments];
-                      updatedComment[commentIdx].content = e.target.value;
+                      updatedComment[commentIdx] = {
+                        ...updatedComment[commentIdx],
+                        content: e.target.value,
+                      };
                       // console.log(updatedComment[commentIdx]);
                       setComments(updatedComment);
                       // setTmpCommentInput(e.target.value);
@@ -634,8 +637,10 @@ const PostDetail = () => {
                       onClick={() => {
                         setEditCommentContent("");
                         const updatedComment = [...comments];
-                        updatedComment[commentIdx].content =
-                          originalPost.comments[commentIdx].content;
+                        updatedComment[commentIdx] = {
+                          ...updatedComment[commentIdx],
+                          content: originalPost.comments[commentIdx].content,
+                        };
                         console.log(
                           updatedComment,
                           originalPost.comments[commentIdx].content
