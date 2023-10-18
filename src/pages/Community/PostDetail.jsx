@@ -43,7 +43,7 @@ const PostDetail = () => {
   const [isAddReply, setIsAddReply] = useState(false);
   const [replyTargetIdx, setReplyTargetIdx] = useState(0);
   const [commentInput, setCommentInput] = useState("");
-  const [replyInput, setreplyInput] = useState("");
+  const [recommentInput, setRecommentInput] = useState("");
   const [originalPost, setOriginalPost] = useState();
 
   const [postUserId, setPostUserId] = useState();
@@ -52,21 +52,21 @@ const PostDetail = () => {
 
   const [postOptionClick, setPostOptionClick] = useState(false);
   const [commentOptionClick, setCommentOptionClick] = useState("");
-  const [replyOptionClick, setReplyOptionClick] = useState(false);
+  const [recommentOptionClick, setRecommentOptionClick] = useState(false);
 
   const [editPostContent, setEditPostContent] = useState(false);
   const [editCommentContent, setEditCommentContent] = useState("");
-  const [editReplyContent, setEditReplyContent] = useState(false);
+  const [editRecommentContent, setEditRecommentContent] = useState(false);
 
   const postInputRef = useRef(null);
   const commentInputRef = useRef([]);
-  const replyInputRef = useRef(null);
-  const replyIRef = useRef(null);
+  const recommentInputRef = useRef(null);
+  const recommentRef = useRef(null);
   const deleteModalRef = useRef(null);
 
   const scrollToReplyInput = () => {
-    if (replyIRef.current) {
-      replyIRef.current.scrollIntoView({
+    if (recommentRef.current) {
+      recommentRef.current.scrollIntoView({
         behavior: "smooth",
         block: "center",
       });
@@ -81,6 +81,7 @@ const PostDetail = () => {
   const [deleteOption, setDeleteOption] = useState({
     type: "",
     id: "",
+    parentId: "",
   });
 
   const onDeletePostOrComment = () => {
@@ -121,6 +122,7 @@ const PostDetail = () => {
   useEffect(() => {
     if (deleteOption.type === "") document.body.style.overflowY = "auto";
   }, [deleteOption.type]);
+
   const onDeletePost = () => {
     if (deleteOption.type === "0") {
       axios
@@ -141,46 +143,78 @@ const PostDetail = () => {
           window.history.back();
         })
         .catch((err) => console.log(err));
-    } else {
+    } else if (deleteOption.type === "1") {
       console.log(deleteOption.id);
       axios
-        .delete(
-          `${SV_LOCAL}/community/comment/delete`,
-
-          {
-            headers: {
-              Authorization: `Bearer ${getCookie("jwtToken")}`,
-            },
-
-            data: { id: deleteOption.id },
-          }
-        )
+        .delete(`${SV_LOCAL}/community/comment/delete`, {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+          data: { id: deleteOption.id, articleId: post.id },
+        })
         .then(() => {
           setDeleteOption({ type: "", id: "" });
+          setUpdateComment(true);
+        })
+        .catch((err) => console.log(err));
+    } else if (deleteOption.type === "3") {
+      console.log(deleteOption.id);
+      axios
+        .delete(`${SV_LOCAL}/community/recomment/delete`, {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+          data: {
+            id: deleteOption.id,
+            articleId: post.id,
+            commentId: deleteOption.parentId,
+          },
+        })
+        .then(() => {
+          setDeleteOption({ type: "", id: "", parentId: "" });
           setUpdateComment(true);
         })
         .catch((err) => console.log(err));
     }
   };
 
-  const onEnterReply = (commentIdx) => {
-    const updatedComments = [...comments];
-    updatedComments[commentIdx].replyList.push({
-      name: "새로운 아이",
-      age: "한국대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
-      date: `${new Date().getFullYear()}.${String(
-        new Date().getMonth() + 1
-      ).padStart(2, "0")}.${String(new Date().getDate()).padStart(2, "0")}`, // 파싱 생각해보기
-      content: replyInput,
-      like: false,
-      likeCount: 0,
-      message: 0,
-      img: "",
-      target: "",
-    });
-    setComments(updatedComments);
-    setreplyInput("");
-    setIsAddReply(false);
+  const onEnterRecomment = (commentIdx) => {
+    console.log(post.id, commentIdx, recommentInput);
+    axios
+      .post(
+        `${SV_LOCAL}/community/recomment/add`,
+        {
+          articleId: post.id,
+          commentId: comments[commentIdx].id,
+          content: recommentInput,
+        },
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      )
+      .catch((err) => console.log(err));
+    setRecommentInput("");
+    setUpdateComment(true);
+    // const updatedComments = [...comments];
+    // updatedComments[commentIdx].replyList.push({
+    //   name: "새로운 아이",
+    //   age: "한국대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
+    //   date: `${new Date().getFullYear()}.${String(
+    //     new Date().getMonth() + 1
+    //   ).padStart(2, "0")}.${String(new Date().getDate()).padStart(2, "0")}`, // 파싱 생각해보기
+    //   content: recommentInput,
+    //   like: false,
+    //   likeCount: 0,
+    //   message: 0,
+    //   img: "",
+    //   target: "",
+    // });
+    // setComments(updatedComments);
+    // setrecommentInput("");
+    // setIsAddReply(false);
   };
 
   const onEnterComment = () => {
@@ -201,7 +235,8 @@ const PostDetail = () => {
     // 댓글 쓰고 window.scrollTo(0, document.body.scrollHeight); 적용할 수 있는 방법 찾아보자
   };
   useEffect(() => {
-    if (isAddReply && replyInputRef.current) replyInputRef.current.focus();
+    if (isAddReply && recommentInputRef.current)
+      recommentInputRef.current.focus();
   }, [isAddReply]);
 
   const onEditPostContent = () => {
@@ -230,13 +265,13 @@ const PostDetail = () => {
       });
   };
 
-  const onEditCommentContent = (id, idx) => {
+  const onEditCommentContent = (id, commentIdx) => {
     axios
       .post(
         `${SV_LOCAL}/community/comment/modify`,
         {
           id: id,
-          content: comments[idx].content,
+          content: comments[commentIdx].content,
         },
         {
           headers: {
@@ -247,6 +282,26 @@ const PostDetail = () => {
       .then(() => {
         // setTmpCommentInput("");
         setEditCommentContent("");
+        setUpdateComment(true);
+      });
+  };
+
+  const onEditRecommentContent = (id, commentIdx, recommentIdx) => {
+    axios
+      .post(
+        `${SV_LOCAL}/community/recomment/modify`,
+        {
+          id: id,
+          content: comments[commentIdx].recomments[recommentIdx].content,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      )
+      .then(() => {
+        setEditRecommentContent("");
         setUpdateComment(true);
       });
   };
@@ -286,7 +341,7 @@ const PostDetail = () => {
   const optionInitialize = () => {
     setPostOptionClick(false);
     setCommentOptionClick("");
-    setReplyOptionClick("");
+    setRecommentOptionClick("");
   };
   const onAddHeart = (type, id) => {
     axios
@@ -515,7 +570,7 @@ const PostDetail = () => {
               textAlign: "start",
             }}
           >
-            댓글 ({comments.length})
+            댓글 ({post.commentCnt})
           </div>
           {/*위 댓글수와 중복되긴 함*/}
           {comments.map((comment, commentIdx) => (
@@ -708,10 +763,10 @@ const PostDetail = () => {
                   </footer>
                 )}
               </Comment>
-              {comment.recomments.map((recomment, idx) => (
+              {comment.recomments.map((recomment, recommentIdx) => (
                 <Comment
                   img={recomment.img || ""}
-                  key={idx}
+                  key={recommentIdx}
                   style={{ width: "90%" }}
                 >
                   <header>
@@ -719,7 +774,7 @@ const PostDetail = () => {
                       <div className="img-container"></div>
                       <div className="info">
                         <span className="name">
-                          {recomment.user.nickname} (
+                          {recomment.user.nickname || "익명"} (
                           {recomment.user.isTutor ? "멘토" : "멘티"})
                         </span>
                         <span className="date">
@@ -730,16 +785,112 @@ const PostDetail = () => {
                           : ""}
                       </div>
                     </div>
+                    <FontAwesomeIcon
+                      icon={faEllipsisVertical}
+                      className="post-option__btn"
+                      style={{ color: "black" }}
+                      onClick={() => {
+                        optionInitialize();
+                        if (commentOptionClick === "")
+                          setRecommentOptionClick(recommentIdx);
+                        else if (commentOptionClick !== recommentIdx)
+                          setRecommentOptionClick(recommentIdx);
+                      }}
+                    />
+                    {recommentOptionClick === recommentIdx &&
+                      (recomment.user.id ===
+                      getIdFromToken(getCookie("jwtToken")) ? (
+                        <div className="post-options">
+                          <div
+                            className="post-options__item"
+                            onClick={() => {
+                              setEditRecommentContent(recommentIdx);
+                              setRecommentOptionClick("");
+                              setTimeout(() => {
+                                recommentInputRef[recommentIdx].current.focus();
+                                const textLength =
+                                  recommentInputRef[recommentIdx].current.value
+                                    .length;
+                                recommentInputRef[
+                                  recommentIdx
+                                ].current.setSelectionRange(
+                                  textLength,
+                                  textLength
+                                );
+                              }, 0);
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faPencil} className="icon" />
+                            <span>편집</span>
+                          </div>
+                          <div
+                            className="post-options__item"
+                            onClick={() => {
+                              setRecommentOptionClick("");
+                              setDeleteOption({
+                                type: "2",
+                                id: recomment.id,
+                                parentId: comment.id,
+                              });
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faTrashCan}
+                              className="icon"
+                            />
+                            <span>삭제</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="post-options">
+                          <div
+                            className="post-options__item"
+                            onClick={() => {
+                              setCommentOptionClick("");
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faFlag} className="icon" />
+                            <span>신고</span>
+                          </div>
+                        </div>
+                      ))}
                   </header>
                   <main>
-                    <div className="main-content">
-                      {recomment.target && (
+                    <textarea
+                      className="main-content"
+                      disabled={!(editRecommentContent === recommentIdx)}
+                      value={recomment.content}
+                      ref={(inputRef) => {
+                        if (!recommentInputRef[recommentIdx]) {
+                          recommentInputRef[recommentIdx] = React.createRef();
+                        }
+                        recommentInputRef[recommentIdx].current = inputRef;
+                      }}
+                      onChange={(e) => {
+                        const updatedComments = [...comments];
+                        const updatedComment = {
+                          ...updatedComments[commentIdx],
+                        };
+                        const updatedRecomments = [
+                          ...updatedComment.recomments,
+                        ];
+                        updatedComments[recommentIdx] = {
+                          ...updatedRecomments[recommentIdx],
+                          content: e.target.value,
+                        };
+                        // console.log(updatedComment[commentIdx]);
+                        setComments(updatedRecomments);
+                        console.log(updatedRecomments);
+                        // setTmpCommentInput(e.target.value);
+                      }}
+                    />
+                    {/* {recomment.target && (
                         <span style={{ color: "#2F5383", fontWeight: "600" }}>
                           @{recomment.target}
                         </span>
                       )}
                       {recomment.content}
-                    </div>
+                    </textarea> */}
                   </main>
                   <footer>
                     <div className="footer-left">
@@ -770,17 +921,17 @@ const PostDetail = () => {
               {isAddReply && commentIdx === replyTargetIdx ? (
                 <ReplyInput
                   style={{ width: "90%" }}
-                  ref={replyIRef}
+                  ref={recommentRef}
                   onSubmit={(e) => {
                     e.preventDefault();
-                    onEnterReply(commentIdx);
+                    onEnterRecomment(commentIdx);
                   }}
                 >
                   <input
                     type="text"
                     placeholder={`${comment.user.nickname}님 댓글에 답글쓰기`}
-                    onChange={(e) => setreplyInput(e.target.value)}
-                    value={replyInput}
+                    onChange={(e) => setRecommentInput(e.target.value)}
+                    value={recommentInput}
                   />
                   <div className="reply-title">답글쓰기</div>
                   <div className="reply-option">
@@ -792,9 +943,14 @@ const PostDetail = () => {
                     </div>
                     <div
                       className="reply-option__item"
-                      onClick={() => {
-                        onEnterReply(commentIdx);
-                      }}
+                      onClick={
+                        // onEditRecommentContent(
+                        //   recomment.id,
+                        //   commentIdx,
+                        //   recommentIdx
+                        // );
+                        () => onEnterRecomment(commentIdx)
+                      }
                     >
                       등록
                     </div>
