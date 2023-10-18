@@ -118,6 +118,9 @@ const PostDetail = () => {
     );
   };
 
+  useEffect(() => {
+    if (deleteOption.type === "") document.body.style.overflowY = "auto";
+  }, [deleteOption.type]);
   const onDeletePost = () => {
     if (deleteOption.type === "0") {
       axios
@@ -132,7 +135,11 @@ const PostDetail = () => {
             data: { id: deleteOption.id },
           }
         )
-        .then(() => deleteOption({ type: "", id: "" }))
+        .then(() => {
+          setDeleteOption({ type: "", id: "" });
+          setUpdateComment(true);
+          window.history.back();
+        })
         .catch((err) => console.log(err));
     } else {
       console.log(deleteOption.id);
@@ -148,16 +155,13 @@ const PostDetail = () => {
             data: { id: deleteOption.id },
           }
         )
-        .then(() => deleteOption({ type: "", id: "" }))
+        .then(() => {
+          setDeleteOption({ type: "", id: "" });
+          setUpdateComment(true);
+        })
         .catch((err) => console.log(err));
     }
   };
-
-  useEffect(() => {
-    if (!deleteOption) {
-      document.body.style.overflowY = "auto";
-    }
-  }, [deleteOption]);
 
   const onEnterReply = (commentIdx) => {
     const updatedComments = [...comments];
@@ -828,11 +832,7 @@ const PostDetail = () => {
           </div>
         </UtilBox>
       </Form>
-      {deleteOption.type !== ""
-        ? onDeletePostOrComment()
-        : () => {
-            document.body.style.overflowY = "auto";
-          }}
+      {deleteOption.type !== "" && onDeletePostOrComment()}
     </>
   );
 };
