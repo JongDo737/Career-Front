@@ -157,7 +157,7 @@ const PostDetail = () => {
           setUpdateComment(true);
         })
         .catch((err) => console.log(err));
-    } else if (deleteOption.type === "3") {
+    } else if (deleteOption.type === "2") {
       console.log(deleteOption.id);
       axios
         .delete(`${SV_LOCAL}/community/recomment/delete`, {
@@ -779,10 +779,10 @@ const PostDetail = () => {
                         </span>
                         <span className="date">
                           작성일 {dateParse(recomment.createdAt)}
+                          {recomment.createdAt !== recomment.updatedAt
+                            ? " (수정됨)"
+                            : ""}
                         </span>
-                        {recomment.createdAt !== recomment.updatedAt
-                          ? " (수정됨)"
-                          : ""}
                       </div>
                     </div>
                     <FontAwesomeIcon
@@ -857,7 +857,11 @@ const PostDetail = () => {
                   </header>
                   <main>
                     <textarea
-                      className="main-content"
+                      className={
+                        editRecommentContent === recommentIdx
+                          ? "main-content-write main-content"
+                          : "main-content"
+                      }
                       disabled={!(editRecommentContent === recommentIdx)}
                       value={recomment.content}
                       ref={(inputRef) => {
@@ -874,13 +878,14 @@ const PostDetail = () => {
                         const updatedRecomments = [
                           ...updatedComment.recomments,
                         ];
-                        updatedComments[recommentIdx] = {
+                        updatedRecomments[recommentIdx] = {
                           ...updatedRecomments[recommentIdx],
                           content: e.target.value,
                         };
                         // console.log(updatedComment[commentIdx]);
-                        setComments(updatedRecomments);
-                        console.log(updatedRecomments);
+                        updatedComment.recomments = updatedRecomments;
+                        updatedComments[commentIdx] = updatedComment;
+                        setComments(updatedComments);
                         // setTmpCommentInput(e.target.value);
                       }}
                     />
@@ -892,30 +897,94 @@ const PostDetail = () => {
                       {recomment.content}
                     </textarea> */}
                   </main>
-                  <footer>
-                    <div className="footer-left">
-                      {recomment.isHeartClicked ? (
-                        <FontAwesomeIcon
-                          icon={faHeartFull}
-                          className="icon heart-full"
-                          onClick={() => {
-                            onDeleteHeart(2, recomment.id); //대댓글은 type 2
-                            setUpdateComment(true);
-                          }}
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faHeart}
-                          className="icon"
-                          onClick={() => {
-                            onAddHeart(2, recomment.id); //대댓글은 type 2
-                            setUpdateComment(true);
-                          }}
-                        />
-                      )}
-                      <span>{recomment.heartCnt}</span>
-                    </div>
-                  </footer>
+                  {editRecommentContent === recommentIdx ? (
+                    <footer
+                      style={{
+                        justifyContent: "flex-end",
+                        padding: "0 2.5rem",
+                        gap: "0.5rem",
+                      }}
+                    >
+                      <button
+                        style={{ margin: "0" }}
+                        onClick={() => {
+                          setEditRecommentContent("");
+                          // const updatedComment = [...comments];
+                          // updatedComment[commentIdx] = {
+                          //   ...updatedComment[commentIdx],
+                          //   content: originalPost.comments[commentIdx].content,
+                          // };
+
+                          //setComments(updatedComment);
+                          const updatedComments = [...comments];
+                          const updatedComment = {
+                            ...updatedComments[commentIdx],
+                          };
+                          const updatedRecomments = [
+                            ...updatedComment.recomments,
+                          ];
+                          updatedRecomments[recommentIdx] = {
+                            ...updatedRecomments[recommentIdx],
+                            content:
+                              originalPost.comments[commentIdx].recomments[
+                                recommentIdx
+                              ].content,
+                          };
+                          // console.log(updatedComment[commentIdx]);
+                          updatedComment.recomments = updatedRecomments;
+                          updatedComments[commentIdx] = updatedComment;
+                          setComments(updatedComments);
+                          console.log(updatedComments);
+                        }}
+                      >
+                        취소
+                      </button>
+                      <button
+                        type="submit"
+                        style={{ margin: "0" }}
+                        onClick={() => {
+                          // onEditCommentContent 함수를 호출하면 detail 을 받아오는 api 도 호출돼서 아래 코드 setComments 를 통해 업데이트해줄 필요가 없지만 api 불러오는 딜레이를 없애기 위해 추가하였음
+                          // const updatedComment = [...comments];
+                          // updatedComment[commentIdx].content = tmpCommentInput;
+                          // setComments(updatedComment);
+                          //
+
+                          onEditRecommentContent(
+                            recomment.id,
+                            commentIdx,
+                            recommentIdx
+                          );
+                        }}
+                      >
+                        등록
+                      </button>
+                    </footer>
+                  ) : (
+                    <footer>
+                      <div className="footer-left">
+                        {recomment.isHeartClicked ? (
+                          <FontAwesomeIcon
+                            icon={faHeartFull}
+                            className="icon heart-full"
+                            onClick={() => {
+                              onDeleteHeart(2, recomment.id); //대댓글은 type 2
+                              setUpdateComment(true);
+                            }}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faHeart}
+                            className="icon"
+                            onClick={() => {
+                              onAddHeart(2, recomment.id); //대댓글은 type 2
+                              setUpdateComment(true);
+                            }}
+                          />
+                        )}
+                        <span>{recomment.heartCnt}</span>
+                      </div>
+                    </footer>
+                  )}
                 </Comment>
               ))}
               {isAddReply && commentIdx === replyTargetIdx ? (
