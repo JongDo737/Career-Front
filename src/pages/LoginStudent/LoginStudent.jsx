@@ -4,7 +4,7 @@ import styles from "./LoginStudent.module.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { setCookie } from "../../cookie";
-import { SV_HOST, SV_LOCAL } from "../../constants";
+import { SV_HOST, SV_LOCAL, FRONT_LOCAL } from "../../constants";
 
 function LoginStudent(props) {
   const [id, setId] = useState("");
@@ -61,9 +61,7 @@ function LoginStudent(props) {
           </button>
         </form>
         <span>
-          <Link to={"http://localhost:3000/findPassword"}>
-            비밀번호를 잊으셨나요?
-          </Link>
+          <Link to={`${FRONT_LOCAL}/findPassword`}>비밀번호를 잊으셨나요?</Link>
         </span>
         <div className={styles.Option}>
           <span>비밀번호 찾기</span>
