@@ -755,6 +755,9 @@ const PostDetail = () => {
                           setIsAddReply(true);
                           setReplyTargetIdx(commentIdx);
                           scrollToReplyInput();
+                          setTimeout(() => {
+                            recommentRef.current.focus();
+                          }, 0);
                         }}
                       >
                         답글쓰기
@@ -990,7 +993,6 @@ const PostDetail = () => {
               {isAddReply && commentIdx === replyTargetIdx ? (
                 <ReplyInput
                   style={{ width: "90%" }}
-                  ref={recommentRef}
                   onSubmit={(e) => {
                     e.preventDefault();
                     onEnterRecomment(commentIdx);
@@ -1001,6 +1003,7 @@ const PostDetail = () => {
                     placeholder={`${comment.user.nickname}님 댓글에 답글쓰기`}
                     onChange={(e) => setRecommentInput(e.target.value)}
                     value={recommentInput}
+                    ref={recommentRef}
                   />
                   <div className="reply-title">답글쓰기</div>
                   <div className="reply-option">
