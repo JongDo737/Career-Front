@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -10,10 +10,32 @@ import {
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { dateParse } from "../../utils/dateParse";
+import axios from "axios";
+import { getCookie } from "../../cookie";
+import { SV_LOCAL } from "../../constants";
 
-const PostList = ({ posts, postStyle }) => {
+const PostList = ({ posts, setPosts, postStyle }) => {
+  const [deletePost, setDeletePost] = useState(null);
+  const navigate = useNavigate();
+  const onDeletePost = () => {
+    console.log(deletePost);
+    axios
+      .delete(`${SV_LOCAL}/community/article/delete`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+        data: { id: deletePost.id },
+      })
+      .then((res) => {
+        console.log(res);
+        setDeletePost(null);
+        setPosts([]);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const postStyleRendering = (item) => {
     switch (postStyle) {
       case "category":
@@ -28,7 +50,15 @@ const PostList = ({ posts, postStyle }) => {
         return (
           <div className="icon-wrapper">
             {/* <img src="/svg/delete.svg" alt="edit-btn" className="icon" /> */}
-            <FontAwesomeIcon icon={faTrashCan} className="icon fa-white" />
+            <FontAwesomeIcon
+              icon={faTrashCan}
+              className="icon fa-white"
+              style={{ cursor: "pointer" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setDeletePost(item);
+              }}
+            />
           </div>
         );
       case "editDelete": // onClick 시 item 과 연관지어서 함수 실행 추가하기
@@ -42,13 +72,20 @@ const PostList = ({ posts, postStyle }) => {
         return;
     }
   };
+
+  useEffect(() => {
+    if (deletePost === null) document.body.style.overflow = "auto";
+    else document.body.style.overflow = "hidden";
+  }, [deletePost]);
+
   return (
     <>
       {posts.map((item, idx) => (
         <Post
           key={idx}
           img={item.user.profileImg}
-          to={`/community/post/${item.id}`}
+          // to={`/community/post/${item.id}`}
+          onClick={() => navigate(`/community/post/${item.id}`)}
         >
           <header>
             <div className="header-left">
@@ -79,13 +116,39 @@ const PostList = ({ posts, postStyle }) => {
           </footer>
         </Post>
       ))}
+      {deletePost !== null && (
+        <DeleteWrapper
+          onClick={() => {
+            setDeletePost(null);
+          }}
+        >
+          <DeleteModal onClick={(e) => e.stopPropagation()}>
+            <header>
+              <span>댓글을 삭제하시겠습니까?</span>
+            </header>
+            <main>
+              <div
+                className="button"
+                onClick={() => {
+                  setDeletePost(null);
+                }}
+              >
+                취소
+              </div>
+              <div className="button" onClick={onDeletePost}>
+                삭제
+              </div>
+            </main>
+          </DeleteModal>
+        </DeleteWrapper>
+      )}
     </>
   );
 };
 
 export default PostList;
 
-const Post = styled(Link)`
+const Post = styled.div`
   display: flex;
   flex-direction: column;
   border: 1.5px solid #b3b3b3;
@@ -176,5 +239,61 @@ const Post = styled(Link)`
   .fa-white {
     font-size: 1.4rem;
     color: white;
+  }
+`;
+
+const DeleteWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: #8080806d;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`;
+
+const DeleteModal = styled.div`
+  width: 20rem;
+  height: 10rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  > header {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+  }
+  > main {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.3rem;
+    .button {
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      border-radius: 0.7rem;
+      &:nth-of-type(1) {
+        background-color: #f5f5f5;
+        &:hover {
+          background-color: #e9e9e9;
+        }
+      }
+      &:nth-of-type(2) {
+        background-color: #516a8b;
+        color: white;
+        &:hover {
+          background-color: #2f5383;
+        }
+      }
+    }
   }
 `;

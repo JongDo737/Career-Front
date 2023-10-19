@@ -86,7 +86,7 @@ const PostDetail = () => {
 
   const onDeletePostOrComment = () => {
     console.log("here");
-    document.body.style.overflowY = "hidden";
+    document.body.style.overflow = "hidden";
     // post, comment, relpy 삭제
     return (
       <DeleteWrapper
@@ -120,7 +120,7 @@ const PostDetail = () => {
   };
 
   useEffect(() => {
-    if (deleteOption.type === "") document.body.style.overflowY = "auto";
+    if (deleteOption.type === "") document.body.style.overflow = "auto";
   }, [deleteOption.type]);
 
   const onDeletePost = () => {
