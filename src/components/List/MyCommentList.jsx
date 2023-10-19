@@ -4,6 +4,7 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { dateParse } from "../../utils/dateParse";
 
 const MyCommentList = ({ comments }) => {
   return (
@@ -13,7 +14,9 @@ const MyCommentList = ({ comments }) => {
           <header>
             <FontAwesomeIcon icon={faMessage} className="icon" />
             <div className="comment-content">{item.content}</div>
-            <div className="comment-date">작성일 {item.date}</div>
+            <div className="comment-date">
+              작성일 {dateParse(item.createdAt)}
+            </div>
             <FontAwesomeIcon
               icon={faTrashCan}
               className="icon"
@@ -23,9 +26,9 @@ const MyCommentList = ({ comments }) => {
           <footer>
             <Link
               className="comment-title-wrapper"
-              to={`/community/post/${item.articleId}`}
+              to={`/community/post/${item.article.id}`}
             >
-              <div className="comment-title">{item.articleTitle}</div>
+              <div className="comment-title">{item.article.title}</div>
               <FontAwesomeIcon
                 icon={faChevronRight}
                 style={{ fontSize: "1.2rem" }}
