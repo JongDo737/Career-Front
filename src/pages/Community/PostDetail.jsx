@@ -355,8 +355,7 @@ const PostDetail = () => {
         }
       )
       .then((res) => {
-        if (type === 0) setPost(res.article || {});
-        else setComments(res.comments || []);
+        setUpdatePost(true);
       })
       .catch((err) => console.log(err));
   };
@@ -375,8 +374,7 @@ const PostDetail = () => {
         }
       )
       .then((res) => {
-        if (type === 0) setPost(res.article || {});
-        else setComments(res.comments || []);
+        setUpdatePost(true);
       })
       .catch((err) => console.log(err));
   };
@@ -550,7 +548,6 @@ const PostDetail = () => {
                   className="icon"
                   onClick={() => {
                     onAddHeart(0, post.id); //게시글은 type 0
-                    setUpdatePost(true);
                   }}
                 />
               )}
@@ -742,7 +739,6 @@ const PostDetail = () => {
                           className="icon"
                           onClick={() => {
                             onAddHeart(1, comment.id); //댓글은 type 1
-                            setUpdateComment(true);
                           }}
                         />
                       )}

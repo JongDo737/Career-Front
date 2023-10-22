@@ -114,7 +114,7 @@ const MyActivity = () => {
       return (
         <PostWrapper>
           <div className="selected-menu-header">내가 좋아요 누른 게시글</div>
-          <PostList posts={likedPosts} postStyle="delete" />
+          <PostList posts={likedPosts} />
         </PostWrapper>
       );
     } else if (selectMenu === 2) {

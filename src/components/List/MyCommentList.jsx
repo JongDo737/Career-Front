@@ -65,7 +65,6 @@ const MyCommentList = ({ comments, setComments }) => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 setDeleteComment(item);
-                console.log("here");
               }}
             />
           </header>

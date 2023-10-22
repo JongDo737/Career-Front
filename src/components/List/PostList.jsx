@@ -36,6 +36,54 @@ const PostList = ({ posts, setPosts, postStyle }) => {
       .catch((err) => console.log(err));
   };
 
+  const onAddHeart = (e, id, idx) => {
+    e.stopPropagation();
+    axios
+      .post(
+        `${SV_LOCAL}/community/heart/add`,
+        { typeId: id, type: 0 },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      )
+      .then((res) => {
+        const updatedPost = [...posts];
+        updatedPost[idx] = {
+          ...updatedPost[idx],
+          heartCnt: updatedPost[idx].heartCnt + 1,
+        };
+        setPosts(updatedPost);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const onDeleteHeart = (e, id, idx) => {
+    e.stopPropagation();
+
+    axios
+      .delete(
+        `${SV_LOCAL}/community/heart/delete`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+
+          data: { typeId: id, type: 0 },
+        }
+      )
+      .then((res) => {
+        const updatedPost = [...posts];
+        updatedPost[idx] = {
+          ...updatedPost[idx],
+          heartCnt: updatedPost[idx].heartCnt - 1,
+        };
+        setPosts(updatedPost);
+      })
+      .catch((err) => console.log(err));
+  };
   const postStyleRendering = (item) => {
     switch (postStyle) {
       case "category":
@@ -76,6 +124,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
   useEffect(() => {
     if (deletePost === null) document.body.style.overflow = "auto";
     else document.body.style.overflow = "hidden";
+    // console.log(posts);
   }, [deletePost]);
 
   return (
@@ -105,10 +154,18 @@ const PostList = ({ posts, setPosts, postStyle }) => {
             <div className="main-content">{item.content}</div>
           </main>
           <footer>
-            {item.like ? (
-              <FontAwesomeIcon icon={faHeartFull} className="icon heart-full" />
+            {item.isHeartClicked ? (
+              <FontAwesomeIcon
+                icon={faHeartFull}
+                className="icon heart-full"
+                onClick={(e) => onDeleteHeart(e, item.id, idx)}
+              />
             ) : (
-              <FontAwesomeIcon icon={faHeart} className="icon" />
+              <FontAwesomeIcon
+                icon={faHeart}
+                className="icon"
+                onClick={(e) => onAddHeart(e, item.id, idx)}
+              />
             )}
             <span>{item.heartCnt}</span>
             <FontAwesomeIcon icon={faMessage} className="icon" />
@@ -124,7 +181,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
         >
           <DeleteModal onClick={(e) => e.stopPropagation()}>
             <header>
-              <span>댓글을 삭제하시겠습니까?</span>
+              <span>글을 삭제하시겠습니까?</span>
             </header>
             <main>
               <div

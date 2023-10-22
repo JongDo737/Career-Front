@@ -118,10 +118,10 @@ const CommunityWrite = () => {
         </div>
       </WriteWrapper>
       <UtilBox>
-        <Link className="util-item" to={"/community/category"}>
+        <div className="util-item" onClick={() => window.history.back()}>
           <img src="/svg/arrow-left.svg" alt="back-button" />
           <span>뒤로</span>
-        </Link>
+        </div>
       </UtilBox>
       <button type="submit" className="write-submit">
         등록하기
