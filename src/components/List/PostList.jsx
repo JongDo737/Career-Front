@@ -53,6 +53,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
         updatedPost[idx] = {
           ...updatedPost[idx],
           heartCnt: updatedPost[idx].heartCnt + 1,
+          isHeartClicked: true,
         };
         setPosts(updatedPost);
       })
@@ -79,6 +80,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
         updatedPost[idx] = {
           ...updatedPost[idx],
           heartCnt: updatedPost[idx].heartCnt - 1,
+          isHeartClicked: false,
         };
         setPosts(updatedPost);
       })
