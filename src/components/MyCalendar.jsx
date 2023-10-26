@@ -1,12 +1,12 @@
 import moment from "moment/moment";
-import React from "react";
+import React, { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../styles/big-calendar.css";
 import styled from "styled-components";
 
 const localizer = momentLocalizer(moment);
 const MyCalendar = () => {
-  const event = [
+  const [events, setEvents] = useState([
     {
       id: 0,
       title: "Seongae test",
@@ -39,11 +39,32 @@ const MyCalendar = () => {
       end: new Date("2023-10-24T11:30"),
       reserve: true,
     },
-  ];
+  ]);
 
   const today = moment();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+
+  const isCustomTimeCell = (start, end) => {
+    // 특정 시간 범위를 지정 (예: 10:00부터 11:00까지)
+    const customStartTime = new Date(2023, 10, 27, 10, 0);
+    const customEndTime = new Date(2023, 10, 27, 11, 0);
+    console.log("s e", start, "e", end, customStartTime);
+
+    return start >= customStartTime;
+  };
+
+  const slotPropGetter = (date) => {
+    const isSelected = isCustomTimeCell(date);
+    console.log("date ", isSelected);
+    const style = {
+      backgroundColor: isSelected ? "yellow" : "white", // 특정 시간 범위에 해당하는 셀에 노란색 배경, 그 외에는 흰 배경
+    };
+    return { style };
+  };
+
   const eventPropGetter = (event, start, end, isSelected, reserve) => {
-    const isPastDate = moment(start).isBefore(today, "day"); // 오늘 이전인지 확인
+    const isPastDate = moment(start).isBefore(today); // 오늘 이전인지 확인
 
     const style = {
       backgroundColor: isPastDate ? "lightgray" : "", // 오늘 이전인 경우 회색 배경, 그렇지 않으면 흰 배경
@@ -52,7 +73,6 @@ const MyCalendar = () => {
     };
 
     if (!event.reserve) {
-      style.backgroundColor = "white";
       style.opacity = "0.7";
       style.borderColor = "black";
       style.color = "black";
@@ -63,19 +83,92 @@ const MyCalendar = () => {
 
     return { style };
   };
+
+  //   const handleSelectSlot = ({ start, end }) => {
+  //     setIsAddModalOpen(true);
+  //     setSelectedSlot({ start, end });
+  //   };
+
+  //   const handleCreateEvent = () => {
+  //     const newEvent = {
+  //       id: events.length + 1,
+  //       title: `성애가 테스트중 ${events.length + 1}`,
+  //       start: selectedSlot.start,
+  //       end: selectedSlot.end,
+  //       reserve: true,
+  //     };
+  //     setEvents([...events, newEvent]);
+  //     setIsAddModalOpen(false);
+  //     setSelectedSlot(null);
+  //   };
+
+  //   const handleCloseModal = () => {
+  //     setIsAddModalOpen(false);
+  //     setSelectedSlot(null);
+  //   };
+
+  //   const myDateHeader = ({ label, date }) => {
+  //     return (
+  //       <div>
+  //         <button className="rbc-button-link" role="cell">
+  //           {label}
+  //         </button>
+  //         <div>hi</div>
+  //       </div>
+  //     );
+  //   };
   return (
     <>
       <Calendar
         localizer={localizer}
-        events={event}
+        events={events}
         startAccessor={"start"}
         endAccessor={"end"}
         selectable
+        // onSelectSlot={handleSelectSlot}
         defaultView="week"
         eventPropGetter={eventPropGetter}
+        slotPropGetter={slotPropGetter}
+        // components={{
+        //   month: {
+        //     dateHeader: myDateHeader,
+        //   },
+        //}}
       />
+      {/* {isAddModalOpen && (
+        <EventModalWrapper>
+          <EventModal>
+            <h2>Create New Event</h2>
+            <p>
+              Selected Slot: {selectedSlot.start.toString()} -
+              {selectedSlot.end.toString()}
+            </p>
+            <button onClick={handleCreateEvent}>Create Event</button>
+            <button onClick={handleCloseModal}>Cancel</button>
+          </EventModal>
+        </EventModalWrapper>
+      )} */}
     </>
   );
 };
 
 export default MyCalendar;
+
+// const EventModalWrapper = styled.div`
+//   width: 100%;
+//   height: 100vh;
+//   background-color: #8080806d;
+//   position: fixed;
+//   top: 0;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   overflow: hidden;
+// `;
+// const EventModal = styled.div`
+//   width: 20rem;
+//   height: 10rem;
+//   background-color: white;
+//   padding: 2rem;
+//   border-radius: 1rem;
+// `;
