@@ -47,16 +47,14 @@ const MyCalendar = () => {
 
   const isCustomTimeCell = (start, end) => {
     // 특정 시간 범위를 지정 (예: 10:00부터 11:00까지)
-    const customStartTime = new Date(2023, 10, 27, 10, 0);
-    const customEndTime = new Date(2023, 10, 27, 11, 0);
-    console.log("s e", start, "e", end, customStartTime);
+    const customStartTime = new Date(2023, 10 - 1, 27, 10, 0);
+    const customEndTime = new Date(2023, 10 - 1, 27, 11, 0);
 
-    return start >= customStartTime;
+    return start >= customStartTime && start < customEndTime;
   };
 
   const slotPropGetter = (date) => {
     const isSelected = isCustomTimeCell(date);
-    console.log("date ", isSelected);
     const style = {
       backgroundColor: isSelected ? "yellow" : "white", // 특정 시간 범위에 해당하는 셀에 노란색 배경, 그 외에는 흰 배경
     };
