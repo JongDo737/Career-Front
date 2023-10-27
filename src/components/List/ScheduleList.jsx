@@ -330,10 +330,42 @@ const ScheduleList = () => {
               </div>
             </main>
             <foote className="detail-footer">
-              <span className="detail-footer__btn">
+              <span
+                className="detail-footer__btn"
+                onClick={() => {
+                  if (detailObject.type === "0") {
+                    var result = window.confirm("상담을 취소하시겠습니까?");
+                    if (result) {
+                      alert("상담이 취소되었습니다.");
+                      setIsDetailOpen(false);
+                    }
+                  } else {
+                    var result = window.confirm("상담을 거절하시겠습니까?");
+                    if (result) {
+                      alert("상담이 거절되었습니다.");
+                      setIsDetailOpen(false);
+                    }
+                  }
+                }}
+              >
                 {detailObject.type === "0" ? "상담 취소하기" : "상담 거절하기"}
               </span>
-              <span className="detail-footer__btn">
+              <span
+                className="detail-footer__btn"
+                onClick={() => {
+                  if (detailObject.type === "0") {
+                    var result =
+                      window.confirm("상담 링크에 접속하시겠습니까?");
+                    if (result) setIsDetailOpen(false);
+                  } else {
+                    var result = window.confirm("상담을 수락하시겠습니까?");
+                    if (result) {
+                      alert("상담아 수락되었습니다.");
+                      setIsDetailOpen(false);
+                    }
+                  }
+                }}
+              >
                 {detailObject.type === "0" ? "상담 입장하기" : "상담 수락하기"}
               </span>
             </foote>

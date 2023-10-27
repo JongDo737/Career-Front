@@ -1,8 +1,11 @@
 import moment from "moment/moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../styles/big-calendar.css";
 import styled from "styled-components";
+import { SV_LOCAL } from "../constants";
+import axios from "axios";
+import { getCookie } from "../cookie";
 
 const localizer = momentLocalizer(moment);
 const MyCalendar = () => {
@@ -40,17 +43,49 @@ const MyCalendar = () => {
       reserve: true,
     },
   ]);
-
+  const [possibleTimeList, setPossibleTimeList] = useState([]);
+  const [isUpdatePossibleTime, setIsUpdatePossibleTime] = useState(true);
   const today = moment();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
 
   const isCustomTimeCell = (start, end) => {
     // 특정 시간 범위를 지정 (예: 10:00부터 11:00까지)
-    const customStartTime = new Date(2023, 10 - 1, 27, 10, 0);
-    const customEndTime = new Date(2023, 10 - 1, 27, 11, 0);
+    // console.log(start);
 
-    return start >= customStartTime && start < customEndTime;
+    let customStartTime = new Date("2023-10-27 15:00");
+    let customEndTime = new Date("2023-10-27 17:00");
+    // console.log(start, customStartTime);
+    // console.log(possibleTimeList);
+    let check = false;
+    {
+      possibleTimeList &&
+        possibleTimeList.map((possibleTime, dateIdx) => {
+          {
+            check = false;
+            // const date = possibleTime.date.split('-')
+            possibleTime.possibleTimeList.map((time, timeIdx) => {
+              //   console.log(possibleTime.date + " " + time.end);
+              customStartTime = new Date(possibleTime.date + " " + time.start);
+              //   customStartTime.setMonth(customStartTime.getMonth() - 1);
+              customEndTime = new Date(possibleTime.date + " " + time.end);
+              //   customEndTime.setMonth(customEndTime.getMonth() - 1);
+
+              if (start >= customStartTime && start < customEndTime) {
+                // console.log(start, customStartTime, customEndTime, "그만");
+                check = true;
+              }
+            });
+          }
+          //   customStartTime = new Date(possibleTime.date + " " + possibleTime.possibleTimeList.start);
+          //   customEndTime = new Date(2023, 10 - 1, 27, 17, 0);
+        });
+    }
+    // console.log(customStartTime, customEndTime);
+    // customStartTime = new Date("2023-10-27 15:00");
+    // customEndTime = new Date("2023-10-27 17:00");
+    // console.log(start, customStartTime, customEndTime, "머여");
+    return check;
   };
 
   const slotPropGetter = (date) => {
@@ -82,6 +117,32 @@ const MyCalendar = () => {
     return { style };
   };
 
+  const hideTimeSlots = (start, end) => {
+    const hideStart = moment(start).hour() > 2 || moment(start).hour() <= 7;
+    const hideEnd = moment(end).hour() > 2 || moment(end).hour() < 7;
+    return hideStart || hideEnd;
+  };
+
+  useEffect(() => {
+    if (isUpdatePossibleTime) {
+      axios
+        .post(
+          `${SV_LOCAL}/calendar/mentor/get/possible/time`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${getCookie("jwtToken")}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          setPossibleTimeList([...res.data.dateList]);
+          setIsUpdatePossibleTime(false);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [isUpdatePossibleTime]);
   //   const handleSelectSlot = ({ start, end }) => {
   //     setIsAddModalOpen(true);
   //     setSelectedSlot({ start, end });
@@ -115,6 +176,39 @@ const MyCalendar = () => {
   //       </div>
   //     );
   //   };
+  const handleSelectSlot = ({ start, end }) => {
+    // 이벤트를 추가하거나 다른 작업을 수행할 수 있습니다.
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    const momentStart = moment(startDate);
+    const momentEnd = moment(endDate);
+    const formattedStartDate = momentStart.format("YYYY-MM-DDTHH:mm:ss.S");
+    const formattedEndDate = momentEnd.format("YYYY-MM-DDTHH:mm:ss.S");
+
+    console.log(formattedStartDate);
+    console.log(formattedEndDate);
+
+    axios
+      .post(
+        `${SV_LOCAL}/calendar/mentor/insert/possible/time`,
+        {
+          start: formattedStartDate,
+          end: formattedEndDate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setIsUpdatePossibleTime(true);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <Calendar
@@ -127,11 +221,20 @@ const MyCalendar = () => {
         defaultView="week"
         eventPropGetter={eventPropGetter}
         slotPropGetter={slotPropGetter}
+        onSelectSlot={handleSelectSlot}
         // components={{
         //   month: {
         //     dateHeader: myDateHeader,
         //   },
         //}}
+        // min={moment().hour(7).toDate()}
+        // max={moment().hour(23).toDate()}
+        // components={{
+        //   timeSlotWrapper: (props) =>
+        //     hideTimeSlots(props.value.start, props.value.end)
+        //       ? null
+        //       : props.children,
+        // }}
       />
       {/* {isAddModalOpen && (
         <EventModalWrapper>

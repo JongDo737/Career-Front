@@ -266,24 +266,22 @@ const PostDetail = () => {
   };
 
   const onEditCommentContent = (id, commentIdx) => {
-    axios
-      .post(
-        `${SV_LOCAL}/community/comment/modify`,
-        {
-          id: id,
-          content: comments[commentIdx].content,
+    axios(
+      `${SV_LOCAL}/community/comment/modify`,
+      {
+        id: id,
+        content: comments[commentIdx].content,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      )
-      .then(() => {
-        // setTmpCommentInput("");
-        setEditCommentContent("");
-        setUpdateComment(true);
-      });
+      }
+    ).then(() => {
+      // setTmpCommentInput("");
+      setEditCommentContent("");
+      setUpdateComment(true);
+    });
   };
 
   const onEditRecommentContent = (id, commentIdx, recommentIdx) => {
