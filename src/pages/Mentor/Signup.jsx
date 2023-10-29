@@ -13,6 +13,7 @@ import Image from "../../components/Image/Image";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { SV_LOCAL } from "../../constants";
 function Signup(props) {
   // const [username, setUsername] = useState("");
   // const [id, setId] = useState("");
@@ -137,15 +138,15 @@ function Signup(props) {
     }));
 
     const formData = new FormData();
-    formData.append("image", profileImg);
+    // formData.append("image", profileImg);
 
     const jsonData = {
-      name: "seongae7", //필수
-      username: "test7", //필수
-      nickname: "seongae7", //필수
-      password: "123", //필수
-      birth: "20000505", //필수
-      gender: "false", //필수
+      name: user.name, //필수
+      username: user.username, //필수
+      nickname: user.nickname, //필수
+      password: user.password, //필수
+      birth: user.birth.replace(/-/g, ""), //필수
+      gender: user.gender, //필수
       schoolList: [
         {
           idx: 0,
@@ -191,16 +192,14 @@ function Signup(props) {
       ],
     };
     formData.append("json", JSON.stringify(jsonData));
+    console.log(jsonData);
+
     axios
-      .post(
-        `https://0b79-183-107-1-194.ngrok-free.app/user/signup/mentor`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
-          },
-        }
-      )
+      .post(`${SV_LOCAL}/user/signup/mentor`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
+        },
+      })
       .then((res) => {
         // axios
         //   .post(

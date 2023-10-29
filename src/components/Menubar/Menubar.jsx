@@ -55,7 +55,7 @@ const Menubar = () => {
         setLeftLink([
           `${FRONT_LOCAL}/mentor`,
           `${FRONT_LOCAL}/mentor/consult`,
-          `${FRONT_LOCAL}/mentor`,
+          `${FRONT_LOCAL}/schedule`,
           `${FRONT_LOCAL}/community`,
         ]);
         setRightLink([`${FRONT_LOCAL}/mentor`, `${FRONT_LOCAL}/mentor`]);

@@ -50,41 +50,26 @@ const MyCalendar = () => {
   const [selectedSlot, setSelectedSlot] = useState(null);
 
   const isCustomTimeCell = (start, end) => {
-    // 특정 시간 범위를 지정 (예: 10:00부터 11:00까지)
-    // console.log(start);
-
-    let customStartTime = new Date("2023-10-27 15:00");
-    let customEndTime = new Date("2023-10-27 17:00");
-    // console.log(start, customStartTime);
-    // console.log(possibleTimeList);
+    let customStartTime = new Date();
+    let customEndTime = new Date();
     let check = false;
-    {
-      possibleTimeList &&
-        possibleTimeList.map((possibleTime, dateIdx) => {
-          {
-            check = false;
-            // const date = possibleTime.date.split('-')
-            possibleTime.possibleTimeList.map((time, timeIdx) => {
-              //   console.log(possibleTime.date + " " + time.end);
-              customStartTime = new Date(possibleTime.date + " " + time.start);
-              //   customStartTime.setMonth(customStartTime.getMonth() - 1);
-              customEndTime = new Date(possibleTime.date + " " + time.end);
-              //   customEndTime.setMonth(customEndTime.getMonth() - 1);
 
-              if (start >= customStartTime && start < customEndTime) {
-                // console.log(start, customStartTime, customEndTime, "그만");
-                check = true;
-              }
-            });
+    possibleTimeList &&
+      possibleTimeList.some((possibleTime) => {
+        check = false;
+        possibleTime.possibleTimeList.some((time) => {
+          customStartTime = new Date(possibleTime.date + " " + time.start);
+          customEndTime = new Date(possibleTime.date + " " + time.end);
+
+          if (start >= customStartTime && start < customEndTime) {
+            check = true;
+            return true;
           }
-          //   customStartTime = new Date(possibleTime.date + " " + possibleTime.possibleTimeList.start);
-          //   customEndTime = new Date(2023, 10 - 1, 27, 17, 0);
+          return false;
         });
-    }
-    // console.log(customStartTime, customEndTime);
-    // customStartTime = new Date("2023-10-27 15:00");
-    // customEndTime = new Date("2023-10-27 17:00");
-    // console.log(start, customStartTime, customEndTime, "머여");
+        if (check) return true;
+        else return false;
+      });
     return check;
   };
 
@@ -137,7 +122,7 @@ const MyCalendar = () => {
         )
         .then((res) => {
           console.log(res.data);
-          setPossibleTimeList([...res.data.dateList]);
+          if (res.data.dateList) setPossibleTimeList([...res.data.dateList]);
           setIsUpdatePossibleTime(false);
         })
         .catch((err) => console.log(err));
@@ -222,33 +207,7 @@ const MyCalendar = () => {
         eventPropGetter={eventPropGetter}
         slotPropGetter={slotPropGetter}
         onSelectSlot={handleSelectSlot}
-        // components={{
-        //   month: {
-        //     dateHeader: myDateHeader,
-        //   },
-        //}}
-        // min={moment().hour(7).toDate()}
-        // max={moment().hour(23).toDate()}
-        // components={{
-        //   timeSlotWrapper: (props) =>
-        //     hideTimeSlots(props.value.start, props.value.end)
-        //       ? null
-        //       : props.children,
-        // }}
       />
-      {/* {isAddModalOpen && (
-        <EventModalWrapper>
-          <EventModal>
-            <h2>Create New Event</h2>
-            <p>
-              Selected Slot: {selectedSlot.start.toString()} -
-              {selectedSlot.end.toString()}
-            </p>
-            <button onClick={handleCreateEvent}>Create Event</button>
-            <button onClick={handleCloseModal}>Cancel</button>
-          </EventModal>
-        </EventModalWrapper>
-      )} */}
     </>
   );
 };

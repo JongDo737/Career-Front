@@ -815,6 +815,11 @@ button.rbc-input::-moz-focus-inner {
   -ms-flex: none;
   flex: none;
 }
+
+.rbc-time-gutter .rbc-time-slot {
+  background-color: white !important;
+}
+
 .rbc-time-content > * + * > * {
   border-left: 1px solid #ddd;
 }
