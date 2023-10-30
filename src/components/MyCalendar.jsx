@@ -47,7 +47,11 @@ const MyCalendar = () => {
   const [isUpdatePossibleTime, setIsUpdatePossibleTime] = useState(true);
   const today = moment();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedSlot, setSelectedSlot] = useState({
+    start: "",
+    end: "",
+  });
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const isCustomTimeCell = (start, end) => {
     let customStartTime = new Date();
@@ -121,7 +125,7 @@ const MyCalendar = () => {
           }
         )
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           if (res.data.dateList) setPossibleTimeList([...res.data.dateList]);
           setIsUpdatePossibleTime(false);
         })
@@ -161,20 +165,29 @@ const MyCalendar = () => {
   //       </div>
   //     );
   //   };
-  const handleSelectSlot = ({ start, end }) => {
-    // 이벤트를 추가하거나 다른 작업을 수행할 수 있습니다.
+  const handleSelectSlot = (date) => {
+    const momentStart = moment(new Date(date.start));
+    const momentEnd = moment(new Date(date.end));
+    const formattedStartDate = momentStart.format("YYYY.MM.DD HH:mm");
+    const formattedEndDate = momentEnd.format("YYYY.MM.DD HH:mm");
 
-    const startDate = new Date(start);
-    const endDate = new Date(end);
+    setSelectedSlot({ start: formattedStartDate, end: formattedEndDate });
+    setIsEditModalOpen(true);
+    // slotPropGetter
+    // const formattedStartDate = momentStart.format("YYYY-MM-DDTHH:mm:ss.S");
+    // const formattedEndDate = momentEnd.format("YYYY-MM-DDTHH:mm:ss.S");
 
-    const momentStart = moment(startDate);
-    const momentEnd = moment(endDate);
-    const formattedStartDate = momentStart.format("YYYY-MM-DDTHH:mm:ss.S");
-    const formattedEndDate = momentEnd.format("YYYY-MM-DDTHH:mm:ss.S");
+    // console.log(formattedStartDate);
+    // console.log(formattedEndDate);
+  };
 
-    console.log(formattedStartDate);
-    console.log(formattedEndDate);
-
+  const onAddPossibleTime = () => {
+    const formattedStartDate = moment(new Date(selectedSlot.start)).format(
+      "YYYY-MM-DDTHH:mm:ss.S"
+    );
+    const formattedEndDate = moment(new Date(selectedSlot.end)).format(
+      "YYYY-MM-DDTHH:mm:ss.S"
+    );
     axios
       .post(
         `${SV_LOCAL}/calendar/mentor/insert/possible/time`,
@@ -194,6 +207,7 @@ const MyCalendar = () => {
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <>
       <Calendar
@@ -202,33 +216,96 @@ const MyCalendar = () => {
         startAccessor={"start"}
         endAccessor={"end"}
         selectable
-        // onSelectSlot={handleSelectSlot}
         defaultView="week"
         eventPropGetter={eventPropGetter}
         slotPropGetter={slotPropGetter}
         onSelectSlot={handleSelectSlot}
       />
+      {isEditModalOpen && (
+        <DeleteWrapper onClick={() => setIsEditModalOpen(false)}>
+          <DeleteModal onClick={(e) => e.stopPropagation()}>
+            <header>
+              <span>{selectedSlot.start}</span>
+              <span>~ {selectedSlot.end}</span>
+            </header>
+            <main>
+              <div className="button" onClick={() => setIsEditModalOpen(false)}>
+                상담 시간 삭제하기
+              </div>
+              <div
+                className="button"
+                onClick={() => {
+                  onAddPossibleTime();
+                  setIsEditModalOpen(false);
+                }}
+              >
+                상담 시간 추가하기
+              </div>
+            </main>
+          </DeleteModal>
+        </DeleteWrapper>
+      )}
     </>
   );
 };
 
 export default MyCalendar;
 
-// const EventModalWrapper = styled.div`
-//   width: 100%;
-//   height: 100vh;
-//   background-color: #8080806d;
-//   position: fixed;
-//   top: 0;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   overflow: hidden;
-// `;
-// const EventModal = styled.div`
-//   width: 20rem;
-//   height: 10rem;
-//   background-color: white;
-//   padding: 2rem;
-//   border-radius: 1rem;
-// `;
+const DeleteWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: #8080806d;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`;
+
+const DeleteModal = styled.div`
+  width: 15rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  > header {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  > main {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    .button {
+      padding: 0.5rem 1.5rem;
+      cursor: pointer;
+      border-radius: 0.7rem;
+      &:nth-of-type(1) {
+        background-color: #f5f5f5;
+        &:hover {
+          background-color: #e9e9e9;
+        }
+      }
+      &:nth-of-type(2) {
+        background-color: #516a8b;
+        color: white;
+        &:hover {
+          background-color: #2f5383;
+        }
+      }
+    }
+  }
+`;
