@@ -57,30 +57,41 @@ const MyCalendar = () => {
     let customStartTime = new Date();
     let customEndTime = new Date();
     let check = false;
+    const today = new Date();
+    // const beforeToday = start <= today.setMinutes(today.getMinutes() - 30);
+    const beforeToday = start <= today;
+    if (beforeToday) return null;
+    else {
+      possibleTimeList &&
+        possibleTimeList.some((possibleTime) => {
+          check = false;
+          possibleTime.possibleTimeList.some((time) => {
+            customStartTime = new Date(possibleTime.date + " " + time.start);
+            customEndTime = new Date(possibleTime.date + " " + time.end);
 
-    possibleTimeList &&
-      possibleTimeList.some((possibleTime) => {
-        check = false;
-        possibleTime.possibleTimeList.some((time) => {
-          customStartTime = new Date(possibleTime.date + " " + time.start);
-          customEndTime = new Date(possibleTime.date + " " + time.end);
-
-          if (start >= customStartTime && start < customEndTime) {
-            check = true;
-            return true;
-          }
-          return false;
+            if (start >= customStartTime && start < customEndTime) {
+              // 시간 범위안에 포함되면 true
+              check = true;
+              return true;
+            }
+            check = false;
+            return false;
+          });
+          if (check) return true;
+          else return false;
         });
-        if (check) return true;
-        else return false;
-      });
-    return check;
+      return check;
+    }
   };
 
   const slotPropGetter = (date) => {
     const isSelected = isCustomTimeCell(date);
     const style = {
-      backgroundColor: isSelected ? "yellow" : "white", // 특정 시간 범위에 해당하는 셀에 노란색 배경, 그 외에는 흰 배경
+      backgroundColor: isSelected
+        ? "yellow"
+        : isSelected === null
+        ? "#e1e1e1"
+        : "white",
     };
     return { style };
   };
@@ -172,7 +183,9 @@ const MyCalendar = () => {
     const formattedEndDate = momentEnd.format("YYYY.MM.DD HH:mm");
 
     setSelectedSlot({ start: formattedStartDate, end: formattedEndDate });
-    setIsEditModalOpen(true);
+    const today = new Date();
+    const beforeToday = date.start <= today;
+    if (!beforeToday) setIsEditModalOpen(true);
     // slotPropGetter
     // const formattedStartDate = momentStart.format("YYYY-MM-DDTHH:mm:ss.S");
     // const formattedEndDate = momentEnd.format("YYYY-MM-DDTHH:mm:ss.S");
@@ -208,6 +221,32 @@ const MyCalendar = () => {
       .catch((err) => console.log(err));
   };
 
+  const onDeletePossibleTime = () => {
+    const formattedStartDate = moment(new Date(selectedSlot.start)).format(
+      "YYYY-MM-DDTHH:mm:00.0"
+    );
+    const formattedEndDate = moment(new Date(selectedSlot.end)).format(
+      "YYYY-MM-DDTHH:mm:00.0"
+    );
+    axios
+      .post(
+        `${SV_LOCAL}/calendar/mentor/delete/possible/time`,
+        {
+          start: formattedStartDate,
+          end: formattedEndDate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setIsUpdatePossibleTime(true);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <Calendar
@@ -229,7 +268,13 @@ const MyCalendar = () => {
               <span>~ {selectedSlot.end}</span>
             </header>
             <main>
-              <div className="button" onClick={() => setIsEditModalOpen(false)}>
+              <div
+                className="button"
+                onClick={() => {
+                  onDeletePossibleTime();
+                  setIsEditModalOpen(false);
+                }}
+              >
                 상담 시간 삭제하기
               </div>
               <div

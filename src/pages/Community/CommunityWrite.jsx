@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { SV_LOCAL } from "../../constants";
@@ -8,8 +8,33 @@ import { CommunityCategoryList } from "../../settings/config";
 
 const CommunityWrite = () => {
   const [files, setFiles] = useState([]);
+  console.log("files", files);
+  const fileInput = useRef(null);
+  const [image, setImage] = useState([]);
   const onChangeFiles = (e) => {
-    setFiles(Object.values(e.target.files));
+    let newFiles = [...files, ...e.target.files];
+    if (newFiles.length > 6) {
+      newFiles.splice(6);
+    }
+    setFiles(newFiles);
+    const filesArray = Object.values(newFiles);
+    const loadImageData = (files) => {
+      const promises = files.map((file) => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            resolve(reader.result);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      Promise.all(promises).then((imageDataArray) => {
+        setImage([...imageDataArray]);
+      });
+    };
+
+    loadImageData(filesArray);
   };
   const onDeleteFile = (fileName) => {
     setFiles(files.filter((file) => file !== fileName));
@@ -97,23 +122,43 @@ const CommunityWrite = () => {
           ></textarea>
           <div className="write-file">
             <input
+              id="file"
               type="file"
               multiple
               className="write-file__input"
               onChange={(e) => onChangeFiles(e)}
+              disabled={files.length >= 6 ? true : false}
             />
-            <ul className="write-file__list">
-              {files.map((file, idx) => (
-                <li key={idx}>
-                  {file.name}
+            <label htmlFor="file">파일 선택</label>
+            <div className="file-wrapper">
+              <ul className="write-file__list">
+                {files.map((file, idx) => (
+                  <li key={idx}>
+                    {file.name}
+                    <img
+                      src="/svg/close-black.svg"
+                      alt="close-button"
+                      onClick={() => onDeleteFile(file)}
+                    />
+                  </li>
+                ))}
+              </ul>
+              <ul className="write-file__list">
+                {image.map((img, imgIdx) => (
                   <img
-                    src="/svg/close-black.svg"
-                    alt="close-button"
-                    onClick={() => onDeleteFile(file)}
+                    key={imgIdx}
+                    src={img}
+                    alt=""
+                    className="write-file__img"
+                    // onClick={() => {
+                    //   fileInput.current.click();
+                    // }}
+
+                    onClick={() => console.log(image)}
                   />
-                </li>
-              ))}
-            </ul>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </WriteWrapper>
@@ -241,8 +286,15 @@ const WriteWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: 1rem;
     &__input {
+      display: none;
       font-size: 1.2rem;
+    }
+    > label {
+      font-size: 1.2rem;
+      border: 1px solid gray;
+      padding: 0.3rem 1rem;
     }
     &__list {
       list-style: none;
@@ -250,10 +302,20 @@ const WriteWrapper = styled.div`
       display: flex;
       gap: 1rem;
       font-size: 1.2rem;
+      .write-file__img {
+        width: 8rem;
+        height: 8rem;
+        object-fit: cover;
+      }
       li {
         display: flex;
+        justify-content: end;
         align-items: center;
         gap: 1rem;
+        width: 8rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         img {
           width: 1rem;
         }
