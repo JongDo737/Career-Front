@@ -7,114 +7,120 @@ import {
   faChevronUp,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-const ScheduleList = () => {
-  const upcomingConsult = [
-    {
-      id: 0,
-      profileImg: "https://img.hankyung.com/photo/202005/01.22637888.1.jpg",
-      nickname: "ASDF",
-      date: "2023-10-26",
-      startTime: "13:00",
-      endTime: "14:30",
-      major: "전산학부",
-      consultType: "비대면",
-      questions: [
-        "front 를 할지, back 을 할지 고민중이에요.",
-        "성적과 비교과 어느 것이 중요한가요?",
-      ],
-      content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요? 공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요? 공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
-      consultType: ["저는 실력있는 선생님이 좋아요"],
-    },
-    {
-      id: 1,
-      profileImg: "",
-      nickname: "왕만두",
-      date: "2023-10-27",
-      startTime: "11:00",
-      endTime: "12:00",
-      major: "컴퓨터공학부",
-      consultType: "비대면",
-      questions: [
-        "front 를 할지, back 을 할지 고민중이에요.",
-        "성적과 비교과 어느 것이 중요한가요?",
-      ],
-      content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
-      consultType: ["친절한", "공감하는", "실력있고꼼꼼한", "차분한"],
-    },
-    {
-      id: 2,
-      profileImg: "https://img.hankyung.com/photo/202005/01.22637888.1.jpg",
-      nickname: "한국사짱좋아한국사짱좋아",
-      date: "2023-10-27",
-      startTime: "15:00",
-      endTime: "16:00",
-      major: "기계공학부",
-      consultType: "비대면",
-      questions: [
-        "front 를 할지, back 을 할지 고민중이에요.",
-        "성적과 비교과 어느 것이 중요한가요?",
-        "front 를 할지, back 을 할지 고민중이에요.",
-        "성적과 비교과 어느 것이 중요한가요?",
-      ],
-      content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
-      consultType: ["친절한", "공감하는", "실력있고꼼꼼한", "차분한"],
-    },
-  ];
+import axios from "axios";
+import { getCookie } from "../../cookie";
+import { SV_LOCAL } from "../../constants";
 
-  const pendingConsult = [
-    {
-      id: 0,
-      profileImg: "",
-      nickname: "ASDF",
-      date: "2023-10-26",
-      startTime: "13:00",
-      endTime: "14:30",
-      major: "전산학부",
-      consultType: "비대면",
-      questions: [
-        "front 를 할지, back 을 할지 고민중이에요.",
-        "성적과 비교과 어느 것이 중요한가요?",
-        "front 를 할지, back 을 할지 고민중이에요.",
-        "성적과 비교과 어느 것이 중요한가요?",
-      ],
-      content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요? 아 근데 열심히 하는데도 왜 할 일은 끝이 없는 걸까요????`,
-      consultType: ["친절한", "공감하는", "실력있고꼼꼼한", "차분한"],
-    },
-    {
-      id: 1,
-      profileImg: "https://img.hankyung.com/photo/202005/01.22637888.1.jpg",
-      nickname: "왕만두",
-      date: "2023-10-27",
-      startTime: "11:00",
-      endTime: "12:00",
-      major: "컴퓨터공학부",
-      consultType: "비대면",
-      questions: [
-        "front 를 할지, back 을 할지 고민중이에요.",
-        "성적과 비교과 어느 것이 중요한가요?",
-      ],
-      content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
-      consultType: ["친절한", "공감하는", "실력있는", "차분한"],
-    },
-    {
-      id: 2,
-      profileImg: "",
-      nickname: "한국사짱좋아한국사짱좋아",
-      date: "2023-10-27",
-      startTime: "15:00",
-      endTime: "16:00",
-      major: "기계공학부",
-      consultType: "비대면",
-      questions: [
-        "front 를 할지, back 을 할지 고민중이에요.",
-        "성적과 비교과 어느 것이 중요한가요?",
-        "front 를 할지, back 을 할지 고민중이에요.",
-        "성적과 비교과 어느 것이 중요한가요?",
-      ],
-      content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
-      consultType: ["친절한", "공감하는", "실력있는", "차분한"],
-    },
-  ];
+const ScheduleList = () => {
+  // const upcomingConsult = [
+  //   {
+  //     id: 0,
+  //     profileImg: "https://img.hankyung.com/photo/202005/01.22637888.1.jpg",
+  //     nickname: "ASDF",
+  //     date: "2023-10-26",
+  //     startTime: "13:00",
+  //     endTime: "14:30",
+  //     major: "전산학부",
+  //     consultType: "비대면",
+  //     questions: [
+  //       "front 를 할지, back 을 할지 고민중이에요.",
+  //       "성적과 비교과 어느 것이 중요한가요?",
+  //     ],
+  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요? 공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요? 공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
+  //     consultType: ["저는 실력있는 선생님이 좋아요"],
+  //   },
+  //   {
+  //     id: 1,
+  //     profileImg: "",
+  //     nickname: "왕만두",
+  //     date: "2023-10-27",
+  //     startTime: "11:00",
+  //     endTime: "12:00",
+  //     major: "컴퓨터공학부",
+  //     consultType: "비대면",
+  //     questions: [
+  //       "front 를 할지, back 을 할지 고민중이에요.",
+  //       "성적과 비교과 어느 것이 중요한가요?",
+  //     ],
+  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
+  //     consultType: ["친절한", "공감하는", "실력있고꼼꼼한", "차분한"],
+  //   },
+  //   {
+  //     id: 2,
+  //     profileImg: "https://img.hankyung.com/photo/202005/01.22637888.1.jpg",
+  //     nickname: "한국사짱좋아한국사짱좋아",
+  //     date: "2023-10-27",
+  //     startTime: "15:00",
+  //     endTime: "16:00",
+  //     major: "기계공학부",
+  //     consultType: "비대면",
+  //     questions: [
+  //       "front 를 할지, back 을 할지 고민중이에요.",
+  //       "성적과 비교과 어느 것이 중요한가요?",
+  //       "front 를 할지, back 을 할지 고민중이에요.",
+  //       "성적과 비교과 어느 것이 중요한가요?",
+  //     ],
+  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
+  //     consultType: ["친절한", "공감하는", "실력있고꼼꼼한", "차분한"],
+  //   },
+  // ];
+
+  // const pendingConsult = [
+  //   {
+  //     id: 0,
+  //     profileImg: "",
+  //     nickname: "ASDF",
+  //     date: "2023-10-26",
+  //     startTime: "13:00",
+  //     endTime: "14:30",
+  //     major: "전산학부",
+  //     consultType: "비대면",
+  //     questions: [
+  //       "front 를 할지, back 을 할지 고민중이에요.",
+  //       "성적과 비교과 어느 것이 중요한가요?",
+  //       "front 를 할지, back 을 할지 고민중이에요.",
+  //       "성적과 비교과 어느 것이 중요한가요?",
+  //     ],
+  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요? 아 근데 열심히 하는데도 왜 할 일은 끝이 없는 걸까요????`,
+  //     consultType: ["친절한", "공감하는", "실력있고꼼꼼한", "차분한"],
+  //   },
+  //   {
+  //     id: 1,
+  //     profileImg: "https://img.hankyung.com/photo/202005/01.22637888.1.jpg",
+  //     nickname: "왕만두",
+  //     date: "2023-10-27",
+  //     startTime: "11:00",
+  //     endTime: "12:00",
+  //     major: "컴퓨터공학부",
+  //     consultType: "비대면",
+  //     questions: [
+  //       "front 를 할지, back 을 할지 고민중이에요.",
+  //       "성적과 비교과 어느 것이 중요한가요?",
+  //     ],
+  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
+  //     consultType: ["친절한", "공감하는", "실력있는", "차분한"],
+  //   },
+  //   {
+  //     id: 2,
+  //     profileImg: "",
+  //     nickname: "한국사짱좋아한국사짱좋아",
+  //     date: "2023-10-27",
+  //     startTime: "15:00",
+  //     endTime: "16:00",
+  //     major: "기계공학부",
+  //     consultType: "비대면",
+  //     questions: [
+  //       "front 를 할지, back 을 할지 고민중이에요.",
+  //       "성적과 비교과 어느 것이 중요한가요?",
+  //       "front 를 할지, back 을 할지 고민중이에요.",
+  //       "성적과 비교과 어느 것이 중요한가요?",
+  //     ],
+  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
+  //     consultType: ["친절한", "공감하는", "실력있는", "차분한"],
+  //   },
+  // ];
+  const [pendingConsult, setPendingConsult] = useState([]);
+  const [upcomingConsult, setUpcomingConsult] = useState([]);
   const [upcomingDetailId, setUpcomingDetailId] = useState("");
   const [pendingDetailId, setPendingDetailId] = useState("");
   const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -124,6 +130,22 @@ const ScheduleList = () => {
     if (isDetailOpen) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "auto";
   }, [isDetailOpen]);
+
+  useEffect(() => {
+    axios
+      .get(`${SV_LOCAL}/consultation/mentor`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+      })
+      .then((res) => {
+        const consultDataList = res.data.object;
+        console.log("consult data list", consultDataList);
+        setPendingConsult([...consultDataList.lastUpcomingConsult]);
+        setUpcomingConsult([...consultDataList.upcomingConsult]);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <>
       <ListWrapper>
@@ -136,70 +158,89 @@ const ScheduleList = () => {
             <li>시간</li>
             <li></li>
           </ul>
-          {upcomingConsult.map((upcoming, upcomingIdx) => (
-            <>
-              <ul className="main" key={upcoming.id}>
-                <li>{upcomingIdx + 1}</li>
-                <li>{upcoming.nickname}</li>
-                <li>{dateParse(upcoming.date)}</li>
-                <li>
-                  {upcoming.startTime} ~ {upcoming.endTime}
-                </li>
-                <li>
-                  {upcomingDetailId === upcomingIdx ? (
-                    <FontAwesomeIcon
-                      icon={faChevronUp}
-                      className="icon"
-                      onClick={() => {
-                        setUpcomingDetailId("");
-                      }}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className="icon"
-                      onClick={() => {
-                        setUpcomingDetailId(upcomingIdx);
-                      }}
-                    />
-                  )}
-                </li>
-              </ul>
-              {upcomingIdx === upcomingDetailId && (
-                <div className="main-detail">
-                  <div className="main-detail__item">
-                    <span className="item__title">- 상담할 전공 : </span>
-                    <span className="item__content">{upcoming.major}</span>
-                  </div>
-                  <div className="main-detail__item">
-                    <span className="item__title">- 상담 방식 : </span>
-                    <span className="item__content">
-                      {upcoming.consultType}
-                    </span>
-                  </div>
-                  <div className="main-detail__item">
-                    <span className="item__title">- 주요 질문 : </span>
-                    <div className="question-wrapper">
-                      {upcoming.questions.map((question, qIdx) => (
-                        <span key={qIdx} className="item__content">
-                          {question}
-                        </span>
-                      ))}
+          {upcomingConsult.length === 0 && (
+            <ul
+              className="main"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <li
+                style={{
+                  padding: "1rem 0",
+                  textAlign: "center",
+                }}
+              >
+                예정된 상담이 없습니다.
+              </li>
+            </ul>
+          )}
+          {upcomingConsult &&
+            upcomingConsult.map((upcoming, upcomingIdx) => (
+              <>
+                <ul className="main" key={upcoming.id}>
+                  <li>{upcomingIdx + 1}</li>
+                  <li>{upcoming.student.nickname}</li>
+                  <li>{dateParse(upcoming.date)}</li>
+                  <li>
+                    {upcoming.startTime} ~ {upcoming.endTime}
+                  </li>
+                  <li>
+                    {upcomingDetailId === upcomingIdx ? (
+                      <FontAwesomeIcon
+                        icon={faChevronUp}
+                        className="icon"
+                        onClick={() => {
+                          setUpcomingDetailId("");
+                        }}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faChevronDown}
+                        className="icon"
+                        onClick={() => {
+                          setUpcomingDetailId(upcomingIdx);
+                        }}
+                      />
+                    )}
+                  </li>
+                </ul>
+                {upcomingIdx === upcomingDetailId && (
+                  <div className="main-detail">
+                    <div className="main-detail__item">
+                      <span className="item__title">- 상담할 전공 : </span>
+                      <span className="item__content">{upcoming.major}</span>
                     </div>
+                    <div className="main-detail__item">
+                      <span className="item__title">- 상담 방식 : </span>
+                      <span className="item__content">
+                        {upcoming.consultType}
+                      </span>
+                    </div>
+                    <div className="main-detail__item">
+                      <span className="item__title">- 주요 질문 : </span>
+                      <div className="question-wrapper">
+                        {upcoming.questions.map((question, qIdx) => (
+                          <span key={qIdx} className="item__content">
+                            {question}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <button
+                      className="detail-btn"
+                      onClick={() => {
+                        setDetailObject({ type: "0", object: { ...upcoming } });
+                        setIsDetailOpen(true);
+                      }}
+                    >
+                      자세히 보기
+                    </button>
                   </div>
-                  <button
-                    className="detail-btn"
-                    onClick={() => {
-                      setDetailObject({ type: "0", object: { ...upcoming } });
-                      setIsDetailOpen(true);
-                    }}
-                  >
-                    자세히 보기
-                  </button>
-                </div>
-              )}
-            </>
-          ))}
+                )}
+              </>
+            ))}
         </List>
         <List>
           <h1 className="list-title">
@@ -216,10 +257,11 @@ const ScheduleList = () => {
             <>
               <ul className="main" key={pending.id}>
                 <li>{pendingIdx + 1}</li>
-                <li>{pending.nickname}</li>
-                <li>{dateParse(pending.date)}</li>
+                <li>{pending.student.nickname}</li>
+                <li>{dateParse(pending.startTime.split("T")[0])}</li>
                 <li>
-                  {pending.startTime} ~ {pending.endTime}
+                  {pending.startTime.split("T")[1]} ~{" "}
+                  {pending.endTime.split("T")[1]}
                 </li>
                 <li>
                   {pendingDetailId === pendingIdx ? (
@@ -249,16 +291,17 @@ const ScheduleList = () => {
                   </div>
                   <div className="main-detail__item">
                     <span className="item__title">- 상담 방식 : </span>
-                    <span className="item__content">{pending.consultType}</span>
+                    <span className="item__content">{pending.flow}</span>
                   </div>
                   <div className="main-detail__item">
                     <span className="item__title">- 주요 질문 : </span>
                     <div className="question-wrapper">
-                      {pending.questions.map((question, qIdx) => (
+                      {/* {pending.questions.map((question, qIdx) => (
                         <span key={qIdx} className="item__content">
                           {question}
                         </span>
-                      ))}
+                      ))} */}
+                      <p className="item__content">{pending.questions}</p>
                     </div>
                   </div>
                   <button
@@ -301,30 +344,29 @@ const ScheduleList = () => {
               <div className="detail-main detail-consult">
                 <div className="detail-main__title">상담 내용</div>
                 <div className="detail-main__content">
-                  {detailObject.object.content}
+                  {detailObject.object.questions}
                 </div>
               </div>
               <div className="detail-main-row">
-                {detailObject.type === "0" && (
+                {/* {detailObject.type === "0" && (
                   <div className="detail-main detail-row__item">
                     <div className="detail-main__title">사전 질문</div>
-                    {detailObject.object.questions.map(
-                      (question, questionIdx) => (
-                        <div className="detail-main__content" key={questionIdx}>
-                          {questionIdx + 1}. {question}
-                        </div>
-                      )
-                    )}
+                    <div className="detail-main__content">
+                      {detailObject.object.questions}
+                    </div>
                   </div>
-                )}
+                )} */}
                 <div className="detail-main detail-row__item">
                   <div className="detail-main__title">원하는 상담 스타일</div>
                   <div className="detail-main__tag-wrapper">
-                    {detailObject.object.consultType.map((type, typeIdx) => (
-                      <div className="detail-main__tag" key={typeIdx}>
-                        #{type}
-                      </div>
-                    ))}
+                    {detailObject.object.flow
+                      .split("#")
+                      .slice(1)
+                      .map((type, typeIdx) => (
+                        <div className="detail-main__tag" key={typeIdx}>
+                          <div className="detail-main__tag">#{type}</div>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -563,6 +605,9 @@ const DetailModal = styled.div`
       flex: 1;
       &__title {
         font-weight: 600;
+      }
+      &__content {
+        white-space: pre-line;
       }
     }
   }

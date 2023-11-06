@@ -9,40 +9,8 @@ import { getCookie } from "../cookie";
 
 const localizer = momentLocalizer(moment);
 const MyCalendar = () => {
-  const [events, setEvents] = useState([
-    {
-      id: 0,
-      title: "Seongae test",
-      allDay: false,
-      start: new Date("2023-10-25T10:00"),
-      end: new Date("2023-10-25T11:30"),
-      reserve: true,
-    },
-    {
-      id: 1,
-      title: "Jongmin test",
-      allDay: false,
-      start: new Date("2023-10-26T10:30"),
-      end: new Date("2023-10-26T12:30"),
-      reserve: false,
-    },
-    {
-      id: 2,
-      title: "Jaejun test",
-      allDay: false,
-      start: new Date("2023-10-27T13:30"),
-      end: new Date("2023-10-27T16:30"),
-      reserve: true,
-    },
-    {
-      id: 4,
-      title: "heemun test",
-      allDay: false,
-      start: new Date("2023-10-24T10:00"),
-      end: new Date("2023-10-24T11:30"),
-      reserve: true,
-    },
-  ]);
+  // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
+  const [events, setEvents] = useState([]);
   const [possibleTimeList, setPossibleTimeList] = useState([]);
   const [isUpdatePossibleTime, setIsUpdatePossibleTime] = useState(true);
   const today = moment();
@@ -52,7 +20,6 @@ const MyCalendar = () => {
     end: "",
   });
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
   const isCustomTimeCell = (start, end) => {
     let customStartTime = new Date();
     let customEndTime = new Date();
@@ -96,7 +63,7 @@ const MyCalendar = () => {
     return { style };
   };
 
-  const eventPropGetter = (event, start, end, isSelected, reserve) => {
+  const eventPropGetter = (event, start, end, isSelected, status) => {
     const isPastDate = moment(start).isBefore(today); // 오늘 이전인지 확인
 
     const style = {
@@ -105,14 +72,14 @@ const MyCalendar = () => {
       color: isPastDate ? "#3b3b3b" : "white",
     };
 
-    if (!event.reserve) {
+    if (!event.status) {
       style.opacity = "0.7";
       style.borderColor = "black";
       style.color = "black";
       style.borderStyle = "dashed";
     }
 
-    style.class = event.reserve ? "reserved-event" : "regular-event";
+    style.class = !event.status ? "reserved-event" : "regular-event";
 
     return { style };
   };
@@ -123,6 +90,36 @@ const MyCalendar = () => {
     return hideStart || hideEnd;
   };
 
+  useEffect(() => {
+    axios
+      .get(`${SV_LOCAL}/consultation/mentor`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("jwtToken")}`,
+        },
+      })
+      .then((res) => {
+        console.log("res", res.data);
+        // setEvents(...res)
+        const consultDataList = res.data.object;
+        const tmpList = [...consultDataList.lastUpcomingConsult];
+        tmpList.push(...consultDataList.previousConsult);
+        tmpList.push(...consultDataList.upcomingConsult);
+        console.log("tmp", tmpList);
+        const convertEvents = [];
+        tmpList.forEach((item) =>
+          convertEvents.push({
+            ...item,
+            id: item.consultId,
+            title: item.student.nickname,
+            start: new Date(item.startTime),
+            end: new Date(item.endTime),
+            status: item.status,
+          })
+        );
+        setEvents([...convertEvents]);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   useEffect(() => {
     if (isUpdatePossibleTime) {
       axios
