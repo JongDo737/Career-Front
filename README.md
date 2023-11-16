@@ -26,7 +26,8 @@ If you want to start the project, enter **npm start** and open **http://localhos
 ![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/60220d7f-7ac0-44a5-a82d-7a9d50d6e5b6)
 
 ---
-. -->
+.
+-->
 
 # Mentor Signup (http://localhost:3000/SignMentor)
 ![image](https://github.com/Carry-A-Way/Career-Front/assets/30529101/e231b542-9352-4f03-a5fd-ad82b5a3fa9b)
@@ -76,3 +77,20 @@ If you want to start the project, enter **npm start** and open **http://localhos
 
 # Mentee Page - Mentor (http://localhost:3000/mentee/mentor)
 <img width="1647" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/95ffcfd2-1c88-4443-b361-ef5e2b0c9876">
+---
+.
+
+# Community Page (http://localhost:3000/community/category, /community/activity)
+<img width="1371" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/5cf7f0b5-cd6d-4049-bd8b-e48e90b06c72">
+<img width="1360" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/a5d35bed-2b2f-41fb-bb9c-bd40b7980684">
+<img width="1358" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/f725f930-5732-4358-a538-f0bf8d043c33">
+<img width="1362" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/5f1c9063-590b-46c8-8dac-484270ca3247">
+---
+.
+
+# Calendar Page
+<img width="1374" alt="image" src="https://github.com/Carry-A-Way/Career-Front/assets/30529101/98a4e92b-d3fc-42bd-86c1-c5ad90a59222">
+
+
+
+
