@@ -32,7 +32,7 @@ function App() {
           <Route path="/mentor/setting" element={<Setting />} />
           <Route path="/mentor/profile" element={<ProfileMentor />} />
           <Route path="/mentor/consult" element={<ConsultMentor />} />
-          <Route exact path="/community" element={<Community />}></Route>
+          <Route exact path="/community" element={<Community />} />
           <Route exact path="/community/category" element={<Category />} />
           <Route
             exact
