@@ -40,8 +40,6 @@ const ScheduleList = () => {
   };
 
   const rejectConsult = async (reason) => {
-    console.log(detailObject);
-    console.log("reason ", reason);
     try {
       await axios.post(
         `${SV_LOCAL}/calendar/mentor/deny`,
@@ -61,8 +59,8 @@ const ScheduleList = () => {
     }
   };
 
-  const cancelConsult = async () => {
-    console.log(detailObject);
+  const enterZoomLink = () => {
+    window.open(`${detailObject.object.zoomLink}`, "_blank");
   };
 
   useEffect(() => {
@@ -249,11 +247,6 @@ const ScheduleList = () => {
                     <div className="main-detail__item">
                       <span className="item__title">- 주요 질문 : </span>
                       <div className="question-wrapper">
-                        {/* {pending.questions.map((question, qIdx) => (
-                        <span key={qIdx} className="item__content">
-                          {question}
-                        </span>
-                      ))} */}
                         <p className="item__content">{pending.questions}</p>
                       </div>
                     </div>
@@ -301,14 +294,6 @@ const ScheduleList = () => {
                 </div>
               </div>
               <div className="detail-main-row">
-                {/* {detailObject.type === "0" && (
-                  <div className="detail-main detail-row__item">
-                    <div className="detail-main__title">사전 질문</div>
-                    <div className="detail-main__content">
-                      {detailObject.object.questions}
-                    </div>
-                  </div>
-                )} */}
                 <div className="detail-main detail-row__item">
                   <div className="detail-main__title">원하는 상담 스타일</div>
                   <div className="detail-main__tag-wrapper">
@@ -337,7 +322,7 @@ const ScheduleList = () => {
                       console.log(result);
                       alert("상담이 취소되었습니다.");
                       setIsDetailOpen(false);
-                      cancelConsult();
+                      rejectConsult(result);
                     }
                   } else {
                     result = window.prompt(
@@ -363,10 +348,12 @@ const ScheduleList = () => {
                   if (detailObject.type === "0") {
                     var result =
                       window.confirm("상담 링크에 접속하시겠습니까?");
-                    if (result) setIsDetailOpen(false);
+                    if (result) {
+                      enterZoomLink();
+                      setIsDetailOpen(false);
+                    }
                   } else {
                     result = window.confirm("상담을 수락하시겠습니까?");
-                    console.log(detailObject.object);
                     if (result) {
                       alert("상담이 수락되었습니다.");
                       setIsDetailOpen(false);

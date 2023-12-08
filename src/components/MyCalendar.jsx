@@ -53,13 +53,16 @@ const MyCalendar = () => {
 
   const slotPropGetter = (date) => {
     const isSelected = isCustomTimeCell(date);
+    const hour = new Date(date).getHours();
+
     const style = {
       backgroundColor: isSelected
         ? "#fff893"
         : isSelected === null
-        ? "#dcdcdcc5"
+        ? "#dcdcdc98"
         : "white",
     };
+
     return { style };
   };
 
@@ -77,19 +80,11 @@ const MyCalendar = () => {
       style.borderColor = "white";
       style.color = "white";
       style.borderStyle = "dashed";
-    } else if (event.status === 3) {
-      return null; // 거절된 상담은 렌더링하지 않음
     }
 
     style.class = !event.status ? "reserved-event" : "regular-event";
 
     return { style };
-  };
-
-  const hideTimeSlots = (start, end) => {
-    const hideStart = moment(start).hour() > 2 || moment(start).hour() <= 7;
-    const hideEnd = moment(end).hour() > 2 || moment(end).hour() < 7;
-    return hideStart || hideEnd;
   };
 
   useEffect(() => {
@@ -146,39 +141,7 @@ const MyCalendar = () => {
         .catch((err) => console.log(err));
     }
   }, [isUpdatePossibleTime]);
-  //   const handleSelectSlot = ({ start, end }) => {
-  //     setIsAddModalOpen(true);
-  //     setSelectedSlot({ start, end });
-  //   };
 
-  //   const handleCreateEvent = () => {
-  //     const newEvent = {
-  //       id: events.length + 1,
-  //       title: `성애가 테스트중 ${events.length + 1}`,
-  //       start: selectedSlot.start,
-  //       end: selectedSlot.end,
-  //       reserve: true,
-  //     };
-  //     setEvents([...events, newEvent]);
-  //     setIsAddModalOpen(false);
-  //     setSelectedSlot(null);
-  //   };
-
-  //   const handleCloseModal = () => {
-  //     setIsAddModalOpen(false);
-  //     setSelectedSlot(null);
-  //   };
-
-  //   const myDateHeader = ({ label, date }) => {
-  //     return (
-  //       <div>
-  //         <button className="rbc-button-link" role="cell">
-  //           {label}
-  //         </button>
-  //         <div>hi</div>
-  //       </div>
-  //     );
-  //   };
   const handleSelectSlot = (date) => {
     const momentStart = moment(new Date(date.start));
     const momentEnd = moment(new Date(date.end));
@@ -189,12 +152,6 @@ const MyCalendar = () => {
     const today = new Date();
     const beforeToday = date.start <= today;
     if (!beforeToday) setIsEditModalOpen(true);
-    // slotPropGetter
-    // const formattedStartDate = momentStart.format("YYYY-MM-DDTHH:mm:ss.S");
-    // const formattedEndDate = momentEnd.format("YYYY-MM-DDTHH:mm:ss.S");
-
-    // console.log(formattedStartDate);
-    // console.log(formattedEndDate);
   };
 
   const onAddPossibleTime = () => {
@@ -250,6 +207,7 @@ const MyCalendar = () => {
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <>
       <Calendar
@@ -262,6 +220,9 @@ const MyCalendar = () => {
         eventPropGetter={eventPropGetter}
         slotPropGetter={slotPropGetter}
         onSelectSlot={handleSelectSlot}
+        min={new Date(0, 0, 0, 7, 0, 0)} // 표시할 최소 시간
+        max={new Date(0, 0, 0, 23, 59, 59)} // 표시할 최대 시간
+        step={15}
       />
       {isEditModalOpen && (
         <DeleteWrapper onClick={() => setIsEditModalOpen(false)}>
