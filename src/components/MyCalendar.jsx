@@ -55,9 +55,9 @@ const MyCalendar = () => {
     const isSelected = isCustomTimeCell(date);
     const style = {
       backgroundColor: isSelected
-        ? "yellow"
+        ? "#fff893"
         : isSelected === null
-        ? "#e1e1e1"
+        ? "#dcdcdcc5"
         : "white",
     };
     return { style };
@@ -73,10 +73,12 @@ const MyCalendar = () => {
     };
 
     if (!event.status) {
-      style.opacity = "0.7";
-      style.borderColor = "black";
-      style.color = "black";
+      style.opacity = "0.8";
+      style.borderColor = "white";
+      style.color = "white";
       style.borderStyle = "dashed";
+    } else if (event.status === 3) {
+      return null; // 거절된 상담은 렌더링하지 않음
     }
 
     style.class = !event.status ? "reserved-event" : "regular-event";
@@ -116,7 +118,11 @@ const MyCalendar = () => {
             status: item.status,
           })
         );
-        setEvents([...convertEvents]);
+        const filteredEvents = convertEvents.filter(
+          // 거절된 상담을 시간표에 표시되지 않도록 작업
+          (event) => event.status !== 3
+        );
+        setEvents(filteredEvents);
       })
       .catch((err) => console.log(err));
   }, []);

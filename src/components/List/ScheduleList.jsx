@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { dateParse } from "../../utils/dateParse";
+import { dateParse, dateTimeParse, timeParse } from "../../utils/dateParse";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,119 +12,58 @@ import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";
 
 const ScheduleList = () => {
-  // const upcomingConsult = [
-  //   {
-  //     id: 0,
-  //     profileImg: "https://img.hankyung.com/photo/202005/01.22637888.1.jpg",
-  //     nickname: "ASDF",
-  //     date: "2023-10-26",
-  //     startTime: "13:00",
-  //     endTime: "14:30",
-  //     major: "전산학부",
-  //     consultType: "비대면",
-  //     questions: [
-  //       "front 를 할지, back 을 할지 고민중이에요.",
-  //       "성적과 비교과 어느 것이 중요한가요?",
-  //     ],
-  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요? 공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요? 공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
-  //     consultType: ["저는 실력있는 선생님이 좋아요"],
-  //   },
-  //   {
-  //     id: 1,
-  //     profileImg: "",
-  //     nickname: "왕만두",
-  //     date: "2023-10-27",
-  //     startTime: "11:00",
-  //     endTime: "12:00",
-  //     major: "컴퓨터공학부",
-  //     consultType: "비대면",
-  //     questions: [
-  //       "front 를 할지, back 을 할지 고민중이에요.",
-  //       "성적과 비교과 어느 것이 중요한가요?",
-  //     ],
-  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
-  //     consultType: ["친절한", "공감하는", "실력있고꼼꼼한", "차분한"],
-  //   },
-  //   {
-  //     id: 2,
-  //     profileImg: "https://img.hankyung.com/photo/202005/01.22637888.1.jpg",
-  //     nickname: "한국사짱좋아한국사짱좋아",
-  //     date: "2023-10-27",
-  //     startTime: "15:00",
-  //     endTime: "16:00",
-  //     major: "기계공학부",
-  //     consultType: "비대면",
-  //     questions: [
-  //       "front 를 할지, back 을 할지 고민중이에요.",
-  //       "성적과 비교과 어느 것이 중요한가요?",
-  //       "front 를 할지, back 을 할지 고민중이에요.",
-  //       "성적과 비교과 어느 것이 중요한가요?",
-  //     ],
-  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
-  //     consultType: ["친절한", "공감하는", "실력있고꼼꼼한", "차분한"],
-  //   },
-  // ];
-
-  // const pendingConsult = [
-  //   {
-  //     id: 0,
-  //     profileImg: "",
-  //     nickname: "ASDF",
-  //     date: "2023-10-26",
-  //     startTime: "13:00",
-  //     endTime: "14:30",
-  //     major: "전산학부",
-  //     consultType: "비대면",
-  //     questions: [
-  //       "front 를 할지, back 을 할지 고민중이에요.",
-  //       "성적과 비교과 어느 것이 중요한가요?",
-  //       "front 를 할지, back 을 할지 고민중이에요.",
-  //       "성적과 비교과 어느 것이 중요한가요?",
-  //     ],
-  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요? 아 근데 열심히 하는데도 왜 할 일은 끝이 없는 걸까요????`,
-  //     consultType: ["친절한", "공감하는", "실력있고꼼꼼한", "차분한"],
-  //   },
-  //   {
-  //     id: 1,
-  //     profileImg: "https://img.hankyung.com/photo/202005/01.22637888.1.jpg",
-  //     nickname: "왕만두",
-  //     date: "2023-10-27",
-  //     startTime: "11:00",
-  //     endTime: "12:00",
-  //     major: "컴퓨터공학부",
-  //     consultType: "비대면",
-  //     questions: [
-  //       "front 를 할지, back 을 할지 고민중이에요.",
-  //       "성적과 비교과 어느 것이 중요한가요?",
-  //     ],
-  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
-  //     consultType: ["친절한", "공감하는", "실력있는", "차분한"],
-  //   },
-  //   {
-  //     id: 2,
-  //     profileImg: "",
-  //     nickname: "한국사짱좋아한국사짱좋아",
-  //     date: "2023-10-27",
-  //     startTime: "15:00",
-  //     endTime: "16:00",
-  //     major: "기계공학부",
-  //     consultType: "비대면",
-  //     questions: [
-  //       "front 를 할지, back 을 할지 고민중이에요.",
-  //       "성적과 비교과 어느 것이 중요한가요?",
-  //       "front 를 할지, back 을 할지 고민중이에요.",
-  //       "성적과 비교과 어느 것이 중요한가요?",
-  //     ],
-  //     content: `공부 진짜 하기 싫은데 해야죠.. 근데 공부법을 잘 모르겠어요. 선생님은 어떻게 공부하셨어요?`,
-  //     consultType: ["친절한", "공감하는", "실력있는", "차분한"],
-  //   },
-  // ];
   const [pendingConsult, setPendingConsult] = useState([]);
   const [upcomingConsult, setUpcomingConsult] = useState([]);
   const [upcomingDetailId, setUpcomingDetailId] = useState("");
   const [pendingDetailId, setPendingDetailId] = useState("");
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [detailObject, setDetailObject] = useState({ type: "", object: {} });
+
+  const acceptConsult = async () => {
+    try {
+      await axios.post(
+        `${SV_LOCAL}/calendar/mentor/accept`,
+        {
+          consultId: detailObject.object.consultId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      );
+      setUpcomingConsult([...upcomingConsult, detailObject.object]);
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const rejectConsult = async (reason) => {
+    console.log(detailObject);
+    console.log("reason ", reason);
+    try {
+      await axios.post(
+        `${SV_LOCAL}/calendar/mentor/deny`,
+        {
+          consultId: detailObject.object.consultId,
+          reason: reason,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        }
+      );
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const cancelConsult = async () => {
+    console.log(detailObject);
+  };
 
   useEffect(() => {
     if (isDetailOpen) document.body.style.overflow = "hidden";
@@ -182,9 +121,10 @@ const ScheduleList = () => {
                 <ul className="main" key={upcoming.id}>
                   <li>{upcomingIdx + 1}</li>
                   <li>{upcoming.student.nickname}</li>
-                  <li>{dateParse(upcoming.date)}</li>
+                  <li>{dateParse(upcoming.startTime)}</li>
                   <li>
-                    {upcoming.startTime} ~ {upcoming.endTime}
+                    {timeParse(upcoming.startTime)} ~{" "}
+                    {timeParse(upcoming.endTime)}
                   </li>
                   <li>
                     {upcomingDetailId === upcomingIdx ? (
@@ -214,18 +154,12 @@ const ScheduleList = () => {
                     </div>
                     <div className="main-detail__item">
                       <span className="item__title">- 상담 방식 : </span>
-                      <span className="item__content">
-                        {upcoming.consultType}
-                      </span>
+                      <span className="item__content">{upcoming.flow}</span>
                     </div>
                     <div className="main-detail__item">
                       <span className="item__title">- 주요 질문 : </span>
                       <div className="question-wrapper">
-                        {upcoming.questions.map((question, qIdx) => (
-                          <span key={qIdx} className="item__content">
-                            {question}
-                          </span>
-                        ))}
+                        <p className="item__content">{upcoming.questions}</p>
                       </div>
                     </div>
                     <button
@@ -253,70 +187,89 @@ const ScheduleList = () => {
             <li>시간</li>
             <li></li>
           </ul>
-          {pendingConsult.map((pending, pendingIdx) => (
-            <>
-              <ul className="main" key={pending.id}>
-                <li>{pendingIdx + 1}</li>
-                <li>{pending.student.nickname}</li>
-                <li>{dateParse(pending.startTime.split("T")[0])}</li>
-                <li>
-                  {pending.startTime.split("T")[1]} ~{" "}
-                  {pending.endTime.split("T")[1]}
-                </li>
-                <li>
-                  {pendingDetailId === pendingIdx ? (
-                    <FontAwesomeIcon
-                      icon={faChevronUp}
-                      className="icon"
-                      onClick={() => {
-                        setPendingDetailId("");
-                      }}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className="icon"
-                      onClick={() => {
-                        setPendingDetailId(pendingIdx);
-                      }}
-                    />
-                  )}
-                </li>
-              </ul>
-              {pendingIdx === pendingDetailId && (
-                <div className="main-detail">
-                  <div className="main-detail__item">
-                    <span className="item__title">- 상담할 전공 : </span>
-                    <span className="item__content">{pending.major}</span>
-                  </div>
-                  <div className="main-detail__item">
-                    <span className="item__title">- 상담 방식 : </span>
-                    <span className="item__content">{pending.flow}</span>
-                  </div>
-                  <div className="main-detail__item">
-                    <span className="item__title">- 주요 질문 : </span>
-                    <div className="question-wrapper">
-                      {/* {pending.questions.map((question, qIdx) => (
+          {pendingConsult.length === 0 && (
+            <ul
+              className="main"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <li
+                style={{
+                  padding: "1rem 0",
+                  textAlign: "center",
+                }}
+              >
+                대기중인 상담이 없습니다.
+              </li>
+            </ul>
+          )}
+          {pendingConsult &&
+            pendingConsult.map((pending, pendingIdx) => (
+              <>
+                <ul className="main" key={pending.id}>
+                  <li>{pendingIdx + 1}</li>
+                  <li>{pending.student.nickname}</li>
+                  <li>{dateParse(pending.startTime)}</li>
+                  <li>
+                    {timeParse(pending.startTime)} ~{" "}
+                    {timeParse(pending.endTime)}
+                  </li>
+                  <li>
+                    {pendingDetailId === pendingIdx ? (
+                      <FontAwesomeIcon
+                        icon={faChevronUp}
+                        className="icon"
+                        onClick={() => {
+                          setPendingDetailId("");
+                        }}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faChevronDown}
+                        className="icon"
+                        onClick={() => {
+                          setPendingDetailId(pendingIdx);
+                        }}
+                      />
+                    )}
+                  </li>
+                </ul>
+                {pendingIdx === pendingDetailId && (
+                  <div className="main-detail">
+                    <div className="main-detail__item">
+                      <span className="item__title">- 상담할 전공 : </span>
+                      <span className="item__content">{pending.major}</span>
+                    </div>
+                    <div className="main-detail__item">
+                      <span className="item__title">- 상담 방식 : </span>
+                      <span className="item__content">{pending.flow}</span>
+                    </div>
+                    <div className="main-detail__item">
+                      <span className="item__title">- 주요 질문 : </span>
+                      <div className="question-wrapper">
+                        {/* {pending.questions.map((question, qIdx) => (
                         <span key={qIdx} className="item__content">
                           {question}
                         </span>
                       ))} */}
-                      <p className="item__content">{pending.questions}</p>
+                        <p className="item__content">{pending.questions}</p>
+                      </div>
                     </div>
+                    <button
+                      className="detail-btn"
+                      onClick={() => {
+                        setDetailObject({ type: "1", object: { ...pending } });
+                        setIsDetailOpen(true);
+                      }}
+                    >
+                      자세히 보기
+                    </button>
                   </div>
-                  <button
-                    className="detail-btn"
-                    onClick={() => {
-                      setDetailObject({ type: "1", object: { ...pending } });
-                      setIsDetailOpen(true);
-                    }}
-                  >
-                    자세히 보기
-                  </button>
-                </div>
-              )}
-            </>
-          ))}
+                )}
+              </>
+            ))}
         </List>
       </ListWrapper>
       {isDetailOpen && (
@@ -325,14 +278,14 @@ const ScheduleList = () => {
             <header className="detail-header">
               <div
                 className="detail-header__img"
-                img={detailObject.object.profileImg}
+                img={detailObject.object.student.profileImg}
               ></div>
               <span className="detail-header__name">
-                {detailObject.object.nickname}
+                {detailObject.object.student.nickname}
               </span>
               <div className="detail-header__date">
-                상담 예정 시간 : {dateParse(detailObject.object.date)}{" "}
-                {detailObject.object.startTime} ~ {detailObject.object.endTime}
+                상담 예정 시간 : {dateTimeParse(detailObject.object.startTime)}{" "}
+                ~ {dateTimeParse(detailObject.object.endTime)}
               </div>
               <FontAwesomeIcon
                 icon={faXmark}
@@ -371,21 +324,33 @@ const ScheduleList = () => {
                 </div>
               </div>
             </main>
-            <foote className="detail-footer">
+            <footer className="detail-footer">
               <span
                 className="detail-footer__btn"
                 onClick={() => {
                   if (detailObject.type === "0") {
-                    var result = window.confirm("상담을 취소하시겠습니까?");
-                    if (result) {
+                    var result = window.prompt(
+                      "상담을 취소하시겠습니까? 사유를 적어주세요."
+                    );
+                    setDetailObject({ ...detailObject, reason: result || "" });
+                    if (result !== null) {
+                      console.log(result);
                       alert("상담이 취소되었습니다.");
                       setIsDetailOpen(false);
+                      cancelConsult();
                     }
                   } else {
-                    var result = window.confirm("상담을 거절하시겠습니까?");
-                    if (result) {
+                    result = window.prompt(
+                      "상담을 거절하시겠습니까? 사유를 적어주세요."
+                    );
+                    setDetailObject((prev) => ({
+                      ...prev,
+                      object: { ...prev.object, reason: result || "" },
+                    }));
+                    if (result !== null) {
                       alert("상담이 거절되었습니다.");
                       setIsDetailOpen(false);
+                      rejectConsult(result);
                     }
                   }
                 }}
@@ -400,17 +365,19 @@ const ScheduleList = () => {
                       window.confirm("상담 링크에 접속하시겠습니까?");
                     if (result) setIsDetailOpen(false);
                   } else {
-                    var result = window.confirm("상담을 수락하시겠습니까?");
+                    result = window.confirm("상담을 수락하시겠습니까?");
+                    console.log(detailObject.object);
                     if (result) {
-                      alert("상담아 수락되었습니다.");
+                      alert("상담이 수락되었습니다.");
                       setIsDetailOpen(false);
+                      acceptConsult();
                     }
                   }
                 }}
               >
                 {detailObject.type === "0" ? "상담 입장하기" : "상담 수락하기"}
               </span>
-            </foote>
+            </footer>
           </DetailModal>
         </ModalWrapper>
       )}
@@ -580,7 +547,7 @@ const DetailModal = styled.div`
       .detail-main__tag {
         background-color: #334b6c;
         color: white;
-        padding: 0.3rem 1rem;
+        padding: 0.2rem 0.5rem;
         border-radius: 1rem;
         font-size: 1rem;
         /* max-width: 5rem; */
@@ -592,7 +559,7 @@ const DetailModal = styled.div`
     .detail-main {
       max-height: 10rem;
       overflow: auto;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       line-height: 1.5rem;
       border: 1px solid black;
       padding: 2rem 1rem;
