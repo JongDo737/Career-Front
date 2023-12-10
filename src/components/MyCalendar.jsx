@@ -53,20 +53,25 @@ const MyCalendar = () => {
 
   const slotPropGetter = (date) => {
     const isSelected = isCustomTimeCell(date);
-    const hour = new Date(date).getHours();
 
-    const style = {
+    var style = {
       backgroundColor: isSelected
         ? "#fff893"
         : isSelected === null
         ? "#dcdcdc98"
         : "white",
     };
-
+    if (
+      // 드래그할때
+      new Date(date) >= new Date(selectedSlot.start) &&
+      new Date(date) <= new Date(selectedSlot.end)
+    ) {
+      style = { backgroundColor: "#526684", border: "none" };
+    }
     return { style };
   };
 
-  const eventPropGetter = (event, start, end, isSelected, status) => {
+  const eventPropGetter = (event, start) => {
     const isPastDate = moment(start).isBefore(today); // 오늘 이전인지 확인
 
     const style = {
@@ -225,7 +230,12 @@ const MyCalendar = () => {
         step={15}
       />
       {isEditModalOpen && (
-        <DeleteWrapper onClick={() => setIsEditModalOpen(false)}>
+        <DeleteWrapper
+          onClick={() => {
+            setIsEditModalOpen(false);
+            setSelectedSlot({ start: "", end: "" });
+          }}
+        >
           <DeleteModal onClick={(e) => e.stopPropagation()}>
             <header>
               <span>{selectedSlot.start}</span>
@@ -237,6 +247,7 @@ const MyCalendar = () => {
                 onClick={() => {
                   onDeletePossibleTime();
                   setIsEditModalOpen(false);
+                  setSelectedSlot({ start: "", end: "" });
                 }}
               >
                 상담 시간 삭제하기
@@ -246,6 +257,7 @@ const MyCalendar = () => {
                 onClick={() => {
                   onAddPossibleTime();
                   setIsEditModalOpen(false);
+                  setSelectedSlot({ start: "", end: "" });
                 }}
               >
                 상담 시간 추가하기
