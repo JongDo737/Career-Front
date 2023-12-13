@@ -64,7 +64,7 @@ const MyCalendar = () => {
     if (
       // 드래그할때
       new Date(date) >= new Date(selectedSlot.start) &&
-      new Date(date) <= new Date(selectedSlot.end)
+      new Date(date) < new Date(selectedSlot.end)
     ) {
       style = { backgroundColor: "#526684", border: "none" };
     }

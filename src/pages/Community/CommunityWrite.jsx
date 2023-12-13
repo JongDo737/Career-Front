@@ -129,16 +129,25 @@ const CommunityWrite = () => {
               onChange={(e) => onChangeFiles(e)}
               disabled={files.length >= 6 ? true : false}
             />
-            <label htmlFor="file">파일 선택</label>
-            <div className="file-wrapper">
-              <ul className="write-file__list">
+            <label
+              htmlFor="file"
+              style={{ cursor: files.length >= 6 ? "not-allowed" : "pointer" }}
+            >
+              파일 선택
+            </label>
+            <span>6개 파일 중 {files.length}개 선택</span>
+            <div className="write-file-wrapper">
+              <ul className="write-file__list-name">
                 {files.map((file, idx) => (
                   <li key={idx}>
-                    {file.name}
+                    <span>{file.name}</span>
                     <img
                       src="/svg/close-black.svg"
                       alt="close-button"
-                      onClick={() => onDeleteFile(file)}
+                      onClick={() => {
+                        onDeleteFile(file);
+                        setImage(image.filter((file, index) => index !== idx));
+                      }}
                     />
                   </li>
                 ))}
@@ -179,8 +188,8 @@ export default CommunityWrite;
 
 const WriteLayout = styled.form`
   width: 60rem;
-  height: 85vh;
-  margin: 0 auto;
+  /* height: 85vh; */
+  margin: 5rem auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -296,26 +305,40 @@ const WriteWrapper = styled.div`
       border: 1px solid gray;
       padding: 0.3rem 1rem;
     }
+    &-wrapper {
+      display: flex;
+      gap: 2rem;
+    }
     &__list {
       list-style: none;
       padding: 0;
       display: flex;
       gap: 1rem;
       font-size: 1.2rem;
+      flex: 1;
+      flex-wrap: wrap;
       .write-file__img {
         width: 8rem;
         height: 8rem;
         object-fit: cover;
       }
+    }
+    &__list-name {
+      display: flex;
+      flex-direction: column;
+      max-height: 10rem;
+      overflow-y: auto;
       li {
         display: flex;
-        justify-content: end;
+        justify-content: space-between;
         align-items: center;
         gap: 1rem;
-        width: 8rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        span {
+          width: 17rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         img {
           width: 1rem;
         }
