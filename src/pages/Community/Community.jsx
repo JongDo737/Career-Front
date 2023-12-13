@@ -41,7 +41,6 @@ const Community = () => {
       })
       .catch((err) => console.error(err));
   }, []);
-  // const posts = [
   //   {
   //     name: "김성애",
   //     age: "고3", //나중에 나이 숫자로 주면 파싱 생각해보기
@@ -168,7 +167,7 @@ const Community = () => {
             <FontAwesomeIcon icon={faMagnifyingGlass} className="glass-icon" />
           </Search>
           <Wrapper>
-            <PostList posts={posts} postStyle="category" />
+            <PostList posts={posts} setPosts={setPosts} postStyle="category" />
           </Wrapper>
           <UtilBox>
             <Link className="util-item write" to={"/community/write"}>

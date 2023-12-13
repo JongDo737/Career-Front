@@ -158,7 +158,7 @@ const CategoryPost = () => {
           <span>{CommunityCategoryList[id].title} 게시판</span>
         </Search>
         <Wrapper>
-          <PostList posts={posts} postStyle="category" />
+          <PostList posts={posts} setPosts={setPosts} postStyle="category" />
         </Wrapper>
         <UtilBox>
           <Link

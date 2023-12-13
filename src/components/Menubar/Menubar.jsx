@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { getCookie } from "../../cookie";
-import { SV_HOST } from "../../constants";
+import { FRONT_LOCAL, SV_HOST } from "../../constants";
 
 const Menubar = () => {
   const [login, setLogin] = useState("로그인");
@@ -21,13 +21,13 @@ const Menubar = () => {
   const [isMentor, setIsMentor] = useState(true);
   const [subMenu, setSubMenu] = useState("");
   const [leftLink, setLeftLink] = useState([
-    "http://localhost:3000",
-    "http://localhost:3000",
-    "http://localhost:3000",
+    `${FRONT_LOCAL}`,
+    `${FRONT_LOCAL}`,
+    `${FRONT_LOCAL}`,
   ]);
   const [rightLink, setRightLink] = useState([
-    "http://localhost:3000",
-    "http://localhost:3000",
+    `${FRONT_LOCAL}`,
+    `${FRONT_LOCAL}`,
   ]);
   const [subSelect, setSubSelect] = useState(false);
   const toggleLogin = () => {
@@ -47,38 +47,29 @@ const Menubar = () => {
     if (!isLogin) {
       setLeftMenu(["홈", "멘토", "게시판"]);
       setRightMenu([]);
-      setLeftLink([
-        "http://localhost:3000",
-        "http://localhost:3000",
-        "http://localhost:3000",
-      ]);
+      setLeftLink([`${FRONT_LOCAL}`, `${FRONT_LOCAL}`, `${FRONT_LOCAL}`]);
     } else {
       if (isMentor) {
         setLeftMenu(["홈", "상담내역", "시간표", "커뮤니티"]);
         setRightMenu(["초대하기", "추가메뉴"]);
         setLeftLink([
-          "http://localhost:3000/mentor",
-          "http://localhost:3000/mentor/consult",
-          "http://localhost:3000/mentor",
-          "http://localhost:3000/community",
+          `${FRONT_LOCAL}/mentor`,
+          `${FRONT_LOCAL}/mentor/consult`,
+          `${FRONT_LOCAL}/mentor`,
+          `${FRONT_LOCAL}/community`,
         ]);
-        setRightLink([
-          "http://localhost:3000/mentor",
-          "http://localhost:3000/mentor",
-        ]);
+        setRightLink([`${FRONT_LOCAL}/mentor`, `${FRONT_LOCAL}/mentor`]);
       } else {
-        setLeftMenu(["홈", "멘토", "게시판", "상담"]);
+        setLeftMenu(["홈", "멘토", "게시판", "상담", "커뮤니티"]);
         setRightMenu(["초대하기", "이용권 구매"]);
         setLeftLink([
-          "http://localhost:3000/mentee",
-          "http://localhost:3000/mentee/mentor",
-          "http://localhost:3000/mentee",
-          "http://localhost:3000/mentee",
+          `${FRONT_LOCAL}/mentee`,
+          `${FRONT_LOCAL}/mentee/mentor`,
+          `${FRONT_LOCAL}/mentee`,
+          `${FRONT_LOCAL}/mentee`,
+          `${FRONT_LOCAL}/community`,
         ]);
-        setRightLink([
-          "http://localhost:3000/mentee",
-          "http://localhost:3000/mentee",
-        ]);
+        setRightLink([`${FRONT_LOCAL}/mentee`, `${FRONT_LOCAL}/mentee`]);
       }
     }
   }, [isLogin, isMentor]);
@@ -180,8 +171,8 @@ const Menubar = () => {
                     <Link
                       to={
                         isMentor
-                          ? `http://localhost:3000/mentor/setting`
-                          : `http://localhost:3000/mentee/setting`
+                          ? `${FRONT_LOCAL}/mentor/setting`
+                          : `${FRONT_LOCAL}/mentee/setting`
                       }
                       style={
                         subMenu === "설정"
@@ -206,8 +197,8 @@ const Menubar = () => {
                     <Link
                       to={
                         isMentor
-                          ? `http://localhost:3000/mentor/profile`
-                          : `http://localhost:3000/mentee/profile`
+                          ? `${FRONT_LOCAL}/mentor/profile`
+                          : `${FRONT_LOCAL}/mentee/profile`
                       }
                       style={
                         subMenu === "내 프로필"
@@ -231,7 +222,7 @@ const Menubar = () => {
                     }}
                   >
                     <Link
-                      to={`http://localhost:3000/`}
+                      to={`${FRONT_LOCAL}/`}
                       style={{ color: "#2F5383", textDecoration: "none" }}
                     >
                       로그아웃
@@ -259,7 +250,7 @@ const Menubar = () => {
                     }}
                   >
                     <Link
-                      to={`http://localhost:3000/loginStudent`}
+                      to={`${FRONT_LOCAL}/loginStudent`}
                       style={
                         login === "멘티 로그인"
                           ? {
@@ -304,7 +295,7 @@ const Menubar = () => {
                     }}
                   >
                     <Link
-                      to={`http://localhost:3000/signMentor`}
+                      to={`${FRONT_LOCAL}/signMentor`}
                       style={
                         signup === "멘토 회원가입"
                           ? {
@@ -336,7 +327,7 @@ const Menubar = () => {
                     }}
                   >
                     <Link
-                      to={`http://localhost:3000/signMentee`}
+                      to={`${FRONT_LOCAL}/signMentee`}
                       style={
                         signup === "멘티 회원가입"
                           ? {
