@@ -8,8 +8,6 @@ import { CommunityCategoryList } from "../../settings/config";
 
 const CommunityWrite = () => {
   const [files, setFiles] = useState([]);
-  console.log("files", files);
-  const fileInput = useRef(null);
   const [image, setImage] = useState([]);
   const onChangeFiles = (e) => {
     let newFiles = [...files, ...e.target.files];
