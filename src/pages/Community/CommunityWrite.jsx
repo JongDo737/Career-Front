@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { SV_LOCAL } from "../../constants";
@@ -8,8 +8,31 @@ import { CommunityCategoryList } from "../../settings/config";
 
 const CommunityWrite = () => {
   const [files, setFiles] = useState([]);
+  const [image, setImage] = useState([]);
   const onChangeFiles = (e) => {
-    setFiles(Object.values(e.target.files));
+    let newFiles = [...files, ...e.target.files];
+    if (newFiles.length > 6) {
+      newFiles.splice(6);
+    }
+    setFiles(newFiles);
+    const filesArray = Object.values(newFiles);
+    const loadImageData = (files) => {
+      const promises = files.map((file) => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            resolve(reader.result);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      Promise.all(promises).then((imageDataArray) => {
+        setImage([...imageDataArray]);
+      });
+    };
+
+    loadImageData(filesArray);
   };
   const onDeleteFile = (fileName) => {
     setFiles(files.filter((file) => file !== fileName));
@@ -97,23 +120,52 @@ const CommunityWrite = () => {
           ></textarea>
           <div className="write-file">
             <input
+              id="file"
               type="file"
               multiple
               className="write-file__input"
               onChange={(e) => onChangeFiles(e)}
+              disabled={files.length >= 6 ? true : false}
             />
-            <ul className="write-file__list">
-              {files.map((file, idx) => (
-                <li key={idx}>
-                  {file.name}
+            <label
+              htmlFor="file"
+              style={{ cursor: files.length >= 6 ? "not-allowed" : "pointer" }}
+            >
+              파일 선택
+            </label>
+            <span>6개 파일 중 {files.length}개 선택</span>
+            <div className="write-file-wrapper">
+              <ul className="write-file__list-name">
+                {files.map((file, idx) => (
+                  <li key={idx}>
+                    <span>{file.name}</span>
+                    <img
+                      src="/svg/close-black.svg"
+                      alt="close-button"
+                      onClick={() => {
+                        onDeleteFile(file);
+                        setImage(image.filter((file, index) => index !== idx));
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+              <ul className="write-file__list">
+                {image.map((img, imgIdx) => (
                   <img
-                    src="/svg/close-black.svg"
-                    alt="close-button"
-                    onClick={() => onDeleteFile(file)}
+                    key={imgIdx}
+                    src={img}
+                    alt=""
+                    className="write-file__img"
+                    // onClick={() => {
+                    //   fileInput.current.click();
+                    // }}
+
+                    onClick={() => console.log(image)}
                   />
-                </li>
-              ))}
-            </ul>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </WriteWrapper>
@@ -134,8 +186,8 @@ export default CommunityWrite;
 
 const WriteLayout = styled.form`
   width: 60rem;
-  height: 85vh;
-  margin: 0 auto;
+  /* height: 85vh; */
+  margin: 5rem auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -241,8 +293,19 @@ const WriteWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: 1rem;
     &__input {
+      display: none;
       font-size: 1.2rem;
+    }
+    > label {
+      font-size: 1.2rem;
+      border: 1px solid gray;
+      padding: 0.3rem 1rem;
+    }
+    &-wrapper {
+      display: flex;
+      gap: 2rem;
     }
     &__list {
       list-style: none;
@@ -250,10 +313,30 @@ const WriteWrapper = styled.div`
       display: flex;
       gap: 1rem;
       font-size: 1.2rem;
+      flex: 1;
+      flex-wrap: wrap;
+      .write-file__img {
+        width: 8rem;
+        height: 8rem;
+        object-fit: cover;
+      }
+    }
+    &__list-name {
+      display: flex;
+      flex-direction: column;
+      max-height: 10rem;
+      overflow-y: auto;
       li {
         display: flex;
+        justify-content: space-between;
         align-items: center;
         gap: 1rem;
+        span {
+          width: 17rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         img {
           width: 1rem;
         }

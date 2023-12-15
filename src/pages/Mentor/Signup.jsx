@@ -13,6 +13,7 @@ import Image from "../../components/Image/Image";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { SV_LOCAL } from "../../constants";
 function Signup(props) {
   // const [username, setUsername] = useState("");
   // const [id, setId] = useState("");
@@ -137,134 +138,66 @@ function Signup(props) {
     }));
 
     const formData = new FormData();
-    formData.append("image", profileImg);
+    // formData.append("image", profileImg);
 
     const jsonData = {
-      name: "seongae7", //필수
-      username: "test7", //필수
-      nickname: "seongae7", //필수
-      password: "123", //필수
-      birth: "20000505", //필수
-      gender: "false", //필수
-      schoolList: [
-        {
-          idx: 0,
-          schoolType: "고등학교",
-          schoolName: "한양",
-          startDate: "20200101",
-          endDate: "20210101",
-          state: "졸업",
-        },
-        {
-          idx: 1,
-          schoolType: "대학교",
-          schoolName: "한양",
-          startDate: "20220101",
-          endDate: "20230101",
-          state: "졸업",
-        },
-      ],
-      tagList: [
-        {
-          idx: 0,
-          name: "컴퓨터",
-        },
-        { idx: 1, name: "전자" },
-      ],
-      careerList: [
-        {
-          idx: 0,
-          careerType: "교내활동",
-          careerName: "프로젝트",
-          startDate: "20201010",
-          endDate: "20201111",
-          state: "수료",
-        },
-        {
-          idx: 1,
-          careerType: "교내활동",
-          careerName: "프로젝트2",
-          startDate: "20201010",
-          endDate: "20201111",
-          state: "수료",
-        },
-      ],
+      name: user.name, //필수
+      username: user.username, //필수
+      nickname: user.nickname, //필수
+      password: user.password, //필수
+      birth: user.birth.replace(/-/g, ""), //필수
+      gender: user.gender, //필수
+      isTutor: true,
+      // schoolList: [
+      //   {
+      //     idx: 0,
+      //     schoolType: "고등학교",
+      //     schoolName: "한양",
+      //     startDate: "20200101",
+      //     endDate: "20210101",
+      //     state: "졸업",
+      //   },
+      //   {
+      //     idx: 1,
+      //     schoolType: "대학교",
+      //     schoolName: "한양",
+      //     startDate: "20220101",
+      //     endDate: "20230101",
+      //     state: "졸업",
+      //   },
+      // ],
+      // tagList: [
+      //   {
+      //     idx: 0,
+      //     name: "컴퓨터",
+      //   },
+      //   { idx: 1, name: "전자" },
+      // ],
+      // careerList: [
+      //   {
+      //     idx: 0,
+      //     careerType: "교내활동",
+      //     careerName: "프로젝트",
+      //     startDate: "20201010",
+      //     endDate: "20201111",
+      //     state: "수료",
+      //   },
+      //   {
+      //     idx: 1,
+      //     careerType: "교내활동",
+      //     careerName: "프로젝트2",
+      //     startDate: "20201010",
+      //     endDate: "20201111",
+      //     state: "수료",
+      //   },
+      // ],
     };
     formData.append("json", JSON.stringify(jsonData));
+    console.log(jsonData);
+
     axios
-      .post(
-        `https://0b79-183-107-1-194.ngrok-free.app/user/signup/mentor`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // FormData를 사용할 때 필요한 헤더
-          },
-        }
-      )
+      .post(`${SV_LOCAL}/user/signup/mentor`, jsonData)
       .then((res) => {
-        // axios
-        //   .post(
-        //     `https://d9cd-183-107-1-194.ngrok-free.app/user/signup/mentor`,
-        //     {
-        //       name: "seongae6", //필수
-        //       username: "test6", //필수
-        //       nickname: "seongae6", //필수
-        //       password: "123", //필수
-        //       birth: "20000505", //필수
-        //       gender: "false", //필수
-        //       schoolList: [
-        //         {
-        //           idx: 0,
-        //           schoolType: "고등학교",
-        //           schoolName: "한양",
-        //           startDate: "20200101",
-        //           endDate: "20210101",
-        //           state: "졸업",
-        //         },
-        //         {
-        //           idx: 1,
-        //           schoolType: "대학교",
-        //           schoolName: "한양",
-        //           startDate: "20220101",
-        //           endDate: "20230101",
-        //           state: "졸업",
-        //         },
-        //       ],
-        //       tagList: [
-        //         {
-        //           idx: 0,
-        //           name: "컴퓨터",
-        //         },
-        //         { idx: 1, name: "전자" },
-        //       ],
-        //       careerList: [
-        //         {
-        //           idx: 0,
-        //           careerType: "교내활동",
-        //           careerName: "프로젝트",
-        //           startDate: "20201010",
-        //           endDate: "20201111",
-        //           state: "수료",
-        //         },
-        //         {
-        //           idx: 1,
-        //           careerType: "교내활동",
-        //           careerName: "프로젝트2",
-        //           startDate: "20201010",
-        //           endDate: "20201111",
-        //           state: "수료",
-        //         },
-        //       ],
-        //     }
-        //   )
-        //   .then((res) => {
-        //     console.log(res);
-        //     window.alert("success");
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     window.alert("error");
-        //   });
         console.log(res);
         window.alert("success");
       })

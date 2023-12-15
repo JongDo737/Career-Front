@@ -19,6 +19,7 @@ import Category from "./pages/Community/Category";
 import CategoryPost from "./pages/Community/CategoryPost";
 import MyActivity from "./pages/Community/MyActivity";
 import PostDetail from "./pages/Community/PostDetail";
+import Schedule from "./pages/Schedule";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
           <Route path="/mentor/setting" element={<Setting />} />
           <Route path="/mentor/profile" element={<ProfileMentor />} />
           <Route path="/mentor/consult" element={<ConsultMentor />} />
-          <Route exact path="/community" element={<Community />}></Route>
+          <Route exact path="/community" element={<Community />} />
           <Route exact path="/community/category" element={<Category />} />
           <Route
             exact
@@ -48,6 +49,7 @@ function App() {
           <Route path="/findPassword" element={<FindPassword />} />
           <Route path="/mentee" element={<HomeMentee />} />
           <Route path="/mentee/mentor" element={<MenteeMentor />} />
+          <Route path="/schedule" element={<Schedule />} />
         </Routes>
       </BrowserRouter>
     </>
