@@ -66,7 +66,10 @@ const MyCalendar = () => {
       new Date(date) >= new Date(selectedSlot.start) &&
       new Date(date) < new Date(selectedSlot.end)
     ) {
-      style = { backgroundColor: "#526684", border: "none" };
+      console.log("select", selectedSlot);
+      if (!moment(selectedSlot.start).isBefore(today)) {
+        style = { backgroundColor: "#526684", border: "none" };
+      }
     }
     return { style };
   };
@@ -166,6 +169,7 @@ const MyCalendar = () => {
     const formattedEndDate = moment(new Date(selectedSlot.end)).format(
       "YYYY-MM-DDTHH:mm:ss.S"
     );
+    console.log(selectedSlot.start, formattedStartDate);
     axios
       .post(
         `${SV_LOCAL}/calendar/mentor/insert/possible/time`,
@@ -187,6 +191,7 @@ const MyCalendar = () => {
   };
 
   const onDeletePossibleTime = () => {
+    console.log(selectedSlot.start);
     const formattedStartDate = moment(new Date(selectedSlot.start)).format(
       "YYYY-MM-DDTHH:mm:00.0"
     );
@@ -227,7 +232,7 @@ const MyCalendar = () => {
         onSelectSlot={handleSelectSlot}
         min={new Date(0, 0, 0, 7, 0, 0)} // 표시할 최소 시간
         max={new Date(0, 0, 0, 23, 59, 59)} // 표시할 최대 시간
-        step={15}
+        step={30}
       />
       {isEditModalOpen && (
         <DeleteWrapper
