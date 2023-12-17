@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-import SubMenubar from "../../components/Menubar/SubMenubar";
 import styled from "styled-components";
-import RecommendMenteeItem from "../../components/List/RecommendMenteeItem";
-import ConsultList from "../../components/List/ConsultList";
-import { ConsultListShort } from "../../components/List/ConsultList";
-import HorizontalLine from "../../components/Line/HorizontalLine";
-import useGetConsult from "../../hooks/useGetConsult";
+import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
+import ConsultList from "../../../components/List/ConsultList";
+import { ConsultListShort } from "../../../components/List/ConsultList";
+import HorizontalLine from "../../../components/Line/HorizontalLine";
+import useGetConsult from "../../../hooks/useGetConsult";
+import SubMenubar from "../../../components/Menubar/SubMenubar";
 
 const Consult = () => {
   const subMenuList = ["전체보기", "예정된 상담", "완료된 상담"];
+  const subMenuLink = [
+    "/mentor/consult",
+    "/mentor/consult/upcoming",
+    "/mentor/consult/previous",
+  ];
   const { lastUpcomingConsult, upcomingConsult, previousConsult } =
     useGetConsult();
 
@@ -86,7 +91,8 @@ const Consult = () => {
       <SubMenubar
         subMenuList={subMenuList}
         selectMenu={subMenu}
-        setSubMenu={setSubMenu}
+        // setSubMenu={setSubMenu}
+        subMenuLinkList={subMenuLink}
       />
       <Form>
         <FormLeft>
@@ -97,85 +103,33 @@ const Consult = () => {
             </RecommendWrapper>
           </Wrapper>
         </FormLeft>
-
-        {subMenu === subMenuList[0] ? (
-          <FormRight>
-            <Wrapper>
-              <header>진행 예정된 상담 ({upcomingConsult.length})</header>
-              {!upcomingConsult.length ? (
-                <ConsultWrapper>
-                  <span>진행될 상담이 없습니다.</span>
-                </ConsultWrapper>
-              ) : (
-                <ConsultWrapper>
-                  <ConsultList consultList={upcomingConsult} />
-                </ConsultWrapper>
-              )}
-            </Wrapper>
-            <HorizontalLine />
-            <Wrapper>
-              <header>완료된 상담 ({previousConsult.length})</header>
-              {!previousConsult.length ? (
-                <ConsultWrapper>
-                  <span>완료된 상담이 없습니다.</span>
-                </ConsultWrapper>
-              ) : (
-                <ConsultWrapper>
-                  <ConsultList consultList={previousConsult} color="#D9D9D9" />
-                </ConsultWrapper>
-              )}
-            </Wrapper>
-          </FormRight>
-        ) : (
-          ""
-        )}
-        {subMenu === subMenuList[1] ? (
-          <FormRight>
-            <Wrapper>
-              <header>진행 예정된 상담 ({upcomingConsult.length})</header>
-              {!upcomingConsult.length ? (
-                <ConsultWrapper>
-                  <span>진행될 상담이 없습니다.</span>
-                </ConsultWrapper>
-              ) : (
-                <ConsultWrapper>
-                  <ConsultList consultList={upcomingConsult} />
-                </ConsultWrapper>
-              )}
-            </Wrapper>
-            <HorizontalLine />
-            <Wrapper>
-              <ConsultListShort consultList={upcomingConsult} />
-            </Wrapper>
-          </FormRight>
-        ) : (
-          ""
-        )}
-        {subMenu === subMenuList[2] ? (
-          <FormRight>
-            <Wrapper>
-              <header>완료된 상담 ({previousConsult.length})</header>
-              {!previousConsult.length ? (
-                <ConsultWrapper>
-                  <span>완료된 상담이 없습니다.</span>
-                </ConsultWrapper>
-              ) : (
-                <ConsultWrapper>
-                  <ConsultList
-                    consultList={previousConsult}
-                    color="#D9D9D9" // 나중에 state 로 바꾸는 게 어떨까..
-                  />
-                </ConsultWrapper>
-              )}
-            </Wrapper>
-            <HorizontalLine />
-            <Wrapper>
-              <ConsultListShort consultList={previousConsult} color="#D9D9D9" />
-            </Wrapper>
-          </FormRight>
-        ) : (
-          ""
-        )}
+        <FormRight>
+          <Wrapper>
+            <header>진행 예정된 상담 ({upcomingConsult.length})</header>
+            {!upcomingConsult.length ? (
+              <ConsultWrapper>
+                <span>진행될 상담이 없습니다.</span>
+              </ConsultWrapper>
+            ) : (
+              <ConsultWrapper>
+                <ConsultList consultList={upcomingConsult} />
+              </ConsultWrapper>
+            )}
+          </Wrapper>
+          <HorizontalLine />
+          <Wrapper>
+            <header>완료된 상담 ({previousConsult.length})</header>
+            {!previousConsult.length ? (
+              <ConsultWrapper>
+                <span>완료된 상담이 없습니다.</span>
+              </ConsultWrapper>
+            ) : (
+              <ConsultWrapper>
+                <ConsultList consultList={previousConsult} color="#D9D9D9" />
+              </ConsultWrapper>
+            )}
+          </Wrapper>
+        </FormRight>
       </Form>
     </>
   );

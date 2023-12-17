@@ -10,7 +10,7 @@ import "./App.css";
 import HomeMentor from "./pages/Mentor/Home";
 import Setting from "./pages/Mentor/Setting";
 import ProfileMentor from "./pages/Mentor/Profile";
-import ConsultMentor from "./pages/Mentor/Consult";
+import ConsultMentor from "./pages/Mentor/consult/Consult";
 import HomeMentee from "./pages/Mentee/Home";
 import MenteeMentor from "./pages/Mentee/Mentor";
 import Community from "./pages/Community/Community";
@@ -20,6 +20,8 @@ import CategoryPost from "./pages/Community/CategoryPost";
 import MyActivity from "./pages/Community/MyActivity";
 import PostDetail from "./pages/Community/PostDetail";
 import Schedule from "./pages/Schedule";
+import UpcomingConsult from "./pages/Mentor/consult/UpcomingConsult";
+import PreviousConsult from "./pages/Mentor/consult/PreviousConsult";
 
 function App() {
   return (
@@ -32,6 +34,14 @@ function App() {
           <Route path="/mentor/setting" element={<Setting />} />
           <Route path="/mentor/profile" element={<ProfileMentor />} />
           <Route path="/mentor/consult" element={<ConsultMentor />} />
+          <Route
+            path="/mentor/consult/upcoming"
+            element={<UpcomingConsult />}
+          />
+          <Route
+            path="/mentor/consult/previous"
+            element={<PreviousConsult />}
+          />
           <Route exact path="/community" element={<Community />} />
           <Route exact path="/community/category" element={<Category />} />
           <Route

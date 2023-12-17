@@ -11,16 +11,16 @@ const SubMenubar = ({
     <SubMenu>
       {subMenuList.map((item, idx) => {
         return (
-          <div
+          <Link
             className={
               item === selectMenu ? "select submenu__item" : "submenu__item"
             }
-            // to={subMenuLinkList[idx]}
+            to={subMenuLinkList[idx]}
             key={idx}
-            onClick={() => setSubMenu(subMenuList[idx])}
+            // onClick={() => setSubMenu(subMenuList[idx])}
           >
             {item}
-          </div>
+          </Link>
         );
       })}
     </SubMenu>
