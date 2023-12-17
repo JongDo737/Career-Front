@@ -15,60 +15,48 @@ import {
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import axios from "axios";
 import { SV_LOCAL } from "../../constants";
+import useGetConsult from "../../hooks/useGetConsult";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [userName, setUserName] = useState("김성애");
-  const [consultList, setConsultList] = useState([
-    {
-      id: 0,
-      name: "김성애",
-      startTime: new Date(2023, 3, 25, 13, 30, 0),
-      endTime: new Date(2023, 3, 25, 13, 50, 0),
-      consultMajor: "컴퓨터소프트웨어학부",
-      request: "어떤 공부를 해야할지 궁금해요.",
-    },
-    {
-      id: 1,
-      name: "신종민",
-      startTime: new Date(2023, 4, 21, 13, 30, 0),
-      endTime: new Date(2023, 4, 21, 13, 30, 0),
-      consultMajor: "전산학부",
-      request: "어떤 공부를 해야할지 궁금해요.",
-    },
-    {
-      id: 2,
-      name: "한재준",
-      startTime: new Date(2023, 5, 3, 13, 30, 0),
-      endTime: new Date(2023, 5, 3, 13, 30, 0),
-      consultMajor: "컴퓨터소프트웨어학부",
-      request: "어떤 공부를 해야할지 궁금해요.",
-    },
-    {
-      id: 3,
-      name: "채희문",
-      startTime: new Date(2023, 5, 3, 13, 30, 0),
-      endTime: new Date(2023, 5, 3, 13, 30, 0),
-      consultMajor: "화학공학과",
-      request: "잘할 수 있을까요?",
-    },
-  ]);
-  const [consultCount, setConsultCount] = useState(consultList.length);
-  const [lastUpcomingConsult, setLastUpcomingConsult] = useState([]);
-  const [upcomingConsult, setUpcomingConsult] = useState([]);
-  const [previousConsult, setPreviousConsult] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(`${SV_LOCAL}/consultation/mentor/10`)
-      .then((response) => {
-        console.log(response.data);
-        const responseData = response.data;
-        setLastUpcomingConsult(responseData.object.lastUpcomingConsult);
-        setUpcomingConsult(responseData.object.lastUpcomingConsult);
-        setPreviousConsult(responseData.object.previousConsult);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  // const [consultList, setConsultList] = useState([
+  //   {
+  //     id: 0,
+  //     name: "김성애",
+  //     startTime: new Date(2023, 3, 25, 13, 30, 0),
+  //     endTime: new Date(2023, 3, 25, 13, 50, 0),
+  //     consultMajor: "컴퓨터소프트웨어학부",
+  //     request: "어떤 공부를 해야할지 궁금해요.",
+  //   },
+  //   {
+  //     id: 1,
+  //     name: "신종민",
+  //     startTime: new Date(2023, 4, 21, 13, 30, 0),
+  //     endTime: new Date(2023, 4, 21, 13, 30, 0),
+  //     consultMajor: "전산학부",
+  //     request: "어떤 공부를 해야할지 궁금해요.",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "한재준",
+  //     startTime: new Date(2023, 5, 3, 13, 30, 0),
+  //     endTime: new Date(2023, 5, 3, 13, 30, 0),
+  //     consultMajor: "컴퓨터소프트웨어학부",
+  //     request: "어떤 공부를 해야할지 궁금해요.",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "채희문",
+  //     startTime: new Date(2023, 5, 3, 13, 30, 0),
+  //     endTime: new Date(2023, 5, 3, 13, 30, 0),
+  //     consultMajor: "화학공학과",
+  //     request: "잘할 수 있을까요?",
+  //   },
+  // ]);
+  const { lastUpcomingConsult, upcomingConsult, previousConsult } =
+    useGetConsult();
+  const navigate = useNavigate();
   return (
     <Form>
       <FormLeft>
@@ -86,7 +74,7 @@ const Home = () => {
           <FontAwesomeIcon icon={faAngleRight} />
         </MoveBox>
         <MoveBox>
-          <div>
+          <div onClick={() => navigate(`/schedule`)}>
             <FontAwesomeIcon icon={faCalendar} />
             <span>시간표 확인하기</span>
           </div>
@@ -97,24 +85,26 @@ const Home = () => {
       <FormRight>
         <Wrapper>
           <header>곧 진행될 상담</header>
-          {consultList.length === 0 ? (
+          {!lastUpcomingConsult.length ? (
             <Consult>
               <span>진행될 상담이 없습니다.</span>
-              <Button>시간표 바로가기</Button>
+              <Button onClick={() => navigate(`/schedule`)}>
+                시간표 바로가기
+              </Button>
             </Consult>
           ) : (
             <Consult>
               <ConsultList
-                consultList={lastUpcomingConsult}
-                setConsultList={setLastUpcomingConsult}
+                consultList={[lastUpcomingConsult[0]]}
+                // setConsultList={setLastUpcomingConsult}
               />
             </Consult>
           )}
         </Wrapper>
         <HorizontalLine />
         <Wrapper>
-          <header>진행 예정된 상담 ({consultCount})</header>
-          {!consultCount ? (
+          <header>진행 예정된 상담 ({upcomingConsult.length})</header>
+          {!upcomingConsult.length ? (
             <Consult>
               <span>진행될 상담이 없습니다.</span>
             </Consult>
@@ -122,15 +112,15 @@ const Home = () => {
             <Consult>
               <ConsultList
                 consultList={upcomingConsult}
-                setConsultList={setUpcomingConsult}
+                // setConsultList={setUpcomingConsult}
               />
             </Consult>
           )}
         </Wrapper>
         <HorizontalLine />
         <Wrapper>
-          <header>완료된 상담 ({consultCount})</header>
-          {!consultCount ? (
+          <header>완료된 상담 ({previousConsult.length})</header>
+          {!previousConsult.length ? (
             <Consult>
               <span>완료된 상담이 없습니다.</span>
             </Consult>
@@ -138,7 +128,7 @@ const Home = () => {
             <Consult>
               <ConsultList
                 consultList={previousConsult}
-                setConsultList={setPreviousConsult}
+                // setConsultList={setPreviousConsult}
                 color="#D9D9D9"
               />
             </Consult>

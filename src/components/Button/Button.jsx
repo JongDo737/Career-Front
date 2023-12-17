@@ -23,10 +23,10 @@ const StyledButton = styled.button`
   font-size: 1.1rem;
   font-weight: 600;
   height: 2.7rem;
+  margin: 0 auto;
   cursor: pointer;
   &.medium {
     width: 10rem;
-    height: 100%;
   }
   &.large {
     width: 20rem;

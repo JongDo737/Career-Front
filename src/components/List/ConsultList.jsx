@@ -3,6 +3,8 @@ import styled from "styled-components";
 import ConsultItem from "./ConsultItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { dateParse, dateTimeParse, timeParse } from "../../utils/dateParse";
+
 const ConsultList = (props) => {
   const [moveIndex, setMoveIndex] = useState(0);
   const onMoveLeft = () => {
@@ -14,7 +16,7 @@ const ConsultList = (props) => {
   };
   return (
     <Div>
-      <div className="left" onClick={onMoveLeft}></div>
+      {/* <div className="left" onClick={onMoveLeft}></div> */}
       <Wrapper style={{ transform: `translateX(${moveIndex}%)` }}>
         {props.consultList.map((item, i) => {
           return (
@@ -27,7 +29,7 @@ const ConsultList = (props) => {
           );
         })}
       </Wrapper>
-      <div className="right" onClick={onMoveRight}></div>
+      {/* <div className="right" onClick={onMoveRight}></div> */}
     </Div>
   );
 };
@@ -52,14 +54,12 @@ export const ConsultListShort = (props) => {
           return (
             <tr>
               <td>{i}</td>
-              <td>{item.name}</td>
+              <td>{item?.student.nickname}</td>
               <td>
-                {item.startTime.getFullYear()}.{item.startTime.getMonth()}.
-                {item.startTime.getDate()}
+                {dateParse(item.startTime)} ~ {dateParse(item.endTime)}
               </td>
               <td>
-                {item.startTime.getHours()}:{item.startTime.getMinutes()} ~
-                {item.endTime.getHours()}:{item.endTime.getMinutes()}
+                {timeParse(item.startTime)} ~ {timeParse(item.endTime)}
               </td>
               <td>
                 <FontAwesomeIcon icon={faAngleDown} />
@@ -68,11 +68,11 @@ export const ConsultListShort = (props) => {
           );
         })}
       </Table>
-      <Select>
-        {/* show 방식은 api 호출로 pagination 이랑 같이 진행 -> 나중에 수정 */}
+      {/* <Select>
+        // show 방식은 api 호출로 pagination 이랑 같이 진행 -> 나중에 수정 
         <option value="5">show 5</option>
         <option value="10">show 10</option>
-      </Select>
+      </Select> */}
     </ShortWrapper>
   );
 };
@@ -109,20 +109,24 @@ const Div = styled.div`
 
 const Table = styled.table`
   width: 100%;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   border-collapse: collapse;
   .frame {
-    height: 3rem;
+    /* height: 3rem; */
     color: ${(props) => (props.color === "#D9D9D9" ? "black" : "white")};
     background-color: ${(props) => props.color || "#23354d"};
   }
+  th {
+    padding: 0.5rem;
+  }
   tr {
-    text-align: center;
     border: 1px solid #23354d;
+    padding: 1rem;
   }
   td {
-    height: 2.3rem;
+    padding: 0.5rem;
     background-color: white;
+    text-align: center;
   }
 `;
 
