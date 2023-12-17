@@ -1,20 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-const SubMenubar = ({ subMenuList, selectMenu, subMenuLinkList }) => {
+const SubMenubar = ({
+  subMenuList,
+  selectMenu,
+  subMenuLinkList,
+  setSubMenu,
+}) => {
   return (
     <SubMenu>
       {subMenuList.map((item, idx) => {
         return (
-          <Link
+          <div
             className={
               item === selectMenu ? "select submenu__item" : "submenu__item"
             }
-            to={subMenuLinkList[idx]}
+            // to={subMenuLinkList[idx]}
             key={idx}
+            onClick={() => setSubMenu(subMenuList[idx])}
           >
             {item}
-          </Link>
+          </div>
         );
       })}
     </SubMenu>

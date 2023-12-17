@@ -5,8 +5,14 @@ import RecommendMenteeItem from "../../components/List/RecommendMenteeItem";
 import ConsultList from "../../components/List/ConsultList";
 import { ConsultListShort } from "../../components/List/ConsultList";
 import HorizontalLine from "../../components/Line/HorizontalLine";
+import useGetConsult from "../../hooks/useGetConsult";
+
 const Consult = () => {
   const subMenuList = ["전체보기", "예정된 상담", "완료된 상담"];
+  const { lastUpcomingConsult, upcomingConsult, previousConsult } =
+    useGetConsult();
+
+  console.log("data ", upcomingConsult, previousConsult);
   const [subMenu, setSubMenu] = useState(subMenuList[0]);
 
   const [recommend, setRecomment] = useState([
@@ -39,45 +45,49 @@ const Consult = () => {
       interest: "전자공학과, 컴퓨터공학과",
     },
   ]);
-  const [consultList, setConsultList] = useState([
-    {
-      id: 0,
-      name: "김성애",
-      startTime: new Date(2023, 3, 25, 13, 30, 0),
-      endTime: new Date(2023, 3, 25, 13, 50, 0),
-      consultMajor: "컴퓨터소프트웨어학부",
-      request: "어떤 공부를 해야할지 궁금해요.",
-    },
-    {
-      id: 1,
-      name: "신종민",
-      startTime: new Date(2023, 4, 21, 13, 30, 0),
-      endTime: new Date(2023, 4, 21, 13, 30, 0),
-      consultMajor: "전산학부",
-      request: "어떤 공부를 해야할지 궁금해요.",
-    },
-    {
-      id: 2,
-      name: "한재준",
-      startTime: new Date(2023, 5, 3, 13, 30, 0),
-      endTime: new Date(2023, 5, 3, 13, 30, 0),
-      consultMajor: "컴퓨터소프트웨어학부",
-      request: "어떤 공부를 해야할지 궁금해요.",
-    },
-    {
-      id: 3,
-      name: "채희문",
-      startTime: new Date(2023, 5, 3, 13, 30, 0),
-      endTime: new Date(2023, 5, 3, 13, 30, 0),
-      consultMajor: "화학공학과",
-      request: "잘할 수 있을까요?",
-    },
-  ]);
-  const [consultCount, setConsultCount] = useState(consultList.length);
+  // const [consultList, setConsultList] = useState([
+  //   {
+  //     id: 0,
+  //     name: "김성애",
+  //     startTime: new Date(2023, 3, 25, 13, 30, 0),
+  //     endTime: new Date(2023, 3, 25, 13, 50, 0),
+  //     consultMajor: "컴퓨터소프트웨어학부",
+  //     request: "어떤 공부를 해야할지 궁금해요.",
+  //   },
+  //   {
+  //     id: 1,
+  //     name: "신종민",
+  //     startTime: new Date(2023, 4, 21, 13, 30, 0),
+  //     endTime: new Date(2023, 4, 21, 13, 30, 0),
+  //     consultMajor: "전산학부",
+  //     request: "어떤 공부를 해야할지 궁금해요.",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "한재준",
+  //     startTime: new Date(2023, 5, 3, 13, 30, 0),
+  //     endTime: new Date(2023, 5, 3, 13, 30, 0),
+  //     consultMajor: "컴퓨터소프트웨어학부",
+  //     request: "어떤 공부를 해야할지 궁금해요.",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "채희문",
+  //     startTime: new Date(2023, 5, 3, 13, 30, 0),
+  //     endTime: new Date(2023, 5, 3, 13, 30, 0),
+  //     consultMajor: "화학공학과",
+  //     request: "잘할 수 있을까요?",
+  //   },
+  // ]);
+  // const [consultCount, setConsultCount] = useState(consultList.length);
 
   return (
     <>
-      <SubMenubar subMenuList={subMenuList} setSubMenu={setSubMenu} />
+      <SubMenubar
+        subMenuList={subMenuList}
+        selectMenu={subMenu}
+        setSubMenu={setSubMenu}
+      />
       <Form>
         <FormLeft>
           <Wrapper>
@@ -91,34 +101,27 @@ const Consult = () => {
         {subMenu === subMenuList[0] ? (
           <FormRight>
             <Wrapper>
-              <header>진행 예정된 상담 ({consultCount})</header>
-              {!consultCount ? (
+              <header>진행 예정된 상담 ({upcomingConsult.length})</header>
+              {!upcomingConsult.length ? (
                 <ConsultWrapper>
                   <span>진행될 상담이 없습니다.</span>
                 </ConsultWrapper>
               ) : (
                 <ConsultWrapper>
-                  <ConsultList
-                    consultList={consultList}
-                    setConsultList={setConsultList}
-                  />
+                  <ConsultList consultList={upcomingConsult} />
                 </ConsultWrapper>
               )}
             </Wrapper>
             <HorizontalLine />
             <Wrapper>
-              <header>완료된 상담 ({consultCount})</header>
-              {!consultCount ? (
+              <header>완료된 상담 ({previousConsult.length})</header>
+              {!previousConsult.length ? (
                 <ConsultWrapper>
                   <span>완료된 상담이 없습니다.</span>
                 </ConsultWrapper>
               ) : (
                 <ConsultWrapper>
-                  <ConsultList
-                    consultList={consultList}
-                    setConsultList={setConsultList}
-                    color="#D9D9D9"
-                  />
+                  <ConsultList consultList={previousConsult} color="#D9D9D9" />
                 </ConsultWrapper>
               )}
             </Wrapper>
@@ -129,26 +132,20 @@ const Consult = () => {
         {subMenu === subMenuList[1] ? (
           <FormRight>
             <Wrapper>
-              <header>진행 예정된 상담 ({consultCount})</header>
-              {!consultCount ? (
+              <header>진행 예정된 상담 ({upcomingConsult.length})</header>
+              {!upcomingConsult.length ? (
                 <ConsultWrapper>
                   <span>진행될 상담이 없습니다.</span>
                 </ConsultWrapper>
               ) : (
                 <ConsultWrapper>
-                  <ConsultList
-                    consultList={consultList}
-                    setConsultList={setConsultList}
-                  />
+                  <ConsultList consultList={upcomingConsult} />
                 </ConsultWrapper>
               )}
             </Wrapper>
             <HorizontalLine />
             <Wrapper>
-              <ConsultListShort
-                consultList={consultList}
-                setConsultList={setConsultList}
-              />
+              <ConsultListShort consultList={upcomingConsult} />
             </Wrapper>
           </FormRight>
         ) : (
@@ -157,16 +154,15 @@ const Consult = () => {
         {subMenu === subMenuList[2] ? (
           <FormRight>
             <Wrapper>
-              <header>완료된 상담 ({consultCount})</header>
-              {!consultCount ? (
+              <header>완료된 상담 ({previousConsult.length})</header>
+              {!previousConsult.length ? (
                 <ConsultWrapper>
                   <span>완료된 상담이 없습니다.</span>
                 </ConsultWrapper>
               ) : (
                 <ConsultWrapper>
                   <ConsultList
-                    consultList={consultList}
-                    setConsultList={setConsultList}
+                    consultList={previousConsult}
                     color="#D9D9D9" // 나중에 state 로 바꾸는 게 어떨까..
                   />
                 </ConsultWrapper>
@@ -174,11 +170,7 @@ const Consult = () => {
             </Wrapper>
             <HorizontalLine />
             <Wrapper>
-              <ConsultListShort
-                consultList={consultList}
-                setConsultList={setConsultList}
-                color="#D9D9D9"
-              />
+              <ConsultListShort consultList={previousConsult} color="#D9D9D9" />
             </Wrapper>
           </FormRight>
         ) : (
