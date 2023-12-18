@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import VerticalLine from "../../components/Line/VerticalLine";
-import styles from "./Home.module.scss";
 import PointBox from "../../components/Box/PointBox";
 import MoveBox from "../../components/Box/MoveBox";
 import Button from "../../components/Button/Button";
@@ -13,8 +11,6 @@ import {
   faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
-import axios from "axios";
-import { SV_LOCAL } from "../../constants";
 import useGetConsult from "../../hooks/useGetConsult";
 import { useNavigate } from "react-router-dom";
 
@@ -54,7 +50,7 @@ const Home = () => {
   //     request: "잘할 수 있을까요?",
   //   },
   // ]);
-  const { lastUpcomingConsult, upcomingConsult, previousConsult } =
+  const { lastUpcomingConsult, upcomingConsult, completedConsult } =
     useGetConsult();
   const navigate = useNavigate();
   return (
@@ -119,15 +115,15 @@ const Home = () => {
         </Wrapper>
         <HorizontalLine />
         <Wrapper>
-          <header>완료된 상담 ({previousConsult.length})</header>
-          {!previousConsult.length ? (
+          <header>완료된 상담 ({completedConsult.length})</header>
+          {!completedConsult.length ? (
             <Consult>
               <span>완료된 상담이 없습니다.</span>
             </Consult>
           ) : (
             <Consult>
               <ConsultList
-                consultList={previousConsult}
+                consultList={completedConsult}
                 // setConsultList={setPreviousConsult}
                 color="#D9D9D9"
               />

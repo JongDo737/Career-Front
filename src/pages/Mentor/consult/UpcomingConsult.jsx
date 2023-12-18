@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
-import useGetConsult from "../../../hooks/useGetConsult";
+import useGetUpcomingConsult from "../../../hooks/useGetUpcomingConsult";
 
 const UpcomingConsult = () => {
   const subMenuList = ["전체보기", "예정된 상담", "완료된 상담"];
   const subMenuLink = [
     "/mentor/consult",
     "/mentor/consult/upcoming",
-    "/mentor/consult/previous",
+    "/mentor/consult/completed",
   ];
-  const { lastUpcomingConsult, upcomingConsult, previousConsult } =
-    useGetConsult();
+  const { upcomingConsult } = useGetUpcomingConsult();
   const [subMenu, setSubMenu] = useState("예정된 상담");
 
   const [recommend, setRecomment] = useState([

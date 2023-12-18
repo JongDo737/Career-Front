@@ -21,7 +21,7 @@ import MyActivity from "./pages/Community/MyActivity";
 import PostDetail from "./pages/Community/PostDetail";
 import Schedule from "./pages/Schedule";
 import UpcomingConsult from "./pages/Mentor/consult/UpcomingConsult";
-import PreviousConsult from "./pages/Mentor/consult/PreviousConsult";
+import CompletedConsult from "./pages/Mentor/consult/CompletedConsult";
 
 function App() {
   return (
@@ -39,8 +39,8 @@ function App() {
             element={<UpcomingConsult />}
           />
           <Route
-            path="/mentor/consult/previous"
-            element={<PreviousConsult />}
+            path="/mentor/consult/completed"
+            element={<CompletedConsult />}
           />
           <Route exact path="/community" element={<Community />} />
           <Route exact path="/community/category" element={<Category />} />

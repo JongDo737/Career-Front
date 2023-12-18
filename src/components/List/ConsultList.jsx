@@ -50,23 +50,29 @@ export const ConsultListShort = (props) => {
           <th className="time">시간</th>
           <th className="detail">더보기</th>
         </tr>
-        {props.consultList.map((item, i) => {
-          return (
-            <tr>
-              <td>{i}</td>
-              <td>{item?.student.nickname}</td>
-              <td>
-                {dateParse(item.startTime)} ~ {dateParse(item.endTime)}
-              </td>
-              <td>
-                {timeParse(item.startTime)} ~ {timeParse(item.endTime)}
-              </td>
-              <td>
-                <FontAwesomeIcon icon={faAngleDown} />
-              </td>
-            </tr>
-          );
-        })}
+        {props.consultList.length ? (
+          props.consultList.map((item, i) => {
+            return (
+              <tr>
+                <td>{i + 1}</td>
+                <td>{item?.student.nickname}</td>
+                <td>
+                  {dateParse(item.startTime)} ~ {dateParse(item.endTime)}
+                </td>
+                <td>
+                  {timeParse(item.startTime)} ~ {timeParse(item.endTime)}
+                </td>
+                <td>
+                  <FontAwesomeIcon icon={faAngleDown} />
+                </td>
+              </tr>
+            );
+          })
+        ) : (
+          <tr>
+            <td colSpan="5">상담 내역이 없습니다.</td>
+          </tr>
+        )}
       </Table>
       {/* <Select>
         // show 방식은 api 호출로 pagination 이랑 같이 진행 -> 나중에 수정 

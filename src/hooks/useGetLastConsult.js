@@ -3,10 +3,8 @@ import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
 import { useEffect, useState } from "react";
 
-const useGetConsult = () => {
+const useGetLastConsult = () => {
   const [lastUpcomingConsult, setLastUpcomingConsult] = useState([]);
-  const [upcomingConsult, setUpcomingConsult] = useState([]);
-  const [completedConsult, setCompletedConsult] = useState([]);
 
   useEffect(() => {
     const getConsult = async () => {
@@ -16,9 +14,7 @@ const useGetConsult = () => {
             Authorization: `Bearer ${getCookie("jwtToken")}`,
           },
         });
-        setLastUpcomingConsult(response.data.object.lastUpcomingConsult);
-        setUpcomingConsult(response.data.object.upcomingConsult);
-        setCompletedConsult(response.data.object.previousConsult);
+        setLastUpcomingConsult(response.data.object);
       } catch (e) {
         console.err(e);
       }
@@ -26,7 +22,7 @@ const useGetConsult = () => {
     getConsult();
   }, []);
 
-  return { lastUpcomingConsult, upcomingConsult, completedConsult };
+  return { lastUpcomingConsult };
 };
 
-export default useGetConsult;
+export default useGetLastConsult;

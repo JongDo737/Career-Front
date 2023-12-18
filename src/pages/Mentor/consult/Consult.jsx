@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
-import { ConsultListShort } from "../../../components/List/ConsultList";
+// import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetConsult from "../../../hooks/useGetConsult";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
@@ -12,14 +12,12 @@ const Consult = () => {
   const subMenuLink = [
     "/mentor/consult",
     "/mentor/consult/upcoming",
-    "/mentor/consult/previous",
+    "/mentor/consult/completedConsult",
   ];
-  const { lastUpcomingConsult, upcomingConsult, previousConsult } =
+  const { lastUpcomingConsult, upcomingConsult, completedConsult } =
     useGetConsult();
 
-  console.log("data ", upcomingConsult, previousConsult);
   const [subMenu, setSubMenu] = useState(subMenuList[0]);
-
   const [recommend, setRecomment] = useState([
     {
       title: "전산학부 고민입니다..",
@@ -118,14 +116,14 @@ const Consult = () => {
           </Wrapper>
           <HorizontalLine />
           <Wrapper>
-            <header>완료된 상담 ({previousConsult.length})</header>
-            {!previousConsult.length ? (
+            <header>완료된 상담 ({completedConsult.length})</header>
+            {!completedConsult.length ? (
               <ConsultWrapper>
                 <span>완료된 상담이 없습니다.</span>
               </ConsultWrapper>
             ) : (
               <ConsultWrapper>
-                <ConsultList consultList={previousConsult} color="#D9D9D9" />
+                <ConsultList consultList={completedConsult} color="#D9D9D9" />
               </ConsultWrapper>
             )}
           </Wrapper>

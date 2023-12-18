@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
@@ -6,15 +6,16 @@ import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetConsult from "../../../hooks/useGetConsult";
+import useGetCompletedConsult from "../../../hooks/useGetCompletedConsult";
 
-const PreviousConsult = () => {
+const CompletedConsult = () => {
   const subMenuList = ["전체보기", "예정된 상담", "완료된 상담"];
   const subMenuLink = [
     "/mentor/consult",
     "/mentor/consult/upcoming",
-    "/mentor/consult/previous",
+    "/mentor/consult/completed",
   ];
-  const { previousConsult } = useGetConsult();
+  const { completedConsult } = useGetCompletedConsult();
   const [subMenu, setSubMenu] = useState("완료된 상담");
 
   const [recommend, setRecomment] = useState([
@@ -67,15 +68,15 @@ const PreviousConsult = () => {
         </FormLeft>
         <FormRight>
           <Wrapper>
-            <header>완료된 상담 ({previousConsult.length})</header>
-            {!previousConsult.length ? (
+            <header>완료된 상담 ({completedConsult.length})</header>
+            {!completedConsult.length ? (
               <ConsultWrapper>
                 <span>완료된 상담이 없습니다.</span>
               </ConsultWrapper>
             ) : (
               <ConsultWrapper>
                 <ConsultList
-                  consultList={previousConsult}
+                  consultList={completedConsult}
                   color="#D9D9D9" // 나중에 state 로 바꾸는 게 어떨까..
                 />
               </ConsultWrapper>
@@ -83,7 +84,7 @@ const PreviousConsult = () => {
           </Wrapper>
           <HorizontalLine />
           <Wrapper>
-            <ConsultListShort consultList={previousConsult} color="#D9D9D9" />
+            <ConsultListShort consultList={completedConsult} color="#D9D9D9" />
           </Wrapper>
         </FormRight>
       </Form>
@@ -91,7 +92,7 @@ const PreviousConsult = () => {
   );
 };
 
-export default PreviousConsult;
+export default CompletedConsult;
 
 const Form = styled.div`
   display: flex;
