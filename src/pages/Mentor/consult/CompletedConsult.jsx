@@ -5,10 +5,11 @@ import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
-import useGetUpcomingConsult from "../../../hooks/useGetUpcomingConsult";
-import { UPCOMING_CONSULT_TYPE } from "../../../constants";
+import useGetConsult from "../../../hooks/useGetConsult";
+import useGetCompletedConsult from "../../../hooks/useGetCompletedConsult";
+import { COMPLETED_CONSULT_TYPE } from "../../../constants";
 
-const UpcomingConsult = () => {
+const CompletedConsult = () => {
   const subMenuList = ["전체보기", "예정된 상담", "완료된 상담", "취소한 상담"];
   const subMenuLink = [
     "/mentor/consult",
@@ -16,8 +17,8 @@ const UpcomingConsult = () => {
     "/mentor/consult/completed",
     "/mentor/consult/cancel",
   ];
-  const { upcomingConsult } = useGetUpcomingConsult();
-  const [subMenu, setSubMenu] = useState("예정된 상담");
+  const { completedConsult } = useGetCompletedConsult();
+  const [subMenu, setSubMenu] = useState("완료된 상담");
 
   const [recommend, setRecomment] = useState([
     {
@@ -49,6 +50,7 @@ const UpcomingConsult = () => {
       interest: "전자공학과, 컴퓨터공학과",
     },
   ]);
+
   return (
     <>
       <SubMenubar
@@ -68,23 +70,24 @@ const UpcomingConsult = () => {
         </FormLeft>
         <FormRight>
           <Wrapper>
-            <header>진행 예정된 상담 ({upcomingConsult.length})</header>
-            {!upcomingConsult.length ? (
+            <header>완료된 상담 ({completedConsult.length})</header>
+            {!completedConsult.length ? (
               <ConsultWrapper>
-                <span>진행될 상담이 없습니다.</span>
+                <span>완료된 상담이 없습니다.</span>
               </ConsultWrapper>
             ) : (
               <ConsultWrapper>
                 <ConsultList
-                  consultList={upcomingConsult}
-                  type={UPCOMING_CONSULT_TYPE}
+                  consultList={completedConsult}
+                  color="#D9D9D9" // 나중에 state 로 바꾸는 게 어떨까..
+                  type={COMPLETED_CONSULT_TYPE}
                 />
               </ConsultWrapper>
             )}
           </Wrapper>
           <HorizontalLine />
           <Wrapper>
-            <ConsultListShort consultList={upcomingConsult} />
+            <ConsultListShort consultList={completedConsult} color="#D9D9D9" />
           </Wrapper>
         </FormRight>
       </Form>
@@ -92,7 +95,7 @@ const UpcomingConsult = () => {
   );
 };
 
-export default UpcomingConsult;
+export default CompletedConsult;
 
 const Form = styled.div`
   display: flex;

@@ -1,24 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { dateParse, dateTimeParse } from "../../utils/dateParse";
+import DetailedModal from "../Modal/DetailedModal";
 
-const ConsultItem = ({ color, item, index }) => {
-  console.log(item);
+const ConsultItem = (props) => {
+  const { color, item, type } = props;
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
   useEffect(() => {
-    console.log(item);
-  }, []);
+    if (isDetailOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
+  }, [isDetailOpen]);
   return (
     <>
       <Form color={color}>
         <div className="header">{item.student.nickname} 학생</div>
         <div className="main">
           <div className="time">
-            {/* {item.startTime.getFullYear()}.{item.startTime.getMonth()}.
-          {item.startTime.getDate()} {item.startTime.getHours()}:
-          {item.startTime.getMinutes()} ~ {item.endTime.getFullYear()}.
-          {item.endTime.getMonth()}. {item.endTime.getDate()}
-          {item.endTime.getHours()}:{item.endTime.getMinutes()} 예정 */}
-            {/* {item.startTime.replace("T", " ")} ~ {item.endTime.replace("T", " ")}{" "}
-          예정 */}
+            {dateTimeParse(item.startTime)} ~ {dateTimeParse(item.endTime)}
           </div>
           <div className="major">
             <div>상담할 전공 : </div>
@@ -30,9 +28,14 @@ const ConsultItem = ({ color, item, index }) => {
           </div>
         </div>
         <div className="footer">
-          <div className="button">자세히 보기</div>
+          <div className="button" onClick={() => setIsDetailOpen(true)}>
+            자세히 보기
+          </div>
         </div>
       </Form>
+      {isDetailOpen && (
+        <DetailedModal setModalOpen={setIsDetailOpen} item={item} type={type} />
+      )}
     </>
   );
 };
@@ -102,7 +105,8 @@ const Form = styled.div`
       border-radius: 5px;
       cursor: pointer;
       &:hover {
-        background-color: #334b6c;
+        background-color: ${(props) =>
+          props.color === "#D9D9D9" ? "#9D9D9D" : "" || "#334b6c"};
         color: white;
       }
     }

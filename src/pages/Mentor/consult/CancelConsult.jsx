@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
-import useGetConsult from "../../../hooks/useGetConsult";
+import useGetCancelConsult from "../../../hooks/useGetCancelConsult";
+import { CANCEL_CONSULT_TYPE } from "../../../constants";
 
-const PreviousConsult = () => {
-  const subMenuList = ["전체보기", "예정된 상담", "완료된 상담"];
+const CancelConsult = () => {
+  const subMenuList = ["전체보기", "예정된 상담", "완료된 상담", "취소한 상담"];
   const subMenuLink = [
     "/mentor/consult",
     "/mentor/consult/upcoming",
-    "/mentor/consult/previous",
+    "/mentor/consult/completed",
+    "/mentor/consult/cancel",
   ];
-  const { previousConsult } = useGetConsult();
-  const [subMenu, setSubMenu] = useState("완료된 상담");
+  const { cancelConsult } = useGetCancelConsult();
+  const [subMenu, setSubMenu] = useState("취소한 상담");
 
   const [recommend, setRecomment] = useState([
     {
@@ -67,23 +69,24 @@ const PreviousConsult = () => {
         </FormLeft>
         <FormRight>
           <Wrapper>
-            <header>완료된 상담 ({previousConsult.length})</header>
-            {!previousConsult.length ? (
+            <header>취소한 상담 ({cancelConsult.length})</header>
+            {!cancelConsult.length ? (
               <ConsultWrapper>
-                <span>완료된 상담이 없습니다.</span>
+                <span>취소한 상담이 없습니다.</span>
               </ConsultWrapper>
             ) : (
               <ConsultWrapper>
                 <ConsultList
-                  consultList={previousConsult}
+                  consultList={cancelConsult}
                   color="#D9D9D9" // 나중에 state 로 바꾸는 게 어떨까..
+                  type={CANCEL_CONSULT_TYPE}
                 />
               </ConsultWrapper>
             )}
           </Wrapper>
           <HorizontalLine />
           <Wrapper>
-            <ConsultListShort consultList={previousConsult} color="#D9D9D9" />
+            <ConsultListShort consultList={cancelConsult} color="#D9D9D9" />
           </Wrapper>
         </FormRight>
       </Form>
@@ -91,7 +94,7 @@ const PreviousConsult = () => {
   );
 };
 
-export default PreviousConsult;
+export default CancelConsult;
 
 const Form = styled.div`
   display: flex;
@@ -153,7 +156,7 @@ const ConsultWrapper = styled.div`
   position: relative;
   margin-top: 2rem;
   overflow: auto hidden;
-  span {
+  > span {
     margin-bottom: 10px;
     text-align: center;
     width: 100%;

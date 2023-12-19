@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import VerticalLine from "../../components/Line/VerticalLine";
-import styles from "./Home.module.scss";
 import PointBox from "../../components/Box/PointBox";
 import MoveBox from "../../components/Box/MoveBox";
 import Button from "../../components/Button/Button";
@@ -13,10 +11,15 @@ import {
   faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
-import axios from "axios";
-import { SV_LOCAL } from "../../constants";
 import useGetConsult from "../../hooks/useGetConsult";
 import { useNavigate } from "react-router-dom";
+import useGetCancelConsult from "../../hooks/useGetCancelConsult";
+import useGetCompletedConsult from "../../hooks/useGetCompletedConsult";
+import {
+  CANCEL_CONSULT_TYPE,
+  COMPLETED_CONSULT_TYPE,
+  UPCOMING_CONSULT_TYPE,
+} from "../../constants";
 
 const Home = () => {
   const [userName, setUserName] = useState("김성애");
@@ -54,8 +57,9 @@ const Home = () => {
   //     request: "잘할 수 있을까요?",
   //   },
   // ]);
-  const { lastUpcomingConsult, upcomingConsult, previousConsult } =
-    useGetConsult();
+  const { lastUpcomingConsult, upcomingConsult } = useGetConsult();
+  const { cancelConsult } = useGetCancelConsult();
+  const { completedConsult } = useGetCompletedConsult();
   const navigate = useNavigate();
   return (
     <Form>
@@ -96,7 +100,7 @@ const Home = () => {
             <Consult>
               <ConsultList
                 consultList={[lastUpcomingConsult[0]]}
-                // setConsultList={setLastUpcomingConsult}
+                type={UPCOMING_CONSULT_TYPE}
               />
             </Consult>
           )}
@@ -112,24 +116,41 @@ const Home = () => {
             <Consult>
               <ConsultList
                 consultList={upcomingConsult}
-                // setConsultList={setUpcomingConsult}
+                type={UPCOMING_CONSULT_TYPE}
               />
             </Consult>
           )}
         </Wrapper>
         <HorizontalLine />
         <Wrapper>
-          <header>완료된 상담 ({previousConsult.length})</header>
-          {!previousConsult.length ? (
+          <header>완료된 상담 ({completedConsult.length})</header>
+          {!completedConsult.length ? (
             <Consult>
               <span>완료된 상담이 없습니다.</span>
             </Consult>
           ) : (
             <Consult>
               <ConsultList
-                consultList={previousConsult}
-                // setConsultList={setPreviousConsult}
+                consultList={completedConsult}
                 color="#D9D9D9"
+                type={COMPLETED_CONSULT_TYPE}
+              />
+            </Consult>
+          )}
+        </Wrapper>
+        <HorizontalLine />
+        <Wrapper>
+          <header>취소한 상담 ({cancelConsult.length})</header>
+          {!cancelConsult.length ? (
+            <Consult>
+              <span>취소한 상담이 없습니다.</span>
+            </Consult>
+          ) : (
+            <Consult>
+              <ConsultList
+                consultList={cancelConsult}
+                color="#D9D9D9"
+                type={CANCEL_CONSULT_TYPE}
               />
             </Consult>
           )}
@@ -195,7 +216,7 @@ const Consult = styled.div`
   position: relative;
   margin-top: 2rem;
   overflow: auto hidden;
-  span {
+  > span {
     margin-bottom: 10px;
     text-align: center;
     width: 100%;

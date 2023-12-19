@@ -17,7 +17,7 @@ const ConsultList = (props) => {
   return (
     <Div>
       {/* <div className="left" onClick={onMoveLeft}></div> */}
-      <Wrapper style={{ transform: `translateX(${moveIndex}%)` }}>
+      <Wrapper>
         {props.consultList.map((item, i) => {
           return (
             <ConsultItem
@@ -25,6 +25,7 @@ const ConsultList = (props) => {
               item={item}
               index={i}
               key={item.consultId}
+              type={props.type}
             />
           );
         })}
@@ -50,23 +51,29 @@ export const ConsultListShort = (props) => {
           <th className="time">시간</th>
           <th className="detail">더보기</th>
         </tr>
-        {props.consultList.map((item, i) => {
-          return (
-            <tr>
-              <td>{i}</td>
-              <td>{item?.student.nickname}</td>
-              <td>
-                {dateParse(item.startTime)} ~ {dateParse(item.endTime)}
-              </td>
-              <td>
-                {timeParse(item.startTime)} ~ {timeParse(item.endTime)}
-              </td>
-              <td>
-                <FontAwesomeIcon icon={faAngleDown} />
-              </td>
-            </tr>
-          );
-        })}
+        {props.consultList.length ? (
+          props.consultList.map((item, i) => {
+            return (
+              <tr>
+                <td>{i + 1}</td>
+                <td>{item?.student.nickname}</td>
+                <td>
+                  {dateParse(item.startTime)} ~ {dateParse(item.endTime)}
+                </td>
+                <td>
+                  {timeParse(item.startTime)} ~ {timeParse(item.endTime)}
+                </td>
+                <td>
+                  <FontAwesomeIcon icon={faAngleDown} />
+                </td>
+              </tr>
+            );
+          })
+        ) : (
+          <tr>
+            <td colSpan="5">상담 내역이 없습니다.</td>
+          </tr>
+        )}
       </Table>
       {/* <Select>
         // show 방식은 api 호출로 pagination 이랑 같이 진행 -> 나중에 수정 
@@ -128,15 +135,6 @@ const Table = styled.table`
     background-color: white;
     text-align: center;
   }
-`;
-
-const Select = styled.select`
-  width: 6rem;
-  font-size: 1rem;
-  background-color: white;
-  color: #23354d;
-  padding: 5px;
-  border: 1px solid #23354d;
 `;
 
 const ShortWrapper = styled.div`
