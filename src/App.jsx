@@ -22,6 +22,7 @@ import PostDetail from "./pages/Community/PostDetail";
 import Schedule from "./pages/Schedule";
 import UpcomingConsult from "./pages/Mentor/consult/UpcomingConsult";
 import CompletedConsult from "./pages/Mentor/consult/CompletedConsult";
+import CancelConsult from "./pages/Mentor/consult/CancelConsult";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             path="/mentor/consult/completed"
             element={<CompletedConsult />}
           />
+          <Route path="/mentor/consult/cancel" element={<CancelConsult />} />
           <Route exact path="/community" element={<Community />} />
           <Route exact path="/community/category" element={<Category />} />
           <Route

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
@@ -6,17 +6,25 @@ import ConsultList from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetConsult from "../../../hooks/useGetConsult";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
+import useGetCompletedConsult from "../../../hooks/useGetCompletedConsult";
+import useGetCancelConsult from "../../../hooks/useGetCancelConsult";
+import {
+  CANCEL_CONSULT_TYPE,
+  COMPLETED_CONSULT_TYPE,
+  UPCOMING_CONSULT_TYPE,
+} from "../../../constants";
 
 const Consult = () => {
-  const subMenuList = ["전체보기", "예정된 상담", "완료된 상담"];
+  const subMenuList = ["전체보기", "예정된 상담", "완료된 상담", "취소한 상담"];
   const subMenuLink = [
     "/mentor/consult",
     "/mentor/consult/upcoming",
-    "/mentor/consult/completedConsult",
+    "/mentor/consult/completed",
+    "/mentor/consult/cancel",
   ];
-  const { lastUpcomingConsult, upcomingConsult, completedConsult } =
-    useGetConsult();
-
+  const { upcomingConsult } = useGetConsult();
+  const { completedConsult } = useGetCompletedConsult();
+  const { cancelConsult } = useGetCancelConsult();
   const [subMenu, setSubMenu] = useState(subMenuList[0]);
   const [recommend, setRecomment] = useState([
     {
@@ -110,7 +118,10 @@ const Consult = () => {
               </ConsultWrapper>
             ) : (
               <ConsultWrapper>
-                <ConsultList consultList={upcomingConsult} />
+                <ConsultList
+                  consultList={upcomingConsult}
+                  type={UPCOMING_CONSULT_TYPE}
+                />
               </ConsultWrapper>
             )}
           </Wrapper>
@@ -123,12 +134,34 @@ const Consult = () => {
               </ConsultWrapper>
             ) : (
               <ConsultWrapper>
-                <ConsultList consultList={completedConsult} color="#D9D9D9" />
+                <ConsultList
+                  consultList={completedConsult}
+                  color="#D9D9D9"
+                  type={COMPLETED_CONSULT_TYPE}
+                />
+              </ConsultWrapper>
+            )}
+          </Wrapper>
+          <HorizontalLine />
+          <Wrapper>
+            <header>취소한 상담 ({cancelConsult.length})</header>
+            {!cancelConsult.length ? (
+              <ConsultWrapper>
+                <span>취소한 상담이 없습니다.</span>
+              </ConsultWrapper>
+            ) : (
+              <ConsultWrapper>
+                <ConsultList
+                  consultList={cancelConsult}
+                  color="#D9D9D9"
+                  type={CANCEL_CONSULT_TYPE}
+                />
               </ConsultWrapper>
             )}
           </Wrapper>
         </FormRight>
       </Form>
+      {}
     </>
   );
 };
@@ -148,7 +181,7 @@ const FormLeft = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 5rem;
-  height: 73vh;
+  height: 100%;
 `;
 
 const FormRight = styled.div`
@@ -195,7 +228,7 @@ const ConsultWrapper = styled.div`
   position: relative;
   margin-top: 2rem;
   overflow: auto hidden;
-  span {
+  > span {
     margin-bottom: 10px;
     text-align: center;
     width: 100%;

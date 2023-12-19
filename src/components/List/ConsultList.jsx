@@ -17,7 +17,7 @@ const ConsultList = (props) => {
   return (
     <Div>
       {/* <div className="left" onClick={onMoveLeft}></div> */}
-      <Wrapper style={{ transform: `translateX(${moveIndex}%)` }}>
+      <Wrapper>
         {props.consultList.map((item, i) => {
           return (
             <ConsultItem
@@ -25,6 +25,7 @@ const ConsultList = (props) => {
               item={item}
               index={i}
               key={item.consultId}
+              type={props.type}
             />
           );
         })}
@@ -134,15 +135,6 @@ const Table = styled.table`
     background-color: white;
     text-align: center;
   }
-`;
-
-const Select = styled.select`
-  width: 6rem;
-  font-size: 1rem;
-  background-color: white;
-  color: #23354d;
-  padding: 5px;
-  border: 1px solid #23354d;
 `;
 
 const ShortWrapper = styled.div`

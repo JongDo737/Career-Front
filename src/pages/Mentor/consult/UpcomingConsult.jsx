@@ -6,13 +6,15 @@ import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetUpcomingConsult from "../../../hooks/useGetUpcomingConsult";
+import { UPCOMING_CONSULT_TYPE } from "../../../constants";
 
 const UpcomingConsult = () => {
-  const subMenuList = ["전체보기", "예정된 상담", "완료된 상담"];
+  const subMenuList = ["전체보기", "예정된 상담", "완료된 상담", "취소한 상담"];
   const subMenuLink = [
     "/mentor/consult",
     "/mentor/consult/upcoming",
     "/mentor/consult/completed",
+    "/mentor/consult/cancel",
   ];
   const { upcomingConsult } = useGetUpcomingConsult();
   const [subMenu, setSubMenu] = useState("예정된 상담");
@@ -73,7 +75,10 @@ const UpcomingConsult = () => {
               </ConsultWrapper>
             ) : (
               <ConsultWrapper>
-                <ConsultList consultList={upcomingConsult} />
+                <ConsultList
+                  consultList={upcomingConsult}
+                  type={UPCOMING_CONSULT_TYPE}
+                />
               </ConsultWrapper>
             )}
           </Wrapper>
@@ -149,7 +154,7 @@ const ConsultWrapper = styled.div`
   position: relative;
   margin-top: 2rem;
   overflow: auto hidden;
-  span {
+  > span {
     margin-bottom: 10px;
     text-align: center;
     width: 100%;
