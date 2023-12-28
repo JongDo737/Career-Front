@@ -61,6 +61,7 @@ const DetailedModal = (props) => {
   };
 
   const leftButton = () => {
+    console.log("type ", type);
     switch (type) {
       case PENDING_CONSULT_TYPE: // 0
         return "상담 거절하기";
@@ -69,7 +70,7 @@ const DetailedModal = (props) => {
       case COMPLETED_CONSULT_TYPE: // 2
         return "";
       case CANCEL_CONSULT_TYPE: // 3
-        return "";
+        return `취소 사유 : ${detailObject.reason}`;
     }
   };
 

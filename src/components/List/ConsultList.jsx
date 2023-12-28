@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ConsultItem from "./ConsultItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { dateParse, dateTimeParse, timeParse } from "../../utils/dateParse";
 
 const ConsultList = (props) => {
@@ -41,6 +41,7 @@ ConsultList.defaultProps = {
 export default ConsultList;
 
 export const ConsultListShort = (props) => {
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
   return (
     <ShortWrapper>
       <Table color={props.color}>
@@ -54,19 +55,34 @@ export const ConsultListShort = (props) => {
         {props.consultList.length ? (
           props.consultList.map((item, i) => {
             return (
-              <tr>
-                <td>{i + 1}</td>
-                <td>{item?.student.nickname}</td>
-                <td>
-                  {dateParse(item.startTime)} ~ {dateParse(item.endTime)}
-                </td>
-                <td>
-                  {timeParse(item.startTime)} ~ {timeParse(item.endTime)}
-                </td>
-                <td>
-                  <FontAwesomeIcon icon={faAngleDown} />
-                </td>
-              </tr>
+              <>
+                <tr
+                  style={{
+                    borderBottom: isDetailOpen ? "none" : "1px solid black",
+                  }}
+                >
+                  <td>{i + 1}</td>
+                  <td>{item?.student.nickname}</td>
+                  <td>
+                    {dateParse(item.startTime)} ~ {dateParse(item.endTime)}
+                  </td>
+                  <td>
+                    {timeParse(item.startTime)} ~ {timeParse(item.endTime)}
+                  </td>
+                  <td>
+                    <FontAwesomeIcon
+                      icon={isDetailOpen ? faAngleUp : faAngleDown}
+                      className="detail-icon"
+                      onClick={() => setIsDetailOpen((prev) => !prev)}
+                    />
+                  </td>
+                </tr>
+                {isDetailOpen && (
+                  <tr colSpan={5} className="detail-row">
+                    hi
+                  </tr>
+                )}
+              </>
             );
           })
         ) : (
@@ -134,6 +150,14 @@ const Table = styled.table`
     padding: 0.5rem;
     background-color: white;
     text-align: center;
+    .detail-icon {
+      cursor: pointer;
+    }
+  }
+  .detail-row {
+    /* border: 1px solid black; */
+    border-top: none;
+    /* width: 100%; */
   }
 `;
 
