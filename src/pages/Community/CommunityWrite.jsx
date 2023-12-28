@@ -47,7 +47,6 @@ const CommunityWrite = () => {
   const navigate = useNavigate();
 
   const onEnterPost = () => {
-    console.log(newPost);
     axios
       .post(
         `${SV_LOCAL}/community/article/add`,
@@ -60,11 +59,10 @@ const CommunityWrite = () => {
         }
       )
       .then((res) => {
-        console.log(res);
         window.alert("게시글이 등록되었습니다.");
         navigate("/community");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.err(err));
   };
 
   return (
@@ -81,7 +79,6 @@ const CommunityWrite = () => {
             name="category-select"
             className="category-select"
             onChange={(e) => {
-              console.log(e.target.value);
               setNewPost({ ...newPost, categoryId: e.target.value });
             }}
             required
@@ -157,11 +154,6 @@ const CommunityWrite = () => {
                     src={img}
                     alt=""
                     className="write-file__img"
-                    // onClick={() => {
-                    //   fileInput.current.click();
-                    // }}
-
-                    onClick={() => console.log(image)}
                   />
                 ))}
               </ul>

@@ -49,7 +49,6 @@ const SchoolItem = ({
 
   useEffect(() => {
     item.majorList = [...MajorList];
-    console.log(item.majorList);
   }, [MajorList]);
 
   return (
@@ -89,7 +88,6 @@ const SchoolItem = ({
           shouldCloseOnSelect
           selected={startDate}
           onChange={(date) => {
-            console.log(date);
             setStartDate(date);
             item.startDate = date;
           }}

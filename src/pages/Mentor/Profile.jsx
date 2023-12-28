@@ -131,7 +131,6 @@ const Profile = (props) => {
 
     const reader = new FileReader();
     reader.onload = () => {
-      console.log(reader);
       if (reader.readyState === 2) setImage(reader.result);
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -165,7 +164,6 @@ const Profile = (props) => {
   }, [careerFile]);
 
   useEffect(() => {
-    console.log(getCookie("jwtToken"));
     axios
       .get(`${SV_LOCAL}/user/mentor/profile`, {
         headers: {
@@ -176,7 +174,6 @@ const Profile = (props) => {
       .then((res) => {
         window.alert("success");
         const data = res.data;
-        console.log(data);
         setUser({
           ...data,
           birth: `${data.birth.slice(0, 4)}-${data.birth.slice(
@@ -185,9 +182,8 @@ const Profile = (props) => {
           )}-${data.birth.slice(6, 8)}`,
         });
       })
-      .then(() => console.log(user))
       .catch((err) => {
-        console.log(err);
+        console.err(err);
         window.alert("error");
       });
   }, []);

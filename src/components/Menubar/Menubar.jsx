@@ -75,7 +75,6 @@ const Menubar = () => {
   }, [isLogin, isMentor]);
 
   const test = () => {
-    console.log(getCookie("jwtToken"));
     axios
       .get(`${SV_HOST}/test/jwt`, {
         headers: {
@@ -96,11 +95,10 @@ const Menubar = () => {
       //   },
       // })
       .then((res) => {
-        console.log(res);
         window.alert("success");
       })
       .catch((err) => {
-        console.log(err);
+        console.err(err);
         window.alert("error");
       });
   };

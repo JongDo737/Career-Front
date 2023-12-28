@@ -32,7 +32,7 @@ const DetailedModal = (props) => {
       );
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.err(e);
     }
   };
 
@@ -52,7 +52,7 @@ const DetailedModal = (props) => {
       );
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.err(e);
     }
   };
 
@@ -61,7 +61,6 @@ const DetailedModal = (props) => {
   };
 
   const leftButton = () => {
-    console.log("type ", type);
     switch (type) {
       case PENDING_CONSULT_TYPE: // 0
         return "상담 거절하기";

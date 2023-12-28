@@ -22,7 +22,7 @@ const DetailConsult = (props) => {
       setUpcomingConsult([...upcomingConsult, detailObject.object]);
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.err(e);
     }
   };
 
@@ -42,7 +42,7 @@ const DetailConsult = (props) => {
       );
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.err(e);
     }
   };
 
@@ -104,7 +104,6 @@ const DetailConsult = (props) => {
                 );
                 setDetailObject({ ...detailObject, reason: result || "" });
                 if (result !== null) {
-                  console.log(result);
                   alert("상담이 취소되었습니다.");
                   setIsDetailOpen(false);
                   rejectConsult(result);

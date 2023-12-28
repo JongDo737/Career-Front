@@ -177,9 +177,8 @@ const PostDetail = () => {
           setUpdateComment(true);
           window.history.back();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.err(err));
     } else if (deleteOption.type === "1") {
-      console.log(deleteOption.id);
       axios
         .delete(`${SV_LOCAL}/community/comment/delete`, {
           headers: {
@@ -191,9 +190,8 @@ const PostDetail = () => {
           setDeleteOption({ type: "", id: "" });
           setUpdateComment(true);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.err(err));
     } else if (deleteOption.type === "2") {
-      console.log(deleteOption.id);
       axios
         .delete(`${SV_LOCAL}/community/recomment/delete`, {
           headers: {
@@ -209,12 +207,11 @@ const PostDetail = () => {
           setDeleteOption({ type: "", id: "", parentId: "" });
           setUpdateComment(true);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.err(err));
     }
   };
 
   const onEnterRecomment = (commentIdx) => {
-    console.log(post.id, commentIdx, recommentInput);
     axios
       .post(
         `${SV_LOCAL}/community/recomment/add`,
@@ -230,7 +227,7 @@ const PostDetail = () => {
           },
         }
       )
-      .catch((err) => console.log(err));
+      .catch((err) => console.err(err));
     setRecommentInput("");
     setUpdateComment(true);
     // const updatedComments = [...comments];
@@ -264,7 +261,7 @@ const PostDetail = () => {
           },
         }
       )
-      .catch((err) => console.log(err));
+      .catch((err) => console.err(err));
     setCommentInput("");
     setUpdateComment(true);
     // 댓글 쓰고 window.scrollTo(0, document.body.scrollHeight); 적용할 수 있는 방법 찾아보자
@@ -276,11 +273,6 @@ const PostDetail = () => {
 
   const onEditPostContent = () => {
     const formData = new FormData();
-    console.log("remove ", removeImg);
-    console.log("file", files);
-    console.log("new file", newFiles);
-    console.log("img", image);
-    console.log("new img", newImage);
     formData.append(
       "json",
       JSON.stringify({
@@ -294,11 +286,9 @@ const PostDetail = () => {
     if (Array.isArray(image)) {
       newFiles.forEach((file) => formData.append("images", file));
       // formData.append("images", newFiles);
-      console.log("array", newFiles);
     } else {
       formData.append("images", newFiles);
     }
-    // console.log("form data", formData);
     axios
       .post(`${SV_LOCAL}/community/article/modify`, formData, {
         headers: {
@@ -352,7 +342,6 @@ const PostDetail = () => {
   };
 
   useEffect(() => {
-    console.log("detail api");
     if (updateComment || updatePost) {
       axios
         .get(`${SV_LOCAL}/community/article/detail`, {
@@ -365,7 +354,6 @@ const PostDetail = () => {
         })
         .then((res) => {
           const data = res.data;
-          // console.log(data);
           setPost(data.article || {});
           setComments(data.comments || []);
           setPostUserId(data.article?.user?.id || "");
@@ -386,11 +374,6 @@ const PostDetail = () => {
     }
   }, [id, updateComment, updatePost]);
 
-  // useEffect(() => {
-  //   setUserId(getIdFromToken(getCookie("jwtToken")));
-  //   console.log(post.user);
-  // }, []);
-
   const optionInitialize = () => {
     setPostOptionClick(false);
     setCommentOptionClick("");
@@ -410,7 +393,7 @@ const PostDetail = () => {
       .then((res) => {
         setUpdatePost(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.err(err));
   };
 
   const onDeleteHeart = (type, id) => {
@@ -429,9 +412,8 @@ const PostDetail = () => {
       .then((res) => {
         setUpdatePost(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.err(err));
   };
-  // console.log(files);
   return (
     <>
       <Form>
@@ -688,7 +670,6 @@ const PostDetail = () => {
                         src={img}
                         alt=""
                         className="write-file__img"
-                        onClick={() => console.log(image)}
                       />
                     ))}
                   </ul>
@@ -841,9 +822,7 @@ const PostDetail = () => {
                             ...updatedComment[commentIdx],
                             content: e.target.value,
                           };
-                          // console.log(updatedComment[commentIdx]);
                           setComments(updatedComment);
-                          // setTmpCommentInput(e.target.value);
                         }}
                       />
                     </main>
@@ -866,10 +845,6 @@ const PostDetail = () => {
                               content:
                                 originalPost.comments[commentIdx].content,
                             };
-                            console.log(
-                              updatedComment,
-                              originalPost.comments[commentIdx].content
-                            );
                             setComments(updatedComment);
                           }}
                         >
@@ -1059,20 +1034,11 @@ const PostDetail = () => {
                               ...updatedRecomments[recommentIdx],
                               content: e.target.value,
                             };
-                            // console.log(updatedComment[commentIdx]);
                             updatedComment.recomments = updatedRecomments;
                             updatedComments[commentIdx] = updatedComment;
                             setComments(updatedComments);
-                            // setTmpCommentInput(e.target.value);
                           }}
                         />
-                        {/* {recomment.target && (
-                        <span style={{ color: "#2F5383", fontWeight: "600" }}>
-                          @{recomment.target}
-                        </span>
-                      )}
-                      {recomment.content}
-                    </textarea> */}
                       </main>
                       {editRecommentContent === recommentIdx ? (
                         <footer
@@ -1107,11 +1073,9 @@ const PostDetail = () => {
                                     recommentIdx
                                   ].content,
                               };
-                              // console.log(updatedComment[commentIdx]);
                               updatedComment.recomments = updatedRecomments;
                               updatedComments[commentIdx] = updatedComment;
                               setComments(updatedComments);
-                              console.log(updatedComments);
                             }}
                           >
                             취소

@@ -34,7 +34,6 @@ const CategoryPost = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setPosts(res.data);
       })
       .catch((err) => console.error(err));

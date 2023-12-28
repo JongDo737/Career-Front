@@ -37,7 +37,6 @@ const Setting = () => {
   const [sumRevenue, setSumRevenue] = useState(revenue[0].money);
   const calcSum = (money) => {
     setSumRevenue(sumRevenue + money);
-    console.log(sumRevenue);
   };
 
   const [alarm1, setAlarm1] = useState(true);

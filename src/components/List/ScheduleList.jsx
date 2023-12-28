@@ -35,7 +35,7 @@ const ScheduleList = () => {
       setUpcomingConsult([...upcomingConsult, detailObject.object]);
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.err(e);
     }
   };
 
@@ -55,7 +55,7 @@ const ScheduleList = () => {
       );
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.err(e);
     }
   };
 
@@ -77,11 +77,10 @@ const ScheduleList = () => {
       })
       .then((res) => {
         const consultDataList = res.data.object;
-        console.log("consult data list", consultDataList);
         setPendingConsult([...consultDataList.lastUpcomingConsult]);
         setUpcomingConsult([...consultDataList.upcomingConsult]);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.err(err));
   }, []);
   return (
     <>
@@ -319,7 +318,6 @@ const ScheduleList = () => {
                     );
                     setDetailObject({ ...detailObject, reason: result || "" });
                     if (result !== null) {
-                      console.log(result);
                       alert("상담이 취소되었습니다.");
                       setIsDetailOpen(false);
                       rejectConsult(result);
