@@ -98,7 +98,7 @@ const Menubar = () => {
         window.alert("success");
       })
       .catch((err) => {
-        console.err(err);
+        console.log(err);
         window.alert("error");
       });
   };

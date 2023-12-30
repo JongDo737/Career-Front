@@ -19,7 +19,7 @@ const useGetCancelConsult = () => {
         );
         setCancelConsult(response.data.object);
       } catch (e) {
-        console.err(e);
+        console.log(e);
       }
     };
     getConsult();

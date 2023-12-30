@@ -16,7 +16,7 @@ const useGetLastConsult = () => {
         });
         setLastUpcomingConsult(response.data.object);
       } catch (e) {
-        console.err(e);
+        console.log(e);
       }
     };
     getConsult();

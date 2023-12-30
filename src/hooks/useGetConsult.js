@@ -20,7 +20,7 @@ const useGetConsult = () => {
         setUpcomingConsult(response.data.object.upcomingConsult);
         setCompletedConsult(response.data.object.previousConsult);
       } catch (e) {
-        console.err(e);
+        console.log(e);
       }
     };
     getConsult();

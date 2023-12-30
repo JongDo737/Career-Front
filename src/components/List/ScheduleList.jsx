@@ -35,7 +35,7 @@ const ScheduleList = () => {
       setUpcomingConsult([...upcomingConsult, detailObject.object]);
       window.location.reload();
     } catch (e) {
-      console.err(e);
+      console.log(e);
     }
   };
 
@@ -55,7 +55,7 @@ const ScheduleList = () => {
       );
       window.location.reload();
     } catch (e) {
-      console.err(e);
+      console.log(e);
     }
   };
 
@@ -80,7 +80,7 @@ const ScheduleList = () => {
         setPendingConsult([...consultDataList.lastUpcomingConsult]);
         setUpcomingConsult([...consultDataList.upcomingConsult]);
       })
-      .catch((err) => console.err(err));
+      .catch((err) => console.log(err));
   }, []);
   return (
     <>

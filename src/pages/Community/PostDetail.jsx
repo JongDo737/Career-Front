@@ -177,7 +177,7 @@ const PostDetail = () => {
           setUpdateComment(true);
           window.history.back();
         })
-        .catch((err) => console.err(err));
+        .catch((err) => console.log(err));
     } else if (deleteOption.type === "1") {
       axios
         .delete(`${SV_LOCAL}/community/comment/delete`, {
@@ -190,7 +190,7 @@ const PostDetail = () => {
           setDeleteOption({ type: "", id: "" });
           setUpdateComment(true);
         })
-        .catch((err) => console.err(err));
+        .catch((err) => console.log(err));
     } else if (deleteOption.type === "2") {
       axios
         .delete(`${SV_LOCAL}/community/recomment/delete`, {
@@ -207,7 +207,7 @@ const PostDetail = () => {
           setDeleteOption({ type: "", id: "", parentId: "" });
           setUpdateComment(true);
         })
-        .catch((err) => console.err(err));
+        .catch((err) => console.log(err));
     }
   };
 
@@ -227,7 +227,7 @@ const PostDetail = () => {
           },
         }
       )
-      .catch((err) => console.err(err));
+      .catch((err) => console.log(err));
     setRecommentInput("");
     setUpdateComment(true);
     // const updatedComments = [...comments];
@@ -261,7 +261,7 @@ const PostDetail = () => {
           },
         }
       )
-      .catch((err) => console.err(err));
+      .catch((err) => console.log(err));
     setCommentInput("");
     setUpdateComment(true);
     // 댓글 쓰고 window.scrollTo(0, document.body.scrollHeight); 적용할 수 있는 방법 찾아보자
@@ -393,7 +393,7 @@ const PostDetail = () => {
       .then((res) => {
         setUpdatePost(true);
       })
-      .catch((err) => console.err(err));
+      .catch((err) => console.log(err));
   };
 
   const onDeleteHeart = (type, id) => {
@@ -412,7 +412,7 @@ const PostDetail = () => {
       .then((res) => {
         setUpdatePost(true);
       })
-      .catch((err) => console.err(err));
+      .catch((err) => console.log(err));
   };
   return (
     <>

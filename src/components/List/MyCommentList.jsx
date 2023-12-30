@@ -24,7 +24,7 @@ const MyCommentList = ({ comments, setComments }) => {
           setDeleteComment(null);
           setComments([]);
         })
-        .catch((err) => console.err(err));
+        .catch((err) => console.log(err));
     } else {
       axios
         .delete(`${SV_LOCAL}/community/recomment/delete`, {
@@ -41,7 +41,7 @@ const MyCommentList = ({ comments, setComments }) => {
           setDeleteComment(null);
           setComments([]);
         })
-        .catch((err) => console.err(err));
+        .catch((err) => console.log(err));
     }
   };
 
