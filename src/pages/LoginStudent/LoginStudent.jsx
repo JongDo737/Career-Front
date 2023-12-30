@@ -33,7 +33,7 @@ function LoginStudent(props) {
         } else window.alert("로그인 정보가 없습니다.");
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         window.alert("error");
       });
   };

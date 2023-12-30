@@ -19,7 +19,7 @@ const useGetUpcomingConsult = () => {
         );
         setUpcomingConsult(response.data.object);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     };
     getConsult();

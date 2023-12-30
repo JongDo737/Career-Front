@@ -42,7 +42,7 @@ const DetailConsult = (props) => {
       );
       window.location.reload();
     } catch (e) {
-      console.err(e);
+      console.error(e);
     }
   };
 

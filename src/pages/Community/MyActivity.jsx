@@ -166,7 +166,7 @@ const MyActivity = () => {
         // const comments = res.data;
         setMyPosts(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   }, [myPosts.length]);
 
   useEffect(() => {
@@ -185,7 +185,7 @@ const MyActivity = () => {
         // const comments = res.data;
         setLikedPosts(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   }, [likedPosts.length]);
   useEffect(() => {
     axios
@@ -202,7 +202,7 @@ const MyActivity = () => {
       .then((res) => {
         setComments(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   }, [comments.length]);
   return (
     <>

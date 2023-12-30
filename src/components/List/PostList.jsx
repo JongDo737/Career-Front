@@ -31,7 +31,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
         setDeletePost(null);
         setPosts([]);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   const onAddHeart = (e, id, idx) => {
@@ -55,7 +55,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
         };
         setPosts(updatedPost);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   const onDeleteHeart = (e, id, idx) => {
@@ -82,7 +82,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
         };
         setPosts(updatedPost);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
   const postStyleRendering = (item) => {
     switch (postStyle) {

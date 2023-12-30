@@ -32,7 +32,7 @@ const DetailedModal = (props) => {
       );
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
@@ -52,7 +52,7 @@ const DetailedModal = (props) => {
       );
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 

@@ -123,7 +123,7 @@ const MyCalendar = () => {
         );
         setEvents(filteredEvents);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   }, []);
   useEffect(() => {
     if (isUpdatePossibleTime) {
@@ -141,7 +141,7 @@ const MyCalendar = () => {
           if (res.data.dateList) setPossibleTimeList([...res.data.dateList]);
           setIsUpdatePossibleTime(false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
     }
   }, [isUpdatePossibleTime]);
 
@@ -180,7 +180,7 @@ const MyCalendar = () => {
       .then((res) => {
         setIsUpdatePossibleTime(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   const onDeletePossibleTime = () => {
@@ -206,7 +206,7 @@ const MyCalendar = () => {
       .then((res) => {
         setIsUpdatePossibleTime(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   return (

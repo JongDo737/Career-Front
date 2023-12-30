@@ -183,7 +183,7 @@ const Profile = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         window.alert("error");
       });
   }, []);

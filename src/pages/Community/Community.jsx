@@ -46,7 +46,7 @@ const Community = () => {
         });
         setPosts([...response.data]);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     };
     fetchSearchData();
@@ -69,7 +69,7 @@ const Community = () => {
           setPosts([...response.data]);
           setSearchInput(searchKeyword);
         } catch (e) {
-          console.log(e);
+          console.error(e);
         }
       };
       fetchSearchData();
