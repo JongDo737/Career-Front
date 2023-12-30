@@ -7,6 +7,7 @@ import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetCancelConsult from "../../../hooks/useGetCancelConsult";
 import { CANCEL_CONSULT_TYPE } from "../../../constants";
+import { xScrollStyle, yScrollStyle } from "../../../styles/common/scroll";
 
 const CancelConsult = () => {
   const subMenuList = ["전체보기", "예정된 상담", "완료된 상담", "취소한 상담"];
@@ -86,7 +87,11 @@ const CancelConsult = () => {
           </Wrapper>
           <HorizontalLine />
           <Wrapper>
-            <ConsultListShort consultList={cancelConsult} color="#D9D9D9" />
+            <ConsultListShort
+              consultList={cancelConsult}
+              color="#D9D9D9"
+              type={CANCEL_CONSULT_TYPE}
+            />
           </Wrapper>
         </FormRight>
       </Form>
@@ -139,12 +144,13 @@ const Wrapper = styled.div`
 `;
 
 const RecommendWrapper = styled.div`
-  height: 100%;
-  overflow: auto;
+  max-height: 100%;
+  overflow-y: auto;
+  ${yScrollStyle}
 `;
 
 const ConsultWrapper = styled.div`
-  width: 100%;
+  max-width: 100%;
   min-height: 20rem;
   height: 26vh;
   display: flex;
@@ -155,7 +161,8 @@ const ConsultWrapper = styled.div`
   color: #909090;
   position: relative;
   margin-top: 2rem;
-  overflow: auto hidden;
+  overflow-x: auto;
+  ${xScrollStyle}
   > span {
     margin-bottom: 10px;
     text-align: center;

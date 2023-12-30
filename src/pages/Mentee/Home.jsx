@@ -13,6 +13,7 @@ import {
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import EventList from "../../components/List/EventList";
 import MentorList from "../../components/List/MentorList";
+import { colors } from "../../styles/common/theme";
 const Home = () => {
   const [userName, setUserName] = useState("김성애");
   const todayMentors = [
@@ -201,7 +202,7 @@ const Wrapper = styled.div`
     margin: 50px 0;
     font-size: 2rem;
     font-weight: 700;
-    color: #23354d;
+    color: ${colors.primaryBlue};
     text-decoration: underline;
   }
   .notice {
@@ -233,8 +234,8 @@ const About = styled.div`
   div {
     padding: 20px 30px;
     background-color: white;
-    color: #23354d;
-    border: 1px solid #23354d;
+    color: ${colors.primaryBlue};
+    border: 1px solid ${colors.primaryBlue};
     font-size: 1.3rem;
     font-weight: 700;
     display: flex;

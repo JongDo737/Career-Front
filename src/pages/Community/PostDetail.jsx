@@ -21,6 +21,7 @@ import { dateParse } from "../../utils/dateParse";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import { getIdFromToken } from "../../auth/jwtFunctions";
 import { CommunityCategoryList } from "../../settings/config";
+import { colors } from "../../styles/common/theme";
 
 const PostDetail = () => {
   // const post = {
@@ -1488,7 +1489,7 @@ const UtilBox = styled.div`
     color: black;
   }
   .up {
-    background-color: #23354d;
+    background-color: ${colors.primaryBlue};
     color: white;
   }
 `;

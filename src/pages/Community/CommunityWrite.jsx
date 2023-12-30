@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { CommunityCategoryList } from "../../settings/config";
+import { colors } from "../../styles/common/theme";
 
 const CommunityWrite = () => {
   const [files, setFiles] = useState([]);
@@ -355,7 +356,7 @@ const UtilBox = styled.div`
     height: 3rem;
     padding: 0.7rem;
     font-size: 1rem;
-    background-color: #23354d;
+    background-color: ${colors.primaryBlue};
     color: white;
     font-weight: 600;
     cursor: pointer;

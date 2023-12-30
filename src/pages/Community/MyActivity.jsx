@@ -18,6 +18,7 @@ import { CommunityMenu, CommunityMenuLinkList } from "../../settings/config";
 import axios from "axios";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
+import { colors } from "../../styles/common/theme";
 
 const MyActivity = () => {
   const subMenuList = CommunityMenu;
@@ -310,7 +311,7 @@ const Wrapper = styled.div`
     margin: 50px 0;
     font-size: 2rem;
     font-weight: 700;
-    color: #23354d;
+    color: ${colors.primaryBlue};
     text-decoration: underline;
   }
   .notice {
@@ -346,7 +347,7 @@ const UtilBox = styled.div`
     cursor: pointer;
   }
   .up {
-    background-color: #23354d;
+    background-color: ${colors.primaryBlue};
     color: white;
   }
 `;

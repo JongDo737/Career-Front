@@ -5,6 +5,7 @@ import { faAngleRight, faBullhorn } from "@fortawesome/free-solid-svg-icons";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import LikeList from "../../components/List/LikeList";
+import { colors } from "../../styles/common/theme";
 const Setting = () => {
   const revenue = [
     {
@@ -379,7 +380,7 @@ const AlarmContainer = styled.div`
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      background-color: #23354d;
+      background-color: ${colors.primaryBlue};
       color: white;
       font-size: 1.2rem;
       font-weight: 500;
@@ -401,7 +402,7 @@ const AlarmContainer = styled.div`
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      background-color: #23354d;
+      background-color: ${colors.primaryBlue};
       color: white;
       font-size: 1.2rem;
       font-weight: 500;

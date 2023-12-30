@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { dateParse, dateTimeParse } from "../../utils/dateParse";
 import DetailedModal from "../Modal/DetailedModal";
+import { colors } from "../../styles/common/theme";
 
 const ConsultItem = (props) => {
   const { color, item, type } = props;
@@ -44,7 +45,7 @@ export default ConsultItem;
 
 const Form = styled.div`
   background-color: ${(props) => props.color || "white"};
-  border: 1px solid #23354d;
+  border: 1px solid ${colors.primaryBlue};
   border-radius: 10px;
   width: 28rem;
   min-height: 18rem;
@@ -83,7 +84,9 @@ const Form = styled.div`
       }
       .majorName {
         background-color: ${(props) =>
-          props.color === "#D9D9D9" ? "#9D9D9D" : "" || "#23354d"};
+          props.color === "#D9D9D9"
+            ? "#9D9D9D"
+            : "" || `${colors.primaryBlue}`};
         color: white;
         padding: 0.7rem;
         border-radius: 10px;

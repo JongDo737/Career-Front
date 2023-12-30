@@ -13,6 +13,7 @@ import {
   COMPLETED_CONSULT_TYPE,
   UPCOMING_CONSULT_TYPE,
 } from "../../../constants";
+import { xScrollStyle, yScrollStyle } from "../../../styles/common/scroll";
 
 const Consult = () => {
   const subMenuList = ["전체보기", "예정된 상담", "완료된 상담", "취소한 상담"];
@@ -211,8 +212,9 @@ const Wrapper = styled.div`
 `;
 
 const RecommendWrapper = styled.div`
-  height: 100%;
-  overflow: auto;
+  max-height: 100%;
+  overflow-y: auto;
+  ${yScrollStyle}
 `;
 
 const ConsultWrapper = styled.div`
@@ -227,7 +229,8 @@ const ConsultWrapper = styled.div`
   color: #909090;
   position: relative;
   margin-top: 2rem;
-  overflow: auto hidden;
+  overflow-x: auto;
+  ${xScrollStyle}
   > span {
     margin-bottom: 10px;
     text-align: center;
