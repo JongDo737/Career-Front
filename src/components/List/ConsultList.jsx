@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import styled from "styled-components";
 import ConsultItem from "./ConsultItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { dateParse, dateTimeParse, timeParse } from "../../utils/dateParse";
+import DetailedModal from "../Modal/DetailedModal";
+import { yScrollStyle } from "../../styles/common/scroll";
 
 const ConsultList = (props) => {
   const [moveIndex, setMoveIndex] = useState(0);
@@ -41,56 +43,97 @@ ConsultList.defaultProps = {
 export default ConsultList;
 
 export const ConsultListShort = (props) => {
+  const { consultList, color, type } = props;
+  const [selectRowIdx, setSelectRowIdx] = useState("");
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isRowOpen, setIsRowOpen] = useState(false);
+  // console.log("list ", consultList);
   return (
     <ShortWrapper>
-      <Table color={props.color}>
-        <tr className="frame">
-          <th className="num">No</th>
-          <th className="name">학생 이름</th>
-          <th className="date">날짜</th>
-          <th className="time">시간</th>
-          <th className="detail">더보기</th>
-        </tr>
-        {props.consultList.length ? (
-          props.consultList.map((item, i) => {
+      <Table color={color}>
+        <thead className="frame">
+          <tr>
+            <th className="num">No</th>
+            <th className="name">학생 이름</th>
+            <th className="date">날짜</th>
+            <th className="time">시간</th>
+            <th className="detail">더보기</th>
+          </tr>
+        </thead>
+        {consultList.length ? (
+          consultList.map((item, i) => {
             return (
-              <>
+              <tbody key={i}>
                 <tr
                   style={{
-                    borderBottom: isDetailOpen ? "none" : "1px solid black",
+                    borderBottom: isRowOpen ? "none" : "1px solid black",
                   }}
                 >
                   <td>{i + 1}</td>
                   <td>{item?.student.nickname}</td>
-                  <td>
-                    {dateParse(item.startTime)} ~ {dateParse(item.endTime)}
-                  </td>
+                  <td>{dateParse(item.startTime)}</td>
                   <td>
                     {timeParse(item.startTime)} ~ {timeParse(item.endTime)}
                   </td>
                   <td>
                     <FontAwesomeIcon
-                      icon={isDetailOpen ? faAngleUp : faAngleDown}
+                      icon={
+                        isRowOpen && i === selectRowIdx
+                          ? faAngleUp
+                          : faAngleDown
+                      }
                       className="detail-icon"
-                      onClick={() => setIsDetailOpen((prev) => !prev)}
+                      onClick={() => {
+                        if (i === selectRowIdx) {
+                          setIsRowOpen((prev) => !prev);
+                        } else {
+                          setIsRowOpen(true);
+                          setSelectRowIdx(i);
+                        }
+                      }}
                     />
                   </td>
                 </tr>
-                {isDetailOpen && (
-                  <tr colSpan={5} className="detail-row">
-                    hi
+                {isRowOpen && i === selectRowIdx && (
+                  <tr className="detail-row">
+                    <td colSpan="5">
+                      <div className="major">
+                        <div>상담할 전공 : </div>
+                        <div className="majorName">{item.major}</div>
+                      </div>
+                      <div className="request">
+                        <div>주요 질문 :</div>
+                        <div>{item.questions || "질문이 없습니다"}</div>
+                      </div>
+                      <div className="footer">
+                        <div
+                          className="button"
+                          onClick={() => setIsDetailOpen(true)}
+                        >
+                          자세히 보기
+                        </div>
+                      </div>
+                    </td>
                   </tr>
                 )}
-              </>
+              </tbody>
             );
           })
         ) : (
-          <tr>
-            <td colSpan="5">상담 내역이 없습니다.</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td colSpan={5}>상담 내역이 없습니다.</td>
+            </tr>
+          </tbody>
         )}
       </Table>
+      {isDetailOpen && (
+        <DetailedModal
+          setModalOpen={setIsDetailOpen}
+          item={consultList[selectRowIdx]}
+          type={type}
+        />
+      )}
       {/* <Select>
         // show 방식은 api 호출로 pagination 이랑 같이 진행 -> 나중에 수정 
         <option value="5">show 5</option>
@@ -134,6 +177,7 @@ const Table = styled.table`
   width: 100%;
   font-size: 1.2rem;
   border-collapse: collapse;
+  border: 1px solid #23354d;
   .frame {
     /* height: 3rem; */
     color: ${(props) => (props.color === "#D9D9D9" ? "black" : "white")};
@@ -155,9 +199,49 @@ const Table = styled.table`
     }
   }
   .detail-row {
-    /* border: 1px solid black; */
     border-top: none;
-    /* width: 100%; */
+    .major,
+    .request {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      div:first-child {
+        text-align: start;
+        margin-right: 10px;
+        white-space: nowrap;
+      }
+      div:last-child {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .majorName {
+        background-color: ${(props) =>
+          props.color === "#D9D9D9" ? "#9D9D9D" : "" || "#23354d"};
+        color: white;
+        padding: 0.7rem;
+        border-radius: 10px;
+      }
+    }
+    .footer {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      .button {
+        border: 1px solid #23354d;
+        padding: 0.5rem 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+          background-color: ${(props) =>
+            props.color === "#D9D9D9" ? "#9D9D9D" : "" || "#23354d"};
+          color: white;
+        }
+      }
+    }
   }
 `;
 
@@ -167,4 +251,7 @@ const ShortWrapper = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 20px;
+  max-height: 20rem;
+  overflow-y: auto;
+  ${yScrollStyle}
 `;
