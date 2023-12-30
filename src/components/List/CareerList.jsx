@@ -14,7 +14,6 @@ const CareerList = (props) => {
     };
     props.setCareerList([...props.careerList, career]);
     nextIdx.current += 1;
-    console.log(props);
   };
   const removeCareerItem = (i) => {
     props.setCareerList(props.careerList.filter((a) => a.idx !== i));

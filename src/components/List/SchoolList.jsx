@@ -14,7 +14,6 @@ const SchoolList = (props) => {
     };
     props.setSchoolList([...props.schoolList, school]);
     nextIdx.current += 1;
-    console.log(props.schoolList);
   };
   const removeSchoolItem = (i) => {
     props.setSchoolList(props.schoolList.filter((a) => a.idx !== i));

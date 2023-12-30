@@ -76,7 +76,6 @@ function Signup(props) {
   const fileInput = useRef(null);
 
   const onChangeImg = (e) => {
-    console.log(e.target.files[0]);
     if (e.target.files[0]) setProfileImg(e.target.files[0]);
     // setUser((user) => ({ ...user, profileImg: e.target.files[0] }));
     else return;
@@ -193,16 +192,14 @@ function Signup(props) {
       // ],
     };
     formData.append("json", JSON.stringify(jsonData));
-    console.log(jsonData);
 
     axios
       .post(`${SV_LOCAL}/user/signup/mentor`, jsonData)
       .then((res) => {
-        console.log(res);
         window.alert("success");
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         window.alert("error");
       });
   };
@@ -213,7 +210,6 @@ function Signup(props) {
   const onUpdateTag = (value) => {
     setTag((current) => [...current, { idx: tagIdx.current, name: value }]);
     tagIdx.current += 1;
-    console.log(tag);
   };
   const onDeleteTag = (idx) => {
     setTag(tag.filter((a) => a.idx !== idx));

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { colors } from "../../styles/common/theme";
 const SubMenubar = ({
   subMenuList,
   selectMenu,
@@ -47,7 +48,7 @@ const SubMenu = styled.div`
     display: flex;
     align-items: center;
     text-align: center;
-    color: #23354d;
+    color: ${colors.primaryBlue};
     font-weight: 500;
     text-decoration: none;
     cursor: pointer;
@@ -61,7 +62,7 @@ const SubMenuItem = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  color: #23354d;
+  color: ${colors.primaryBlue};
   font-weight: 500;
   cursor: pointer;
 `;

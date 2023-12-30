@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import MentorList from "../../components/List/MentorList";
+import { colors } from "../../styles/common/theme";
 const Mentor = () => {
   const subMenuList = ["멘토 추천", "멘토 찾기", "내 멘토"];
   const [subMenu, setSubMenu] = useState(subMenuList[0]);
@@ -207,7 +208,7 @@ const Wrapper = styled.div`
     margin: 50px 0;
     font-size: 2rem;
     font-weight: 700;
-    color: #23354d;
+    color: ${colors.primaryBlue};
     text-decoration: underline;
   }
   .notice {
@@ -254,7 +255,7 @@ const SortList = styled.div`
     font-weight: 500;
     cursor: pointer;
     &:hover {
-      background-color: #23354d;
+      background-color: ${colors.primaryBlue};
       color: white;
     }
   }

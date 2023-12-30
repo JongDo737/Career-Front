@@ -19,10 +19,10 @@ function LoginStudent(props) {
         password: password,
       })
       .then((res) => {
-        console.log(res.data);
         if (res.data.token) {
           window.alert("success");
           const jwtToken = res.data.token;
+          console.log(res.data);
           setCookie("jwtToken", jwtToken, {
             path: "/",
             secure: true,
@@ -33,7 +33,7 @@ function LoginStudent(props) {
         } else window.alert("로그인 정보가 없습니다.");
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         window.alert("error");
       });
   };

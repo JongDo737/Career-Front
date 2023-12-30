@@ -19,7 +19,7 @@ const useGetCompletedConsult = () => {
         );
         setCompletedConsult(response.data.object);
       } catch (e) {
-        console.err(e);
+        console.error(e);
       }
     };
     getConsult();

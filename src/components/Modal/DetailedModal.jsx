@@ -32,7 +32,7 @@ const DetailedModal = (props) => {
       );
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
@@ -52,7 +52,7 @@ const DetailedModal = (props) => {
       );
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
@@ -69,7 +69,7 @@ const DetailedModal = (props) => {
       case COMPLETED_CONSULT_TYPE: // 2
         return "";
       case CANCEL_CONSULT_TYPE: // 3
-        return "";
+        return `취소 사유 : ${detailObject.reason}`;
     }
   };
 

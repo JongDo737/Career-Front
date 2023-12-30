@@ -58,7 +58,6 @@ const Signup = (props) => {
 
     const reader = new FileReader();
     reader.onload = () => {
-      console.log(reader);
       if (reader.readyState === 2) setImage(reader.result);
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -100,7 +99,6 @@ const Signup = (props) => {
     //   window.alert("비밀번호가 일치하지 않습니다.");
     //   return;
     // }
-    console.log(username, password, nickname, gender);
     axios
       .post(`localhost:3000/user/signup`, {
         username: username,
@@ -111,11 +109,10 @@ const Signup = (props) => {
         name: "seesees",
       })
       .then((res) => {
-        console.log(res);
         window.alert("success");
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         window.alert("error");
       });
   };
@@ -124,10 +121,8 @@ const Signup = (props) => {
   const [tag, setTag] = useState([]);
   const tagId = useRef(0);
   const onUpdateTag = (value) => {
-    console.log("click");
     setTag((current) => [...current, { id: tagId.current, name: value }]);
     tagId.current += 1;
-    console.log(tag);
   };
   const onDeleteTag = (id) => {
     setTag(tag.filter((a) => a.id !== id));

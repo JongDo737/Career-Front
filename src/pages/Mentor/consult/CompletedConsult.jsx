@@ -8,6 +8,7 @@ import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetConsult from "../../../hooks/useGetConsult";
 import useGetCompletedConsult from "../../../hooks/useGetCompletedConsult";
 import { COMPLETED_CONSULT_TYPE } from "../../../constants";
+import { xScrollStyle, yScrollStyle } from "../../../styles/common/scroll";
 
 const CompletedConsult = () => {
   const subMenuList = ["전체보기", "예정된 상담", "완료된 상담", "취소한 상담"];
@@ -87,7 +88,11 @@ const CompletedConsult = () => {
           </Wrapper>
           <HorizontalLine />
           <Wrapper>
-            <ConsultListShort consultList={completedConsult} color="#D9D9D9" />
+            <ConsultListShort
+              consultList={completedConsult}
+              color="#D9D9D9"
+              type={COMPLETED_CONSULT_TYPE}
+            />
           </Wrapper>
         </FormRight>
       </Form>
@@ -140,8 +145,9 @@ const Wrapper = styled.div`
 `;
 
 const RecommendWrapper = styled.div`
-  height: 100%;
+  max-height: 100%;
   overflow: auto;
+  ${yScrollStyle}
 `;
 
 const ConsultWrapper = styled.div`
@@ -156,7 +162,8 @@ const ConsultWrapper = styled.div`
   color: #909090;
   position: relative;
   margin-top: 2rem;
-  overflow: auto hidden;
+  overflow-x: auto;
+  ${xScrollStyle}
   > span {
     margin-bottom: 10px;
     text-align: center;

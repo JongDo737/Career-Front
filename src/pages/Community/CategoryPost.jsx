@@ -12,6 +12,7 @@ import axios from "axios";
 import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";
 import { CommunityCategoryList } from "../../settings/config";
+import { colors } from "../../styles/common/theme";
 
 const CategoryPost = () => {
   const { id } = useParams();
@@ -34,7 +35,6 @@ const CategoryPost = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setPosts(res.data);
       })
       .catch((err) => console.error(err));
@@ -198,7 +198,7 @@ const Section = styled.div`
     margin: 50px 0;
     font-size: 2rem;
     font-weight: 600;
-    color: #23354d;
+    color: ${colors.primaryBlue};
   }
 `;
 
@@ -261,7 +261,7 @@ const UtilBox = styled.div`
     color: black;
   }
   .up {
-    background-color: #23354d;
+    background-color: ${colors.primaryBlue};
     color: white;
   }
 `;

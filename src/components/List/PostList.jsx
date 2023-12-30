@@ -20,7 +20,6 @@ const PostList = ({ posts, setPosts, postStyle }) => {
   const [deletePost, setDeletePost] = useState(null);
   const navigate = useNavigate();
   const onDeletePost = () => {
-    console.log(deletePost);
     axios
       .delete(`${SV_LOCAL}/community/article/delete`, {
         headers: {
@@ -29,11 +28,10 @@ const PostList = ({ posts, setPosts, postStyle }) => {
         data: { id: deletePost.id },
       })
       .then((res) => {
-        console.log(res);
         setDeletePost(null);
         setPosts([]);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   const onAddHeart = (e, id, idx) => {
@@ -57,7 +55,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
         };
         setPosts(updatedPost);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   const onDeleteHeart = (e, id, idx) => {
@@ -84,7 +82,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
         };
         setPosts(updatedPost);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
   const postStyleRendering = (item) => {
     switch (postStyle) {
@@ -126,7 +124,6 @@ const PostList = ({ posts, setPosts, postStyle }) => {
   useEffect(() => {
     if (deletePost === null) document.body.style.overflow = "auto";
     else document.body.style.overflow = "hidden";
-    // console.log(posts);
   }, [deletePost]);
 
   return (

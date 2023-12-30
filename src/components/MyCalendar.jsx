@@ -66,7 +66,6 @@ const MyCalendar = () => {
       new Date(date) >= new Date(selectedSlot.start) &&
       new Date(date) < new Date(selectedSlot.end)
     ) {
-      console.log("select", selectedSlot);
       if (!moment(selectedSlot.start).isBefore(today)) {
         style = { backgroundColor: "#526684", border: "none" };
       }
@@ -103,13 +102,10 @@ const MyCalendar = () => {
         },
       })
       .then((res) => {
-        console.log("res", res.data);
-        // setEvents(...res)
         const consultDataList = res.data.object;
         const tmpList = [...consultDataList.lastUpcomingConsult];
         tmpList.push(...consultDataList.previousConsult);
         tmpList.push(...consultDataList.upcomingConsult);
-        console.log("tmp", tmpList);
         const convertEvents = [];
         tmpList.forEach((item) =>
           convertEvents.push({
@@ -127,7 +123,7 @@ const MyCalendar = () => {
         );
         setEvents(filteredEvents);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   }, []);
   useEffect(() => {
     if (isUpdatePossibleTime) {
@@ -142,11 +138,10 @@ const MyCalendar = () => {
           }
         )
         .then((res) => {
-          // console.log(res.data);
           if (res.data.dateList) setPossibleTimeList([...res.data.dateList]);
           setIsUpdatePossibleTime(false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
     }
   }, [isUpdatePossibleTime]);
 
@@ -169,7 +164,6 @@ const MyCalendar = () => {
     const formattedEndDate = moment(new Date(selectedSlot.end)).format(
       "YYYY-MM-DDTHH:mm:ss.S"
     );
-    console.log(selectedSlot.start, formattedStartDate);
     axios
       .post(
         `${SV_LOCAL}/calendar/mentor/insert/possible/time`,
@@ -184,14 +178,12 @@ const MyCalendar = () => {
         }
       )
       .then((res) => {
-        console.log(res);
         setIsUpdatePossibleTime(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   const onDeletePossibleTime = () => {
-    console.log(selectedSlot.start);
     const formattedStartDate = moment(new Date(selectedSlot.start)).format(
       "YYYY-MM-DDTHH:mm:00.0"
     );
@@ -212,10 +204,9 @@ const MyCalendar = () => {
         }
       )
       .then((res) => {
-        console.log(res);
         setIsUpdatePossibleTime(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   return (

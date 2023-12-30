@@ -11,7 +11,6 @@ const Image = (props) => {
 
     const reader = new FileReader();
     reader.onload = () => {
-      console.log(reader);
       if (reader.readyState === 2) setImage(reader.result);
     };
     reader.readAsDataURL(e.target.files[0]);

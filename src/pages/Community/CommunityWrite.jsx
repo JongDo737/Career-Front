@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { CommunityCategoryList } from "../../settings/config";
+import { colors } from "../../styles/common/theme";
 
 const CommunityWrite = () => {
   const [files, setFiles] = useState([]);
@@ -47,7 +48,6 @@ const CommunityWrite = () => {
   const navigate = useNavigate();
 
   const onEnterPost = () => {
-    console.log(newPost);
     axios
       .post(
         `${SV_LOCAL}/community/article/add`,
@@ -60,11 +60,10 @@ const CommunityWrite = () => {
         }
       )
       .then((res) => {
-        console.log(res);
         window.alert("게시글이 등록되었습니다.");
         navigate("/community");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -81,7 +80,6 @@ const CommunityWrite = () => {
             name="category-select"
             className="category-select"
             onChange={(e) => {
-              console.log(e.target.value);
               setNewPost({ ...newPost, categoryId: e.target.value });
             }}
             required
@@ -157,11 +155,6 @@ const CommunityWrite = () => {
                     src={img}
                     alt=""
                     className="write-file__img"
-                    // onClick={() => {
-                    //   fileInput.current.click();
-                    // }}
-
-                    onClick={() => console.log(image)}
                   />
                 ))}
               </ul>
@@ -363,7 +356,7 @@ const UtilBox = styled.div`
     height: 3rem;
     padding: 0.7rem;
     font-size: 1rem;
-    background-color: #23354d;
+    background-color: ${colors.primaryBlue};
     color: white;
     font-weight: 600;
     cursor: pointer;
