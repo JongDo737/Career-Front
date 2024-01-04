@@ -189,8 +189,7 @@ const FormLeft = styled.div`
 `;
 
 const FormRight = styled.div`
-  min-width: 50rem;
-  max-width: 70rem;
+  width: 40rem;
   min-height: 73vh;
   height: 100%;
   display: flex;
@@ -212,8 +211,8 @@ const Wrapper = styled.div`
     text-decoration: underline;
   }
   .notice {
-    width: 95%;
-    text-align: end;
+    width: 100%;
+    text-align: center;
     font-size: 1.1rem;
     color: #334b6c;
     font-weight: 600;

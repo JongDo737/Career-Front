@@ -18,7 +18,7 @@ const Menubar = () => {
   const [leftMenu, setLeftMenu] = useState(["홈", "멘토", "게시판"]);
   const [rightMenu, setRightMenu] = useState(["초대하기", "추가메뉴"]);
   const [isLogin, setIsLogin] = useState(true);
-  const [isMentor, setIsMentor] = useState(true);
+  const [isMentor, setIsMentor] = useState(false);
   const [subMenu, setSubMenu] = useState("");
   const [leftLink, setLeftLink] = useState([
     `${FRONT_LOCAL}`,
