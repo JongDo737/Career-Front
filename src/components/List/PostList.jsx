@@ -126,6 +126,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
     else document.body.style.overflow = "hidden";
   }, [deletePost]);
 
+  console.log("posts ", posts);
   return (
     <>
       {posts.map((item, idx) => (
@@ -148,10 +149,40 @@ const PostList = ({ posts, setPosts, postStyle }) => {
             </div>
             <div className="header-right">{postStyleRendering(item)}</div>
           </header>
-          <main>
-            <div className="main-title">{item.title}</div>
-            <div className="main-content">{item.content}</div>
-          </main>
+          <MainWrapper>
+            <main>
+              <div className="main-title">{item.title}</div>
+              <div className="main-content">{item.content}</div>
+            </main>
+            <div className="image-wrapper">
+              {item.imgs.map(
+                (img, imgIdx) => imgIdx < 2 && <img src={img} key={imgIdx} />
+              )}
+              {item.imgs.length > 2 && (
+                <div
+                  className="more-imgs-number"
+                  style={{
+                    backgroundImage: `url(${item.imgs[2]})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "7rem",
+                      height: "7rem",
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    }}
+                  />
+                  <div className="number-overlay">+ {item.imgs.length - 2}</div>
+                </div>
+              )}
+            </div>
+          </MainWrapper>
           <footer>
             {item.isHeartClicked ? (
               <FontAwesomeIcon
@@ -263,13 +294,6 @@ const Post = styled.div`
     }
   }
   main {
-    padding: 2rem 3rem;
-    width: 100%;
-    height: 50%;
-    box-sizing: border-box;
-    font-size: 1rem;
-    line-height: 1.5rem;
-    color: black;
     .main-title {
       font-size: 1.1rem;
       font-weight: 700;
@@ -298,6 +322,46 @@ const Post = styled.div`
   }
 `;
 
+const MainWrapper = styled.div`
+  padding: 2rem 3rem;
+  width: 100%;
+  height: 50%;
+  box-sizing: border-box;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  .image-wrapper {
+    display: flex;
+    img {
+      width: 7rem;
+      height: 7rem;
+      object-fit: cover;
+    }
+    .more-imgs-number {
+      font-size: 2rem;
+      width: 7rem;
+      height: 7rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .number-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 7rem;
+      height: 7rem;
+      font-weight: 700;
+      color: white;
+    }
+  }
+`;
 const DeleteWrapper = styled.div`
   width: 100%;
   height: 100vh;
