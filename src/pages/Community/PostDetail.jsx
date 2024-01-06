@@ -22,6 +22,7 @@ import HorizontalLine from "../../components/Line/HorizontalLine";
 import { getIdFromToken } from "../../auth/jwtFunctions";
 import { CommunityCategoryList } from "../../settings/config";
 import { colors } from "../../styles/common/theme";
+import ImageModal from "../../components/Modal/ImageModal";
 
 const PostDetail = () => {
   // const post = {
@@ -70,6 +71,9 @@ const PostDetail = () => {
   const [image, setImage] = useState([]);
   const [newImage, setNewImage] = useState([]);
   const [removeImg, setRemoveImg] = useState([]);
+
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [selectImg, setSelectImg] = useState("");
   const onChangeFiles = (e) => {
     let tmpFiles = [...newFiles, ...e.target.files];
     if (tmpFiles.length > 6) {
@@ -231,23 +235,6 @@ const PostDetail = () => {
       .catch((err) => console.error(err));
     setRecommentInput("");
     setUpdateComment(true);
-    // const updatedComments = [...comments];
-    // updatedComments[commentIdx].replyList.push({
-    //   name: "새로운 아이",
-    //   age: "한국대 재학", //나중에 나이 숫자로 주면 파싱 생각해보기
-    //   date: `${new Date().getFullYear()}.${String(
-    //     new Date().getMonth() + 1
-    //   ).padStart(2, "0")}.${String(new Date().getDate()).padStart(2, "0")}`, // 파싱 생각해보기
-    //   content: recommentInput,
-    //   like: false,
-    //   likeCount: 0,
-    //   message: 0,
-    //   img: "",
-    //   target: "",
-    // });
-    // setComments(updatedComments);
-    // setrecommentInput("");
-    // setIsAddReply(false);
   };
 
   const onEnterComment = () => {
@@ -671,6 +658,10 @@ const PostDetail = () => {
                         src={img}
                         alt=""
                         className="write-file__img"
+                        onClick={() => {
+                          setImageModalOpen(true);
+                          setSelectImg(imgIdx);
+                        }}
                       />
                     ))}
                   </ul>
@@ -1203,6 +1194,14 @@ const PostDetail = () => {
         </UtilBox>
       </Form>
       {deleteOption.type !== "" && onDeletePostOrComment()}
+      {imageModalOpen && (
+        <ImageModal
+          setModalOpen={setImageModalOpen}
+          selectImg={selectImg}
+          setSelectImg={setSelectImg}
+          imgList={image}
+        />
+      )}
     </>
   );
 };
@@ -1410,6 +1409,7 @@ const Post = styled.form`
         width: 8rem;
         height: 8rem;
         object-fit: cover;
+        cursor: pointer;
       }
     }
     &__list-name {
