@@ -8,6 +8,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { getCookie } from "../../cookie";
 import { FRONT_LOCAL, SV_HOST } from "../../constants";
+import { useSelector } from "react-redux";
 
 const Menubar = () => {
   const [login, setLogin] = useState("로그인");
@@ -18,8 +19,9 @@ const Menubar = () => {
   const [leftMenu, setLeftMenu] = useState(["홈", "멘토", "게시판"]);
   const [rightMenu, setRightMenu] = useState(["초대하기", "추가메뉴"]);
   const [isLogin, setIsLogin] = useState(true);
-  const [isMentor, setIsMentor] = useState(false);
   const [subMenu, setSubMenu] = useState("");
+  const isMentor = useSelector((state) => state.isMentor.value);
+
   const [leftLink, setLeftLink] = useState([
     `${FRONT_LOCAL}`,
     `${FRONT_LOCAL}`,

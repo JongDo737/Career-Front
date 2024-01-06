@@ -13,8 +13,10 @@ import {
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import MentorList from "../../components/List/MentorList";
 import { colors } from "../../styles/common/theme";
+import { MenteeMentorLinkList, MenteeMentorMenu } from "../../settings/config";
 const Mentor = () => {
-  const subMenuList = ["멘토 추천", "멘토 찾기", "내 멘토"];
+  const subMenuList = MenteeMentorMenu;
+  const subMenuLinkList = MenteeMentorLinkList;
   const [subMenu, setSubMenu] = useState(subMenuList[0]);
   const [userName, setUserName] = useState("김성애");
   const todayMentors = [
@@ -84,7 +86,11 @@ const Mentor = () => {
   ];
   return (
     <>
-      <SubMenubar subMenuList={subMenuList} setSubMenu={setSubMenu} />
+      <SubMenubar
+        subMenuList={subMenuList}
+        setSubMenu={setSubMenu}
+        subMenuLinkList={subMenuLinkList}
+      />
       <Form>
         <FormLeft>
           <Wrapper>
@@ -189,7 +195,7 @@ const FormLeft = styled.div`
 `;
 
 const FormRight = styled.div`
-  width: 40rem;
+  width: 60rem;
   min-height: 73vh;
   height: 100%;
   display: flex;

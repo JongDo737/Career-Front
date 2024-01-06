@@ -2,9 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/common/theme";
 
-function Button({ children, size, weight, onClick }) {
+function Button({ children, size, weight, onClick, height }) {
   return (
-    <StyledButton className={`Button ${size} ${weight}`} onClick={onClick}>
+    <StyledButton
+      className={`Button ${size} ${weight}`}
+      height={height}
+      onClick={onClick}
+    >
       {children}
     </StyledButton>
   );
@@ -25,6 +29,7 @@ const StyledButton = styled.button`
   font-weight: 600;
   padding: 0.5rem 2rem;
   cursor: pointer;
+  height: ${(props) => (props.height ? `${props.height}` : "auto")};
   &.medium {
     width: 10rem;
   }
