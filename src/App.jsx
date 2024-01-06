@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Menubar from "./components/Menubar/Menubar";
 import LoginStudent from "./pages/LoginStudent/LoginStudent";
 import SignupMentee from "./pages/Mentee/Signup";
@@ -23,45 +23,94 @@ import Schedule from "./pages/Schedule";
 import UpcomingConsult from "./pages/Mentor/consult/UpcomingConsult";
 import CompletedConsult from "./pages/Mentor/consult/CompletedConsult";
 import CancelConsult from "./pages/Mentor/consult/CancelConsult";
+import { useSelector, useDispatch } from "react-redux";
+import Restricted from "./pages/Restricted";
+import { getCookie } from "./cookie";
+import { setIsLogin } from "./store/isLoginSlice";
+import { setIsMentor } from "./store/isMentorSlice";
+import NotFound from "./pages/NotFound";
 
 function App() {
+  const isLogin = useSelector((state) => state.isLogin.value);
+  const isMentor = useSelector((state) => state.isMentor.value);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const jwtToken = getCookie("jwtToken");
+    if (jwtToken) {
+      const parts = jwtToken.split(".");
+      const payload = JSON.parse(atob(parts[1]));
+      dispatch(setIsLogin(true));
+      dispatch(setIsMentor(payload.isTutor));
+    }
+  }, []);
   return (
     <>
       <BrowserRouter>
         <Menubar />
         <Routes>
-          <Route path="/" element={<LoginStudent />} />
-          <Route path="/mentor" element={<HomeMentor />} />
-          <Route path="/mentor/setting" element={<Setting />} />
-          <Route path="/mentor/profile" element={<ProfileMentor />} />
-          <Route path="/mentor/consult" element={<ConsultMentor />} />
-          <Route
-            path="/mentor/consult/upcoming"
-            element={<UpcomingConsult />}
-          />
-          <Route
-            path="/mentor/consult/completed"
-            element={<CompletedConsult />}
-          />
-          <Route path="/mentor/consult/cancel" element={<CancelConsult />} />
-          <Route exact path="/community" element={<Community />} />
-          <Route exact path="/community/category" element={<Category />} />
-          <Route
-            exact
-            path="/community/category/:id"
-            element={<CategoryPost />}
-          />
-          <Route exact path="/community/write" element={<CommunityWrite />} />
-          <Route exact path="/community/activity" element={<MyActivity />} />
-          <Route exact path="/community/post/:id" element={<PostDetail />} />
           <Route path="/loginStudent" element={<LoginStudent />} />
           <Route path="/signMentee" element={<SignupMentee />} />
           <Route path="/home" element={<SignupMentee />} />
           <Route path="/signMentor" element={<SignupMentor />} />
           <Route path="/findPassword" element={<FindPassword />} />
-          <Route path="/mentee" element={<HomeMentee />} />
-          <Route path="/mentee/mentor" element={<MenteeMentor />} />
-          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/restricted" element={<Restricted />} />
+          {isLogin ? (
+            <>
+              <Route path="/community" element={<Community />} />
+              <Route path="/community/category" element={<Category />} />
+              <Route
+                path="/community/category/:id"
+                element={<CategoryPost />}
+              />
+              <Route path="/community/write" element={<CommunityWrite />} />
+              <Route path="/community/activity" element={<MyActivity />} />
+              <Route path="/community/post/:id" element={<PostDetail />} />
+              <Route path="/schedule" element={<Schedule />} />
+              {isMentor ? (
+                <>
+                  <Route path="/" element={<HomeMentor />} />
+                  <Route path="/mentor" element={<HomeMentor />} />
+                  <Route path="/mentor/setting" element={<Setting />} />
+                  <Route path="/mentor/profile" element={<ProfileMentor />} />
+                  <Route path="/mentor/consult" element={<ConsultMentor />} />
+                  <Route
+                    path="/mentor/consult/upcoming"
+                    element={<UpcomingConsult />}
+                  />
+                  <Route
+                    path="/mentor/consult/completed"
+                    element={<CompletedConsult />}
+                  />
+                  <Route
+                    path="/mentor/consult/cancel"
+                    element={<CancelConsult />}
+                  />
+                </>
+              ) : (
+                <>
+                  <Route path="/mentor/*" element={<Restricted />} />
+                  <Route path="*" element={<NotFound />} />
+                </>
+              )}
+              {!isMentor ? (
+                <>
+                  <Route path="/" element={<HomeMentee />} />
+                  <Route path="/mentee" element={<HomeMentee />} />
+                  <Route path="/mentee/mentor" element={<MenteeMentor />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/mentee/*" element={<Restricted />} />
+                  <Route path="*" element={<NotFound />} />
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <Route path="/" element={<LoginStudent />} />
+              <Route path="*" element={<Restricted />} />
+            </>
+          )}
         </Routes>
       </BrowserRouter>
     </>
