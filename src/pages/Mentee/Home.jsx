@@ -14,6 +14,7 @@ import HorizontalLine from "../../components/Line/HorizontalLine";
 import EventList from "../../components/List/EventList";
 import MentorList from "../../components/List/MentorList";
 import { colors } from "../../styles/common/theme";
+import Button from "../../components/Button/Button";
 const Home = () => {
   const [userName, setUserName] = useState("김성애");
   const todayMentors = [
@@ -145,17 +146,23 @@ const Home = () => {
           <HorizontalLine />
         </LineGap>
         <Wrapper>
-          <header className="header">오늘의 추천 멘토</header>
+          <header className="header">오늘은 이 분이다! 맞춤형 멘토</header>
           <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
           <MentorList mentors={todayMentors} />
+          <div className="button-wrapper">
+            <Button>추천멘토 더 보러가기</Button>
+          </div>
         </Wrapper>
         <LineGap>
           <HorizontalLine />
         </LineGap>
         <Wrapper>
-          <header className="header">이번주 인기 멘토</header>
+          <header className="header">다수의 PICK! 이번주 인기 멘토</header>
           <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
           <MentorList mentors={popularMentors} />
+          <div className="button-wrapper">
+            <Button>인기멘토 더 보러가기</Button>
+          </div>
         </Wrapper>
       </FormRight>
     </Form>
@@ -183,8 +190,7 @@ const FormLeft = styled.div`
 `;
 
 const FormRight = styled.div`
-  min-width: 50rem;
-  max-width: 70rem;
+  width: 57rem;
   min-height: 73vh;
   height: 100%;
   display: flex;
@@ -197,21 +203,26 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px 0;
+  margin-bottom: 2rem;
   .header {
-    margin: 50px 0;
+    margin: 3rem;
     font-size: 2rem;
     font-weight: 700;
     color: ${colors.primaryBlue};
-    text-decoration: underline;
   }
   .notice {
-    width: 95%;
+    width: 100%;
     text-align: end;
     font-size: 1.1rem;
     color: #334b6c;
     font-weight: 600;
     margin-bottom: 1rem;
+  }
+  .button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
   }
 `;
 
@@ -254,5 +265,5 @@ const About = styled.div`
 
 const LineGap = styled.div`
   width: 100%;
-  margin: 4rem 0;
+  margin: 2rem 0;
 `;

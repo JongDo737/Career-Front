@@ -16,7 +16,7 @@ const SubMenubar = ({
             className={
               item === selectMenu ? "select submenu__item" : "submenu__item"
             }
-            to={subMenuLinkList[idx]}
+            to={subMenuLinkList ? subMenuLinkList[idx] : ""}
             key={idx}
             // onClick={() => setSubMenu(subMenuList[idx])}
           >

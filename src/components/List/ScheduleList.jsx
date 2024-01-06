@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { dateParse, dateTimeParse, timeParse } from "../../utils/dateParse";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -114,8 +114,8 @@ const ScheduleList = () => {
           )}
           {upcomingConsult &&
             upcomingConsult.map((upcoming, upcomingIdx) => (
-              <>
-                <ul className="main" key={upcoming.id}>
+              <Fragment key={upcoming.id}>
+                <ul className="main">
                   <li>{upcomingIdx + 1}</li>
                   <li>{upcoming.student.nickname}</li>
                   <li>{dateParse(upcoming.startTime)}</li>
@@ -170,7 +170,7 @@ const ScheduleList = () => {
                     </button>
                   </div>
                 )}
-              </>
+              </Fragment>
             ))}
         </List>
         <List>
@@ -204,8 +204,8 @@ const ScheduleList = () => {
           )}
           {pendingConsult &&
             pendingConsult.map((pending, pendingIdx) => (
-              <>
-                <ul className="main" key={pending.id}>
+              <Fragment key={pending.id}>
+                <ul className="main">
                   <li>{pendingIdx + 1}</li>
                   <li>{pending.student.nickname}</li>
                   <li>{dateParse(pending.startTime)}</li>
@@ -260,7 +260,7 @@ const ScheduleList = () => {
                     </button>
                   </div>
                 )}
-              </>
+              </Fragment>
             ))}
         </List>
       </ListWrapper>

@@ -252,7 +252,7 @@ function Signup(props) {
                   setUser((user) => ({ ...user, username: e.target.value }))
                 }
               />
-              <Button>중복확인</Button>
+              <Button height="100%">중복확인</Button>
             </InputForm>
           </Wrapper>
           <Wrapper>
@@ -269,7 +269,7 @@ function Signup(props) {
                   setUser((user) => ({ ...user, nickname: e.target.value }))
                 }
               />
-              <Button>중복확인</Button>
+              <Button height="100%">중복확인</Button>
             </InputForm>
           </Wrapper>
           <Wrapper>
@@ -339,7 +339,10 @@ function Signup(props) {
                   }))
                 }
               />
-              <Button onClick={() => alert("인증코드가 전송되었습니다.")}>
+              <Button
+                height="100%"
+                onClick={() => alert("인증코드가 전송되었습니다.")}
+              >
                 인증코드 전송
               </Button>
             </InputForm>
@@ -348,7 +351,7 @@ function Signup(props) {
                 placeholder="인증코드를 입력하세요."
                 onChange={(e) => setNumberCode(e.target.value)}
               />
-              <Button>확인</Button>
+              <Button height="100%">확인</Button>
             </InputForm>
           </Wrapper>
           <Wrapper>
@@ -388,7 +391,7 @@ function Signup(props) {
       </Form>
       <Form>
         <div className={styles.ButtonDiv} style={{ marginBottom: "100px" }}>
-          <Button onClick={onSubmit} size="large">
+          <Button onClick={onSubmit} size="large" height="100%">
             회원가입
           </Button>
         </div>

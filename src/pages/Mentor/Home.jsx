@@ -92,9 +92,18 @@ const Home = () => {
           {!lastUpcomingConsult.length ? (
             <Consult>
               <span>진행될 상담이 없습니다.</span>
-              <Button onClick={() => navigate(`/schedule`)}>
-                시간표 바로가기
-              </Button>
+              <div
+                className="button-wrapper"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
+                <Button onClick={() => navigate(`/schedule`)}>
+                  시간표 바로가기
+                </Button>
+              </div>
             </Consult>
           ) : (
             <Consult>

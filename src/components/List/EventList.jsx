@@ -130,7 +130,7 @@ const EventList = () => {
 export default EventList;
 
 const EventContainer = styled.div`
-  width: 60rem;
+  width: 100%;
   height: 20rem;
   background: ${(props) =>
     props.background || "linear-gradient(to bottom, #2f5383, #165e92a3)"};
@@ -139,10 +139,11 @@ const EventContainer = styled.div`
   padding: 20px;
   justify-content: space-between;
   position: relative;
+  box-sizing: border-box;
 `;
 
 const Event = styled.div`
-  width: 60%;
+  width: 100%;
   min-height: 50%;
   display: flex;
   flex-direction: column;

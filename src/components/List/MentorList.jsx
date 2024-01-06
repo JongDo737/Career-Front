@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import { xScrollStyle } from "../../styles/common/scroll";
 const MentorList = ({ mentors, rank }) => {
   return (
     <MentorContainer>
@@ -43,11 +44,12 @@ const MentorList = ({ mentors, rank }) => {
 export default MentorList;
 
 const MentorContainer = styled.div`
-  width: 60rem;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   gap: 2rem;
   overflow: auto;
+  ${xScrollStyle}
 `;
 
 const MentorCard = styled.div`
