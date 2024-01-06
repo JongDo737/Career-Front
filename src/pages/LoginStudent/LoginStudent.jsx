@@ -5,12 +5,15 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { setCookie } from "../../cookie";
 import { SV_HOST, SV_LOCAL, FRONT_LOCAL } from "../../constants";
+import { setIsMentor } from "../../store/isMentorSlice";
+import { useDispatch } from "react-redux";
+import { setIsLogin } from "../../store/isLoginSlice";
 
 function LoginStudent(props) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const onSubmit = (e) => {
     e.preventDefault();
     axios
@@ -23,13 +26,24 @@ function LoginStudent(props) {
           window.alert("success");
           const jwtToken = res.data.token;
           console.log(res.data);
+          const parts = jwtToken.split(".");
+          const payload = JSON.parse(atob(parts[1]));
+          dispatch(setIsLogin(true));
+          dispatch(setIsMentor(payload.isTutor));
+          // setCookie("isTutor", isTutor, {
+          //   path: "/",
+          //   secure: true,
+          //   sameSite: "none",
+          // });
           setCookie("jwtToken", jwtToken, {
             path: "/",
             secure: true,
             sameSite: "none",
             // httpOnly: true,
           });
-          navigate("/");
+
+          if (payload.isTutor) navigate("/mentor");
+          else navigate("/mentee");
         } else window.alert("로그인 정보가 없습니다.");
       })
       .catch((err) => {
