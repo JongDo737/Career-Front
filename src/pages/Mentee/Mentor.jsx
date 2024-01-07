@@ -88,7 +88,7 @@ const Mentor = () => {
     <>
       <SubMenubar
         subMenuList={subMenuList}
-        setSubMenu={setSubMenu}
+        selectMenu={subMenuList[0]}
         subMenuLinkList={subMenuLinkList}
       />
       <Form>
