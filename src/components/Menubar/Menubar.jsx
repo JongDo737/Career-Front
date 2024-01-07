@@ -6,7 +6,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-import { getCookie } from "../../cookie";
+import { getCookie, setCookie } from "../../cookie";
 import { FRONT_LOCAL, SV_HOST } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsLogin } from "../../store/isLoginSlice";
@@ -112,22 +112,7 @@ const Menubar = () => {
     <>
       <div className={styles.Menubar}>
         <div className={styles.MenubarLeft}>
-          <div
-            className={styles.Logo}
-            onClick={
-              // setIsMentor((current) => !current);
-              test
-            }
-          >
-            CAREER
-          </div>
-          {/* <button
-            onClick={() => {
-              setIsLogin((current) => !current);
-            }}
-          >
-            {isLogin ? "로그아웃" : "로그인"}
-          </button> */}
+          <div className={styles.Logo}>CAREER</div>
           {leftMenu.map((menu, i) => {
             return (
               <Link to={leftLink[i]} className={styles.MenubarSpan} key={i}>
@@ -228,6 +213,13 @@ const Menubar = () => {
                     <Link
                       to={`${FRONT_LOCAL}/`}
                       style={{ color: "#2F5383", textDecoration: "none" }}
+                      onClick={() => {
+                        setCookie("jwtToken", null, {
+                          path: "/",
+                          secure: true,
+                          sameSite: "none",
+                        });
+                      }}
                     >
                       로그아웃
                     </Link>
@@ -240,51 +232,18 @@ const Menubar = () => {
               <div className={[styles.CircleIcon, styles.Icon].join(" ")}>
                 <FontAwesomeIcon icon={faCircle} />
               </div>
-              <div className={styles.MenubarSpan}>{login}</div>
-              <div className={styles.Icon}>
-                <FontAwesomeIcon onClick={toggleLogin} icon={faAngleDown} />
+              <Link
+                to={`${FRONT_LOCAL}/login`}
+                className={styles.MenubarSpan}
+                onClick={() => {
+                  setSignup("회원가입");
+                }}
+              >
+                로그인
+              </Link>
+              <div className={[styles.CircleIcon, styles.Icon].join(" ")}>
+                <FontAwesomeIcon icon={faCircle} />
               </div>
-              {loginSelect ? (
-                <div className={styles.Popup}>
-                  <span
-                    onClick={() => {
-                      setLogin("멘티 로그인");
-                      toggleLogin();
-                      setSignup("회원가입");
-                    }}
-                  >
-                    <Link
-                      to={`${FRONT_LOCAL}/loginStudent`}
-                      style={
-                        login === "멘티 로그인"
-                          ? {
-                              color: "#3B71B9",
-                              fontWeight: "800",
-                              textDecoration: "none",
-                            }
-                          : { color: "#2F5383", textDecoration: "none" }
-                      }
-                    >
-                      멘티 로그인
-                    </Link>
-                  </span>
-                  <hr />
-                  <span
-                    style={
-                      login === "멘토 로그인"
-                        ? { color: "#3B71B9", fontWeight: "800" }
-                        : { color: "#2F5383" }
-                    }
-                    onClick={() => {
-                      setLogin("멘토 로그인");
-                      toggleLogin();
-                      setSignup("회원가입");
-                    }}
-                  >
-                    멘토 로그인
-                  </span>
-                </div>
-              ) : null}
               <div className={styles.MenubarSpan}>{signup}</div>
               <div className={styles.Icon}>
                 <FontAwesomeIcon onClick={toggleSignup} icon={faAngleDown} />
@@ -295,7 +254,6 @@ const Menubar = () => {
                     onClick={() => {
                       setSignup("멘토 회원가입");
                       toggleSignup();
-                      setLogin("로그인");
                     }}
                   >
                     <Link
@@ -327,7 +285,6 @@ const Menubar = () => {
                     onClick={() => {
                       setSignup("멘티 회원가입");
                       toggleSignup();
-                      setLogin("로그인");
                     }}
                   >
                     <Link

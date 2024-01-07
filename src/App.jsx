@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Menubar from "./components/Menubar/Menubar";
-import LoginStudent from "./pages/LoginStudent/LoginStudent";
+import Login from "./pages/Login/Login";
 import SignupMentee from "./pages/Mentee/Signup";
 import SignupMentor from "./pages/Mentor/Signup";
 import FindPassword from "./pages/FindPassword/FindPassword";
@@ -48,7 +48,7 @@ function App() {
       <BrowserRouter>
         <Menubar />
         <Routes>
-          <Route path="/loginStudent" element={<LoginStudent />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signMentee" element={<SignupMentee />} />
           <Route path="/home" element={<SignupMentee />} />
           <Route path="/signMentor" element={<SignupMentor />} />
@@ -107,7 +107,7 @@ function App() {
             </>
           ) : (
             <>
-              <Route path="/" element={<LoginStudent />} />
+              <Route path="/" element={<Login />} />
               <Route path="*" element={<Restricted />} />
             </>
           )}
