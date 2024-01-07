@@ -5,6 +5,21 @@ export const CommunityMenuLinkList = [
   "/community/activity",
 ];
 
+// mentor/consult
+export const MentorConsultMenu = [
+  "전체보기",
+  "예정된 상담",
+  "완료된 상담",
+  "취소한 상담",
+];
+export const MentorConsultLinkList = [
+  "/mentor/consult",
+  "/mentor/consult/upcoming",
+  "/mentor/consult/completed",
+  "/mentor/consult/cancel",
+];
+
+// mentee/mentor
 export const MenteeMentorMenu = ["멘토 추천", "멘토 찾기", "내 멘토"];
 export const MenteeMentorLinkList = [
   "/mentor/recommend",

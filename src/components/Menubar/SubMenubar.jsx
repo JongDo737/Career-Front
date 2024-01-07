@@ -2,12 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { colors } from "../../styles/common/theme";
-const SubMenubar = ({
-  subMenuList,
-  selectMenu,
-  subMenuLinkList,
-  setSubMenu,
-}) => {
+const SubMenubar = ({ subMenuList, selectMenu, subMenuLinkList }) => {
   return (
     <SubMenu>
       {subMenuList.map((item, idx) => {

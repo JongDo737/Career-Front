@@ -8,18 +8,15 @@ import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetCancelConsult from "../../../hooks/useGetCancelConsult";
 import { CANCEL_CONSULT_TYPE } from "../../../constants";
 import { xScrollStyle, yScrollStyle } from "../../../styles/common/scroll";
+import {
+  MentorConsultLinkList,
+  MentorConsultMenu,
+} from "../../../settings/config";
 
 const CancelConsult = () => {
-  const subMenuList = ["전체보기", "예정된 상담", "완료된 상담", "취소한 상담"];
-  const subMenuLink = [
-    "/mentor/consult",
-    "/mentor/consult/upcoming",
-    "/mentor/consult/completed",
-    "/mentor/consult/cancel",
-  ];
+  const subMenuList = MentorConsultMenu;
+  const subMenuLink = MentorConsultLinkList;
   const { cancelConsult } = useGetCancelConsult();
-  const [subMenu, setSubMenu] = useState("취소한 상담");
-
   const [recommend, setRecomment] = useState([
     {
       title: "전산학부 고민입니다..",
@@ -55,7 +52,7 @@ const CancelConsult = () => {
     <>
       <SubMenubar
         subMenuList={subMenuList}
-        selectMenu={subMenu}
+        selectMenu={subMenuList[3]}
         // setSubMenu={setSubMenu}
         subMenuLinkList={subMenuLink}
       />
@@ -118,8 +115,7 @@ const FormLeft = styled.div`
 `;
 
 const FormRight = styled.div`
-  min-width: 50rem;
-  max-width: 90rem;
+  width: 50rem;
   min-height: 73vh;
   height: 100%;
   display: flex;
@@ -150,7 +146,7 @@ const RecommendWrapper = styled.div`
 `;
 
 const ConsultWrapper = styled.div`
-  max-width: 100%;
+  width: 100%;
   min-height: 20rem;
   height: 26vh;
   display: flex;
