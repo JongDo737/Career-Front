@@ -52,10 +52,10 @@ function Login() {
       });
   };
   return (
-    <FormWrapper>
-      <Form>
+    <LoginLayout>
+      <FormWrapper>
         <span className="title">로그인</span>
-        <form action="" onSubmit={onSubmit}>
+        <Form action="" onSubmit={onSubmit}>
           <input
             className="input"
             type="text"
@@ -73,7 +73,7 @@ function Login() {
           <button size="large" className="color-button">
             로그인
           </button>
-        </form>
+        </Form>
         <span>
           <Link to={`${FRONT_LOCAL}/findPassword`}>비밀번호를 잊으셨나요?</Link>
         </span>
@@ -96,14 +96,14 @@ function Login() {
             페이스북으로 시작하기
           </div>
         </div>
-      </Form>
-    </FormWrapper>
+      </FormWrapper>
+    </LoginLayout>
   );
 }
 
 export default Login;
 
-const FormWrapper = styled.div`
+const LoginLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,7 +111,7 @@ const FormWrapper = styled.div`
   height: 90vh;
 `;
 
-const Form = styled.div`
+const FormWrapper = styled.div`
   width: 70%;
   display: flex;
   flex-direction: column;
@@ -171,4 +171,9 @@ const Form = styled.div`
     display: flex;
     flex-direction: column;
   }
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
 `;

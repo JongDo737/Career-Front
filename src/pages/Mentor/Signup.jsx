@@ -5,28 +5,16 @@ import Button from "../../components/Button/Button";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import Input from "../../components/Input/Input";
-import styles from "./Signup.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
-import SchoolList from "../../components/List/SchoolList";
-import CareerList from "../../components/List/CareerList";
-import Image from "../../components/Image/Image";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { SV_LOCAL } from "../../constants";
-function Signup(props) {
-  // const [username, setUsername] = useState("");
-  // const [id, setId] = useState("");
-  // const [nickname, setNickname] = useState("");
-  // const [password, setPassword] = useState("");
+import { colors } from "../../styles/common/theme";
+import { useNavigate } from "react-router-dom";
+function Signup() {
+  const navigator = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState(false);
-  // const [gender, setGender] = useState(false);
-  // const [intro, setIntro] = useState("");
-  // const [phoneNumber, setphoneNumber] = useState("");
   const [numberCode, setNumberCode] = useState("");
   const [consult, setConsult] = useState([]);
-  // const [careerPlan, setCareerPlan] = useState("");
-  // const [hobby, setHobby] = useState("");
   const [profileImg, setProfileImg] = useState("/initProfileImg.jpg");
   const [visibleImg, setVisibleImg] = useState("/initProfileImg.jpg");
   const [user, setUser] = useState({
@@ -35,7 +23,7 @@ function Signup(props) {
     nickname: "", //필수
     password: "", //필수
     birth: "", //필수
-    gender: "", //필수
+    gender: true, //필수
     introduce: "",
     telephone: "",
     consultMajor1: "",
@@ -48,6 +36,7 @@ function Signup(props) {
     schoolList: [],
     careerList: [],
     tagList: [],
+    email: "",
     // activeImg: [],
   });
   const [schoolList, setSchoolList] = useState([
@@ -144,67 +133,25 @@ function Signup(props) {
       username: user.username, //필수
       nickname: user.nickname, //필수
       password: user.password, //필수
+      telephone: user.telephone,
       birth: user.birth.replace(/-/g, ""), //필수
       gender: user.gender, //필수
       isTutor: true,
-      // schoolList: [
-      //   {
-      //     idx: 0,
-      //     schoolType: "고등학교",
-      //     schoolName: "한양",
-      //     startDate: "20200101",
-      //     endDate: "20210101",
-      //     state: "졸업",
-      //   },
-      //   {
-      //     idx: 1,
-      //     schoolType: "대학교",
-      //     schoolName: "한양",
-      //     startDate: "20220101",
-      //     endDate: "20230101",
-      //     state: "졸업",
-      //   },
-      // ],
-      // tagList: [
-      //   {
-      //     idx: 0,
-      //     name: "컴퓨터",
-      //   },
-      //   { idx: 1, name: "전자" },
-      // ],
-      // careerList: [
-      //   {
-      //     idx: 0,
-      //     careerType: "교내활동",
-      //     careerName: "프로젝트",
-      //     startDate: "20201010",
-      //     endDate: "20201111",
-      //     state: "수료",
-      //   },
-      //   {
-      //     idx: 1,
-      //     careerType: "교내활동",
-      //     careerName: "프로젝트2",
-      //     startDate: "20201010",
-      //     endDate: "20201111",
-      //     state: "수료",
-      //   },
-      // ],
+      email: user.email,
     };
     formData.append("json", JSON.stringify(jsonData));
-
     axios
       .post(`${SV_LOCAL}/user/signup/mentor`, jsonData)
       .then((res) => {
-        window.alert("success");
+        window.alert("멘토 회원가입이 완료되었습니다.");
+        navigator("/");
       })
       .catch((err) => {
         console.error(err);
-        window.alert("error");
+        window.alert("회원가입에 실패하였습니다. 다시 시도해 주세요.");
       });
   };
 
-  const [tmpTag, setTmpTag] = useState("");
   const [tag, setTag] = useState([]);
   const tagIdx = useRef(0);
   const onUpdateTag = (value) => {
@@ -216,23 +163,24 @@ function Signup(props) {
   };
   return (
     <>
-      <div className={styles.Title}>
+      <Title>
         <MenuLine />
         <span>멘토 회원가입</span>
-      </div>
+      </Title>
       <HorizontalLine />
       {/* 여기는 아래 부분 */}
-      <Form>
+      <Form onSubmit={onSubmit}>
         <div className="Form50">
           <Wrapper>
-            <div className={styles.Subtitle}>
+            <div className="signup-subtitle">
               <MenuLine size="small" />
               <span>이름</span>
               <Required>*</Required>
             </div>
             <InputForm>
               <Input
-                placeholder="이름을 입력하세요."
+                required={true}
+                placehaolder="이름을 입력하세요."
                 onChange={(e) =>
                   setUser((user) => ({ ...user, name: e.target.value }))
                 }
@@ -240,46 +188,49 @@ function Signup(props) {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className={styles.Subtitle}>
+            <div className="signup-subtitle">
               <MenuLine size="small" />
               <span>아이디</span>
               <Required>*</Required>
             </div>
             <InputForm>
               <Input
+                required={true}
                 placeholder="아이디를 입력하세요."
                 onChange={(e) =>
                   setUser((user) => ({ ...user, username: e.target.value }))
                 }
               />
-              <Button height="100%">중복확인</Button>
+              <Button height="3rem">중복확인</Button>
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className={styles.Subtitle}>
+            <div className="signup-subtitle">
               <MenuLine size="small" />
               <span>닉네임</span>
               <Required>*</Required>
             </div>
             <InputForm>
               <Input
+                required={true}
                 placeholder="닉네임을 입력하세요."
                 // onChange={(e) => setNickname(e.target.value)}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, nickname: e.target.value }))
                 }
               />
-              <Button height="100%">중복확인</Button>
+              <Button height="3rem">중복확인</Button>
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className={styles.Subtitle}>
+            <div className="signup-subtitle">
               <MenuLine size="small" />
               <span>비밀번호</span>
               <Required>*</Required>
             </div>
             <InputForm>
               <Input
+                required={true}
                 type="password"
                 placeholder="비밀번호를 입력하세요."
                 // onChange={(e) => setPassword(e.target.value)}
@@ -290,13 +241,14 @@ function Signup(props) {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className={styles.Subtitle}>
+            <div className="signup-subtitle">
               <MenuLine size="small" />
               <span>비밀번호 확인</span>
               <Required>*</Required>
             </div>
             <InputForm>
               <Input
+                required={true}
                 type="password"
                 placeholder="비밀번호를 다시 입력하세요."
                 onChange={(e) => {
@@ -308,13 +260,14 @@ function Signup(props) {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className={styles.Subtitle}>
+            <div className="signup-subtitle">
               <MenuLine size="small" />
               <span>생년월일</span>
               <Required>*</Required>
             </div>
             <InputForm>
               <Input
+                required={true}
                 type="date"
                 placeholder="1900"
                 onChange={(e) => {
@@ -324,14 +277,15 @@ function Signup(props) {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className={styles.Subtitle}>
+            <div className="signup-subtitle">
               <MenuLine size="small" />
               <span>전화번호</span>
               <Required>*</Required>
             </div>
             <InputForm>
               <Input
-                placeholder="전화번호를 입력하세요."
+                required={true}
+                placeholder="010-1234-5678"
                 onChange={(e) =>
                   setUser((user) => ({
                     ...user,
@@ -340,7 +294,7 @@ function Signup(props) {
                 }
               />
               <Button
-                height="100%"
+                height="3rem"
                 onClick={() => alert("인증코드가 전송되었습니다.")}
               >
                 인증코드 전송
@@ -348,32 +302,52 @@ function Signup(props) {
             </InputForm>
             <InputForm>
               <Input
+                required={true}
                 placeholder="인증코드를 입력하세요."
                 onChange={(e) => setNumberCode(e.target.value)}
               />
-              <Button height="100%">확인</Button>
+              <Button height="3rem">확인</Button>
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className={styles.Subtitle}>
+            <div className="signup-subtitle">
+              <MenuLine size="small" />
+              <span>이메일</span>
+              <Required>*</Required>
+            </div>
+            <InputForm>
+              <Input
+                required={true}
+                placeholder="이메일을 입력하세요."
+                type="email"
+                onChange={(e) =>
+                  setUser((user) => ({ ...user, email: e.target.value }))
+                }
+              />
+            </InputForm>
+          </Wrapper>
+          <Wrapper>
+            <div className="signup-subtitle">
               <MenuLine size="small" />
               <span>성별</span>
               <Required>*</Required>
             </div>
             <InputForm>
-              <label className={styles.Label}>
+              <label className="signup-input__label">
                 <input
+                  required
                   type="radio"
                   name="gender"
                   value="남자"
                   onChange={
-                    (e) => setUser((user) => ({ ...user, gender: true })) //true: 남자, false: 여자
+                    () => setUser((user) => ({ ...user, gender: true })) //true: 남자, false: 여자
                   }
-                  className={styles.Radio}
+                  className="signup-input__radio"
+                  checked={user.gender}
                 />
                 <div>남자</div>
               </label>
-              <label className={styles.Label}>
+              <label className="signup-input__label">
                 <input
                   type="radio"
                   name="gender"
@@ -381,20 +355,14 @@ function Signup(props) {
                   onChange={
                     (e) => setUser((user) => ({ ...user, gender: false })) //true: 남자, false: 여자
                   }
-                  className={styles.Radio}
+                  className="signup-input__radio"
                 />
                 <div>여자</div>
               </label>
             </InputForm>
           </Wrapper>
         </div>
-      </Form>
-      <Form>
-        <div className={styles.ButtonDiv} style={{ marginBottom: "100px" }}>
-          <Button onClick={onSubmit} size="large" height="100%">
-            회원가입
-          </Button>
-        </div>
+        <button className="signup-submit__btn">회원가입</button>
       </Form>
     </>
   );
@@ -409,6 +377,37 @@ const InputForm = styled.div`
   align-items: center;
   margin-bottom: 5px;
   gap: 10px;
+  .signup-input__radio {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0;
+  }
+  .signup-input__label {
+    width: 10rem;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+    color: gray;
+    border-radius: 5px;
+    box-sizing: border-box;
+    &:hover {
+      border: 2px solid #2f5383;
+    }
+    &:hover div,
+    input:checked + div {
+      color: #2f5383;
+      font-weight: 600;
+    }
+    div {
+      margin: 0 10px;
+      height: 25px;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+    }
+  }
 `;
 
 const Wrapper = styled.div`
@@ -416,15 +415,25 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin: 20px 0;
-  min-width: 30rem;
+  .signup-subtitle {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1.3rem;
+    span {
+      margin-left: 1rem;
+    }
+  }
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   width: 100%;
   height: 70%;
   display: flex;
   margin-top: 60px;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   .FormHalf {
     min-width: 30%;
     display: flex;
@@ -433,13 +442,32 @@ const Form = styled.div`
     padding: 0 5rem;
   }
   .Form50 {
-    width: 32rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+  }
+  .signup-submit__btn {
+    background-color: ${colors.primaryBlue};
+    color: white;
+    padding: 1rem;
+    width: 20rem;
+    margin: 5rem 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
   }
 `;
 
 const Required = styled.span`
   color: red;
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.7rem;
+  font-weight: 600;
+  width: 15rem;
+  justify-content: space-evenly;
+  padding: 1.2rem 2.3rem;
 `;
