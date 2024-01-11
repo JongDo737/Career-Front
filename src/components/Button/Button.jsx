@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/common/theme";
 
-function Button({ children, size, weight, onClick, height }) {
+function Button({ children, size, weight, onClick, height, disabled }) {
   return (
     <StyledButton
-      className={`Button ${size} ${weight}`}
+      className={
+        disabled ? ` ${size} ${weight} disabled-btn` : ` ${size} ${weight}`
+      }
       height={height}
-      onClick={onClick}
+      onClick={disabled ? () => {} : onClick}
     >
       {children}
     </StyledButton>
@@ -20,7 +22,10 @@ Button.defaultProps = {
 };
 export default Button;
 
-const StyledButton = styled.button`
+const StyledButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: ${colors.primaryBlue};
   border-radius: 5px;
   color: white;
@@ -28,6 +33,7 @@ const StyledButton = styled.button`
   font-size: 1.1rem;
   font-weight: 600;
   padding: 0.5rem 2rem;
+  box-sizing: border-box;
   cursor: pointer;
   height: ${(props) => (props.height ? `${props.height}` : "auto")};
   &.medium {
@@ -35,5 +41,10 @@ const StyledButton = styled.button`
   }
   &.large {
     width: 20rem;
+  }
+  &.disabled-btn {
+    background-color: #ababab;
+    border: none;
+    cursor: not-allowed;
   }
 `;

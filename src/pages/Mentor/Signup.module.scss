@@ -1,13 +1,3 @@
-.Title {
-  display: flex;
-  align-items: center;
-  font-size: 1.7rem;
-  font-weight: 600;
-  width: 15rem;
-  justify-content: space-evenly;
-  padding: 1.2rem 2.3rem;
-}
-
 .ProfileImg {
   max-width: 200px;
   max-height: 220px;
@@ -34,39 +24,6 @@
   display: flex;
   justify-content: center;
   margin-top: 20px;
-}
-
-.Radio {
-  width: 1.5rem;
-  height: 1.5rem;
-  margin: 0;
-}
-
-.Label {
-  width: 10rem;
-  height: 4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid gray;
-  color: gray;
-  border-radius: 5px;
-  box-sizing: border-box;
-  &:hover {
-    border: 2px solid #2f5383;
-  }
-  &:hover div,
-  input:checked + div {
-    color: #2f5383;
-    font-weight: 600;
-  }
-  div {
-    margin: 0 10px;
-    height: 25px;
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-  }
 }
 
 .Circle {

@@ -9,6 +9,7 @@ function Input({
   onChange,
   value,
   disabled,
+  required,
 }) {
   return (
     <StyledInput
@@ -21,6 +22,7 @@ function Input({
       onChange={(e) => {
         onChange(e);
       }}
+      required={required}
       disabled={disabled}
     />
   );
