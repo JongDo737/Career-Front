@@ -22,7 +22,7 @@ const DetailConsult = (props) => {
       setUpcomingConsult([...upcomingConsult, detailObject.object]);
       window.location.reload();
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 

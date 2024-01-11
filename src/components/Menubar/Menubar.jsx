@@ -41,6 +41,7 @@ const Menubar = () => {
     setSubSelect((current) => !current);
   };
   useEffect(() => {
+    setSubMenu("");
     if (!isLogin) {
       setLeftMenu(["홈", "멘토", "게시판"]);
       setRightMenu([]);
@@ -110,73 +111,57 @@ const Menubar = () => {
               </div>
               <div className="menubar-icon">
                 <FontAwesomeIcon onClick={toggleSubSelect} icon={faAngleDown} />
-              </div>
-              {subSelect ? (
-                <PopUp style={{ right: "20px" }}>
-                  <span
-                    onClick={() => {
-                      setSubMenu("설정");
-                      setSubSelect(false);
-                    }}
-                  >
+                {subSelect ? (
+                  <PopUp>
                     <Link
+                      onClick={() => {
+                        setSubMenu("설정");
+                        setSubSelect(false);
+                      }}
                       to={
                         isMentor
                           ? `${FRONT_LOCAL}/mentor/setting`
                           : `${FRONT_LOCAL}/mentee/setting`
                       }
-                      style={
+                      className={
                         subMenu === "설정"
-                          ? {
-                              color: "#3B71B9",
-                              fontWeight: "800",
-                              textDecoration: "none",
-                            }
-                          : { color: "#2F5383", textDecoration: "none" }
+                          ? "right-menu right-menu__selected"
+                          : "right-menu"
                       }
                     >
                       설정
                     </Link>
-                  </span>
-                  <hr />
-                  <span
-                    onClick={() => {
-                      setSubMenu("내 프로필");
-                      setSubSelect(false);
-                    }}
-                  >
+                    <hr />
                     <Link
+                      onClick={() => {
+                        setSubMenu("내 프로필");
+                        setSubSelect(false);
+                      }}
                       to={
                         isMentor
                           ? `${FRONT_LOCAL}/mentor/profile`
                           : `${FRONT_LOCAL}/mentee/profile`
                       }
-                      style={
+                      className={
                         subMenu === "내 프로필"
-                          ? {
-                              color: "#3B71B9",
-                              fontWeight: "800",
-                              textDecoration: "none",
-                            }
-                          : { color: "#2F5383", textDecoration: "none" }
+                          ? "right-menu right-menu__selected"
+                          : "right-menu"
                       }
                     >
                       내 프로필
                     </Link>
-                  </span>
-                  <hr />
-                  <span
-                    onClick={() => {
-                      setSubMenu("로그아웃");
-                      setSubSelect(false);
-                      // setIsLogin(false);
-                      dispatch(setIsLogin(false));
-                    }}
-                  >
+                    <hr />
                     <Link
                       to={`${FRONT_LOCAL}/`}
-                      style={{ color: "#2F5383", textDecoration: "none" }}
+                      className={
+                        subMenu === "로그아웃"
+                          ? "right-menu right-menu__selected"
+                          : "right-menu"
+                      }
                       onClick={() => {
+                        setSubMenu("로그아웃");
+                        setSubSelect(false);
+                        dispatch(setIsLogin(false));
                         setCookie("jwtToken", null, {
                           path: "/",
                           secure: true,
@@ -186,9 +171,9 @@ const Menubar = () => {
                     >
                       로그아웃
                     </Link>
-                  </span>
-                </PopUp>
-              ) : null}
+                  </PopUp>
+                ) : null}
+              </div>
             </>
           ) : (
             <>
@@ -338,12 +323,12 @@ const PopUp = styled.div`
   width: 110px;
   z-index: 100;
   > .right-menu {
-    padding: 0.7rem 0;
+    padding: 0.5rem 0;
     color: ${colors.secondaryBlue};
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1rem;
     &:hover,
     &__selected {
       color: ${colors.primaryBlue};

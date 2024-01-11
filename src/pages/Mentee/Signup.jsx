@@ -10,10 +10,14 @@ import styled from "styled-components";
 import { SV_LOCAL } from "../../constants";
 import { colors } from "../../styles/common/theme";
 import { useNavigate } from "react-router-dom";
+import { checkValidNickname, checkValidUsername } from "../../api/checkValid";
 
 const Signup = (props) => {
   const [confirmPassword, setConfirmPassword] = useState(false);
   const [numberCode, setNumberCode] = useState("");
+  const [validUsername, setValidUsername] = useState(false);
+  const [validNickname, setValidNickname] = useState(false);
+
   const [user, setUser] = useState({
     name: "", //필수
     username: "", //필수
@@ -37,35 +41,40 @@ const Signup = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    setUser((user) => ({
-      ...user,
-    }));
+    if (!validUsername) window.alert("아이디 중복확인이 필요합니다.");
+    else if (!validNickname) window.alert("닉네임 중복확인이 필요합니다.");
+    else if (!confirmPassword) window.alert("비밀번호가 일치하지 않습니다.");
+    else {
+      setUser((user) => ({
+        ...user,
+      }));
 
-    const formData = new FormData();
+      const formData = new FormData();
 
-    const jsonData = {
-      name: user.name, //필수
-      username: user.username, //필수
-      nickname: user.nickname, //필수
-      password: user.password, //필수
-      telephone: user.telephone,
-      birth: user.birth.replace(/-/g, ""), //필수
-      gender: user.gender, //필수
-      isTutor: false,
-      email: user.email,
-    };
-    console.log(jsonData);
-    formData.append("json", JSON.stringify(jsonData));
-    axios
-      .post(`${SV_LOCAL}/user/signup/mentee`, jsonData)
-      .then((res) => {
-        window.alert("멘티 회원가입이 완료되었습니다.");
-        navigator("/");
-      })
-      .catch((err) => {
-        console.error(err);
-        window.alert("회원가입에 실패하였습니다. 다시 시도해 주세요.");
-      });
+      const jsonData = {
+        name: user.name, //필수
+        username: user.username, //필수
+        nickname: user.nickname, //필수
+        password: user.password, //필수
+        telephone: user.telephone,
+        birth: user.birth.replace(/-/g, ""), //필수
+        gender: user.gender, //필수
+        isTutor: false,
+        email: user.email,
+      };
+      console.log(jsonData);
+      formData.append("json", JSON.stringify(jsonData));
+      axios
+        .post(`${SV_LOCAL}/user/signup/mentee`, jsonData)
+        .then((res) => {
+          window.alert("멘티 회원가입이 완료되었습니다.");
+          navigator("/");
+        })
+        .catch((err) => {
+          console.error(err);
+          window.alert("회원가입에 실패하였습니다. 다시 시도해 주세요.");
+        });
+    }
   };
   return (
     <>
@@ -103,12 +112,31 @@ const Signup = (props) => {
               <Input
                 required={true}
                 placeholder="아이디를 입력하세요."
-                onChange={(e) =>
-                  setUser((user) => ({ ...user, username: e.target.value }))
-                }
+                onChange={(e) => {
+                  setUser((user) => ({ ...user, username: e.target.value }));
+                  setValidUsername(undefined);
+                }}
               />
-              <Button height="3rem">중복확인</Button>
+              <Button
+                height="3rem"
+                onClick={() => {
+                  checkValidUsername(user.username).then((res) =>
+                    setValidUsername(res)
+                  );
+                }}
+                disabled={validUsername}
+              >
+                중복확인
+              </Button>
             </InputForm>
+            <div className="valid-wrapper">
+              {validUsername === undefined && user.username && (
+                <span>아이디 중복확인이 필요합니다.</span>
+              )}
+              {validUsername === false && user.username && (
+                <span>이미 사용중인 아이디입니다.</span>
+              )}
+            </div>
           </Wrapper>
           <Wrapper>
             <div className="signup-subtitle">
@@ -121,12 +149,31 @@ const Signup = (props) => {
                 required={true}
                 placeholder="닉네임을 입력하세요."
                 // onChange={(e) => setNickname(e.target.value)}
-                onChange={(e) =>
-                  setUser((user) => ({ ...user, nickname: e.target.value }))
-                }
+                onChange={(e) => {
+                  setUser((user) => ({ ...user, nickname: e.target.value }));
+                  setValidNickname(undefined);
+                }}
               />
-              <Button height="3rem">중복확인</Button>
+              <Button
+                height="3rem"
+                onClick={() => {
+                  checkValidNickname(user.nickname).then((res) =>
+                    setValidNickname(res)
+                  );
+                }}
+                disabled={validNickname}
+              >
+                중복확인
+              </Button>
             </InputForm>
+            <div className="valid-wrapper">
+              {validNickname === undefined && user.nickname && (
+                <span>닉네임 중복확인이 필요합니다.</span>
+              )}
+              {validNickname === false && user.nickname && (
+                <span>이미 사용중인 닉네임입니다.</span>
+              )}
+            </div>
           </Wrapper>
           <Wrapper>
             <div className="signup-subtitle">
@@ -164,6 +211,11 @@ const Signup = (props) => {
                 }}
               />
             </InputForm>
+            {!confirmPassword && user.password && (
+              <div className="valid-wrapper">
+                <span>비밀번호가 일치하지 않습니다.</span>
+              </div>
+            )}
           </Wrapper>
           <Wrapper>
             <div className="signup-subtitle">
@@ -329,6 +381,15 @@ const Wrapper = styled.div`
     margin-bottom: 1.3rem;
     span {
       margin-left: 1rem;
+    }
+  }
+  > .valid-wrapper {
+    display: flex;
+    flex-direction: column;
+    > span {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: ${colors.primaryBlue};
     }
   }
 `;
