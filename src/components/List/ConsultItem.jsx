@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { dateParse, dateTimeParse } from "../../utils/dateParse";
+import { dateParse, dateTimeParse } from "../../utils/ParseFormat";
 import DetailedModal from "../Modal/DetailedModal";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
 
 const ConsultItem = (props) => {
   const { color, item, type } = props;

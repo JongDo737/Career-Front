@@ -8,7 +8,7 @@ import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetConsult from "../../../hooks/useGetConsult";
 import useGetCompletedConsult from "../../../hooks/useGetCompletedConsult";
 import { COMPLETED_CONSULT_TYPE } from "../../../constants";
-import { xScrollStyle, yScrollStyle } from "../../../styles/common/scroll";
+import { xScrollStyle, yScrollStyle } from "../../../styles/common/Scroll";
 import {
   MentorConsultLinkList,
   MentorConsultMenu,

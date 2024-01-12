@@ -13,7 +13,8 @@ import axios from "axios";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { CommunityMenu, CommunityMenuLinkList } from "../../settings/config";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
+import { ScrollUp } from "../../components/Scroll";
 
 const Community = () => {
   const navigate = useNavigate();
@@ -25,10 +26,6 @@ const Community = () => {
   const subMenuLinkList = CommunityMenuLinkList;
   const [posts, setPosts] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const ScrollUp = () => {
-    if (!window.scrollY) return;
-    window.scrollTo(0, 0);
-  };
 
   const submitSearch = (e) => {
     e.preventDefault();

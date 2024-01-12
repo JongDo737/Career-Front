@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { CommunityCategoryList } from "../../settings/config";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
 
 const CommunityWrite = () => {
   const [files, setFiles] = useState([]);

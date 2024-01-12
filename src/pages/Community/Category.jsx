@@ -10,16 +10,13 @@ import axios from "axios";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import CategoryItem from "../../components/List/CategoryItem";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
+import { ScrollUp } from "../../components/Scroll";
 
 const Category = () => {
   const subMenuList = CommunityMenu;
   const subMenuLinkList = CommunityMenuLinkList;
   const [categories, setCategories] = useState([]);
-  const ScrollUp = () => {
-    if (!window.scrollY) return;
-    window.scrollTo(0, 0);
-  };
 
   useEffect(() => {
     axios

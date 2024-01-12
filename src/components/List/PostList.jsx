@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { dateParse } from "../../utils/dateParse";
+import { dateParse } from "../../utils/ParseFormat";
 import axios from "axios";
 import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";

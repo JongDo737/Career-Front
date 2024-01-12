@@ -12,15 +12,13 @@ import axios from "axios";
 import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";
 import { CommunityCategoryList } from "../../settings/config";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
+import { ScrollUp } from "../../components/Scroll";
 
 const CategoryPost = () => {
   const { id } = useParams();
   const [posts, setPosts] = useState([]);
-  const ScrollUp = () => {
-    if (!window.scrollY) return;
-    window.scrollTo(0, 0);
-  };
+
   useEffect(() => {
     axios
       .get(`${SV_LOCAL}/community/article/all_category`, {

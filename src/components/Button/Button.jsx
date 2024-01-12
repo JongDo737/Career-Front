@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
 
 function Button({ children, size, weight, onClick, height, disabled }) {
   return (
@@ -35,7 +35,7 @@ const StyledButton = styled.div`
   padding: 0.5rem 2rem;
   box-sizing: border-box;
   cursor: pointer;
-  height: ${(props) => (props.height ? `${props.height}` : "auto")};
+  height: ${(props) => (props.height ? `${props.height}` : "100%")};
   &.medium {
     width: 10rem;
   }

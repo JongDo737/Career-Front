@@ -18,7 +18,8 @@ import { CommunityMenu, CommunityMenuLinkList } from "../../settings/config";
 import axios from "axios";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
+import { ScrollUp } from "../../components/Scroll";
 
 const MyActivity = () => {
   const subMenuList = CommunityMenu;
@@ -28,10 +29,6 @@ const MyActivity = () => {
   const [comments, setComments] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
-  const ScrollUp = () => {
-    if (!window.scrollY) return;
-    window.scrollTo(0, 0);
-  };
 
   useEffect(() => {}, [selectMenu]);
 

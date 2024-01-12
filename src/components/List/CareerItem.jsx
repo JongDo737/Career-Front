@@ -164,7 +164,7 @@ const Form = styled.div`
   justify-content: space-between;
   margin-bottom: 5px;
   gap: 10px;
-  height: 40px;
+  height: 3.1rem;
 `;
 const Select = styled.select`
   min-width: 9rem;

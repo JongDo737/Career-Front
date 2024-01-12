@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
-import { xScrollStyle } from "../../styles/common/scroll";
+import { xScrollStyle } from "../../styles/common/Scroll";
 const MentorList = ({ mentors, rank }) => {
   return (
     <MentorContainer>

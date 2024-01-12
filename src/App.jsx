@@ -9,7 +9,6 @@ import Home from "./pages/Home/Home";
 import "./App.css";
 import HomeMentor from "./pages/Mentor/Home";
 import Setting from "./pages/Mentor/Setting";
-import ProfileMentor from "./pages/Mentor/Profile";
 import ConsultMentor from "./pages/Mentor/consult/Consult";
 import HomeMentee from "./pages/Mentee/Home";
 import MenteeMentor from "./pages/Mentee/Mentor";
@@ -29,6 +28,8 @@ import { getCookie } from "./cookie";
 import { setIsLogin } from "./store/isLoginSlice";
 import { setIsMentor } from "./store/isMentorSlice";
 import NotFound from "./pages/NotFound";
+import MenteeProfile from "./pages/Mentee/Profile";
+import MentorProfile from "./pages/Mentor/Profile";
 
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
@@ -71,7 +72,7 @@ function App() {
                   <Route path="/" element={<HomeMentor />} />
                   <Route path="/mentor" element={<HomeMentor />} />
                   <Route path="/mentor/setting" element={<Setting />} />
-                  <Route path="/mentor/profile" element={<ProfileMentor />} />
+                  <Route path="/mentor/profile" element={<MentorProfile />} />
                   <Route path="/mentor/consult" element={<ConsultMentor />} />
                   <Route
                     path="/mentor/consult/upcoming"
@@ -97,6 +98,7 @@ function App() {
                   <Route path="/" element={<HomeMentee />} />
                   <Route path="/mentee" element={<HomeMentee />} />
                   <Route path="/mentee/mentor" element={<MenteeMentor />} />
+                  <Route path="/mentee/profile" element={<MenteeProfile />} />
                 </>
               ) : (
                 <>

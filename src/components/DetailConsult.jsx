@@ -1,5 +1,5 @@
 import React from "react";
-import { dateTimeParse } from "../utils/dateParse";
+import { dateTimeParse } from "../utils/ParseFormat";
 import { getCookie } from "../cookie";
 import { SV_LOCAL } from "../constants";
 

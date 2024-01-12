@@ -5,7 +5,7 @@ import { faAngleRight, faBullhorn } from "@fortawesome/free-solid-svg-icons";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import LikeList from "../../components/List/LikeList";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
 const Setting = () => {
   const revenue = [
     {

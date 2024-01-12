@@ -13,7 +13,7 @@ import {
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import EventList from "../../components/List/EventList";
 import MentorList from "../../components/List/MentorList";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
 import Button from "../../components/Button/Button";
 const Home = () => {
   const [userName, setUserName] = useState("김성애");
