@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colors } from "./Theme";
 
 export const Form = styled.div`
   width: 100%;
@@ -144,5 +145,15 @@ export const FileUploadBtn = styled.label`
   &:hover {
     color: white;
     background-color: #44638c;
+  }
+`;
+
+export const ValidWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  > span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: ${colors.primaryBlue};
   }
 `;

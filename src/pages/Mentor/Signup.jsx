@@ -11,6 +11,8 @@ import { SV_LOCAL } from "../../constants";
 import { colors } from "../../styles/common/Theme";
 import { useNavigate } from "react-router-dom";
 import { checkValidNickname, checkValidUsername } from "../../api/checkValid";
+import TitleWithBar from "../../components/Input/InputWithTitle";
+import { Label, Radio, ValidWrapper } from "../../styles/common/FoamComponents";
 function Signup() {
   const navigator = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState(false);
@@ -180,11 +182,9 @@ function Signup() {
       <Form onSubmit={onSubmit}>
         <div className="Form50">
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>이름</span>
+            <TitleWithBar size="small" title="이름">
               <Required>*</Required>
-            </div>
+            </TitleWithBar>
             <InputForm>
               <Input
                 required={true}
@@ -196,11 +196,9 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>아이디</span>
+            <TitleWithBar size="small" title="아이디">
               <Required>*</Required>
-            </div>
+            </TitleWithBar>
             <InputForm>
               <Input
                 required={true}
@@ -222,21 +220,19 @@ function Signup() {
                 중복확인
               </Button>
             </InputForm>
-            <div className="valid-wrapper">
+            <ValidWrapper>
               {validUsername === undefined && user.username && (
                 <span>아이디 중복확인이 필요합니다.</span>
               )}
               {validUsername === false && user.username && (
                 <span>이미 사용중인 아이디입니다.</span>
               )}
-            </div>
+            </ValidWrapper>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>닉네임</span>
+            <TitleWithBar size="small" title="닉네임">
               <Required>*</Required>
-            </div>
+            </TitleWithBar>
             <InputForm>
               <Input
                 required={true}
@@ -258,21 +254,19 @@ function Signup() {
                 중복확인
               </Button>
             </InputForm>
-            <div className="valid-wrapper">
+            <ValidWrapper>
               {validNickname === undefined && user.nickname && (
                 <span>닉네임 중복확인이 필요합니다.</span>
               )}
               {validNickname === false && user.nickname && (
                 <span>이미 사용중인 닉네임입니다.</span>
               )}
-            </div>
+            </ValidWrapper>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>비밀번호</span>
+            <TitleWithBar size="small" title="비밀번호">
               <Required>*</Required>
-            </div>
+            </TitleWithBar>
             <InputForm>
               <Input
                 required={true}
@@ -286,11 +280,9 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>비밀번호 확인</span>
+            <TitleWithBar size="small" title="비밀번호 확인">
               <Required>*</Required>
-            </div>
+            </TitleWithBar>
             <InputForm>
               <Input
                 required={true}
@@ -304,17 +296,15 @@ function Signup() {
               />
             </InputForm>
             {!confirmPassword && user.password && (
-              <div className="valid-wrapper">
+              <ValidWrapper>
                 <span>비밀번호가 일치하지 않습니다.</span>
-              </div>
+              </ValidWrapper>
             )}
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>생년월일</span>
+            <TitleWithBar size="small" title="생년월일">
               <Required>*</Required>
-            </div>
+            </TitleWithBar>
             <InputForm>
               <Input
                 required={true}
@@ -327,11 +317,9 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>전화번호</span>
+            <TitleWithBar size="small" title="전화번호">
               <Required>*</Required>
-            </div>
+            </TitleWithBar>
             <InputForm>
               <Input
                 required={true}
@@ -360,11 +348,9 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>이메일</span>
+            <TitleWithBar size="small" title="이메일">
               <Required>*</Required>
-            </div>
+            </TitleWithBar>
             <InputForm>
               <Input
                 required={true}
@@ -377,14 +363,12 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>성별</span>
+            <TitleWithBar size="small" title="성별">
               <Required>*</Required>
-            </div>
+            </TitleWithBar>
             <InputForm>
-              <label className="signup-input__label">
-                <input
+              <Label>
+                <Radio
                   required
                   type="radio"
                   name="gender"
@@ -392,23 +376,21 @@ function Signup() {
                   onChange={
                     () => setUser((user) => ({ ...user, gender: true })) //true: 남자, false: 여자
                   }
-                  className="signup-input__radio"
                   checked={user.gender}
                 />
                 <div>남자</div>
-              </label>
-              <label className="signup-input__label">
-                <input
+              </Label>
+              <Label className="signup-input__label">
+                <Radio
                   type="radio"
                   name="gender"
                   value="여자"
                   onChange={
                     (e) => setUser((user) => ({ ...user, gender: false })) //true: 남자, false: 여자
                   }
-                  className="signup-input__radio"
                 />
                 <div>여자</div>
-              </label>
+              </Label>
             </InputForm>
           </Wrapper>
         </div>
@@ -473,15 +455,6 @@ const Wrapper = styled.div`
     margin-bottom: 1.3rem;
     span {
       margin-left: 1rem;
-    }
-  }
-  > .valid-wrapper {
-    display: flex;
-    flex-direction: column;
-    > span {
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: ${colors.primaryBlue};
     }
   }
 `;
