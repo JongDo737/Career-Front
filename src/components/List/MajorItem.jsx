@@ -75,6 +75,7 @@ const MajorSelect = styled.select`
   height: 100%;
   text-align: center;
   background-color: #eaeaea;
+  font-size: 1rem;
 `;
 
 const Icon = styled.div`

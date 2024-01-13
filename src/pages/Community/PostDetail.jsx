@@ -17,12 +17,13 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
-import { dateParse } from "../../utils/dateParse";
+import { dateParse } from "../../utils/ParseFormat";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import { getIdFromToken } from "../../auth/jwtFunctions";
 import { CommunityCategoryList } from "../../settings/config";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
 import ImageModal from "../../components/Modal/ImageModal";
+import { ScrollUp } from "../../components/Scroll";
 
 const PostDetail = () => {
   // const post = {
@@ -112,11 +113,6 @@ const PostDetail = () => {
         block: "center",
       });
     }
-  };
-
-  const ScrollUp = () => {
-    if (!window.scrollY) return;
-    window.scrollTo(0, 0);
   };
 
   const [deleteOption, setDeleteOption] = useState({

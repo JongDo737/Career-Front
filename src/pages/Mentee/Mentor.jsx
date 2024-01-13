@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import MentorList from "../../components/List/MentorList";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
 import { MenteeMentorLinkList, MenteeMentorMenu } from "../../settings/config";
 const Mentor = () => {
   const subMenuList = MenteeMentorMenu;

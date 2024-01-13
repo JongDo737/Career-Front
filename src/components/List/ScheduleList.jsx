@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { dateParse, dateTimeParse, timeParse } from "../../utils/dateParse";
+import { dateParse, dateTimeParse, timeParse } from "../../utils/ParseFormat";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

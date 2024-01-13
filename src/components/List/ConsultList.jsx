@@ -3,9 +3,9 @@ import styled from "styled-components";
 import ConsultItem from "./ConsultItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
-import { dateParse, dateTimeParse, timeParse } from "../../utils/dateParse";
+import { dateParse, dateTimeParse, timeParse } from "../../utils/ParseFormat";
 import DetailedModal from "../Modal/DetailedModal";
-import { yScrollStyle } from "../../styles/common/scroll";
+import { yScrollStyle } from "../../styles/common/Scroll";
 
 const ConsultList = (props) => {
   const [moveIndex, setMoveIndex] = useState(0);

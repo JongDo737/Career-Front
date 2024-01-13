@@ -7,6 +7,7 @@ function Input({
   height,
   width,
   onChange,
+  onBlur,
   value,
   disabled,
   required,
@@ -19,9 +20,8 @@ function Input({
       height={height}
       width={width}
       value={value}
-      onChange={(e) => {
-        onChange(e);
-      }}
+      onChange={onChange}
+      onBlur={onBlur}
       required={required}
       disabled={disabled}
     />
@@ -46,7 +46,6 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   padding: 0; //나중에 reset.scss or reset.css 로 만들기
   height: ${(props) => props.height || "3rem"};
-  max-height: 40px;
   &.small {
     width: ${(props) => props.width || "6.25rem"};
   }

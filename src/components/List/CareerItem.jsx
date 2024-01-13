@@ -164,13 +164,14 @@ const Form = styled.div`
   justify-content: space-between;
   margin-bottom: 5px;
   gap: 10px;
-  height: 40px;
+  height: 3.1rem;
 `;
 const Select = styled.select`
   min-width: 9rem;
   text-align: center;
   background-color: #eaeaea;
   height: 100%;
+  font-size: 1rem;
 `;
 
 const InputForm = styled.div`

@@ -8,7 +8,7 @@ import Input from "../../components/Input/Input";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
 import { SV_LOCAL } from "../../constants";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
 import { useNavigate } from "react-router-dom";
 import { checkValidNickname, checkValidUsername } from "../../api/checkValid";
 function Signup() {

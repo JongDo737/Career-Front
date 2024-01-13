@@ -20,19 +20,18 @@ const SchoolItem = ({
   const [startDate, setStartDate] = useState(item.startDate || "");
   const [endDate, setEndDate] = useState(item.endDate || "");
   const [state, setState] = useState(item.state || "");
-  const [MajorList, setMajorList] = useState([]);
-
-  useEffect(() => {
-    if (school === "대학교")
-      setMajorList([
-        {
-          idx: 0,
-          unit: "주전공",
-          major: "",
-        },
-      ]);
-    else setMajorList([]);
-  }, [school]);
+  const [majorList, setMajorList] = useState([]);
+  // useEffect(() => {
+  //   if (school === "대학교")
+  //     setMajorList([
+  //       {
+  //         idx: 0,
+  //         unit: "주전공",
+  //         major: "",
+  //       },
+  //     ]);
+  //   else setMajorList([]);
+  // }, [school]);
   const nextMajorIdx = useRef(item.majorList ? item.majorList.length : 1);
   const addUnivMajorItem = () => {
     const majorItem = {
@@ -44,12 +43,12 @@ const SchoolItem = ({
     nextMajorIdx.current += 1;
   };
   const removeUnivMajorItem = (i) => {
-    setMajorList(MajorList.filter((a) => a.idx !== i));
+    setMajorList(majorList.filter((a) => a.idx !== i));
   };
 
   useEffect(() => {
-    item.majorList = [...MajorList];
-  }, [MajorList]);
+    setMajorList(item.majorList);
+  }, [majorList]);
 
   return (
     <>
@@ -159,13 +158,13 @@ const SchoolItem = ({
         )}
       </InputForm>
       {school === "대학교"
-        ? MajorList.map((majorItem, idx) => {
+        ? majorList.map((majorItem, idx) => {
             return (
               <Form key={majorItem.idx}>
                 <MajorItem
                   item={majorItem}
                   index={idx}
-                  length={MajorList.length}
+                  length={majorList.length}
                   addUnivMajorItem={addUnivMajorItem}
                   removeUnivMajorItem={removeUnivMajorItem}
                   view={view}

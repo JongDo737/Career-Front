@@ -8,7 +8,7 @@ import { setCookie } from "../../cookie";
 import { FRONT_LOCAL } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsLogin } from "../../store/isLoginSlice";
-import { colors } from "../../styles/common/theme";
+import { colors } from "../../styles/common/Theme";
 
 const Menubar = () => {
   const [login, setLogin] = useState("로그인");

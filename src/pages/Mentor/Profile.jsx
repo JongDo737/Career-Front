@@ -20,7 +20,7 @@ import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 
-const Profile = (props) => {
+const MentorProfile = (props) => {
   const [username, setUsername] = useState("김성애");
   const [id, setId] = useState("seongaekim513");
   const [nickname, setNickname] = useState("김사장");
@@ -172,7 +172,6 @@ const Profile = (props) => {
         },
       })
       .then((res) => {
-        window.alert("success");
         const data = res.data;
         setUser({
           ...data,
@@ -780,7 +779,7 @@ const Profile = (props) => {
   );
 };
 
-export default Profile;
+export default MentorProfile;
 
 const InputForm = styled.div`
   display: flex;

@@ -4,7 +4,7 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { dateParse } from "../../utils/dateParse";
+import { dateParse } from "../../utils/ParseFormat";
 import { SV_LOCAL } from "../../constants";
 import axios from "axios";
 import { getCookie } from "../../cookie";

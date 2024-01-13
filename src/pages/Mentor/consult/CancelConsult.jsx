@@ -7,7 +7,7 @@ import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetCancelConsult from "../../../hooks/useGetCancelConsult";
 import { CANCEL_CONSULT_TYPE } from "../../../constants";
-import { xScrollStyle, yScrollStyle } from "../../../styles/common/scroll";
+import { xScrollStyle, yScrollStyle } from "../../../styles/common/Scroll";
 import {
   MentorConsultLinkList,
   MentorConsultMenu,
