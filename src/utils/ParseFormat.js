@@ -21,8 +21,13 @@ export const timeParse = (dateTimeString) => {
 };
 
 export const birthParse = (birth) => {
-  return `${birth.substring(0, 4)}-${birth.substring(4, 6)}-${birth.substring(
-    6,
-    8
-  )}`;
+  return `${birth.slice(0, 4)}-${birth.slice(4, 6)}-${birth.slice(6, 8)}`;
+};
+
+export const phoneNumberParse = (phoneNumber) => {
+  if (phoneNumber.length === 4 && phoneNumber[3] !== "-")
+    return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 4)}`;
+  else if (phoneNumber.length === 9 && phoneNumber[8] !== "-")
+    return `${phoneNumber.slice(0, 8)}-${phoneNumber.slice(8, 9)}`;
+  else return phoneNumber;
 };

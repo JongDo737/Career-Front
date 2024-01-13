@@ -171,6 +171,7 @@ const Select = styled.select`
   text-align: center;
   background-color: #eaeaea;
   height: 100%;
+  font-size: 1rem;
 `;
 
 const InputForm = styled.div`

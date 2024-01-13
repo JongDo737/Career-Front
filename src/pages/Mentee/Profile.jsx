@@ -30,18 +30,15 @@ import { ScrollUp } from "../../components/Scroll";
 import TagList from "../../components/List/TagList";
 import { fetchProfile } from "../../api/fetchProfile";
 import { useQuery } from "react-query";
-import { birthParse } from "../../utils/ParseFormat";
+import { birthParse, phoneNumberParse } from "../../utils/ParseFormat";
+import { checkValidNickname } from "../../api/checkValid";
 
 const MenteeProfile = (props) => {
-  const [username, setUsername] = useState("김성애");
-  const [id, setId] = useState("seongaekim513");
-  const [nickname, setNickname] = useState("김사장");
-  const [password, setPassword] = useState({
-    first: "010",
-    second: "3941",
-    third: "9805",
+  const { data, isLoading } = useQuery("profile", fetchProfile, {
+    onSuccess: (data) => {
+      setUser({ ...data, birth: birthParse(data.birth) });
+    },
   });
-  const [confirmPassword, setConfirmPassword] = useState(false);
   const [gender, setGender] = useState(false);
   const [intro, setIntro] = useState("안녕하세요. 김사장입니다.");
   const [birth, setBirth] = useState(new Date());
@@ -69,7 +66,7 @@ const MenteeProfile = (props) => {
     {
       id: 1,
       school: "대학교",
-      schoolName: "한양대학교",
+      schoolName: "고려대학교",
       startDate: new Date("2018-03-01"),
       endDate: new Date("2023-02-17"),
       state: "졸업",
@@ -107,7 +104,6 @@ const MenteeProfile = (props) => {
       state: "완료",
     },
   ]);
-
   const [image, setImage] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
@@ -178,26 +174,6 @@ const MenteeProfile = (props) => {
     fileUploadId.current = careerFile.length;
   }, [careerFile]);
 
-  const { isLoading } = useQuery("profile", fetchProfile, {
-    onSuccess: (data) => {
-      setUser({
-        ...data,
-        birth: birthParse(data.birth),
-      });
-    },
-  });
-  //   useEffect(() => {
-  //     const fetchProfile = async () => {
-  //       const responseData = await GetProfile();
-  //       console.log(responseData);
-  //       setUser({
-  //         ...responseData,
-  //         birth: birthParse(responseData.birth),
-  //       });
-  //     };
-  //     fetchProfile();
-  //   }, []);
-
   const onDeleteFile = (id) => {
     setCareerFile(careerFile.filter((a) => a.id !== id));
   };
@@ -226,6 +202,14 @@ const MenteeProfile = (props) => {
     },
   ];
 
+  //   useEffect(() => {
+  //     if (!isLoading) {
+  //       setUser({
+  //         ...data,
+  //         birth: birthParse(data.birth),
+  //       });
+  //     }
+  //   }, []);
   if (isLoading) return <div>loading...</div>;
   return (
     <>
@@ -314,38 +298,46 @@ const MenteeProfile = (props) => {
             <Input
               value={user.name}
               placeholder="이름을 입력하세요."
-              onChange={(e) =>
-                setUser((prev) => ({ ...prev, name: e.target.value }))
-              }
-              disabled={view}
+              disabled={true}
             />
           </Wrapper>
           <Wrapper>
             <TitleWithBar size="small" title="아이디" />
-            <InputForm>
-              <Input
-                placeholder="아이디를 입력하세요."
-                value={user.username}
-                onChange={(e) =>
-                  setUser((prev) => ({ ...prev, username: e.target.value }))
-                }
-                disabled={view}
-              />
-              {!view && <Button height="3rem">중복확인</Button>}
-            </InputForm>
+            <Input
+              placeholder="아이디를 입력하세요."
+              value={user.username}
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, username: e.target.value }))
+              }
+              disabled={true}
+            />
           </Wrapper>
           <Wrapper>
             <TitleWithBar size="small" title="닉네임" />
             <InputForm>
               <Input
                 value={user.nickname}
-                placeholder="닉네임을 입력하세요."
-                onChange={(e) =>
-                  setUser((prev) => ({ ...prev, nickname: e.target.value }))
-                }
+                placeholder={data.nickname}
+                onChange={(e) => {
+                  setUser((prev) => ({ ...prev, nickname: e.target.value }));
+                }}
                 disabled={view}
+                onBlur={(e) => {
+                  if (e.target.value === "") {
+                    setUser((prev) => ({ ...prev, nickname: data.nickname }));
+                  }
+                }}
               />
-              {!view && <Button height="3rem">중복확인</Button>}
+              {!view && user.nickname && user.nickname !== data.nickname && (
+                <Button
+                  height="3rem"
+                  onClick={() => {
+                    checkValidNickname(user.nickname);
+                  }}
+                >
+                  중복확인
+                </Button>
+              )}
             </InputForm>
           </Wrapper>
           {/* <Wrapper>
@@ -390,19 +382,28 @@ const MenteeProfile = (props) => {
             <TitleWithBar size="small" title="전화번호" />
             <InputForm>
               <Input
-                value={phoneNumber}
-                onChange={(e) =>
+                value={user.telephone}
+                placeholder={data.telephone}
+                onChange={(e) => {
+                  const withHypenNumber = phoneNumberParse(e.target.value);
                   setUser((prev) => ({
                     ...prev,
-                    phoneNumber: e.target.value,
-                  }))
-                }
+                    telephone: withHypenNumber,
+                  }));
+                }}
+                onBlur={(e) => {
+                  if (e.target.value === "") {
+                    setUser((prev) => ({ ...prev, telephone: data.telephone }));
+                  }
+                }}
                 disabled={view}
               />
 
-              {!view && <Button height="3rem">인증코드 전송</Button>}
+              {!view && user.telephone && user.telephone !== data.telephone && (
+                <Button height="3rem">인증코드 전송</Button>
+              )}
             </InputForm>
-            {!view && (
+            {!view && user.telephone && user.telephone !== data.telephone && (
               <InputForm>
                 <Input
                   placeholder="인증코드를 입력하세요."
@@ -552,7 +553,6 @@ const MenteeProfile = (props) => {
                 id="file"
                 onChange={onUploadFile}
                 style={{ display: "none" }}
-                // disabled={isFile}
                 disabled={view}
               />
             </FileUpload>

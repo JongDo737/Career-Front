@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import SchoolItem from "./SchoolItem";
 const SchoolList = (props) => {
-  const nextIdx = useRef(1);
+  const nextIdx = useRef(props.schoolList.length);
   const addSchoolItem = () => {
     const school = {
       idx: nextIdx.current,
@@ -10,7 +10,6 @@ const SchoolList = (props) => {
       startDate: "",
       endDate: "",
       state: "졸업",
-      majorList: [],
     };
     props.setSchoolList([...props.schoolList, school]);
     nextIdx.current += 1;

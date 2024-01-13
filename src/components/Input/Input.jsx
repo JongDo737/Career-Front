@@ -7,6 +7,7 @@ function Input({
   height,
   width,
   onChange,
+  onBlur,
   value,
   disabled,
   required,
@@ -19,9 +20,8 @@ function Input({
       height={height}
       width={width}
       value={value}
-      onChange={(e) => {
-        onChange(e);
-      }}
+      onChange={onChange}
+      onBlur={onBlur}
       required={required}
       disabled={disabled}
     />
