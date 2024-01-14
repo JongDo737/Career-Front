@@ -20,8 +20,12 @@ export const timeParse = (dateTimeString) => {
   return withoutSecond;
 };
 
-export const birthParse = (birth) => {
+export const birthHypenParse = (birth) => {
   return `${birth.slice(0, 4)}-${birth.slice(4, 6)}-${birth.slice(6, 8)}`;
+};
+
+export const birthOnlyNumberParse = (birth) => {
+  return birth.replace(/-/g, "");
 };
 
 export const phoneNumberParse = (phoneNumber) => {
@@ -30,4 +34,8 @@ export const phoneNumberParse = (phoneNumber) => {
   else if (phoneNumber.length === 9 && phoneNumber[8] !== "-")
     return `${phoneNumber.slice(0, 8)}-${phoneNumber.slice(8, 9)}`;
   else return phoneNumber;
+};
+
+export const jsonParse = (data) => {
+  return JSON.stringify(data);
 };
