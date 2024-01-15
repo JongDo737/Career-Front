@@ -13,7 +13,7 @@ export const FormHalf = styled.div`
   min-width: 30%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   padding: 0 5rem;
 `;
 
@@ -38,7 +38,6 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin: 20px 0;
-  min-width: 30rem;
 `;
 
 export const ProfileBtn = styled.div`

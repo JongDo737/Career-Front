@@ -36,7 +36,6 @@ import { setIsMentor } from "./store/isMentorSlice";
 import NotFound from "./pages/NotFound";
 import MenteeProfile from "./pages/Mentee/Profile";
 import MentorProfile from "./pages/Mentor/Profile";
-import { setupAxiosInterceptors } from "./utils/axiosInterceptors";
 
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
@@ -118,7 +117,7 @@ function App() {
           ) : (
             <>
               <Route path="/" element={<Login />} />
-              <Route path="*" Navigate to={<Login />} />
+              <Route path="*" Navigate to={"/"} />
             </>
           )}
         </Routes>

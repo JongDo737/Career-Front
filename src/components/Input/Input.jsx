@@ -19,7 +19,7 @@ function Input({
       type={type}
       height={height}
       width={width}
-      value={value}
+      value={value || ""}
       onChange={onChange}
       onBlur={onBlur}
       required={required}

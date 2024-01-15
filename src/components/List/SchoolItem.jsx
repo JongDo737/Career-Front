@@ -35,7 +35,7 @@ const SchoolItem = ({
   const nextMajorIdx = useRef(item.majorList ? item.majorList.length : 1);
   const addUnivMajorItem = () => {
     const majorItem = {
-      idx: nextMajorIdx.current,
+      id: nextMajorIdx.current,
       unit: "주전공",
       major: "",
     };
@@ -43,7 +43,7 @@ const SchoolItem = ({
     nextMajorIdx.current += 1;
   };
   const removeUnivMajorItem = (i) => {
-    setMajorList(majorList.filter((a) => a.idx !== i));
+    setMajorList(majorList.filter((a) => a.id !== i));
   };
 
   useEffect(() => {
@@ -142,7 +142,7 @@ const SchoolItem = ({
             <FontAwesomeIcon
               icon={faMinusCircle}
               onClick={() => {
-                removeSchoolItem(item.idx);
+                removeSchoolItem(item.id);
               }}
             />
           </Icon>
@@ -158,12 +158,12 @@ const SchoolItem = ({
         )}
       </InputForm>
       {school === "대학교"
-        ? majorList.map((majorItem, idx) => {
+        ? majorList.map((majorItem, id) => {
             return (
-              <Form key={majorItem.idx}>
+              <Form key={majorItem.id}>
                 <MajorItem
                   item={majorItem}
-                  index={idx}
+                  index={id}
                   length={majorList.length}
                   addUnivMajorItem={addUnivMajorItem}
                   removeUnivMajorItem={removeUnivMajorItem}

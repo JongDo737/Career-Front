@@ -40,6 +40,7 @@ import {
 import { checkValidNickname } from "../../api/checkValid";
 import { CompareObjects } from "../../utils/CompareObjects";
 import { modifyMentorProfile } from "../../api/modifyProfile";
+import AlertModal from "../../components/Modal/AlertModal";
 
 const MentorProfile = (props) => {
   const [numberCode, setNumberCode] = useState("");
@@ -104,18 +105,14 @@ const MentorProfile = (props) => {
   );
   const [careerFile, setCareerFile] = useState([]);
   const [isFile, setIsFile] = useState(false);
-  const { data, isLoading, refetch } = useQuery(
-    ["profile", { view }],
-    fetchMentorProfile,
-    {
-      onSuccess: (data) => {
-        setUser({ ...data, birth: birthHypenParse(data.birth) });
-      },
-    }
-  );
-  console.log(fetchMentorProfile);
+  const { data, isLoading, refetch } = useQuery("profile", fetchMentorProfile, {
+    // enabled: view,
+    onSuccess: (data) => {
+      setUser({ ...data, birth: birthHypenParse(data.birth) });
+    },
+  });
+  console.log(data);
   const [validNickname, setValidNickname] = useState(false);
-
   const tag = [
     { id: 0, name: "머신러닝" },
     { id: 1, name: "앱개발" },
@@ -142,6 +139,7 @@ const MentorProfile = (props) => {
     // consultMajor3: "",
     // tagList: [],
   });
+  const [alertOpen, setAlertOpen] = useState(false);
   const onChangeImg = (e) => {
     if (e.target.files[0]) setImage(e.target.files[0]);
     else return;
@@ -186,38 +184,40 @@ const MentorProfile = (props) => {
 
   const onChangeEdit = async (e) => {
     e.preventDefault();
+    ScrollUp();
     if (view) {
       setView((current) => !current);
-      ScrollUp();
     } else {
       if (!validNickname && data.nickname !== user.nickname) {
-        window.alert("닉네임 중복확인이 필요합니다.");
-        ScrollUp();
+        setAlertOpen(true);
       } else {
         setView((current) => !current);
         const compareObj = CompareObjects(data, {
           ...user,
           birth: birthOnlyNumberParse(user.birth),
         });
-        modifyMentorProfile(compareObj);
+        console.log(compareObj);
+        await modifyMentorProfile(compareObj);
         refetch();
-        ScrollUp();
       }
     }
   };
 
   const review = [
     {
+      id: 0,
       writer: "신종민",
       content: "멘토님 너무 친절하고 재밌으셔서 시간 가는 줄 몰랐습니다.",
       score: 5,
     },
     {
+      id: 1,
       writer: "한재준",
       content: "상담비가 전혀 아깝지 않을 정도로 열정적이세요.",
       score: 5,
     },
     {
+      id: 2,
       writer: "채희문",
       content:
         "멘토님은 정말 좋으세요. 하지만 사전질문에 대한 답변을 듣지 못해 아쉬웠어요. 다음 상담을 기대해보겠습니다!",
@@ -246,12 +246,12 @@ const MentorProfile = (props) => {
             {!view && (
               <span
                 style={{
-                  width: "200px",
+                  width: "18rem",
                   textAlign: "center",
                   color: "#334b6c",
                   cursor: "pointer",
                   fontWeight: "600",
-                  marginBottom: "40px",
+                  marginBottom: "2rem",
                 }}
                 onClick={onResetImg}
               >
@@ -375,6 +375,22 @@ const MentorProfile = (props) => {
               )}
             </ValidWrapper>
           </Wrapper>
+          <Wrapper>
+            <TitleWithBar size="small" title="이메일" />
+            <Input
+              placeholder={data.email}
+              value={user.email}
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, email: e.target.value }))
+              }
+              onBlur={(e) => {
+                if (e.target.value === "") {
+                  setUser((prev) => ({ ...prev, email: data.email }));
+                }
+              }}
+              disabled={view}
+            />
+          </Wrapper>
           {/* <Wrapper>
             <TitleWithBar size="small" title="비밀번호" />
             <Input
@@ -443,6 +459,7 @@ const MentorProfile = (props) => {
                 <Input
                   placeholder="인증코드를 입력하세요."
                   onChange={(e) => setNumberCode(e.target.value)}
+                  value={numberCode}
                 />
                 <Button height="3rem">확인</Button>
               </InputForm>
@@ -631,6 +648,12 @@ const MentorProfile = (props) => {
           {view ? "수정하기" : "저장하기"}
         </Button>
       </Form>
+      {alertOpen && (
+        <AlertModal
+          message="닉네임 중복확인이 필요합니다."
+          setModalOpen={setAlertOpen}
+        />
+      )}
     </>
   );
 };

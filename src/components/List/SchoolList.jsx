@@ -4,7 +4,7 @@ const SchoolList = (props) => {
   const nextIdx = useRef(props.schoolList.length);
   const addSchoolItem = () => {
     const school = {
-      idx: nextIdx.current,
+      id: nextIdx.current,
       school: "고등학교",
       schoolName: "",
       startDate: "",
@@ -15,7 +15,7 @@ const SchoolList = (props) => {
     nextIdx.current += 1;
   };
   const removeSchoolItem = (i) => {
-    props.setSchoolList(props.schoolList.filter((a) => a.idx !== i));
+    props.setSchoolList(props.schoolList.filter((a) => a.id !== i));
   };
 
   return (
@@ -26,7 +26,7 @@ const SchoolList = (props) => {
             <SchoolItem
               item={item}
               index={i}
-              key={item.idx}
+              key={item.id}
               length={props.schoolList.length}
               addSchoolItem={addSchoolItem}
               removeSchoolItem={removeSchoolItem}

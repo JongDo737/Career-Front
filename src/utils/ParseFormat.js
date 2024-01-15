@@ -39,3 +39,7 @@ export const phoneNumberParse = (phoneNumber) => {
 export const jsonParse = (data) => {
   return JSON.stringify(data);
 };
+
+export const middleNameParse = (name) => {
+  return name.substring(0, 1) + "*" + name.substring(2);
+};
