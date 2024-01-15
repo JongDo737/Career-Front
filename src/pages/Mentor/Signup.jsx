@@ -261,6 +261,7 @@ function Signup() {
               {validNickname === false && user.nickname && (
                 <span>이미 사용중인 닉네임입니다.</span>
               )}
+              {validNickname === true && <span>사용가능한 닉네임입니다.</span>}
             </ValidWrapper>
           </Wrapper>
           <Wrapper>

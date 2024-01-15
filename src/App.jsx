@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import Menubar from "./components/Menubar/Menubar";
 import Login from "./pages/Login/Login";
 import SignupMentee from "./pages/Mentee/Signup";
@@ -30,6 +36,7 @@ import { setIsMentor } from "./store/isMentorSlice";
 import NotFound from "./pages/NotFound";
 import MenteeProfile from "./pages/Mentee/Profile";
 import MentorProfile from "./pages/Mentor/Profile";
+import { setupAxiosInterceptors } from "./utils/axiosInterceptors";
 
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
@@ -44,6 +51,7 @@ function App() {
       dispatch(setIsMentor(payload.isTutor));
     }
   }, []);
+
   return (
     <>
       <BrowserRouter>
@@ -110,7 +118,7 @@ function App() {
           ) : (
             <>
               <Route path="/" element={<Login />} />
-              <Route path="*" element={<Restricted />} />
+              <Route path="*" Navigate to={<Login />} />
             </>
           )}
         </Routes>

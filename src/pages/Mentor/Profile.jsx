@@ -108,12 +108,12 @@ const MentorProfile = (props) => {
     ["profile", { view }],
     fetchMentorProfile,
     {
-      // enabled: view,
       onSuccess: (data) => {
         setUser({ ...data, birth: birthHypenParse(data.birth) });
       },
     }
   );
+  console.log(fetchMentorProfile);
   const [validNickname, setValidNickname] = useState(false);
 
   const tag = [
@@ -186,14 +186,24 @@ const MentorProfile = (props) => {
 
   const onChangeEdit = async (e) => {
     e.preventDefault();
-    setView((current) => !current);
-    const compareObj = CompareObjects(data, {
-      ...user,
-      birth: birthOnlyNumberParse(user.birth),
-    });
-    modifyMentorProfile(compareObj);
-    refetch();
-    ScrollUp();
+    if (view) {
+      setView((current) => !current);
+      ScrollUp();
+    } else {
+      if (!validNickname && data.nickname !== user.nickname) {
+        window.alert("닉네임 중복확인이 필요합니다.");
+        ScrollUp();
+      } else {
+        setView((current) => !current);
+        const compareObj = CompareObjects(data, {
+          ...user,
+          birth: birthOnlyNumberParse(user.birth),
+        });
+        modifyMentorProfile(compareObj);
+        refetch();
+        ScrollUp();
+      }
+    }
   };
 
   const review = [
@@ -214,15 +224,6 @@ const MentorProfile = (props) => {
       score: 4,
     },
   ];
-
-  //   useEffect(() => {
-  //     if (!isLoading) {
-  //       setUser({
-  //         ...data,
-  //         birth: birthParse(data.birth),
-  //       });
-  //     }
-  //   }, []);
   if (isLoading) return <div>loading...</div>;
   return (
     <>
@@ -369,6 +370,9 @@ const MentorProfile = (props) => {
                 user.nickname !== data.nickname && (
                   <span>이미 사용중인 닉네임입니다.</span>
                 )}
+              {!view && validNickname === true && (
+                <span>사용가능한 닉네임입니다.</span>
+              )}
             </ValidWrapper>
           </Wrapper>
           {/* <Wrapper>
