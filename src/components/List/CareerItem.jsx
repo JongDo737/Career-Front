@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusCircle } from "@fortawesome/free-solid-svg-icons";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { StringToDateParse, dateToStringParse } from "../../utils/ParseFormat";
 const CareerItem = ({
   item,
   index,
@@ -16,8 +17,12 @@ const CareerItem = ({
 }) => {
   const [career, setCareer] = useState(item.career || "");
   const [careerName, setCareerName] = useState(item.careerName || "");
-  const [startDate, setStartDate] = useState(item.startDate || new Date());
-  const [endDate, setEndDate] = useState(item.endDate || new Date());
+  const [startDate, setStartDate] = useState(
+    item.startDate || dateToStringParse(new Date())
+  );
+  const [endDate, setEndDate] = useState(
+    item.endDate || dateToStringParse(new Date())
+  );
   const [state, setState] = useState(item.state || "");
   const [content, setContent] = useState(item.content || "");
 
@@ -65,29 +70,29 @@ const CareerItem = ({
           placeholderText="시작 날짜"
           dateFormat="yyyy-MM"
           shouldCloseOnSelect
-          selected={startDate}
+          selected={StringToDateParse(startDate)}
           onChange={(date) => {
-            setStartDate(date);
-            item.startDate = date;
+            const parseDate = dateToStringParse(date);
+            setStartDate(parseDate);
+            item.startDate = parseDate;
           }}
-          showMonthDropdown
-          showYearDropdown
+          showMonthYearPicker
           showIcon
           disabled={view}
         />
         <div style={{ display: "flex", alignItems: "center" }}>~</div>
         <DatePicker
-          selected={endDate}
+          selected={StringToDateParse(endDate)}
           placeholderText="종료 날짜"
           dateFormat="yyyy-MM"
-          minDate={startDate}
+          // minDate={startDate}
           shouldCloseOnSelect
           onChange={(date) => {
-            setEndDate(date);
-            item.endDate = date;
+            const parseDate = dateToStringParse(date);
+            setEndDate(parseDate);
+            item.endDate = parseDate;
           }}
-          showMonthDropdown
-          showYearDropdown
+          showMonthYearPicker
           showIcon
           disabled={view}
         />
@@ -126,12 +131,10 @@ const CareerItem = ({
         ) : (
           ""
         )}
-        {(index === length - 1) & !view ? (
+        {index === length - 1 && !view && index !== 4 && (
           <Icon>
             <FontAwesomeIcon icon={faPlusCircle} onClick={addCareerItem} />
           </Icon>
-        ) : (
-          ""
         )}
       </Form>
       <InputForm>
