@@ -7,6 +7,22 @@ export const dateParse = (dateTimeString) => {
   return `${year}.${month}.${day}`;
 };
 
+export const dateParseWithString = (date) => {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  console.log(`${year}${month}${day}`);
+  return `${year}${month}${day}`;
+};
+
+export const StringToDateParse = (dateString) => {
+  const hypenDate = `${dateString.slice(0, 4)}-${dateString.slice(
+    4,
+    6
+  )}-${dateString.slice(6, 8)}`;
+  return new Date(hypenDate);
+};
+
 export const dateTimeParse = (dateTimeString) => {
   const date = dateParse(dateTimeString.split("T")[0]);
   const time = dateTimeString.split("T")[1];

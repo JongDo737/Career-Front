@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import CareerItem from "./CareerItem";
 const CareerList = (props) => {
   const nextIdx = useRef(props.careerList.length ? props.careerList.length : 1);
@@ -18,6 +18,11 @@ const CareerList = (props) => {
   const removeCareerItem = (i) => {
     props.setCareerList(props.careerList.filter((a) => a.id !== i));
   };
+  useEffect(() => {
+    if (!props.careerList.length) {
+      addCareerItem();
+    }
+  }, []);
 
   return (
     <>

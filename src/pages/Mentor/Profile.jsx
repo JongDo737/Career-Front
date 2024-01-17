@@ -44,101 +44,32 @@ import AlertModal from "../../components/Modal/AlertModal";
 
 const MentorProfile = (props) => {
   const [numberCode, setNumberCode] = useState("");
-  const [consult, setConsult] = useState({
-    first: "컴퓨터공학과",
-    second: "전자공학과",
-    third: "화학공학과",
-  });
   const [view, setView] = useState(true);
-  const [schoolList, setSchoolList] = useState([
-    {
-      id: 0,
-      school: "고등학교",
-      schoolName: "한양고등학교",
-      startDate: new Date("2014-03-01"),
-      endDate: new Date("2017-02-07"),
-      state: "졸업",
-    },
-    {
-      id: 1,
-      school: "대학교",
-      schoolName: "고려대학교",
-      startDate: new Date("2018-03-01"),
-      endDate: new Date("2023-02-17"),
-      state: "졸업",
-      majorList: [
-        {
-          id: 0,
-          unit: "주전공",
-          major: "컴퓨터소프트웨어학부",
-        },
-        {
-          id: 1,
-          unit: "복수전공",
-          major: "화학공학과",
-        },
-      ],
-    },
-  ]);
-  const [careerList, setCareerList] = useState([
-    {
-      id: 0,
-      career: "인턴",
-      careerName: "voronoi 연구단",
-      startDate: new Date("2022-09-01"),
-      endDate: new Date("2023-02-28"),
-      state: "퇴사",
-      content:
-        "단백질 구조 시각화를 위한 웹페이지 제작에 디자이너 및 프론트엔드 개발자로 참여함.",
-    },
-    {
-      id: 1,
-      career: "프로젝트",
-      careerName: "Carry-A-Way",
-      startDate: new Date("2023-02-01"),
-      endDate: new Date("2023-06-30"),
-      state: "완료",
-    },
-  ]);
+  const [schoolList, setSchoolList] = useState([]);
+  const [careerList, setCareerList] = useState([]);
   const [image, setImage] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
   const [careerFile, setCareerFile] = useState([]);
   const [isFile, setIsFile] = useState(false);
+  const [tagList, setTagList] = useState([]);
+  const [user, setUser] = useState({});
   const { data, isLoading, refetch } = useQuery("profile", fetchMentorProfile, {
     // enabled: view,
     onSuccess: (data) => {
-      setUser({ ...data, birth: birthHypenParse(data.birth) });
+      setUser({
+        ...data,
+        birth: birthHypenParse(data.birth),
+        careerList: [...data.careerList],
+      });
+      setSchoolList([...data.schoolList]);
+      setTagList([...data.tagList]);
     },
   });
   console.log(data);
   const [validNickname, setValidNickname] = useState(false);
-  const tag = [
-    { id: 0, name: "머신러닝" },
-    { id: 1, name: "앱개발" },
-    { id: 2, name: "안드로이드" },
-    { id: 3, name: "알고리즘" },
-  ];
   const fileInput = useRef(null);
 
-  //서버에서 받아오는 데이터
-  const [user, setUser] = useState({
-    // name: "",
-    // username: "",
-    // nickname: "",
-    // password: "",
-    // telephone: "",
-    // gender: null,
-    // introduce: "",
-    // plan: "",
-    // hobby: "",
-    // schoolList: [],
-    // careerList: [],
-    // consultMajor1: "",
-    // consultMajor2: "",
-    // consultMajor3: "",
-    // tagList: [],
-  });
   const [alertOpen, setAlertOpen] = useState(false);
   const onChangeImg = (e) => {
     if (e.target.files[0]) setImage(e.target.files[0]);
@@ -195,6 +126,8 @@ const MentorProfile = (props) => {
         const compareObj = CompareObjects(data, {
           ...user,
           birth: birthOnlyNumberParse(user.birth),
+          tagList: [...tagList],
+          schoolList: [...schoolList],
         });
         console.log(compareObj);
         await modifyMentorProfile(compareObj);
@@ -224,7 +157,7 @@ const MentorProfile = (props) => {
       score: 4,
     },
   ];
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading || data === undefined) return <div>loading...</div>;
   return (
     <>
       <Title>
@@ -281,14 +214,14 @@ const MentorProfile = (props) => {
             />
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="커리어 목표" />
+            <TitleWithBar size="small" title="라이프" />
             <Input
               size="large"
               height="8rem"
-              value={user.plan}
-              placeholder="당신의 커리어 목표는 무엇인가요."
+              value={user.myLife}
+              placeholder="최근 생각, 가치관, 목표 등 자유롭게 적어주세요."
               onChange={(e) =>
-                setUser((prev) => ({ ...prev, plan: e.target.value }))
+                setUser((prev) => ({ ...prev, myLife: e.target.value }))
               }
               disabled={view}
             />
@@ -506,31 +439,41 @@ const MentorProfile = (props) => {
       {/* 여기는 아래 부분 */}
       <Form>
         <Form50>
-          <Wrapper>
-            <TitleWithBar size="small" title="학력" />
-            <SchoolList
-              schoolList={schoolList}
-              setSchoolList={setSchoolList}
-              view={view}
-            />
-          </Wrapper>
-          <Wrapper>
-            <TitleWithBar size="small" title="경력" />
-            <CareerList
-              careerList={careerList}
-              setCareerList={setCareerList}
-              view={view}
-            />
-          </Wrapper>
+          {(user.schoolList?.length || !view) && (
+            <Wrapper style={{ width: "100%" }}>
+              <TitleWithBar
+                size="small"
+                title={view ? "학력" : "학력 (최대 5개)"}
+              />
+              <SchoolList
+                schoolList={schoolList}
+                setSchoolList={setSchoolList}
+                view={view}
+              />
+            </Wrapper>
+          )}
+          {(user.careerList?.length || !view) && (
+            <Wrapper style={{ width: "100%" }}>
+              <TitleWithBar
+                size="small"
+                title={view ? "경력" : "경력 (최대 5개)"}
+              />
+              <CareerList
+                careerList={careerList}
+                setCareerList={setCareerList}
+                view={view}
+              />
+            </Wrapper>
+          )}
           <Wrapper>
             <TitleWithBar size="small" title="상담학과1" />
             <Input
               size="large"
               placeholder="첫번째 상담 학과를 입력하세요."
               onChange={(e) => {
-                setConsult({ ...consult, first: e.target.value });
+                setUser((prev) => ({ ...prev, consultMajor1: e.target.value }));
               }}
-              value={consult.first}
+              value={user.consultMajor1}
               disabled={view}
             />
           </Wrapper>
@@ -540,9 +483,9 @@ const MentorProfile = (props) => {
               size="large"
               placeholder="두번째 상담 학과를 입력하세요."
               onChange={(e) => {
-                setConsult({ ...consult, second: e.target.value });
+                setUser((prev) => ({ ...prev, consultMajor2: e.target.value }));
               }}
-              value={consult.second}
+              value={user.consultMajor2}
               disabled={view}
             />
           </Wrapper>
@@ -553,9 +496,12 @@ const MentorProfile = (props) => {
                 size="large"
                 placeholder="세번째 상담 학과를 입력하세요."
                 onChange={(e) => {
-                  setConsult({ ...consult, third: e.target.value });
+                  setUser((prev) => ({
+                    ...prev,
+                    consultMajor3: e.target.value,
+                  }));
                 }}
-                value={consult.third}
+                value={user.consultMajor3}
                 disabled={view}
               />
             </InputForm>
@@ -628,7 +574,7 @@ const MentorProfile = (props) => {
         <FormHalf>
           <Wrapper>
             <TitleWithBar size="small" title="태그" />
-            <TagList tagList={tag} view={view} />
+            <TagList tagList={tagList} setTagList={setTagList} view={view} />
           </Wrapper>
         </FormHalf>
       </Form>
