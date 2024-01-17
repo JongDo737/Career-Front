@@ -6,20 +6,17 @@ import Input from "../Input/Input";
 import { InputForm } from "../../styles/common/FoamComponents";
 import Button from "../Button/Button";
 
-const TagList = ({ tagList, view }) => {
+const TagList = ({ tagList, setTagList, view }) => {
   const [tmpTag, setTmpTag] = useState("");
-  const [tag, setTag] = useState([...tagList]);
-  const tagId = useRef(tag.length - 1);
+  const tagId = useRef(tagList.length ? tagList.length + 1 : 1);
   const onUpdateTag = (value) => {
-    setTag((current) => [...current, { id: tagId.current, name: value }]);
+    setTagList((current) => [...current, { idx: tagId.current, name: value }]);
+    tagList = [...tagList, { idx: tagId.current, name: value }];
     tagId.current += 1;
   };
-  const onDeleteTag = (id) => {
-    setTag(tag.filter((a) => a.id !== id));
+  const onDeleteTag = (idx) => {
+    setTagList(tagList.filter((a) => a.idx !== idx));
   };
-  useEffect(() => {
-    setTmpTag("");
-  });
 
   return (
     <>
@@ -30,6 +27,7 @@ const TagList = ({ tagList, view }) => {
           onChange={(e) => {
             setTmpTag(e.target.value);
           }}
+          value={tmpTag}
           disabled={view}
         />
         {!view && (
@@ -37,6 +35,7 @@ const TagList = ({ tagList, view }) => {
             height="3rem"
             onClick={() => {
               onUpdateTag(tmpTag);
+              setTmpTag("");
             }}
           >
             추가
@@ -44,15 +43,15 @@ const TagList = ({ tagList, view }) => {
         )}
       </InputForm>
       <TagWrapper>
-        {tag.length
-          ? tag.map((item) => {
+        {tagList.length
+          ? tagList.map((item) => {
               return (
-                <Tag key={item.id}>
+                <Tag key={item.idx}>
                   <span className="full-name">{item.name}</span>
                   <span className="short-name">#{item.name}</span>
                   {!view && (
                     <FontAwesomeIcon
-                      onClick={() => onDeleteTag(item.id)}
+                      onClick={() => onDeleteTag(item.idx)}
                       className="delete-icon"
                       icon={faXmark}
                     />

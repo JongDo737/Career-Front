@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusCircle } from "@fortawesome/free-solid-svg-icons";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import MajorItem from "./MajorItem";
+import { dateParseWithString } from "../../utils/ParseFormat";
 const SchoolItem = ({
   item,
   index,
@@ -17,21 +18,13 @@ const SchoolItem = ({
 }) => {
   const [school, setSchool] = useState(item.school || "");
   const [schoolName, setSchoolName] = useState(item.schoolName || "");
-  const [startDate, setStartDate] = useState(item.startDate || "");
-  const [endDate, setEndDate] = useState(item.endDate || "");
+  const [startDate, setStartDate] = useState(item.startDate || new Date());
+  const [endDate, setEndDate] = useState(item.endDate || new Date());
   const [state, setState] = useState(item.state || "");
-  const [majorList, setMajorList] = useState([]);
-  // useEffect(() => {
-  //   if (school === "대학교")
-  //     setMajorList([
-  //       {
-  //         idx: 0,
-  //         unit: "주전공",
-  //         major: "",
-  //       },
-  //     ]);
-  //   else setMajorList([]);
-  // }, [school]);
+  const [majorList, setMajorList] = useState(
+    item.majorList ? [...item.majorList] : []
+  );
+  console.log(startDate);
   const nextMajorIdx = useRef(item.majorList ? item.majorList.length : 1);
   const addUnivMajorItem = () => {
     const majorItem = {
@@ -47,8 +40,21 @@ const SchoolItem = ({
   };
 
   useEffect(() => {
+    if (school === "대학교")
+      if (majorList.length === 0) {
+        setMajorList([
+          {
+            idx: 0,
+            unit: "주전공",
+            major: "",
+          },
+        ]);
+      } else setMajorList([]);
+  }, [school]);
+
+  useEffect(() => {
     setMajorList(item.majorList);
-  }, [majorList]);
+  }, [item.majorList]);
 
   return (
     <>
@@ -158,12 +164,12 @@ const SchoolItem = ({
         )}
       </InputForm>
       {school === "대학교"
-        ? majorList.map((majorItem, idx) => {
+        ? majorList.map((majorItem, index) => {
             return (
               <Form key={majorItem.idx}>
                 <MajorItem
                   item={majorItem}
-                  index={idx}
+                  index={index}
                   length={majorList.length}
                   addUnivMajorItem={addUnivMajorItem}
                   removeUnivMajorItem={removeUnivMajorItem}

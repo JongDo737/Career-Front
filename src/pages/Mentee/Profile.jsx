@@ -28,17 +28,12 @@ import TitleWithBar from "../../components/Input/InputWithTitle";
 import ReviewList from "../../components/List/ReviewList";
 import { ScrollUp } from "../../components/Scroll";
 import TagList from "../../components/List/TagList";
-import { fetchProfile } from "../../api/fetchProfile";
+import { fetchMenteeProfile } from "../../api/fetchProfile";
 import { useQuery } from "react-query";
-import { birthParse, phoneNumberParse } from "../../utils/ParseFormat";
+import { birthHypenParse, phoneNumberParse } from "../../utils/ParseFormat";
 import { checkValidNickname } from "../../api/checkValid";
 
 const MenteeProfile = (props) => {
-  const { data, isLoading } = useQuery("profile", fetchProfile, {
-    onSuccess: (data) => {
-      setUser({ ...data, birth: birthParse(data.birth) });
-    },
-  });
   const [gender, setGender] = useState(false);
   const [intro, setIntro] = useState("안녕하세요. 김사장입니다.");
   const [birth, setBirth] = useState(new Date());
@@ -109,7 +104,12 @@ const MenteeProfile = (props) => {
   );
   const [careerFile, setCareerFile] = useState([]);
   const [isFile, setIsFile] = useState(false);
-
+  const { data, isLoading } = useQuery("profile", fetchMenteeProfile, {
+    enabled: view,
+    onSuccess: (data) => {
+      setUser({ ...data, birth: birthHypenParse(data.birth) });
+    },
+  });
   const tag = [
     { id: 0, name: "머신러닝" },
     { id: 1, name: "앱개발" },
@@ -180,6 +180,7 @@ const MenteeProfile = (props) => {
   const onChangeEdit = (e) => {
     e.preventDefault();
     setView((current) => !current);
+    console.log("user ", user);
     ScrollUp();
   };
 

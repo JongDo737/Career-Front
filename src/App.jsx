@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import Menubar from "./components/Menubar/Menubar";
 import Login from "./pages/Login/Login";
 import SignupMentee from "./pages/Mentee/Signup";
@@ -44,6 +50,7 @@ function App() {
       dispatch(setIsMentor(payload.isTutor));
     }
   }, []);
+
   return (
     <>
       <BrowserRouter>
@@ -110,7 +117,7 @@ function App() {
           ) : (
             <>
               <Route path="/" element={<Login />} />
-              <Route path="*" element={<Restricted />} />
+              <Route path="*" Navigate to={"/"} />
             </>
           )}
         </Routes>

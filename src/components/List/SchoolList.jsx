@@ -1,36 +1,41 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import SchoolItem from "./SchoolItem";
-const SchoolList = (props) => {
-  const nextIdx = useRef(props.schoolList.length);
+const SchoolList = ({ schoolList, setSchoolList, view }) => {
+  const nextIdx = useRef(schoolList.length);
   const addSchoolItem = () => {
     const school = {
       idx: nextIdx.current,
       school: "고등학교",
       schoolName: "",
-      startDate: "",
-      endDate: "",
+      startDate: new Date(),
+      endDate: new Date(),
       state: "졸업",
     };
-    props.setSchoolList([...props.schoolList, school]);
+    setSchoolList([...schoolList, school]);
     nextIdx.current += 1;
   };
   const removeSchoolItem = (i) => {
-    props.setSchoolList(props.schoolList.filter((a) => a.idx !== i));
+    setSchoolList(schoolList.filter((a) => a.idx !== i));
   };
+  useEffect(() => {
+    if (!schoolList.length) {
+      addSchoolItem();
+    }
+  }, []);
 
   return (
     <>
-      {props.schoolList &&
-        props.schoolList.map((item, i) => {
+      {schoolList &&
+        schoolList.map((item, i) => {
           return (
             <SchoolItem
               item={item}
               index={i}
               key={item.idx}
-              length={props.schoolList.length}
+              length={schoolList.length}
               addSchoolItem={addSchoolItem}
               removeSchoolItem={removeSchoolItem}
-              view={props.view}
+              view={view}
             />
           );
         })}

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colors } from "./Theme";
 
 export const Form = styled.div`
   width: 100%;
@@ -12,7 +13,7 @@ export const FormHalf = styled.div`
   min-width: 30%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   padding: 0 5rem;
 `;
 
@@ -37,7 +38,6 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin: 20px 0;
-  min-width: 30rem;
 `;
 
 export const ProfileBtn = styled.div`
@@ -144,5 +144,15 @@ export const FileUploadBtn = styled.label`
   &:hover {
     color: white;
     background-color: #44638c;
+  }
+`;
+
+export const ValidWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  > span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: ${colors.primaryBlue};
   }
 `;

@@ -16,8 +16,8 @@ const CareerItem = ({
 }) => {
   const [career, setCareer] = useState(item.career || "");
   const [careerName, setCareerName] = useState(item.careerName || "");
-  const [startDate, setStartDate] = useState(item.startDate || "");
-  const [endDate, setEndDate] = useState(item.endDate || "");
+  const [startDate, setStartDate] = useState(item.startDate || new Date());
+  const [endDate, setEndDate] = useState(item.endDate || new Date());
   const [state, setState] = useState(item.state || "");
   const [content, setContent] = useState(item.content || "");
 

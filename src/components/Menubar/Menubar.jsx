@@ -9,8 +9,11 @@ import { FRONT_LOCAL } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsLogin } from "../../store/isLoginSlice";
 import { colors } from "../../styles/common/Theme";
+import { useGlobalNavigate } from "../../hooks/useGlobalNavigate";
+import { setupAxiosInterceptors } from "../../utils/axiosInterceptors";
 
 const Menubar = () => {
+  useGlobalNavigate();
   const [login, setLogin] = useState("로그인");
   const [signup, setSignup] = useState("회원가입");
   const [signupSelect, setSignupSelect] = useState(false);
@@ -40,6 +43,10 @@ const Menubar = () => {
   const toggleSubSelect = () => {
     setSubSelect((current) => !current);
   };
+
+  useEffect(() => {
+    setupAxiosInterceptors(dispatch);
+  }, [dispatch]);
   useEffect(() => {
     setSubMenu("");
     if (!isLogin) {

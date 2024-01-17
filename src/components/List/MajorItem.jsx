@@ -45,19 +45,19 @@ const MajorItem = ({
         disabled={view}
       />
       {view ? "" : <Button>등록</Button>}
-      {(index !== 0) & !view ? (
+      {index !== 0 && !view ? (
         <Icon>
           <FontAwesomeIcon
             icon={faMinusCircle}
             onClick={() => {
-              removeUnivMajorItem(item.idx);
+              removeUnivMajorItem(item.id);
             }}
           />
         </Icon>
       ) : (
         ""
       )}
-      {(index === length - 1) & !view ? (
+      {index === length - 1 && !view ? (
         <Icon>
           <FontAwesomeIcon icon={faPlusCircle} onClick={addUnivMajorItem} />
         </Icon>
@@ -85,7 +85,7 @@ const Icon = styled.div`
   color: #2f5383;
   height: 100%;
   svg {
-    height: 30px;
+    height: 2rem;
     cursor: pointer;
   }
 `;

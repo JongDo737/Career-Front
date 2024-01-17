@@ -3,15 +3,16 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as faStarFull } from "@fortawesome/free-solid-svg-icons";
+import { middleNameParse } from "../../utils/ParseFormat";
 
 const ReviewList = ({ review }) => {
   const scoreToStar = (score) => {
     const scoreList = [];
     for (var i = 0; i < Number(score); i++) {
-      scoreList.push(<FontAwesomeIcon icon={faStarFull} />);
+      scoreList.push(<FontAwesomeIcon key={`full_${i}`} icon={faStarFull} />);
     }
     for (var j = 0; j < 5 - Number(score); j++) {
-      scoreList.push(<FontAwesomeIcon icon={faStar} />);
+      scoreList.push(<FontAwesomeIcon key={`empty_${i}`} icon={faStar} />);
     }
     return scoreList;
   };
@@ -25,22 +26,22 @@ const ReviewList = ({ review }) => {
   };
   return (
     <ReviewTable>
-      <tr>
-        <th>총 리뷰: {review.length} 개 </th>
-        <th></th>
-        <th>평점 : {averageScore()}점</th>
-      </tr>
-      {review.map((item, i) => {
-        return (
-          <tr key={i}>
+      <thead>
+        <tr>
+          <th>총 리뷰: {review.length} 개 </th>
+          <th></th>
+          <th>평점 : {averageScore()}점</th>
+        </tr>
+      </thead>
+      <tbody>
+        {review.map((item, i) => (
+          <tr key={item.id}>
             <td>{item.content}</td>
-            <td>
-              {item.writer.substring(0, 1) + "*" + item.writer.substring(2)}
-            </td>
+            <td>{middleNameParse(item.writer)}</td>
             <td>{scoreToStar(item.score)}</td>
           </tr>
-        );
-      })}
+        ))}
+      </tbody>
     </ReviewTable>
   );
 };

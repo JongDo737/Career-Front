@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import CareerItem from "./CareerItem";
 const CareerList = (props) => {
-  const nextIdx = useRef(1);
+  const nextIdx = useRef(props.careerList.length ? props.careerList.length : 1);
   const addCareerItem = () => {
     const career = {
-      idx: nextIdx.current,
+      id: nextIdx.current,
       career: "교내활동",
       careerName: "",
       startDate: "",
@@ -16,8 +16,13 @@ const CareerList = (props) => {
     nextIdx.current += 1;
   };
   const removeCareerItem = (i) => {
-    props.setCareerList(props.careerList.filter((a) => a.idx !== i));
+    props.setCareerList(props.careerList.filter((a) => a.id !== i));
   };
+  useEffect(() => {
+    if (!props.careerList.length) {
+      addCareerItem();
+    }
+  }, []);
 
   return (
     <>
@@ -27,7 +32,7 @@ const CareerList = (props) => {
             <CareerItem
               item={item}
               index={i}
-              key={item.idx}
+              key={item.id}
               length={props.careerList.length}
               addCareerItem={addCareerItem}
               removeCareerItem={removeCareerItem}
