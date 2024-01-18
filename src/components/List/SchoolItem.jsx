@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusCircle } from "@fortawesome/free-solid-svg-icons";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import MajorItem from "./MajorItem";
-import { dateParseWithString } from "../../utils/ParseFormat";
+import { StringToDateParse, dateToStringParse } from "../../utils/ParseFormat";
 const SchoolItem = ({
   item,
   index,
@@ -18,13 +18,16 @@ const SchoolItem = ({
 }) => {
   const [school, setSchool] = useState(item.school || "");
   const [schoolName, setSchoolName] = useState(item.schoolName || "");
-  const [startDate, setStartDate] = useState(item.startDate || new Date());
-  const [endDate, setEndDate] = useState(item.endDate || new Date());
+  const [startDate, setStartDate] = useState(
+    item.startDate || dateToStringParse(new Date())
+  );
+  const [endDate, setEndDate] = useState(
+    item.endDate || dateToStringParse(new Date())
+  );
   const [state, setState] = useState(item.state || "");
   const [majorList, setMajorList] = useState(
     item.majorList ? [...item.majorList] : []
   );
-  console.log(startDate);
   const nextMajorIdx = useRef(item.majorList ? item.majorList.length : 1);
   const addUnivMajorItem = () => {
     const majorItem = {
@@ -91,29 +94,29 @@ const SchoolItem = ({
           placeholderText="입학 날짜"
           dateFormat="yyyy-MM"
           shouldCloseOnSelect
-          selected={startDate}
+          selected={StringToDateParse(startDate)}
           onChange={(date) => {
-            setStartDate(date);
-            item.startDate = date;
+            const parseDate = dateToStringParse(date);
+            setStartDate(parseDate);
+            item.startDate = parseDate;
           }}
-          showMonthDropdown
-          showYearDropdown
+          showMonthYearPicker
           showIcon
           disabled={view}
         />
         <div style={{ display: "flex", alignItems: "center" }}>~</div>
         <DatePicker
-          selected={endDate}
+          selected={StringToDateParse(endDate)}
           placeholderText="졸업 날짜"
           dateFormat="yyyy-MM"
-          minDate={startDate}
+          // minDate={startDate}
           shouldCloseOnSelect
           onChange={(date) => {
-            setEndDate(date);
-            item.endDate = date;
+            const parseDate = dateToStringParse(date);
+            setEndDate(parseDate);
+            item.endDate = parseDate;
           }}
-          showMonthDropdown
-          showYearDropdown
+          showMonthYearPicker
           showIcon
           disabled={view}
         />
@@ -122,6 +125,7 @@ const SchoolItem = ({
           name="state"
           onChange={(e) => {
             item.state = e.target.value;
+            console.log(e.target.value);
             setState(e.target.value);
           }}
           value={state}
@@ -155,12 +159,10 @@ const SchoolItem = ({
         ) : (
           ""
         )}
-        {(index === length - 1) & !view ? (
+        {index === length - 1 && !view && index !== 4 && (
           <Icon>
             <FontAwesomeIcon icon={faPlusCircle} onClick={addSchoolItem} />
           </Icon>
-        ) : (
-          ""
         )}
       </InputForm>
       {school === "대학교"

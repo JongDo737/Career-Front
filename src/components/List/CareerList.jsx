@@ -4,7 +4,7 @@ const CareerList = (props) => {
   const nextIdx = useRef(props.careerList.length ? props.careerList.length : 1);
   const addCareerItem = () => {
     const career = {
-      id: nextIdx.current,
+      idx: nextIdx.current,
       career: "교내활동",
       careerName: "",
       startDate: "",
@@ -16,7 +16,7 @@ const CareerList = (props) => {
     nextIdx.current += 1;
   };
   const removeCareerItem = (i) => {
-    props.setCareerList(props.careerList.filter((a) => a.id !== i));
+    props.setCareerList(props.careerList.filter((a) => a.idx !== i));
   };
   useEffect(() => {
     if (!props.careerList.length) {
@@ -32,7 +32,7 @@ const CareerList = (props) => {
             <CareerItem
               item={item}
               index={i}
-              key={item.id}
+              key={item.idx}
               length={props.careerList.length}
               addCareerItem={addCareerItem}
               removeCareerItem={removeCareerItem}

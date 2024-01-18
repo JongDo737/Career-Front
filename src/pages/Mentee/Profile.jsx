@@ -104,12 +104,15 @@ const MenteeProfile = (props) => {
   );
   const [careerFile, setCareerFile] = useState([]);
   const [isFile, setIsFile] = useState(false);
-  const { data, isLoading } = useQuery("profile", fetchMenteeProfile, {
-    enabled: view,
-    onSuccess: (data) => {
-      setUser({ ...data, birth: birthHypenParse(data.birth) });
-    },
-  });
+  const { data, isLoading } =
+    ("profile",
+    fetchMenteeProfile,
+    {
+      enabled: view,
+      onSuccess: (data) => {
+        setUser({ ...data, birth: birthHypenParse(data.birth) });
+      },
+    });
   const tag = [
     { id: 0, name: "머신러닝" },
     { id: 1, name: "앱개발" },

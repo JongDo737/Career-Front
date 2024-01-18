@@ -1,18 +1,18 @@
 import React, { useEffect, useRef } from "react";
 import SchoolItem from "./SchoolItem";
 const SchoolList = ({ schoolList, setSchoolList, view }) => {
-  const nextIdx = useRef(schoolList.length);
+  const nextSchoolIdx = useRef(schoolList.length ? schoolList.length : 1);
   const addSchoolItem = () => {
     const school = {
-      idx: nextIdx.current,
+      idx: nextSchoolIdx.current,
       school: "고등학교",
       schoolName: "",
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: "",
+      endDate: "",
       state: "졸업",
     };
     setSchoolList([...schoolList, school]);
-    nextIdx.current += 1;
+    nextSchoolIdx.current += 1;
   };
   const removeSchoolItem = (i) => {
     setSchoolList(schoolList.filter((a) => a.idx !== i));

@@ -56,17 +56,18 @@ const MentorProfile = (props) => {
   const [user, setUser] = useState({});
   const { data, isLoading, refetch } = useQuery("profile", fetchMentorProfile, {
     // enabled: view,
+    staleTime: 1000 * 60 * 10,
     onSuccess: (data) => {
       setUser({
         ...data,
         birth: birthHypenParse(data.birth),
-        careerList: [...data.careerList],
       });
       setSchoolList([...data.schoolList]);
       setTagList([...data.tagList]);
+      setCareerList([...data.careerList]);
     },
   });
-  console.log(data);
+  // console.log(data);
   const [validNickname, setValidNickname] = useState(false);
   const fileInput = useRef(null);
 
@@ -128,6 +129,7 @@ const MentorProfile = (props) => {
           birth: birthOnlyNumberParse(user.birth),
           tagList: [...tagList],
           schoolList: [...schoolList],
+          careerList: [...careerList],
         });
         console.log(compareObj);
         await modifyMentorProfile(compareObj);
@@ -439,32 +441,30 @@ const MentorProfile = (props) => {
       {/* 여기는 아래 부분 */}
       <Form>
         <Form50>
-          {(user.schoolList?.length || !view) && (
-            <Wrapper style={{ width: "100%" }}>
-              <TitleWithBar
-                size="small"
-                title={view ? "학력" : "학력 (최대 5개)"}
-              />
-              <SchoolList
-                schoolList={schoolList}
-                setSchoolList={setSchoolList}
-                view={view}
-              />
-            </Wrapper>
-          )}
-          {(user.careerList?.length || !view) && (
-            <Wrapper style={{ width: "100%" }}>
-              <TitleWithBar
-                size="small"
-                title={view ? "경력" : "경력 (최대 5개)"}
-              />
-              <CareerList
-                careerList={careerList}
-                setCareerList={setCareerList}
-                view={view}
-              />
-            </Wrapper>
-          )}
+          {/* {(user.schoolList?.length || !view) && ( */}
+          <Wrapper style={{ width: "100%" }}>
+            <TitleWithBar
+              size="small"
+              title={view ? "학력" : "학력 (최대 5개)"}
+            />
+            <SchoolList
+              schoolList={schoolList}
+              setSchoolList={setSchoolList}
+              view={view}
+            />
+          </Wrapper>
+          {/* )} */}
+          <Wrapper style={{ width: "100%" }}>
+            <TitleWithBar
+              size="small"
+              title={view ? "경력" : "경력 (최대 5개)"}
+            />
+            <CareerList
+              careerList={careerList}
+              setCareerList={setCareerList}
+              view={view}
+            />
+          </Wrapper>
           <Wrapper>
             <TitleWithBar size="small" title="상담학과1" />
             <Input
