@@ -16,14 +16,10 @@ const SchoolItem = ({
   removeSchoolItem,
   view,
 }) => {
-  const [school, setSchool] = useState(item.school || "");
+  const [schoolType, setSchoolType] = useState(item.schoolType || "");
   const [schoolName, setSchoolName] = useState(item.schoolName || "");
-  const [startDate, setStartDate] = useState(
-    item.startDate || dateToStringParse(new Date())
-  );
-  const [endDate, setEndDate] = useState(
-    item.endDate || dateToStringParse(new Date())
-  );
+  const [startDate, setStartDate] = useState(item.startDate);
+  const [endDate, setEndDate] = useState(item.endDate);
   const [state, setState] = useState(item.state || "");
   const [majorList, setMajorList] = useState(
     item.majorList ? [...item.majorList] : []
@@ -43,7 +39,7 @@ const SchoolItem = ({
   };
 
   useEffect(() => {
-    if (school === "대학교")
+    if (schoolType === "대학교")
       if (majorList.length === 0) {
         setMajorList([
           {
@@ -53,7 +49,7 @@ const SchoolItem = ({
           },
         ]);
       } else setMajorList([]);
-  }, [school]);
+  }, [schoolType]);
 
   useEffect(() => {
     setMajorList(item.majorList);
@@ -63,18 +59,18 @@ const SchoolItem = ({
     <>
       <InputForm>
         <SchoolSelect
-          name="school"
+          name="schoolType"
           onChange={(e) => {
-            item.school = e.target.value;
-            setSchool(e.target.value);
+            item.schoolType = e.target.value;
+            setSchoolType(e.target.value);
           }}
-          value={school}
+          value={schoolType}
           disabled={view}
         >
-          <option name="school" value="고등학교">
+          <option name="schoolType" value="고등학교">
             고등학교
           </option>
-          <option name="school" value="대학교">
+          <option name="schoolType" value="대학교">
             대학교
           </option>
         </SchoolSelect>
@@ -125,7 +121,6 @@ const SchoolItem = ({
           name="state"
           onChange={(e) => {
             item.state = e.target.value;
-            console.log(e.target.value);
             setState(e.target.value);
           }}
           value={state}
@@ -165,7 +160,7 @@ const SchoolItem = ({
           </Icon>
         )}
       </InputForm>
-      {school === "대학교"
+      {schoolType === "대학교"
         ? majorList.map((majorItem, index) => {
             return (
               <Form key={majorItem.idx}>

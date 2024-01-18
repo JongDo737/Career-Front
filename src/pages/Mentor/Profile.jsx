@@ -47,9 +47,8 @@ const MentorProfile = (props) => {
   const [view, setView] = useState(true);
   const [schoolList, setSchoolList] = useState([]);
   const [careerList, setCareerList] = useState([]);
-  const [image, setImage] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  );
+  const [image, setImage] = useState(null);
+  const [imgFile, setImgFile] = useState(null);
   const [careerFile, setCareerFile] = useState([]);
   const [isFile, setIsFile] = useState(false);
   const [tagList, setTagList] = useState([]);
@@ -65,27 +64,37 @@ const MentorProfile = (props) => {
       setSchoolList([...data.schoolList]);
       setTagList([...data.tagList]);
       setCareerList([...data.careerList]);
+      setImage(
+        data.profileImg ||
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      );
     },
   });
-  // console.log(data);
   const [validNickname, setValidNickname] = useState(false);
   const fileInput = useRef(null);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const onChangeImg = (e) => {
-    if (e.target.files[0]) setImage(e.target.files[0]);
-    else return;
+    const file = e.target.files[0]; // 단일 파일 선택
+    if (!file) return; // 파일이 없으면 함수 종료
 
+    setImgFile(file);
+    // FileReader를 사용하여 이미지 데이터를 읽음
     const reader = new FileReader();
     reader.onload = () => {
-      if (reader.readyState === 2) setImage(reader.result);
+      if (reader.readyState === 2) {
+        setImage(reader.result); // 이미지 데이터를 상태로 설정
+      }
     };
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
+
+    setImgFile(file); // 단일 파일을 상태로 설정
   };
   const onResetImg = () => {
     setImage(
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
     );
+    setImgFile(null);
   };
 
   const fileUploadId = useRef(0);
@@ -106,6 +115,8 @@ const MentorProfile = (props) => {
     setIsFile(true);
   };
 
+  // console.log(data);
+
   useEffect(() => {
     fileUploadId.current = careerFile.length;
   }, [careerFile]);
@@ -124,15 +135,30 @@ const MentorProfile = (props) => {
         setAlertOpen(true);
       } else {
         setView((current) => !current);
+        const checkSchoolList = schoolList.filter((school) => {
+          // 모든 항목이 채워져 있는지 확인
+          const isComplete = Object.values(school).every((value) => {
+            // majorList가 배열인 경우, 배열의 모든 항목이 채워져 있는지 확인
+            if (Array.isArray(value)) {
+              return value.every((major) =>
+                Object.values(major).every((majorValue) => majorValue)
+              );
+            }
+            // 일반 속성은 단순히 값이 있는지 확인
+            return value;
+          });
+
+          return isComplete;
+        });
         const compareObj = CompareObjects(data, {
           ...user,
           birth: birthOnlyNumberParse(user.birth),
           tagList: [...tagList],
-          schoolList: [...schoolList],
-          careerList: [...careerList],
+          schoolList: [...checkSchoolList],
+          // careerList: [...careerList],
         });
         console.log(compareObj);
-        await modifyMentorProfile(compareObj);
+        await modifyMentorProfile(compareObj, imgFile);
         refetch();
       }
     }
@@ -441,30 +467,32 @@ const MentorProfile = (props) => {
       {/* 여기는 아래 부분 */}
       <Form>
         <Form50>
-          {/* {(user.schoolList?.length || !view) && ( */}
-          <Wrapper style={{ width: "100%" }}>
-            <TitleWithBar
-              size="small"
-              title={view ? "학력" : "학력 (최대 5개)"}
-            />
-            <SchoolList
-              schoolList={schoolList}
-              setSchoolList={setSchoolList}
-              view={view}
-            />
-          </Wrapper>
-          {/* )} */}
-          <Wrapper style={{ width: "100%" }}>
-            <TitleWithBar
-              size="small"
-              title={view ? "경력" : "경력 (최대 5개)"}
-            />
-            <CareerList
-              careerList={careerList}
-              setCareerList={setCareerList}
-              view={view}
-            />
-          </Wrapper>
+          {(user.schoolList?.length || !view) && (
+            <Wrapper style={{ width: "100%" }}>
+              <TitleWithBar
+                size="small"
+                title={view ? "학력" : "학력 (최대 5개)"}
+              />
+              <SchoolList
+                schoolList={schoolList}
+                setSchoolList={setSchoolList}
+                view={view}
+              />
+            </Wrapper>
+          )}
+          {(user.careerList?.length || !view) && (
+            <Wrapper style={{ width: "100%" }}>
+              <TitleWithBar
+                size="small"
+                title={view ? "경력" : "경력 (최대 5개)"}
+              />
+              <CareerList
+                careerList={careerList}
+                setCareerList={setCareerList}
+                view={view}
+              />
+            </Wrapper>
+          )}
           <Wrapper>
             <TitleWithBar size="small" title="상담학과1" />
             <Input
@@ -607,11 +635,12 @@ const MentorProfile = (props) => {
 export default MentorProfile;
 
 const ProfileImg = styled.img`
-  max-width: 200px;
-  max-height: 220px;
+  /* max-width: 200px;
+  max-height: 220px; */
   width: 18rem;
   height: 19rem;
   margin-bottom: 10px;
+  object-fit: cover;
   cursor: pointer;
 `;
 

@@ -81,6 +81,7 @@ const PostDetail = () => {
       tmpFiles.splice(6);
     }
     setNewFiles(tmpFiles);
+    console.log("tmp file ", tmpFiles);
     const filesArray = Object.values(tmpFiles);
     const loadImageData = (files) => {
       const promises = files.map((file) => {
@@ -94,8 +95,6 @@ const PostDetail = () => {
       });
 
       Promise.all(promises).then((imageDataArray) => {
-        // setImage((prev) => [...prev, ...imageDataArray]);
-        // setFiles((prev) => [...prev, ...filesArray]);
         setNewImage([...imageDataArray]);
       });
     };
@@ -269,9 +268,11 @@ const PostDetail = () => {
     );
     if (Array.isArray(image)) {
       newFiles.forEach((file) => formData.append("images", file));
+      console.log(newFiles);
       // formData.append("images", newFiles);
     } else {
       formData.append("images", newFiles);
+      console.log("new file", newFiles);
     }
     axios
       .post(`${SV_LOCAL}/community/article/modify`, formData, {
@@ -398,6 +399,7 @@ const PostDetail = () => {
       })
       .catch((err) => console.error(err));
   };
+
   return (
     <>
       <Form>
