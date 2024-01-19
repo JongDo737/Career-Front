@@ -39,28 +39,46 @@ const SchoolItem = ({
   };
 
   useEffect(() => {
-    if (schoolType === "대학교")
-      if (majorList.length === 0) {
-        setMajorList([
-          {
-            idx: 0,
-            unit: "주전공",
-            major: "",
-          },
-        ]);
-      } else setMajorList([]);
+    if (schoolType === "대학교" && !!majorList) {
+      console.log("here");
+      setMajorList([
+        {
+          idx: 1,
+          unit: "주전공",
+          major: "",
+        },
+      ]);
+      item.majorList = [
+        {
+          idx: 1,
+          unit: "주전공",
+          major: "",
+        },
+      ];
+
+      // addUnivMajorItem();
+    } else {
+      setMajorList([]);
+      item.majorList = [];
+    }
   }, [schoolType]);
 
-  useEffect(() => {
-    setMajorList(item.majorList);
-  }, [item.majorList]);
+  // useEffect(() => {
+  //   setMajorList(item.majorList);
+  // }, [item.majorList]);
 
+  // useEffect(() => {
+
+  //   console.log(majorList);
+  //   console.log("major list ", item.majorList);
+  // }, [majorList]);
   return (
     <>
       <InputForm>
         <SchoolSelect
           name="schoolType"
           onChange={(e) => {
+            console.log(e.target.value);
             item.schoolType = e.target.value;
             setSchoolType(e.target.value);
           }}
@@ -161,7 +179,9 @@ const SchoolItem = ({
         )}
       </InputForm>
       {schoolType === "대학교"
-        ? majorList.map((majorItem, index) => {
+        ? majorList &&
+          majorList.length > 0 &&
+          majorList.map((majorItem, index) => {
             return (
               <Form key={majorItem.idx}>
                 <MajorItem

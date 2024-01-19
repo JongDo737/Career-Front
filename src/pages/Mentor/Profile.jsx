@@ -130,26 +130,44 @@ const MentorProfile = (props) => {
         setAlertOpen(true);
       } else {
         setView((current) => !current);
-        const checkSchoolList = schoolList.filter((school) => {
+        let majorList = null;
+        console.log("schoolList", schoolList);
+
+        let checkSchoolList = schoolList.filter((school) => {
           // 모든 항목이 채워져 있는지 확인
           const isComplete = Object.values(school).every((value) => {
             // majorList가 배열인 경우, 배열의 모든 항목이 채워져 있는지 확인
+
             if (Array.isArray(value)) {
+              console.log("value ", value);
+              majorList = value;
               return value.every((major) =>
-                Object.values(major).every((majorValue) => majorValue)
+                Object.values(major).every((majorValue) => {
+                  console.log("major value ", major, majorValue);
+                  return majorValue;
+                })
               );
             }
             // 일반 속성은 단순히 값이 있는지 확인
             return value;
           });
-
+          console.log("iscomplete", isComplete);
           return isComplete;
         });
+
+        if (checkSchoolList.length) {
+          console.log("ok ", checkSchoolList, majorList);
+          checkSchoolList = schoolList.map((school) => ({
+            ...school,
+            ...(majorList && majorList.length > 0 && { majorList }),
+          }));
+        }
+        console.log("check school list ", checkSchoolList);
         const compareObj = CompareObjects(data, {
           ...user,
           birth: birthOnlyNumberParse(user.birth),
           tagList: [...tagList],
-          schoolList: [...checkSchoolList],
+          schoolList: checkSchoolList,
           // careerList: [...careerList],
         });
         console.log(compareObj);

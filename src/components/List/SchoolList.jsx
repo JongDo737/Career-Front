@@ -11,6 +11,7 @@ const SchoolList = ({ schoolList, setSchoolList, view }) => {
       startDate: dateToStringParse(new Date()),
       endDate: dateToStringParse(new Date()),
       state: "졸업",
+      majorList: null,
     };
     setSchoolList([...schoolList, school]);
     nextSchoolIdx.current += 1;
@@ -24,6 +25,9 @@ const SchoolList = ({ schoolList, setSchoolList, view }) => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log("item change", schoolList);
+  }, [schoolList]);
   return (
     <>
       {schoolList &&

@@ -44,7 +44,7 @@ const MajorItem = ({
         }}
         disabled={view}
       />
-      {view ? "" : <Button>등록</Button>}
+      {/* {view ? "" : <Button>등록</Button>} */}
       {index !== 0 && !view ? (
         <Icon>
           <FontAwesomeIcon
