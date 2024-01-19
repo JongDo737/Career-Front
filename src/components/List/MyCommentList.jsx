@@ -51,37 +51,41 @@ const MyCommentList = ({ comments, setComments }) => {
   }, [deleteComment]);
   return (
     <>
-      {comments.map((item, idx) => (
-        <Comment key={idx}>
-          <header>
-            <FontAwesomeIcon icon={faMessage} className="icon" />
-            <div className="comment-content">{item.content}</div>
-            <div className="comment-date">
-              작성일 {dateParse(item.createdAt)}
-            </div>
-            <FontAwesomeIcon
-              icon={faTrashCan}
-              className="icon"
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                setDeleteComment(item);
-              }}
-            />
-          </header>
-          <footer>
-            <Link
-              className="comment-title-wrapper"
-              to={`/community/post/${item.article.id}`}
-            >
-              <div className="comment-title">{item.article.title}</div>
+      {comments.length ? (
+        comments.map((item, idx) => (
+          <Comment key={idx}>
+            <header>
+              <FontAwesomeIcon icon={faMessage} className="icon" />
+              <div className="comment-content">{item.content}</div>
+              <div className="comment-date">
+                작성일 {dateParse(item.createdAt)}
+              </div>
               <FontAwesomeIcon
-                icon={faChevronRight}
-                style={{ fontSize: "1.2rem" }}
+                icon={faTrashCan}
+                className="icon"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setDeleteComment(item);
+                }}
               />
-            </Link>
-          </footer>
-        </Comment>
-      ))}
+            </header>
+            <footer>
+              <Link
+                className="comment-title-wrapper"
+                to={`/community/post/${item.article.id}`}
+              >
+                <div className="comment-title">{item.article.title}</div>
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  style={{ fontSize: "1.2rem" }}
+                />
+              </Link>
+            </footer>
+          </Comment>
+        ))
+      ) : (
+        <NoneList>남긴 댓글이 없습니다.</NoneList>
+      )}
       {deleteComment !== null && (
         <DeleteWrapper
           onClick={() => {
@@ -216,4 +220,11 @@ const DeleteModal = styled.div`
       }
     }
   }
+`;
+
+const NoneList = styled.div`
+  text-align: center;
+  font-size: 1.2rem;
+  height: 10rem;
+  color: gray;
 `;

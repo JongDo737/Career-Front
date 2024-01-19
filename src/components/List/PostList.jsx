@@ -129,80 +129,88 @@ const PostList = ({ posts, setPosts, postStyle }) => {
   console.log("posts ", posts);
   return (
     <>
-      {posts.map((item, idx) => (
-        <Post
-          key={idx}
-          img={item.user.profileImg}
-          // to={`/community/post/${item.id}`}
-          onClick={() => navigate(`/community/post/${item.id}`)}
-        >
-          <header>
-            <div className="header-left">
-              <div className="img-container"></div>
-              <div className="info">
-                <span className="name">
-                  {item.user.nickname || "익명"} (
-                  {item.user.isTutor ? "멘토" : "멘티"})
-                </span>
-                <span className="date">작성일 {dateParse(item.createdAt)}</span>
-              </div>
-            </div>
-            <div className="header-right">{postStyleRendering(item)}</div>
-          </header>
-          <MainWrapper>
-            <main>
-              <div className="main-title">{item.title}</div>
-              <div className="main-content">{item.content}</div>
-            </main>
-            <div className="image-wrapper">
-              {item.imgs.map(
-                (img, imgIdx) => imgIdx < 2 && <img src={img} key={imgIdx} />
-              )}
-              {item.imgs.length > 2 && (
-                <div
-                  className="more-imgs-number"
-                  style={{
-                    backgroundImage: `url(${item.imgs[2]})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "7rem",
-                      height: "7rem",
-                      backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    }}
-                  />
-                  <div className="number-overlay">+ {item.imgs.length - 2}</div>
+      {posts.length ? (
+        posts.map((item, idx) => (
+          <Post
+            key={idx}
+            img={item.user.profileImg}
+            // to={`/community/post/${item.id}`}
+            onClick={() => navigate(`/community/post/${item.id}`)}
+          >
+            <header>
+              <div className="header-left">
+                <div className="img-container"></div>
+                <div className="info">
+                  <span className="name">
+                    {item.user.nickname || "익명"} (
+                    {item.user.isTutor ? "멘토" : "멘티"})
+                  </span>
+                  <span className="date">
+                    작성일 {dateParse(item.createdAt)}
+                  </span>
                 </div>
+              </div>
+              <div className="header-right">{postStyleRendering(item)}</div>
+            </header>
+            <MainWrapper>
+              <main>
+                <div className="main-title">{item.title}</div>
+                <div className="main-content">{item.content}</div>
+              </main>
+              <div className="image-wrapper">
+                {item.imgs.map(
+                  (img, imgIdx) => imgIdx < 2 && <img src={img} key={imgIdx} />
+                )}
+                {item.imgs.length > 2 && (
+                  <div
+                    className="more-imgs-number"
+                    style={{
+                      backgroundImage: `url(${item.imgs[2]})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "7rem",
+                        height: "7rem",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      }}
+                    />
+                    <div className="number-overlay">
+                      + {item.imgs.length - 2}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </MainWrapper>
+            <footer>
+              {item.isHeartClicked ? (
+                <FontAwesomeIcon
+                  icon={faHeartFull}
+                  className="icon heart-full"
+                  onClick={(e) => onDeleteHeart(e, item.id, idx)}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  className="icon"
+                  onClick={(e) => onAddHeart(e, item.id, idx)}
+                />
               )}
-            </div>
-          </MainWrapper>
-          <footer>
-            {item.isHeartClicked ? (
-              <FontAwesomeIcon
-                icon={faHeartFull}
-                className="icon heart-full"
-                onClick={(e) => onDeleteHeart(e, item.id, idx)}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faHeart}
-                className="icon"
-                onClick={(e) => onAddHeart(e, item.id, idx)}
-              />
-            )}
-            <span>{item.heartCnt}</span>
-            <FontAwesomeIcon icon={faMessage} className="icon" />
-            <span>{item.commentCnt}</span>
-          </footer>
-        </Post>
-      ))}
+              <span>{item.heartCnt}</span>
+              <FontAwesomeIcon icon={faMessage} className="icon" />
+              <span>{item.commentCnt}</span>
+            </footer>
+          </Post>
+        ))
+      ) : (
+        <NoneList>게시글이 없습니다.</NoneList>
+      )}
       {deletePost !== null && (
         <DeleteWrapper
           onClick={() => {
@@ -262,6 +270,7 @@ const Post = styled.div`
             ? `url(${props.img})`
             : `url("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")`};
         background-size: cover;
+        background-color: white;
         width: 3.5rem;
         height: 3.5rem;
         border-radius: 50%;
@@ -416,4 +425,11 @@ const DeleteModal = styled.div`
       }
     }
   }
+`;
+
+const NoneList = styled.div`
+  text-align: center;
+  font-size: 1.2rem;
+  height: 10rem;
+  color: gray;
 `;

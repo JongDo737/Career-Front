@@ -44,9 +44,14 @@ const Menubar = () => {
     setSubSelect((current) => !current);
   };
 
+  const initialSubMenu = () => {
+    setSubMenu("");
+    setSubSelect(false);
+  };
   useEffect(() => {
     setupAxiosInterceptors(dispatch);
   }, [dispatch]);
+
   useEffect(() => {
     setSubMenu("");
     if (!isLogin) {
@@ -86,7 +91,12 @@ const Menubar = () => {
           <div className="menubar-logo">CAREER</div>
           {leftMenu.map((menu, i) => {
             return (
-              <Link to={leftLink[i]} className="menubar-content" key={i}>
+              <Link
+                to={leftLink[i]}
+                className="menubar-content"
+                key={i}
+                onClick={initialSubMenu}
+              >
                 {menu}
               </Link>
             );
@@ -101,7 +111,11 @@ const Menubar = () => {
                     <div className="menubar-icon circle-icon">
                       <FontAwesomeIcon icon={faCircle} />
                     </div>
-                    <Link to={rightLink[i]} className="menubar-content">
+                    <Link
+                      to={rightLink[i]}
+                      className="menubar-content"
+                      onClick={initialSubMenu}
+                    >
                       {menu}
                     </Link>
                   </Fragment>

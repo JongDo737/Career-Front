@@ -1,14 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import SchoolItem from "./SchoolItem";
+import { dateToStringParse } from "../../utils/ParseFormat";
 const SchoolList = ({ schoolList, setSchoolList, view }) => {
   const nextSchoolIdx = useRef(schoolList.length ? schoolList.length : 1);
   const addSchoolItem = () => {
     const school = {
       idx: nextSchoolIdx.current,
-      school: "고등학교",
+      schoolType: "고등학교",
       schoolName: "",
-      startDate: "",
-      endDate: "",
+      startDate: dateToStringParse(new Date()),
+      endDate: dateToStringParse(new Date()),
       state: "졸업",
     };
     setSchoolList([...schoolList, school]);
