@@ -88,3 +88,25 @@ export const CommunityCategoryList = [
       "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
   },
 ];
+
+export const Review = [
+  {
+    id: 0,
+    writer: "신종민",
+    content: "멘토님 너무 친절하고 재밌으셔서 시간 가는 줄 몰랐습니다.",
+    score: 5,
+  },
+  {
+    id: 1,
+    writer: "한재준",
+    content: "상담비가 전혀 아깝지 않을 정도로 열정적이세요.",
+    score: 5,
+  },
+  {
+    id: 2,
+    writer: "채희문",
+    content:
+      "멘토님은 정말 좋으세요. 하지만 사전질문에 대한 답변을 듣지 못해 아쉬웠어요. 다음 상담을 기대해보겠습니다!",
+    score: 4,
+  },
+];
