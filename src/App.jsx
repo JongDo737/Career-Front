@@ -36,6 +36,8 @@ import { setIsMentor } from "./store/isMentorSlice";
 import NotFound from "./pages/NotFound";
 import MenteeProfile from "./pages/Mentee/Profile";
 import MentorProfile from "./pages/Mentor/Profile";
+import RecommendMentor from "./pages/Mentee/RecommendMentor";
+import PopularMentor from "./pages/Mentee/PopularMentor";
 
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
@@ -105,6 +107,14 @@ function App() {
                   <Route path="/" element={<HomeMentee />} />
                   <Route path="/mentee" element={<HomeMentee />} />
                   <Route path="/mentee/mentor" element={<MenteeMentor />} />
+                  <Route
+                    path="/mentee/mentor/recommend"
+                    element={<RecommendMentor />}
+                  />
+                  <Route
+                    path="/mentee/mentor/popular"
+                    element={<PopularMentor />}
+                  />
                   <Route path="/mentee/profile" element={<MenteeProfile />} />
                 </>
               ) : (

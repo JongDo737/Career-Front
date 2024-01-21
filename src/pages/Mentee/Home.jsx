@@ -17,6 +17,7 @@ import { colors } from "../../styles/common/Theme";
 import Button from "../../components/Button/Button";
 import RecommendMentorList from "../../components/List/RecommendMentorList";
 import PopularMentorList from "../../components/List/PopularMentorList";
+import { MenteeHeader } from "../../styles/common/Mentee";
 const Home = () => {
   const [userName, setUserName] = useState("김성애");
 
@@ -60,7 +61,7 @@ const Home = () => {
           <HorizontalLine />
         </LineGap>
         <Wrapper>
-          <header className="header">Carry-A-Way 가 처음이라면?</header>
+          <MenteeHeader>Carry-A-Way 가 처음이라면?</MenteeHeader>
           <About>
             <div>
               <span>Carry-A-Way 이용방법 알아보기</span>

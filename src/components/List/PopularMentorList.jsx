@@ -1,44 +1,21 @@
 import MentorList from "./MentorList";
 import Button from "../Button/Button";
 import styled from "styled-components";
-import { colors } from "../../styles/common/Theme";
+import { MenteeHeader } from "../../styles/common/Mentee";
+import { PopularMentors } from "../../settings/config";
+import { useNavigate } from "react-router-dom";
 
 const PopularMentorList = () => {
-  const popularMentors = [
-    {
-      name: "채희문",
-      age: 23,
-      school: "OO대 OO학부",
-      state: "졸업 예정 (2024)",
-      tags: ["지식이 풍부한", "센스있는"],
-      image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
-    },
-    {
-      name: "한재준",
-      age: 22,
-      school: "OO대 OO학부",
-      state: "졸업 예정 (2024)",
-      tags: ["경험 많은", "유쾌한"],
-      image:
-        "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
-    },
-    {
-      name: "신종민",
-      age: 21,
-      school: "OO대 OO학부",
-      state: "재학중 (3학년)",
-      tags: ["즐거운", "실력있는"],
-      image:
-        "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-    },
-  ];
+  const navigate = useNavigate();
   return (
     <StyledContainer>
-      <header className="header">다수의 PICK! 이번주 인기 멘토</header>
+      <MenteeHeader>이번주 인기 멘토</MenteeHeader>
       <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
-      <MentorList mentors={popularMentors} />
+      <MentorList mentors={PopularMentors} />
       <div className="button-wrapper">
-        <Button>인기멘토 더 보러가기</Button>
+        <Button onClick={() => navigate("/mentee/mentor/popular")}>
+          인기멘토 더 보러가기
+        </Button>
       </div>
     </StyledContainer>
   );
@@ -51,12 +28,6 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  .header {
-    margin: 3rem;
-    font-size: 2rem;
-    font-weight: 700;
-    color: ${colors.primaryBlue};
-  }
   .notice {
     width: 100%;
     text-align: end;
