@@ -1,14 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import CareerItem from "./CareerItem";
+import { dateToStringParse } from "../../utils/ParseFormat";
 const CareerList = (props) => {
   const nextIdx = useRef(props.careerList.length ? props.careerList.length : 1);
   const addCareerItem = () => {
     const career = {
       idx: nextIdx.current,
-      career: "교내활동",
+      careerType: "교내활동",
       careerName: "",
-      startDate: "",
-      endDate: "",
+      startDate: dateToStringParse(new Date()),
+      endDate: dateToStringParse(new Date()),
       state: "수료",
       content: "", // 200자 넣기 추가
     };

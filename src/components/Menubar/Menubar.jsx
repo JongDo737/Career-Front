@@ -4,7 +4,7 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { setCookie } from "../../cookie";
+import { getCookie, setCookie } from "../../cookie";
 import { FRONT_LOCAL } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsLogin } from "../../store/isLoginSlice";

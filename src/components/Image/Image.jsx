@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 const Image = (props) => {
   const [image, setImage] = useState("");
 
@@ -41,7 +41,7 @@ const Image = (props) => {
           />
         </>
       ) : (
-        <>
+        <ActivityImgWrapper>
           <ActivityImg
             ActivityImg
             src={image}
@@ -58,7 +58,12 @@ const Image = (props) => {
             onChange={onChangeImg}
             ref={fileInput}
           />
-        </>
+          <FontAwesomeIcon
+            icon={faXmark}
+            className="icon-x"
+            onClick={onResetImg}
+          />
+        </ActivityImgWrapper>
       )}
     </>
   );
@@ -66,11 +71,25 @@ const Image = (props) => {
 
 export default Image;
 
+const ActivityImgWrapper = styled.div`
+  position: relative;
+  .icon-x {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    background-color: #000000df;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+`;
 const ActivityImg = styled.img`
   width: 8rem;
   height: 8rem;
 
-  cursor: pointer;
+  /* cursor: pointer; */
 `;
 
 const NoImage = styled.div`
@@ -82,4 +101,5 @@ const NoImage = styled.div`
   color: gray;
   border: 1px solid gray;
   font-size: 3rem;
+  cursor: pointer;
 `;
