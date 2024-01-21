@@ -25,9 +25,9 @@ const SchoolList = ({ schoolList, setSchoolList, view }) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("item change", schoolList);
-  }, [schoolList]);
+  // useEffect(() => {
+  //   console.log("item change", schoolList);
+  // }, [schoolList]);
   return (
     <>
       {schoolList &&

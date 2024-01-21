@@ -15,7 +15,7 @@ const CareerItem = ({
   removeCareerItem,
   view,
 }) => {
-  const [career, setCareer] = useState(item.career || "");
+  const [careerType, setCareerType] = useState(item.careerType || "");
   const [careerName, setCareerName] = useState(item.careerName || "");
   const [startDate, setStartDate] = useState(
     item.startDate || dateToStringParse(new Date())
@@ -30,27 +30,27 @@ const CareerItem = ({
     <>
       <Form>
         <Select
-          name="career"
+          name="careerType"
           onChange={(e) => {
-            item.career = e.target.value;
-            setCareer(e.target.value);
+            item.careerType = e.target.value;
+            setCareerType(e.target.value);
           }}
-          value={career}
+          value={careerType}
           disabled={view}
         >
-          <option name="career" value="교내활동">
+          <option name="careerType" value="교내활동">
             교내활동
           </option>
-          <option name="career" value="교외활동">
+          <option name="careerType" value="교외활동">
             교외활동
           </option>
-          <option name="career" value="인턴">
+          <option name="careerType" value="인턴">
             인턴
           </option>
-          <option name="career" value="프로젝트">
+          <option name="careerType" value="프로젝트">
             프로젝트
           </option>
-          <option name="career" value="기타">
+          <option name="careerType" value="기타">
             기타
           </option>
         </Select>
@@ -147,6 +147,7 @@ const CareerItem = ({
             value={content}
             onChange={(e) => {
               setContent(e.target.value);
+              item.content = e.target.value;
             }}
             disabled={view}
           >

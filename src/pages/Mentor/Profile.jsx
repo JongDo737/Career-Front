@@ -114,7 +114,7 @@ const MentorProfile = (props) => {
     setIsFile(true);
   };
 
-  // console.log(data);
+  console.log(data);
 
   const onDeleteFile = (id) => {
     setCareerFile(careerFile.filter((a) => a.id !== id));
@@ -168,7 +168,7 @@ const MentorProfile = (props) => {
           birth: birthOnlyNumberParse(user.birth),
           tagList: [...tagList],
           schoolList: checkSchoolList,
-          // careerList: [...careerList],
+          careerList: [...careerList],
         });
         console.log(compareObj);
         await modifyMentorProfile(compareObj, imgFile);

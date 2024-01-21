@@ -40,7 +40,6 @@ const SchoolItem = ({
 
   useEffect(() => {
     if (schoolType === "대학교" && !!majorList) {
-      console.log("here");
       setMajorList([
         {
           idx: 1,
@@ -55,8 +54,6 @@ const SchoolItem = ({
           major: "",
         },
       ];
-
-      // addUnivMajorItem();
     } else {
       setMajorList([]);
       item.majorList = [];
@@ -78,7 +75,6 @@ const SchoolItem = ({
         <SchoolSelect
           name="schoolType"
           onChange={(e) => {
-            console.log(e.target.value);
             item.schoolType = e.target.value;
             setSchoolType(e.target.value);
           }}
