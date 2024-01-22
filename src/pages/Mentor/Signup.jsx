@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
-import Button from "../../components/Button/Button";
+import { ButtonDiv } from "../../components/Button/Button";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import Input from "../../components/Input/Input";
@@ -208,7 +208,7 @@ function Signup() {
                   setValidUsername(undefined);
                 }}
               />
-              <Button
+              <ButtonDiv
                 height="3rem"
                 onClick={() => {
                   checkValidUsername(user.username).then((res) =>
@@ -218,7 +218,7 @@ function Signup() {
                 disabled={validUsername}
               >
                 중복확인
-              </Button>
+              </ButtonDiv>
             </InputForm>
             <ValidWrapper>
               {validUsername === undefined && user.username && (
@@ -242,7 +242,7 @@ function Signup() {
                   setValidNickname(undefined);
                 }}
               />
-              <Button
+              <ButtonDiv
                 height="3rem"
                 onClick={() => {
                   checkValidNickname(user.nickname).then((res) =>
@@ -252,7 +252,7 @@ function Signup() {
                 disabled={validNickname}
               >
                 중복확인
-              </Button>
+              </ButtonDiv>
             </InputForm>
             <ValidWrapper>
               {validNickname === undefined && user.nickname && (
@@ -332,12 +332,12 @@ function Signup() {
                   }))
                 }
               />
-              <Button
+              <ButtonDiv
                 height="3rem"
                 onClick={() => alert("인증코드가 전송되었습니다.")}
               >
                 인증코드 전송
-              </Button>
+              </ButtonDiv>
             </InputForm>
             <InputForm>
               <Input
@@ -345,7 +345,7 @@ function Signup() {
                 placeholder="인증코드를 입력하세요."
                 onChange={(e) => setNumberCode(e.target.value)}
               />
-              <Button height="3rem">확인</Button>
+              <ButtonDiv height="3rem">확인</ButtonDiv>
             </InputForm>
           </Wrapper>
           <Wrapper>

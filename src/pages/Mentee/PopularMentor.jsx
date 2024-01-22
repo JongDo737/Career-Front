@@ -3,12 +3,12 @@ import { MenteeHeader } from "../../styles/common/Mentee";
 import {
   MenteeMentorLinkList,
   MenteeMentorMenu,
-  TotalRecommendMentors,
+  TotalPopularMentors,
 } from "../../settings/config";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import MentorCard from "../../components/List/MentorCard";
 
-const RecommendMentor = () => {
+const PopularMentor = () => {
   const subMenuList = MenteeMentorMenu;
   const subMenuLinkList = MenteeMentorLinkList;
 
@@ -20,9 +20,9 @@ const RecommendMentor = () => {
         subMenuLinkList={subMenuLinkList}
       />
       <StyledLayout>
-        <MenteeHeader>나만의 맞춤형 멘토</MenteeHeader>
+        <MenteeHeader>이번주 인기 멘토</MenteeHeader>
         <GridContainer>
-          {TotalRecommendMentors.map((item, idx) => (
+          {TotalPopularMentors.map((item, idx) => (
             <MentorCard key={idx} mentor={item} />
           ))}
         </GridContainer>
@@ -31,7 +31,7 @@ const RecommendMentor = () => {
   );
 };
 
-export default RecommendMentor;
+export default PopularMentor;
 
 const StyledLayout = styled.div`
   display: flex;

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import Button from "../../components/Button/Button";
+import { ButtonDiv } from "../../components/Button/Button";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import Input from "../../components/Input/Input";
@@ -333,14 +333,14 @@ const MenteeProfile = (props) => {
                 }}
               />
               {!view && user.nickname && user.nickname !== data.nickname && (
-                <Button
+                <ButtonDiv
                   height="3rem"
                   onClick={() => {
                     checkValidNickname(user.nickname);
                   }}
                 >
                   중복확인
-                </Button>
+                </ButtonDiv>
               )}
             </InputForm>
           </Wrapper>
@@ -404,7 +404,7 @@ const MenteeProfile = (props) => {
               />
 
               {!view && user.telephone && user.telephone !== data.telephone && (
-                <Button height="3rem">인증코드 전송</Button>
+                <ButtonDiv height="3rem">인증코드 전송</ButtonDiv>
               )}
             </InputForm>
             {!view && user.telephone && user.telephone !== data.telephone && (
@@ -413,7 +413,7 @@ const MenteeProfile = (props) => {
                   placeholder="인증코드를 입력하세요."
                   onChange={(e) => setNumberCode(e.target.value)}
                 />
-                <Button height="3rem">확인</Button>
+                <ButtonDiv height="3rem">확인</ButtonDiv>
               </InputForm>
             )}
           </Wrapper>
@@ -596,9 +596,9 @@ const MenteeProfile = (props) => {
         </Form>
       )}
       <Form style={{ marginBottom: "8rem" }}>
-        <Button onClick={onChangeEdit} size="large" height="3rem">
+        <ButtonDiv onClick={onChangeEdit} size="large" height="3rem">
           {view ? "수정하기" : "저장하기"}
-        </Button>
+        </ButtonDiv>
       </Form>
     </>
   );
