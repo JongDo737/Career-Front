@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import Button from "../../components/Button/Button";
+import { ButtonDiv } from "../../components/Button/Button";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import Input from "../../components/Input/Input";
@@ -316,7 +316,7 @@ const MentorProfile = (props) => {
                 }}
               />
               {!view && user.nickname && user.nickname !== data.nickname && (
-                <Button
+                <ButtonDiv
                   height="3rem"
                   onClick={() => {
                     checkValidNickname(user.nickname).then((res) =>
@@ -326,7 +326,7 @@ const MentorProfile = (props) => {
                   disabled={validNickname}
                 >
                   중복확인
-                </Button>
+                </ButtonDiv>
               )}
             </InputForm>
             <ValidWrapper>
@@ -423,7 +423,7 @@ const MentorProfile = (props) => {
               />
 
               {!view && user.telephone && user.telephone !== data.telephone && (
-                <Button height="3rem">인증코드 전송</Button>
+                <ButtonDiv height="3rem">인증코드 전송</ButtonDiv>
               )}
             </InputForm>
             {!view && user.telephone && user.telephone !== data.telephone && (
@@ -433,7 +433,7 @@ const MentorProfile = (props) => {
                   onChange={(e) => setNumberCode(e.target.value)}
                   value={numberCode}
                 />
-                <Button height="3rem">확인</Button>
+                <ButtonDiv height="3rem">확인</ButtonDiv>
               </InputForm>
             )}
           </Wrapper>
@@ -629,9 +629,9 @@ const MentorProfile = (props) => {
         </Form>
       )}
       <Form style={{ marginBottom: "8rem" }}>
-        <Button onClick={onChangeEdit} size="large" height="3rem">
+        <ButtonDiv onClick={onChangeEdit} size="large" height="3rem">
           {view ? "수정하기" : "저장하기"}
-        </Button>
+        </ButtonDiv>
       </Form>
       {alertOpen && (
         <AlertModal

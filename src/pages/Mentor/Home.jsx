@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PointBox from "../../components/Box/PointBox";
 import MoveBox from "../../components/Box/MoveBox";
-import Button from "../../components/Button/Button";
+import { ButtonDiv } from "../../components/Button/Button";
 import ConsultList from "../../components/List/ConsultList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -100,9 +100,9 @@ const Home = () => {
                   width: "100%",
                 }}
               >
-                <Button onClick={() => navigate(`/schedule`)}>
+                <ButtonDiv onClick={() => navigate(`/schedule`)}>
                   시간표 바로가기
-                </Button>
+                </ButtonDiv>
               </div>
             </Consult>
           ) : (
