@@ -22,9 +22,9 @@ export const MentorConsultLinkList = [
 // mentee/mentor
 export const MenteeMentorMenu = ["멘토 추천", "멘토 찾기", "내 멘토"];
 export const MenteeMentorLinkList = [
-  "/mentor/recommend",
-  "/mentor/find",
-  "/mentor/my-mentors",
+  "/mentee/mentor",
+  "/mentee/mentor/find",
+  "mentee/mentor/my-mentors",
 ];
 
 // export const CommunityCategoryList = [

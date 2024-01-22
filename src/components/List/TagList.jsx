@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Input from "../Input/Input";
 import { InputForm } from "../../styles/common/FoamComponents";
-import Button from "../Button/Button";
+import { Button, ButtonDiv } from "../Button/Button";
 
 const TagList = ({ tagList, setTagList, view }) => {
   const [tmpTag, setTmpTag] = useState("");
@@ -18,8 +18,11 @@ const TagList = ({ tagList, setTagList, view }) => {
     setTagList(tagList.filter((a) => a.idx !== idx));
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
-    <>
+    <StyledForm onSubmit={onSubmit}>
       <InputForm>
         <Input
           width="15rem"
@@ -61,12 +64,13 @@ const TagList = ({ tagList, setTagList, view }) => {
             })
           : ""}
       </TagWrapper>
-    </>
+    </StyledForm>
   );
 };
 
 export default TagList;
 
+const StyledForm = styled.form``;
 const TagWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
