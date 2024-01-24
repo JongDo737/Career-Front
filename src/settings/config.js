@@ -24,7 +24,7 @@ export const MenteeMentorMenu = ["멘토 추천", "멘토 찾기", "내 멘토"]
 export const MenteeMentorLinkList = [
   "/mentee/mentor",
   "/mentee/mentor/find",
-  "mentee/mentor/my-mentors",
+  "/mentee/mentor/my-mentors",
 ];
 
 // export const CommunityCategoryList = [
@@ -479,5 +479,183 @@ export const TotalPopularMentors = [
     state: "졸업 예정 (2024)",
     tags: ["지식이 풍부한", "센스있는"],
     image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+];
+
+export const TotalMentors = [
+  {
+    name: "김성애",
+    age: 20,
+    school: "한양대 컴퓨터소프트웨어학부",
+    state: "졸업 (2023)",
+    tags: ["정확한 코칭", "친절한"],
+    image:
+      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  },
+  {
+    name: "신종민",
+    age: 21,
+    school: "OO대 OO학부",
+    state: "재학중 (3학년)",
+    tags: ["즐거운", "실력있는"],
+    image:
+      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+  },
+  {
+    name: "한재준",
+    age: 22,
+    school: "OO대 OO학부",
+    state: "졸업 예정 (2024)",
+    tags: ["경험 많은", "유쾌한"],
+    image:
+      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "채희문",
+    age: 23,
+    school: "OO대 OO학부",
+    state: "졸업 예정 (2024)",
+    tags: ["지식이 풍부한", "센스있는"],
+    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+  {
+    name: "한재준",
+    age: 22,
+    school: "OO대 OO학부",
+    state: "졸업 예정 (2024)",
+    tags: ["경험 많은", "유쾌한"],
+    image:
+      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "채희문",
+    age: 23,
+    school: "OO대 OO학부",
+    state: "졸업 예정 (2024)",
+    tags: ["지식이 풍부한", "센스있는"],
+    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+  {
+    name: "김성애",
+    age: 20,
+    school: "한양대 컴퓨터소프트웨어학부",
+    state: "졸업 (2023)",
+    tags: ["정확한 코칭", "친절한"],
+    image:
+      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  },
+  {
+    name: "신종민",
+    age: 21,
+    school: "OO대 OO학부",
+    state: "재학중 (3학년)",
+    tags: ["즐거운", "실력있는"],
+    image:
+      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+  },
+  {
+    name: "신종민",
+    age: 21,
+    school: "OO대 OO학부",
+    state: "재학중 (3학년)",
+    tags: ["즐거운", "실력있는"],
+    image:
+      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+  },
+  {
+    name: "한재준",
+    age: 22,
+    school: "OO대 OO학부",
+    state: "졸업 예정 (2024)",
+    tags: ["경험 많은", "유쾌한"],
+    image:
+      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "채희문",
+    age: 23,
+    school: "OO대 OO학부",
+    state: "졸업 예정 (2024)",
+    tags: ["지식이 풍부한", "센스있는"],
+    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+  {
+    name: "한재준",
+    age: 22,
+    school: "OO대 OO학부",
+    state: "졸업 예정 (2024)",
+    tags: ["경험 많은", "유쾌한"],
+    image:
+      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "신종민",
+    age: 21,
+    school: "OO대 OO학부",
+    state: "재학중 (3학년)",
+    tags: ["즐거운", "실력있는"],
+    image:
+      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+  },
+  {
+    name: "김성애",
+    age: 20,
+    school: "한양대 컴퓨터소프트웨어학부",
+    state: "졸업 (2023)",
+    tags: ["정확한 코칭", "친절한"],
+    image:
+      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  },
+  {
+    name: "신종민",
+    age: 21,
+    school: "OO대 OO학부",
+    state: "재학중 (3학년)",
+    tags: ["즐거운", "실력있는"],
+    image:
+      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+  },
+  {
+    name: "김성애",
+    age: 20,
+    school: "한양대 컴퓨터소프트웨어학부",
+    state: "졸업 (2023)",
+    tags: ["정확한 코칭", "친절한"],
+    image:
+      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  },
+  {
+    name: "채희문",
+    age: 23,
+    school: "OO대 OO학부",
+    state: "졸업 예정 (2024)",
+    tags: ["지식이 풍부한", "센스있는"],
+    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+  {
+    name: "채희문",
+    age: 23,
+    school: "OO대 OO학부",
+    state: "졸업 예정 (2024)",
+    tags: ["지식이 풍부한", "센스있는"],
+    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+  {
+    name: "한재준",
+    age: 22,
+    school: "OO대 OO학부",
+    state: "졸업 예정 (2024)",
+    tags: ["경험 많은", "유쾌한"],
+    image:
+      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "신종민",
+    age: 21,
+    school: "OO대 OO학부",
+    state: "재학중 (3학년)",
+    tags: ["즐거운", "실력있는"],
+    image:
+      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
 ];

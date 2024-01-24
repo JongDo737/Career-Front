@@ -39,7 +39,10 @@ import MentorProfile from "./pages/Mentor/Profile";
 import RecommendMentor from "./pages/Mentee/RecommendMentor";
 import PopularMentor from "./pages/Mentee/PopularMentor";
 import EnterTag from "./pages/Mentee/EnterTag";
-
+import FindMentor from "./pages/Mentee/FindMentor";
+import MyMentor from "./pages/Mentee/MyMentor";
+import LikeMentor from "./pages/Mentee/LikeMentor";
+import ConsultMenteeMentor from "./pages/Mentee/ConsultMentor";
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
   const isMentor = useSelector((state) => state.isMentor.value);
@@ -116,8 +119,17 @@ function App() {
                     path="/mentee/mentor/popular"
                     element={<PopularMentor />}
                   />
+                  <Route path="/mentee/mentor/like" element={<LikeMentor />} />
+                  <Route
+                    path="/mentee/mentor/consult"
+                    element={<ConsultMenteeMentor />}
+                  />
                   <Route path="/mentee/tag" element={<EnterTag />} />
-                  <Route path="/mentee/mentor/find" element={<EnterTag />} />
+                  <Route path="/mentee/mentor/find" element={<FindMentor />} />
+                  <Route
+                    path="/mentee/mentor/my-mentors"
+                    element={<MyMentor />}
+                  />
                   <Route path="/mentee/profile" element={<MenteeProfile />} />
                 </>
               ) : (

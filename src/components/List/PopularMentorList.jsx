@@ -17,7 +17,7 @@ const PopularMentorList = () => {
           <MentorList mentors={PopularMentors} />
           <div className="button-wrapper">
             <ButtonDiv onClick={() => navigate("/mentee/mentor/popular")}>
-              인기멘토 더 보러가기
+              인기 멘토 더 보러가기
             </ButtonDiv>
           </div>
         </>

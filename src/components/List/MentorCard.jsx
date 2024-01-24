@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import { colors } from "../../styles/common/Theme";
 
 const MentorCard = ({ mentor, rank }) => {
   const { image, name, age, school, state, tags } = mentor;
@@ -46,6 +47,7 @@ const StyledContainer = styled.div`
   border-radius: 10px;
   position: relative;
   cursor: pointer;
+  box-shadow: 1px 1px 10px ${colors.primaryBlue};
   .icon {
     position: absolute;
     top: 10px;
@@ -73,7 +75,8 @@ const StyledContainer = styled.div`
     height: 11rem;
     background-color: #f5f5f5;
     box-sizing: border-box;
-    border-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     font-weight: 500;
     header {
       font-size: 1.5rem;
