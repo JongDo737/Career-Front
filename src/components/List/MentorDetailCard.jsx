@@ -1,17 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/common/Theme";
-import { dateTimeParse } from "../../utils/ParseFormat";
+import { dateTimeParse, localToIsoParse, pad } from "../../utils/ParseFormat";
+import { WhiteButton } from "../Button/WhiteButton";
 
-const MentorDetailCard = ({ mentor }) => {
+const MentorDetailCard = ({ mentor, consult }) => {
   const { image, name, age, school, state, tags } = mentor;
   const [IsDetailOpen, setIsDetailOpen] = useState(false);
+  const [btnDisable, setBtnDisable] = useState(false);
   const item = {
-    startTime: new Date().toISOString(),
-    endTime: new Date("2024-01-24").toISOString(),
+    startTime: localToIsoParse(new Date("2024-01-25T21:30")),
+    endTime: localToIsoParse(new Date("2024-01-28")),
     major: "화학공학과",
     questions: "전망이 좋나요?\n 공부를 어떻게 하면 좋을지 모르겠어요.",
   };
+  const [leftTime, setLeftTime] = useState("");
+
+  const checkConsultTime = () => {
+    // 시간 렌더링 부분 생각해보기
+    const now = new Date();
+    // const afterOneHour = now.setHours(now.getHours() - 1);
+    const startTime = new Date(String(item.startTime));
+    const timeDiff = startTime - now;
+    const seconds = Math.floor(timeDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    const displayDays = days;
+    const displayHours = hours % 24;
+    const displayMinutes = minutes % 60;
+    const displaySeconds = seconds % 60;
+
+    setLeftTime(
+      `상담까지 ${displayDays}일 ${pad(displayHours)}: ${pad(
+        displayMinutes
+      )}: ${pad(displaySeconds)} 남음`
+    );
+
+    if (displayDays === 0 && displayHours <= 1) setBtnDisable(false);
+    else return setBtnDisable(true);
+  };
+
+  useEffect(() => {
+    checkConsultTime();
+  }, []);
   return (
     <StyledContainer>
       <ProfileWrapper>
@@ -51,7 +84,19 @@ const MentorDetailCard = ({ mentor }) => {
             <div>{item.questions || "질문이 없습니다"}</div>
           </div>
         </div>
+        {consult && (
+          <LeftTime style={{ color: btnDisable ? "black" : "red" }}>
+            {leftTime}
+          </LeftTime>
+        )}
         <div className="footer">
+          {consult && (
+            <WhiteButton
+              onClick={() => setIsDetailOpen(true)}
+              text="상담 입장"
+              disabled={btnDisable}
+            />
+          )}
           <div className="button" onClick={() => setIsDetailOpen(true)}>
             자세히 보기
           </div>
@@ -65,8 +110,8 @@ export default MentorDetailCard;
 
 const StyledContainer = styled.div`
   display: grid;
-  grid-template-columns: 15rem 25rem;
-  grid-template-rows: 25rem;
+  grid-template-columns: 14rem 23rem;
+  grid-template-rows: 22rem;
   box-shadow: 1px 1px 10px ${colors.primaryBlue};
   border: 1px solid black;
   border-radius: 10px;
@@ -88,7 +133,7 @@ const ProfileWrapper = styled.div`
   }
   img {
     width: 100%;
-    height: 15rem;
+    height: 13rem;
     object-fit: cover;
     border-top-left-radius: 10px;
   }
@@ -99,14 +144,14 @@ const ProfileWrapper = styled.div`
     justify-content: space-evenly;
     gap: 10px;
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
     height: 11rem;
     background-color: #f5f5f5;
     box-sizing: border-box;
     border-bottom-left-radius: 10px;
     font-weight: 500;
     header {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
     main {
       display: flex;
@@ -137,8 +182,8 @@ const InfoWrapper = styled.div`
   .main {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    font-size: 1.2rem;
+    gap: 1rem;
+    font-size: 1.1rem;
     .main-content {
       display: flex;
       align-items: center;
@@ -188,9 +233,10 @@ const InfoWrapper = styled.div`
   .footer {
     display: flex;
     justify-content: center;
+    gap: 1rem;
     .button {
       border: 1px solid ${colors.primaryBlue};
-      padding: 0.7rem 3rem;
+      padding: 0.7rem 2rem;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -205,4 +251,8 @@ const InfoWrapper = styled.div`
       }
     }
   }
+`;
+
+const LeftTime = styled.div`
+  margin: 0 auto;
 `;

@@ -7,12 +7,9 @@ import {
   TotalMentors,
 } from "../../settings/config";
 import SubMenubar from "../../components/Menubar/SubMenubar";
-import { Wrapper } from "../../styles/common/FoamComponents";
-import MentorList from "../../components/List/MentorList";
 import styled from "styled-components";
 import { colors } from "../../styles/common/Theme";
-import HorizontalLine from "../../components/Line/HorizontalLine";
-import { MenteeHeader } from "../../styles/common/Mentee";
+import { MenteeHeader, MentorCardGrid } from "../../styles/common/Mentee";
 import Input from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import MentorCard from "../../components/List/MentorCard";
@@ -48,11 +45,11 @@ const FindMentor = () => {
               </div>
             ))}
         </SortList>
-        <GridContainer>
+        <MentorCardGrid>
           {TotalMentors.map((item, idx) => (
             <MentorCard key={idx} mentor={item} />
           ))}
-        </GridContainer>
+        </MentorCardGrid>
       </StyledLayout>
     </>
   );
@@ -105,13 +102,5 @@ const SortList = styled.div`
   }
   margin: 1rem 0;
   display: flex;
-  gap: 1rem;
-`;
-
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 20rem);
-  grid-template-rows: repeat(4, 30rem);
-  grid-auto-rows: 30rem;
   gap: 1rem;
 `;

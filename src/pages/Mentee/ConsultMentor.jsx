@@ -1,18 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-import MentorCard from "../../components/List/MentorCard";
 import { TotalPopularMentors } from "../../settings/config";
-import { MenteeHeader } from "../../styles/common/Mentee";
+import {
+  MenteeHeader,
+  MentorCardGrid,
+  MentorDetailCardGrid,
+} from "../../styles/common/Mentee";
+import MentorDetailCard from "../../components/List/MentorDetailCard";
 
 const ConsultMentor = () => {
   return (
     <StyledLayout>
-      <MenteeHeader>내가 찜한 멘토</MenteeHeader>
-      <GridContainer>
+      <MenteeHeader>상담 예정 멘토</MenteeHeader>
+      <MentorDetailCardGrid>
         {TotalPopularMentors.map((item, idx) => (
-          <MentorCard key={idx} mentor={item} />
+          <MentorDetailCard key={idx} mentor={item} consult={true} />
         ))}
-      </GridContainer>
+      </MentorDetailCardGrid>
     </StyledLayout>
   );
 };
@@ -28,8 +32,8 @@ const StyledLayout = styled.div`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 20rem);
-  grid-template-rows: repeat(4, 30rem);
-  grid-auto-rows: 30rem;
-  gap: 1rem;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(4, auto);
+  grid-auto-rows: auto;
+  gap: 2rem;
 `;

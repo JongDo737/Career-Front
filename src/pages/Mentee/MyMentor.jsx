@@ -68,7 +68,7 @@ const MyMentor = () => {
             </>
           ) : (
             <NoList>
-              <div>찜한 멘토가 없습니다.</div>
+              <div>상담 멘토가 없습니다.</div>
             </NoList>
           )}
         </ListContainer>

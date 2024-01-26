@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import { colors } from "../../styles/common/Theme";
+import { MentorCardSize } from "../../styles/common/Size";
 
 const MentorCard = ({ mentor, rank }) => {
   const { image, name, age, school, state, tags } = mentor;
@@ -41,8 +42,8 @@ export default MentorCard;
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 17rem;
-  height: 28rem;
+  width: ${MentorCardSize.width};
+  height: ${MentorCardSize.height};
   border: 1px solid black;
   border-radius: 10px;
   position: relative;
@@ -58,9 +59,10 @@ const StyledContainer = styled.div`
     border-radius: 50%;
   }
   img {
-    width: 17rem;
-    height: 17rem;
+    width: ${MentorCardSize.width};
+    height: ${MentorCardSize.width};
     object-fit: cover;
+    object-position: center;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
@@ -71,15 +73,15 @@ const StyledContainer = styled.div`
     justify-content: space-evenly;
     gap: 10px;
     text-align: center;
-    font-size: 1.2rem;
-    height: 11rem;
+    font-size: 1.1rem;
     background-color: #f5f5f5;
     box-sizing: border-box;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     font-weight: 500;
+    flex: 1;
     header {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
     }
     main {
       display: flex;
