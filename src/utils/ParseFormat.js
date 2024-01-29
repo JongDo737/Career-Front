@@ -85,3 +85,21 @@ export const jsonParse = (data) => {
 export const middleNameParse = (name) => {
   return name.substring(0, 1) + "*" + name.substring(2);
 };
+
+export const calculateAge = (birthdate) => {
+  const year = parseInt(birthdate.substring(0, 4), 10);
+  const month = parseInt(birthdate.substring(4, 6), 10) - 1; // JavaScript는 월을 0부터 시작합니다.
+  const day = parseInt(birthdate.substring(6, 8), 10);
+
+  const birthDate = new Date(year, month, day);
+  const currentDate = new Date();
+
+  let age = currentDate.getFullYear() - birthDate.getFullYear();
+  const m = currentDate.getMonth() - birthDate.getMonth();
+
+  if (m < 0 || (m === 0 && currentDate.getDate() < birthDate.getDate())) {
+    age--;
+  }
+
+  return age;
+};

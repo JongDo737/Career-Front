@@ -12,8 +12,8 @@ export const MenteeHeader = styled.div`
 export const MentorCardGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, ${MentorCardSize.width});
-  grid-template-rows: repeat(4, ${MentorCardSize.height});
-  grid-auto-rows: 30rem;
+  grid-template-rows: repeat(1, ${MentorCardSize.height});
+  grid-auto-rows: ${MentorCardSize.height};
   gap: 2.5rem;
 `;
 

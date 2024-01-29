@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MenteeMentorLinkList,
   MenteeMentorMenu,
@@ -13,13 +13,31 @@ import { MenteeHeader, MentorCardGrid } from "../../styles/common/Mentee";
 import Input from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import MentorCard from "../../components/List/MentorCard";
+import { useQuery } from "react-query";
+import { fetchMentor } from "../../api/fetchMentor";
 
 const FindMentor = () => {
   const subMenuList = MenteeMentorMenu;
   const subMenuLinkList = MenteeMentorLinkList;
   const subMenu = subMenuList[1];
-  const Sort = ["최신순", "후기 많은순", "수강 많은순"];
-  const [sort, setSort] = useState(0);
+  const SortOptions = ["최신순", "후기 많은순", "수강 많은순"];
+  const [keyword, setKeyword] = useState("");
+  const [tmpKeyword, setTmpKeyword] = useState("");
+  const [sort, setSort] = useState(1);
+
+  const { data: mentorData } = useQuery(["findMentor", { sort, keyword }], () =>
+    fetchMentor({
+      keyword,
+      sortOption: sort,
+      page: 0,
+      size: 10,
+    })
+  );
+
+  const onSearch = (e) => {
+    e.preventDefault();
+    setKeyword(tmpKeyword);
+  };
   return (
     <>
       <SubMenubar
@@ -28,14 +46,21 @@ const FindMentor = () => {
         subMenuLinkList={subMenuLinkList}
       />
       <StyledLayout>
-        <MenteeHeader>태그를 통해 원하는 멘토를 검색해 보세요!</MenteeHeader>
-        <SearchContainer>
-          <Input size="large" placeholder="태그를 입력해 주세요." />
+        <MenteeHeader>
+          전공 태그를 통해 원하는 멘토를 검색해 보세요!
+        </MenteeHeader>
+        <SearchContainer onSubmit={onSearch}>
+          <Input
+            size="large"
+            placeholder="전공 태그를 입력해 주세요."
+            onChange={(e) => setTmpKeyword(e.target.value)}
+            value={tmpKeyword}
+          />
           <Button height="auto">검색</Button>
         </SearchContainer>
         <SortList>
-          {Sort &&
-            Sort.map((item, idx) => (
+          {SortOptions &&
+            SortOptions.map((item, idx) => (
               <div
                 className={sort === idx ? "selected-sort" : ""}
                 key={idx}
@@ -45,11 +70,15 @@ const FindMentor = () => {
               </div>
             ))}
         </SortList>
-        <MentorCardGrid>
-          {TotalMentors.map((item, idx) => (
-            <MentorCard key={idx} mentor={item} />
-          ))}
-        </MentorCardGrid>
+        {!!mentorData ? ( // !isLoading 넣기???
+          <MentorCardGrid>
+            {mentorData.map((item, idx) => (
+              <MentorCard key={idx} mentor={item} />
+            ))}
+          </MentorCardGrid>
+        ) : (
+          <div>loading...</div>
+        )}
       </StyledLayout>
     </>
   );
@@ -62,6 +91,7 @@ const StyledLayout = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  margin: 3rem 0 5rem;
 `;
 
 const SearchContainer = styled.form`
