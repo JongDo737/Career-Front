@@ -9,7 +9,7 @@ const MentorDetailCard = ({ mentor, consult }) => {
   const [IsDetailOpen, setIsDetailOpen] = useState(false);
   const [btnDisable, setBtnDisable] = useState(false);
   const item = {
-    startTime: localToIsoParse(new Date("2024-01-25T21:30")),
+    startTime: localToIsoParse(new Date("2024-01-28T16:30")),
     endTime: localToIsoParse(new Date("2024-01-28")),
     major: "화학공학과",
     questions: "전망이 좋나요?\n 공부를 어떻게 하면 좋을지 모르겠어요.",
