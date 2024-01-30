@@ -15,6 +15,7 @@ export const MentorCardGrid = styled.div`
   grid-template-rows: repeat(1, ${MentorCardSize.height});
   grid-auto-rows: ${MentorCardSize.height};
   gap: 2.5rem;
+  margin-bottom: 5rem;
 `;
 
 export const MentorDetailCardGrid = styled.div`
@@ -23,4 +24,5 @@ export const MentorDetailCardGrid = styled.div`
   grid-template-rows: auto;
   grid-auto-rows: auto;
   gap: 2.5rem;
+  margin-bottom: 5rem;
 `;

@@ -91,28 +91,11 @@ const StyledLayout = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  margin: 3rem 0 5rem;
 `;
 
 const SearchContainer = styled.form`
   display: flex;
   gap: 1rem;
-`;
-const Header = styled.div`
-  border: 1px solid black;
-  width: 8rem;
-  padding: 0.5rem 2rem;
-  background-color: #334b6c;
-  color: white;
-  border-radius: 1.5rem;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 500;
-`;
-
-const LineGap = styled.div`
-  width: 100%;
-  margin: 4rem 0;
 `;
 
 const SortList = styled.div`

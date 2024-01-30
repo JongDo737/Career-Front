@@ -1,3 +1,5 @@
+export const DefaultImg =
+  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 export const CommunityMenu = ["전체보기", "카테고리", "활동 내역"];
 export const CommunityMenuLinkList = [
   "/community",
@@ -115,37 +117,66 @@ export const RecommendMentors = [
   {
     name: "김성애",
     age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "신종민",
     age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
   {
     name: "한재준",
     age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
       "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
   },
   {
     name: "채희문",
     age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
 
@@ -153,180 +184,261 @@ export const TotalRecommendMentors = [
   {
     name: "김성애",
     age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "신종민",
     age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
   {
     name: "한재준",
     age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
       "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
   },
   {
     name: "채희문",
     age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
-  },
-  {
-    name: "한재준",
-    age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
-      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
-  },
-  {
-    name: "채희문",
-    age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
     name: "김성애",
     age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "신종민",
     age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-  },
-  {
-    name: "신종민",
-    age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
   {
     name: "한재준",
     age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
       "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
   },
   {
     name: "채희문",
     age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+  {
+    name: "김성애",
+    age: 20,
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  },
+  {
+    name: "신종민",
+    age: 21,
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
   {
     name: "한재준",
     age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
       "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
-  },
-  {
-    name: "신종민",
-    age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-  },
-  {
-    name: "김성애",
-    age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
-  },
-  {
-    name: "신종민",
-    age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-  },
-  {
-    name: "김성애",
-    age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "채희문",
     age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
 
 export const PopularMentors = [
   {
-    name: "채희문",
-    age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
-  },
-  {
-    name: "한재준",
-    age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
-      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+    name: "김성애",
+    age: 20,
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "신종민",
     age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+  },
+  {
+    name: "한재준",
+    age: 22,
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
+      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "채희문",
+    age: 23,
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
 
@@ -334,151 +446,258 @@ export const TotalPopularMentors = [
   {
     name: "김성애",
     age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "신종민",
     age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
   {
     name: "한재준",
     age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
       "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
   },
   {
     name: "채희문",
     age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
-  },
-  {
-    name: "한재준",
-    age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
-      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
-  },
-  {
-    name: "채희문",
-    age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
     name: "김성애",
     age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "신종민",
     age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-  },
-  {
-    name: "신종민",
-    age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
   {
     name: "한재준",
     age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
       "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
   },
   {
     name: "채희문",
     age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+  {
+    name: "김성애",
+    age: 20,
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  },
+  {
+    name: "신종민",
+    age: 21,
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
   {
     name: "한재준",
     age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
       "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
-  },
-  {
-    name: "신종민",
-    age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-  },
-  {
-    name: "김성애",
-    age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
-  },
-  {
-    name: "신종민",
-    age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-  },
-  {
-    name: "김성애",
-    age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "채희문",
     age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+  {
+    name: "김성애",
+    age: 20,
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  },
+  {
+    name: "신종민",
+    age: 21,
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+  },
+  {
+    name: "한재준",
+    age: 22,
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
+      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "채희문",
+    age: 23,
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
 
@@ -486,176 +705,321 @@ export const TotalMentors = [
   {
     name: "김성애",
     age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "신종민",
     age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
   {
     name: "한재준",
     age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
       "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
   },
   {
     name: "채희문",
     age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
-  },
-  {
-    name: "한재준",
-    age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
-      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
-  },
-  {
-    name: "채희문",
-    age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
     name: "김성애",
     age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "신종민",
     age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-  },
-  {
-    name: "신종민",
-    age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
   {
     name: "한재준",
     age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
       "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
   },
   {
     name: "채희문",
     age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
-  },
-  {
-    name: "한재준",
-    age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
-      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
-  },
-  {
-    name: "신종민",
-    age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
     name: "김성애",
     age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "신종민",
     age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-  },
-  {
-    name: "김성애",
-    age: 20,
-    school: "한양대 컴퓨터소프트웨어학부",
-    state: "졸업 (2023)",
-    tags: ["정확한 코칭", "친절한"],
-    image:
-      "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
-  },
-  {
-    name: "채희문",
-    age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
-  },
-  {
-    name: "채희문",
-    age: 23,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["지식이 풍부한", "센스있는"],
-    image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
   },
   {
     name: "한재준",
     age: 22,
-    school: "OO대 OO학부",
-    state: "졸업 예정 (2024)",
-    tags: ["경험 많은", "유쾌한"],
-    image:
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
       "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "채희문",
+    age: 23,
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+  {
+    name: "김성애",
+    age: 20,
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
   },
   {
     name: "신종민",
     age: 21,
-    school: "OO대 OO학부",
-    state: "재학중 (3학년)",
-    tags: ["즐거운", "실력있는"],
-    image:
-      "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+  },
+  {
+    name: "한재준",
+    age: 22,
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
+      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "채희문",
+    age: 23,
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+  {
+    name: "김성애",
+    age: 20,
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+  },
+  {
+    name: "신종민",
+    age: 21,
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+  },
+  {
+    name: "한재준",
+    age: 22,
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
+      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "채희문",
+    age: 23,
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
