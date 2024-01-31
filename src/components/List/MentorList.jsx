@@ -22,4 +22,5 @@ const MentorContainer = styled.div`
   gap: 2rem;
   overflow: auto;
   ${xScrollStyle}
+  padding: 1rem;
 `;

@@ -13,80 +13,20 @@ import {
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import MentorList from "../../components/List/MentorList";
 import { colors } from "../../styles/common/Theme";
-import { MenteeMentorLinkList, MenteeMentorMenu } from "../../settings/config";
+import {
+  MenteeMentorLinkList,
+  MenteeMentorMenu,
+  PopularMentors,
+  RecommendMentors,
+} from "../../settings/config";
 import { MenteeHeader } from "../../styles/common/Mentee";
 import RecommendMentorList from "../../components/List/RecommendMentorList";
 import PopularMentorList from "../../components/List/PopularMentorList";
 const Mentor = () => {
   const subMenuList = MenteeMentorMenu;
   const subMenuLinkList = MenteeMentorLinkList;
-  const [subMenu, setSubMenu] = useState(subMenuList[0]);
+  const subMenu = subMenuList[0];
   const [userName, setUserName] = useState("김성애");
-  const todayMentors = [
-    {
-      name: "김성애",
-      age: 20,
-      school: "한양대 컴퓨터소프트웨어학부",
-      state: "졸업 (2023)",
-      tags: ["정확한 코칭", "친절한"],
-      image:
-        "https://image.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
-    },
-    {
-      name: "신종민",
-      age: 21,
-      school: "OO대 OO학부",
-      state: "재학중 (3학년)",
-      tags: ["즐거운", "실력있는"],
-      image:
-        "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-    },
-    {
-      name: "한재준",
-      age: 22,
-      school: "OO대 OO학부",
-      state: "졸업 예정 (2024)",
-      tags: ["경험 많은", "유쾌한"],
-      image:
-        "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
-    },
-    {
-      name: "채희문",
-      age: 23,
-      school: "OO대 OO학부",
-      state: "졸업 예정 (2024)",
-      tags: ["지식이 풍부한", "센스있는"],
-      image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
-    },
-  ];
-  const popularMentors = [
-    {
-      name: "채희문",
-      age: 23,
-      school: "OO대 OO학부",
-      state: "졸업 예정 (2024)",
-      tags: ["지식이 풍부한", "센스있는"],
-      image: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
-    },
-    {
-      name: "한재준",
-      age: 22,
-      school: "OO대 OO학부",
-      state: "졸업 예정 (2024)",
-      tags: ["경험 많은", "유쾌한"],
-      image:
-        "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
-    },
-    {
-      name: "신종민",
-      age: 21,
-      school: "OO대 OO학부",
-      state: "재학중 (3학년)",
-      tags: ["즐거운", "실력있는"],
-      image:
-        "https://image.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
-    },
-  ];
   return (
     <>
       <SubMenubar
@@ -137,31 +77,6 @@ const Mentor = () => {
 
               <Wrapper>
                 <RecommendMentorList />
-              </Wrapper>
-            </>
-          ) : (
-            ""
-          )}
-          {subMenu === subMenuList[1] ? (
-            <>
-              <Wrapper>
-                <Header>이번주 인기 멘토</Header>
-                <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
-                <MentorList mentors={popularMentors} rank={true} />
-              </Wrapper>
-              <LineGap>
-                <HorizontalLine />
-              </LineGap>
-
-              <Wrapper>
-                <Header>추천 멘토</Header>
-                <SortList>
-                  <div>최신순</div>
-                  <div>후기 많은순</div>
-                  <div>수강 많은순</div>
-                </SortList>
-                <div className="notice">* 멘토 프로필 클릭시 상세보기</div>
-                <MentorList mentors={todayMentors} />
               </Wrapper>
             </>
           ) : (
