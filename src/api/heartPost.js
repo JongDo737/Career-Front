@@ -19,8 +19,8 @@ export const onAddHeart = (type, id) => {
     .catch((err) => console.error(err));
 };
 
-export const onDeleteHeart = (type, id) => {
-  axios
+export const onDeleteHeart = async (type, id) => {
+  await axios
     .delete(
       `${SV_LOCAL}/community/heart/delete`,
 
@@ -32,8 +32,5 @@ export const onDeleteHeart = (type, id) => {
         data: { typeId: id, type: type },
       }
     )
-    // .then((res) => {
-    //   setUpdatePost(true);
-    // })
     .catch((err) => console.error(err));
 };

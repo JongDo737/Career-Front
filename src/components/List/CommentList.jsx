@@ -3,12 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartFull } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 import HorizontalLine from "../Line/HorizontalLine";
-import { DefaultImg } from "../../settings/config";
 import { dateParse } from "../../utils/ParseFormat";
 import OptionButton from "../Button/OptionButton";
-import { SV_LOCAL } from "../../constants";
-import axios from "axios";
-import { getCookie } from "../../cookie";
 import ProfileImage from "../Image/ProfileImage";
 import {
   CommentContainer,
@@ -19,17 +15,16 @@ import {
 import RecommentList from "./RecommentList";
 import { onAddHeart, onDeleteHeart } from "../../api/heartPost";
 import ReplyInput from "../Input/ReplyInput";
-import { useParams } from "react-router-dom";
+import { onEditCommentContent } from "../../api/editPost";
 
-const CommentItem = (props) => {
+const CommentList = (props) => {
   const {
     comments,
     setComments,
     editCommentContent,
     setEditCommentContent,
-    commentInputRef,
     originalPost,
-    setUpdateComment,
+    setUpdate,
     activeOptionId,
     setActiveOptionId,
   } = props;
@@ -44,74 +39,13 @@ const CommentItem = (props) => {
     }
   };
 
-  const { id: postId } = useParams();
+  const commentInputRef = useRef([]);
+
   const [recommentInput, setRecommentInput] = useState("");
   const recommentInputRef = useRef(null);
   const recommentRef = useRef(null);
   const [isAddReply, setIsAddReply] = useState(false);
   const [replyTargetIdx, setReplyTargetIdx] = useState(0);
-
-  const onEnterRecomment = (commentIdx) => {
-    axios
-      .post(
-        `${SV_LOCAL}/community/recomment/add`,
-        {
-          articleId: postId,
-          commentId: comments[commentIdx].id,
-          content: recommentInput,
-        },
-        {
-          headers: {
-            "ngrok-skip-browser-warning": "69420",
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      )
-      .catch((err) => console.error(err));
-    setRecommentInput("");
-    setUpdateComment(true);
-  };
-
-  const onEditCommentContent = (id, commentIdx) => {
-    console.log(getCookie("jwtToken"), id, comments[commentIdx].content);
-    axios
-      .post(
-        `${SV_LOCAL}/community/comment/modify`,
-        {
-          id: id,
-          content: comments[commentIdx].content,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      )
-      .then(() => {
-        setEditCommentContent("");
-        setUpdateComment(true);
-      });
-  };
-
-  const onEditRecommentContent = (id, commentIdx, recommentIdx) => {
-    axios
-      .post(
-        `${SV_LOCAL}/community/recomment/modify`,
-        {
-          id: id,
-          content: comments[commentIdx].recomments[recommentIdx].content,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      )
-      .then(() => {
-        setEditRecommentContent("");
-        setUpdateComment(true);
-      });
-  };
 
   useEffect(() => {
     if (isAddReply && recommentInputRef.current)
@@ -125,7 +59,7 @@ const CommentItem = (props) => {
           <CommentContainer>
             <CommentHeader>
               <ProfileInfo>
-                <ProfileImage profileImg={comment.img || DefaultImg} />
+                <ProfileImage profileImg={comment.img} />
                 <div className="info">
                   <span className="name">
                     {comment.user.nickname || "익명"} (
@@ -137,15 +71,18 @@ const CommentItem = (props) => {
                   </span>
                 </div>
               </ProfileInfo>
-              <OptionButton
-                setEditContent={setEditCommentContent}
-                inputRef={commentInputRef[commentIdx]}
-                checkId={comment.user.id}
-                option="댓글"
-                ids={{ commentId: comment.id }}
-                activeOptionId={activeOptionId}
-                setActiveOptionId={setActiveOptionId}
-              />
+              {!comment.isDeleted && (
+                <OptionButton
+                  idx={comment.id}
+                  setEditContent={setEditCommentContent}
+                  inputRef={commentInputRef[commentIdx]}
+                  checkId={comment.user.id}
+                  option="댓글"
+                  ids={{ commentId: comment.id }}
+                  activeOptionId={activeOptionId}
+                  setActiveOptionId={setActiveOptionId}
+                />
+              )}
             </CommentHeader>
             <CommentMain>
               <textarea
@@ -188,7 +125,7 @@ const CommentItem = (props) => {
                     const updatedComment = [...comments];
                     updatedComment[commentIdx] = {
                       ...updatedComment[commentIdx],
-                      content: originalPost.comments[commentIdx].content,
+                      content: originalPost?.comments[commentIdx].content,
                     };
                     setComments(updatedComment);
                   }}
@@ -199,7 +136,12 @@ const CommentItem = (props) => {
                   type="submit"
                   style={{ margin: "0" }}
                   onClick={() => {
-                    onEditCommentContent(comment.id, commentIdx);
+                    onEditCommentContent(
+                      comment.id,
+                      comments[commentIdx].content
+                    );
+                    setEditCommentContent("");
+                    setUpdate(true);
                   }}
                 >
                   등록
@@ -214,7 +156,7 @@ const CommentItem = (props) => {
                       className="icon heart-full"
                       onClick={() => {
                         onDeleteHeart(1, comment.id); //댓글은 type 1
-                        setUpdateComment(true);
+                        setUpdate(true);
                       }}
                     />
                   ) : (
@@ -223,7 +165,7 @@ const CommentItem = (props) => {
                       className="icon"
                       onClick={() => {
                         onAddHeart(1, comment.id); //댓글은 type 1
-                        setUpdateComment(true);
+                        setUpdate(true);
                       }}
                     />
                   )}
@@ -239,6 +181,7 @@ const CommentItem = (props) => {
                       setTimeout(() => {
                         recommentRef.current.focus();
                       }, 0);
+                      setRecommentInput("");
                     }}
                   >
                     답글쓰기
@@ -250,7 +193,6 @@ const CommentItem = (props) => {
           <RecommentList
             comment={comment}
             commentIdx={commentIdx}
-            onEditRecommentContent={onEditRecommentContent}
             setComments={setComments}
             originalPost={originalPost}
             comments={comments}
@@ -259,13 +201,13 @@ const CommentItem = (props) => {
             recommentInputRef={recommentInputRef}
             activeOptionId={activeOptionId}
             setActiveOptionId={setActiveOptionId}
+            setUpdate={setUpdate}
           />
           {isAddReply && commentIdx === replyTargetIdx && (
             <ReplyInput
-              commentIdx={commentIdx}
+              commentId={comment.id}
               isAddReply={isAddReply}
               replyTargetIdx={replyTargetIdx}
-              onEnterRecomment={onEnterRecomment}
               setIsAddReply={setIsAddReply}
               recommentRef={recommentRef}
               recommentInput={recommentInput}
@@ -279,4 +221,4 @@ const CommentItem = (props) => {
     </>
   );
 };
-export default CommentItem;
+export default CommentList;

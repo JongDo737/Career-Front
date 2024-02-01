@@ -1,23 +1,25 @@
 import React from "react";
 import styled from "styled-components";
+import { onEnterRecomment } from "../../api/editPost";
+import { useParams } from "react-router-dom";
 
 const ReplyInput = (props) => {
   const {
-    commentIdx,
-    onEnterRecomment,
+    commentId,
     setIsAddReply,
     recommentRef,
     recommentInput,
     setRecommentInput,
     comment,
   } = props;
+  const { id: postId } = useParams();
   return (
     <StyledContainer
       style={{ width: "90%" }}
-      onSubmit={(e) => {
-        e.preventDefault();
-        onEnterRecomment(commentIdx);
-      }}
+      // onSubmit={(e) => {
+      //   e.preventDefault();
+      //   onEnterRecomment(postId, commentIdx, recommentInput);
+      // }}
     >
       <input
         type="text"
@@ -37,7 +39,7 @@ const ReplyInput = (props) => {
         <div
           className="reply-option__item"
           onClick={() => {
-            onEnterRecomment(commentIdx);
+            onEnterRecomment(postId, commentId, recommentInput);
             setIsAddReply(false);
           }}
         >

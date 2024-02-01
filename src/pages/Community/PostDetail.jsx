@@ -8,24 +8,23 @@ import axios from "axios";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { dateParse } from "../../utils/ParseFormat";
-import { CommunityCategoryList } from "../../settings/config";
+import { CommunityCategoryList, DefaultImg } from "../../settings/config";
 import ImageModal from "../../components/Modal/ImageModal";
 import UtilBox from "../../components/Box/UtilBox";
 import CommentInput from "../../components/Input/CommentInput";
-import CommentItem from "../../components/List/CommentItem";
+import CommentList from "../../components/List/CommentList";
 import OptionButton from "../../components/Button/OptionButton";
 import ProfileImage from "../../components/Image/ProfileImage";
+import { useQuery } from "react-query";
+import { fetchPostDetail } from "../../api/fetchPost";
+import { onAddHeart, onDeleteHeart } from "../../api/heartPost";
 
 const PostDetail = () => {
   const [post, setPost] = useState({});
   const { id } = useParams();
   const [comments, setComments] = useState([]);
 
-  const [commentInput, setCommentInput] = useState("");
-  const [originalPost, setOriginalPost] = useState();
-
   const [postUserId, setPostUserId] = useState();
-  const [updateComment, setUpdateComment] = useState(true);
   const [updatePost, setUpdatePost] = useState(true);
 
   const [editPostContent, setEditPostContent] = useState(false);
@@ -33,7 +32,6 @@ const PostDetail = () => {
   const [editRecommentContent, setEditRecommentContent] = useState(false);
 
   const postInputRef = useRef(null);
-  const commentInputRef = useRef([]);
 
   const [activeOptionId, setActiveOptionId] = useState(null);
 
@@ -76,24 +74,6 @@ const PostDetail = () => {
     setNewFiles(newFiles.filter((file) => file !== fileName));
   };
 
-  const onEnterComment = () => {
-    axios
-      .post(
-        `${SV_LOCAL}/community/comment/add`,
-        { articleId: post.id, content: commentInput },
-        {
-          headers: {
-            "ngrok-skip-browser-warning": "69420",
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      )
-      .catch((err) => console.error(err));
-    setCommentInput("");
-    setUpdateComment(true);
-    // 댓글 쓰고 window.scrollTo(0, document.body.scrollHeight); 적용할 수 있는 방법 찾아보자
-  };
-
   const onEditPostContent = () => {
     const formData = new FormData();
     formData.append(
@@ -112,7 +92,6 @@ const PostDetail = () => {
       // formData.append("images", newFiles);
     } else {
       formData.append("images", newFiles);
-      console.log("new file", newFiles);
     }
     axios
       .post(`${SV_LOCAL}/community/article/modify`, formData, {
@@ -123,97 +102,66 @@ const PostDetail = () => {
       })
       .then(() => {
         setEditPostContent(false);
-        setUpdatePost(true);
+        // refetch();
       });
   };
 
-  const onEditCommentContent = (id, commentIdx) => {
-    axios(
-      `${SV_LOCAL}/community/comment/modify`,
-      {
-        id: id,
-        content: comments[commentIdx].content,
+  // useEffect(() => {
+  //   if (updateComment || updatePost) {
+  //     axios
+  //       .get(`${SV_LOCAL}/community/article/detail`, {
+  //         headers: {
+  //           Authorization: `Bearer ${getCookie("jwtToken")}`,
+  //         },
+  //         params: {
+  //           id: id,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         const data = res.data;
+  //         setPost(data.article || {});
+  //         setComments(data.comments || []);
+  //         setPostUserId(data.article?.user?.id || "");
+  //         setOriginalPost({ ...data });
+  //         setImage([...data.article.imgs]);
+  //         const fileName = [];
+  //         for (let idx = 0; idx < data.article.imgs.length; idx++) {
+  //           fileName.push({ name: `기존 이미지${idx + 1}` });
+  //         }
+  //         setFiles([...fileName]);
+  //         setNewFiles([]);
+  //         setNewImage([]);
+  //         setRemoveImg([]);
+  //       })
+  //       .catch((err) => console.error(err));
+  //     setUpdateComment(false);
+  //     setUpdatePost(false);
+  //   }
+  // }, [id, updateComment, updatePost]);
+
+  const { data } = useQuery(
+    ["postDetail", id, updatePost],
+    () => fetchPostDetail(id),
+    {
+      onSuccess: (data) => {
+        setPost(data.article || {});
+        setComments(data.comments || []);
+        setPostUserId(data.article?.user?.id || "");
+        setImage([...data.article.imgs]);
+        const fileName = [];
+        for (let idx = 0; idx < data.article.imgs.length; idx++) {
+          fileName.push({ name: `기존 이미지${idx + 1}` });
+        }
+        setFiles([...fileName]);
+        setNewFiles([]);
+        setNewImage([]);
+        setRemoveImg([]);
+        setUpdatePost(false);
       },
-      {
-        headers: {
-          Authorization: `Bearer ${getCookie("jwtToken")}`,
-        },
-      }
-    ).then(() => {
-      // setTmpCommentInput("");
-      setEditCommentContent("");
-      setUpdateComment(true);
-    });
-  };
-
-  useEffect(() => {
-    if (updateComment || updatePost) {
-      axios
-        .get(`${SV_LOCAL}/community/article/detail`, {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-          params: {
-            id: id,
-          },
-        })
-        .then((res) => {
-          const data = res.data;
-          setPost(data.article || {});
-          setComments(data.comments || []);
-          setPostUserId(data.article?.user?.id || "");
-          setOriginalPost({ ...data });
-          setImage([...data.article.imgs]);
-          const fileName = [];
-          for (let idx = 0; idx < data.article.imgs.length; idx++) {
-            fileName.push({ name: `기존 이미지${idx + 1}` });
-          }
-          setFiles([...fileName]);
-          setNewFiles([]);
-          setNewImage([]);
-          setRemoveImg([]);
-        })
-        .catch((err) => console.error(err));
-      setUpdateComment(false);
-      setUpdatePost(false);
+      refetchOnWindowFocus: false,
     }
-  }, [id, updateComment, updatePost]);
+  );
 
-  const onAddHeart = (type, id) => {
-    axios
-      .post(
-        `${SV_LOCAL}/community/heart/add`,
-        { typeId: id, type: type },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      )
-      .then((res) => {
-        setUpdatePost(true);
-      })
-      .catch((err) => console.error(err));
-  };
-
-  const onDeleteHeart = (type, id) => {
-    axios
-      .delete(
-        `${SV_LOCAL}/community/heart/delete`,
-
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-
-          data: { typeId: id, type: type },
-        }
-      )
-      .then((res) => {
-        setUpdatePost(true);
-      })
-      .catch((err) => console.error(err));
-  };
   return (
     <>
       <Form>
@@ -355,17 +303,13 @@ const PostDetail = () => {
                   setEditPostContent(false);
                   setPost({
                     ...post,
-                    content: originalPost.article.content,
-                    categoryId: originalPost.article.categoryId,
-                    title: originalPost.article.title,
+                    content: data.article.content,
+                    categoryId: data.article.categoryId,
+                    title: data.article.title,
                   });
-                  setImage([...originalPost.article.imgs]);
+                  setImage([...data.article.imgs]);
                   const fileName = [];
-                  for (
-                    let idx = 0;
-                    idx < originalPost.article.imgs.length;
-                    idx++
-                  ) {
+                  for (let idx = 0; idx < data.article.imgs.length; idx++) {
                     fileName.push({ name: `기존 이미지${idx + 1}` });
                   }
                   setFiles([...fileName]);
@@ -472,27 +416,19 @@ const PostDetail = () => {
               >
                 댓글 ({post.commentCnt})
               </div>
-              <CommentItem
+              <CommentList
                 comments={comments}
                 setComments={setComments}
                 editCommentContent={editCommentContent}
-                onEditCommentContent={onEditCommentContent}
                 setEditCommentContent={setEditCommentContent}
-                commentInputRef={commentInputRef}
-                originalPost={originalPost}
-                onDeleteHeart={onDeleteHeart}
-                setUpdateComment={setUpdateComment}
-                onAddHeart={onAddHeart}
+                originalPost={data}
+                setUpdate={setUpdatePost}
                 setEditRecommentContent={setEditRecommentContent}
                 editRecommentContent={editRecommentContent}
                 activeOptionId={activeOptionId}
                 setActiveOptionId={setActiveOptionId}
               />
-              <CommentInput
-                inputValue={commentInput}
-                setInputValue={setCommentInput}
-                onEnter={onEnterComment}
-              />
+              <CommentInput setUpdate={setUpdatePost} />
             </CommentWrapper>
           </>
         )}
@@ -521,42 +457,6 @@ const Form = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  .post-option__btn {
-    position: absolute;
-    right: 2rem;
-    font-size: 1.4rem;
-    cursor: pointer;
-  }
-  .post-options {
-    position: absolute;
-    top: 4rem;
-    right: 1.4rem;
-    padding: 1rem;
-    border: 1px solid gray;
-    border-radius: 0.8rem;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    z-index: 99;
-    &__item {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      font-size: 1.3rem;
-      cursor: pointer;
-
-      .icon,
-      span {
-        color: black;
-        &:hover {
-          font-weight: 700;
-        }
-      }
-    }
-  }
   footer button,
   footer .button {
     width: 5rem;

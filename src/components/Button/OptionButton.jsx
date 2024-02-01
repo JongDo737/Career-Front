@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan, faFlag } from "@fortawesome/free-regular-svg-icons";
 import DeleteCheckModal from "../Modal/DeleteCheckModal";
+import styled from "styled-components";
 const OptionButton = (props) => {
   const {
     option,
@@ -26,7 +27,13 @@ const OptionButton = (props) => {
       <FontAwesomeIcon
         icon={faEllipsisVertical}
         className="post-option__btn"
-        style={{ color: "black" }}
+        style={{
+          color: "black",
+          position: "absolute",
+          right: "2rem",
+          fontSize: "1.4rem",
+          cursor: "pointer",
+        }}
         onClick={() => {
           if (activeOptionId === idx) {
             setActiveOptionId(null);
@@ -35,9 +42,8 @@ const OptionButton = (props) => {
       />
       {activeOptionId === idx &&
         (checkId === getIdFromToken(getCookie("jwtToken")) ? (
-          <div className="post-options">
-            <div
-              className="post-options__item"
+          <OptionBox>
+            <OptionBoxItem
               onClick={() => {
                 setEditContent(idx);
                 setActiveOptionId(null);
@@ -50,9 +56,8 @@ const OptionButton = (props) => {
             >
               <FontAwesomeIcon icon={faPencil} className="icon" />
               <span>편집</span>
-            </div>
-            <div
-              className="post-options__item"
+            </OptionBoxItem>
+            <OptionBoxItem
               onClick={() => {
                 setActiveOptionId(null);
                 setIsDeleteInfo(true);
@@ -60,20 +65,19 @@ const OptionButton = (props) => {
             >
               <FontAwesomeIcon icon={faTrashCan} className="icon" />
               <span>삭제</span>
-            </div>
-          </div>
+            </OptionBoxItem>
+          </OptionBox>
         ) : (
-          <div className="post-options">
-            <div
-              className="post-options__item"
+          <OptionBox>
+            <OptionBoxItem
               onClick={() => {
                 setActiveOptionId(null);
               }}
             >
               <FontAwesomeIcon icon={faFlag} className="icon" />
               <span>신고</span>
-            </div>
-          </div>
+            </OptionBoxItem>
+          </OptionBox>
         ))}
       {isDeleteInfo && (
         <DeleteCheckModal
@@ -88,3 +92,35 @@ const OptionButton = (props) => {
 };
 
 export default OptionButton;
+
+const OptionBox = styled.div`
+  position: absolute;
+  top: 4rem;
+  right: 1.4rem;
+  padding: 1rem;
+  border: 1px solid gray;
+  border-radius: 0.8rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  z-index: 99;
+`;
+
+const OptionBoxItem = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+
+  .icon,
+  span {
+    color: black;
+    &:hover {
+      font-weight: 700;
+    }
+  }
+`;

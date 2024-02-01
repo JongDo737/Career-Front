@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { onEnterComment } from "../../api/editPost";
+import { useParams } from "react-router-dom";
 
 const CommentInput = (props) => {
-  const { inputValue, setInputValue, onEnter } = props;
+  const { setUpdate } = props;
+  const [inputValue, setInputValue] = useState("");
+  const { id: postId } = useParams();
   return (
     <StyledContainer>
       <input
@@ -13,7 +17,14 @@ const CommentInput = (props) => {
       />
       <div className="reply-title">댓글쓰기</div>
       <div className="reply-option">
-        <div className="reply-option__item" onClick={onEnter}>
+        <div
+          className="reply-option__item"
+          onClick={() => {
+            onEnterComment(postId, inputValue);
+            setUpdate(true);
+            setInputValue("");
+          }}
+        >
           등록
         </div>
       </div>
