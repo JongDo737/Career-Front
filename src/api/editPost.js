@@ -75,7 +75,7 @@ export const onEnterRecomment = async (postId, commentId, content) => {
         },
       }
     );
-    window.location.reload();
+    // window.location.reload();
   } catch (err) {
     console.error(err);
   }

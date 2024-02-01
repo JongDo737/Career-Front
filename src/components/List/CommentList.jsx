@@ -206,13 +206,12 @@ const CommentList = (props) => {
           {isAddReply && commentIdx === replyTargetIdx && (
             <ReplyInput
               commentId={comment.id}
-              isAddReply={isAddReply}
-              replyTargetIdx={replyTargetIdx}
               setIsAddReply={setIsAddReply}
               recommentRef={recommentRef}
               recommentInput={recommentInput}
               setRecommentInput={setRecommentInput}
               comment={comment}
+              setUpdate={setUpdate}
             />
           )}
           <HorizontalLine color="#929292" height="1px" />

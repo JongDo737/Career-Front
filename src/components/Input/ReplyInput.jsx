@@ -11,6 +11,7 @@ const ReplyInput = (props) => {
     recommentInput,
     setRecommentInput,
     comment,
+    setUpdate,
   } = props;
   const { id: postId } = useParams();
   return (
@@ -41,6 +42,7 @@ const ReplyInput = (props) => {
           onClick={() => {
             onEnterRecomment(postId, commentId, recommentInput);
             setIsAddReply(false);
+            setUpdate(true);
           }}
         >
           등록
