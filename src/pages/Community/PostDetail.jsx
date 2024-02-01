@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartFull } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +8,7 @@ import axios from "axios";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { dateParse } from "../../utils/ParseFormat";
-import { CommunityCategoryList, DefaultImg } from "../../settings/config";
+import { CommunityCategoryList } from "../../settings/config";
 import ImageModal from "../../components/Modal/ImageModal";
 import UtilBox from "../../components/Box/UtilBox";
 import CommentInput from "../../components/Input/CommentInput";
@@ -88,8 +88,6 @@ const PostDetail = () => {
     );
     if (Array.isArray(image)) {
       newFiles.forEach((file) => formData.append("images", file));
-      console.log(newFiles);
-      // formData.append("images", newFiles);
     } else {
       formData.append("images", newFiles);
     }
@@ -102,42 +100,9 @@ const PostDetail = () => {
       })
       .then(() => {
         setEditPostContent(false);
-        // refetch();
+        setUpdatePost(true);
       });
   };
-
-  // useEffect(() => {
-  //   if (updateComment || updatePost) {
-  //     axios
-  //       .get(`${SV_LOCAL}/community/article/detail`, {
-  //         headers: {
-  //           Authorization: `Bearer ${getCookie("jwtToken")}`,
-  //         },
-  //         params: {
-  //           id: id,
-  //         },
-  //       })
-  //       .then((res) => {
-  //         const data = res.data;
-  //         setPost(data.article || {});
-  //         setComments(data.comments || []);
-  //         setPostUserId(data.article?.user?.id || "");
-  //         setOriginalPost({ ...data });
-  //         setImage([...data.article.imgs]);
-  //         const fileName = [];
-  //         for (let idx = 0; idx < data.article.imgs.length; idx++) {
-  //           fileName.push({ name: `기존 이미지${idx + 1}` });
-  //         }
-  //         setFiles([...fileName]);
-  //         setNewFiles([]);
-  //         setNewImage([]);
-  //         setRemoveImg([]);
-  //       })
-  //       .catch((err) => console.error(err));
-  //     setUpdateComment(false);
-  //     setUpdatePost(false);
-  //   }
-  // }, [id, updateComment, updatePost]);
 
   const { data } = useQuery(
     ["postDetail", id, updatePost],
@@ -300,21 +265,8 @@ const PostDetail = () => {
                 className="button"
                 style={{ margin: "0" }}
                 onClick={() => {
+                  setUpdatePost(true);
                   setEditPostContent(false);
-                  setPost({
-                    ...post,
-                    content: data.article.content,
-                    categoryId: data.article.categoryId,
-                    title: data.article.title,
-                  });
-                  setImage([...data.article.imgs]);
-                  const fileName = [];
-                  for (let idx = 0; idx < data.article.imgs.length; idx++) {
-                    fileName.push({ name: `기존 이미지${idx + 1}` });
-                  }
-                  setFiles([...fileName]);
-                  setNewImage([]);
-                  setNewFiles([]);
                 }}
               >
                 취소
@@ -339,6 +291,7 @@ const PostDetail = () => {
                   ids={{ postId: post.id }}
                   activeOptionId={activeOptionId}
                   setActiveOptionId={setActiveOptionId}
+                  setUpdate={setUpdatePost}
                 />
               </header>
               <main>
@@ -396,6 +349,7 @@ const PostDetail = () => {
                     className="icon"
                     onClick={() => {
                       onAddHeart(0, post.id); //게시글은 type 0
+                      setUpdatePost(true);
                     }}
                   />
                 )}
@@ -421,7 +375,6 @@ const PostDetail = () => {
                 setComments={setComments}
                 editCommentContent={editCommentContent}
                 setEditCommentContent={setEditCommentContent}
-                originalPost={data}
                 setUpdate={setUpdatePost}
                 setEditRecommentContent={setEditRecommentContent}
                 editRecommentContent={editRecommentContent}

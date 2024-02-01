@@ -8,7 +8,7 @@ import {
 import { useParams } from "react-router-dom";
 
 const DeleteCheckModal = (props) => {
-  const { ids, setIsDeleteInfo, option } = props;
+  const { ids, setIsDeleteInfo, option, setUpdate } = props;
   const { id: postId } = useParams();
   const deleteFunction = () => {
     switch (option) {
@@ -18,11 +18,13 @@ const DeleteCheckModal = (props) => {
         break;
       case "댓글":
         onDeleteComment(ids.commentId, postId);
-        window.location.reload();
+        setUpdate(true);
+        // window.location.reload();
         break;
       case "대댓글":
         onDeleteRecomment(ids.recommentId, ids.commentId, postId);
-        window.location.reload();
+        // window.location.reload();
+        setUpdate(true);
         break;
       default:
         break;

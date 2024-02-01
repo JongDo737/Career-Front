@@ -23,7 +23,6 @@ const CommentList = (props) => {
     setComments,
     editCommentContent,
     setEditCommentContent,
-    originalPost,
     setUpdate,
     activeOptionId,
     setActiveOptionId,
@@ -81,6 +80,7 @@ const CommentList = (props) => {
                   ids={{ commentId: comment.id }}
                   activeOptionId={activeOptionId}
                   setActiveOptionId={setActiveOptionId}
+                  setUpdate={setUpdate}
                 />
               )}
             </CommentHeader>
@@ -122,12 +122,7 @@ const CommentList = (props) => {
                   style={{ margin: "0" }}
                   onClick={() => {
                     setEditCommentContent("");
-                    const updatedComment = [...comments];
-                    updatedComment[commentIdx] = {
-                      ...updatedComment[commentIdx],
-                      content: originalPost?.comments[commentIdx].content,
-                    };
-                    setComments(updatedComment);
+                    setUpdate(true);
                   }}
                 >
                   취소
@@ -194,7 +189,6 @@ const CommentList = (props) => {
             comment={comment}
             commentIdx={commentIdx}
             setComments={setComments}
-            originalPost={originalPost}
             comments={comments}
             setEditRecommentContent={setEditRecommentContent}
             editRecommentContent={editRecommentContent}

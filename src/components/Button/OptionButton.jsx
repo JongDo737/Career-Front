@@ -11,14 +11,15 @@ import DeleteCheckModal from "../Modal/DeleteCheckModal";
 import styled from "styled-components";
 const OptionButton = (props) => {
   const {
-    option,
     idx,
-    activeOptionId,
-    setActiveOptionId,
     setEditContent,
     inputRef,
     checkId,
+    option,
     ids,
+    activeOptionId,
+    setActiveOptionId,
+    setUpdate,
   } = props;
   const [isDeleteInfo, setIsDeleteInfo] = useState(false);
 
@@ -85,6 +86,7 @@ const OptionButton = (props) => {
           setIsDeleteInfo={setIsDeleteInfo}
           option={option}
           ids={ids}
+          setUpdate={setUpdate}
         />
       )}
     </>

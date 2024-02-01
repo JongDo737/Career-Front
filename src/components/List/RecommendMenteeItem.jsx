@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import HorizontalLine from "../Line/HorizontalLine";
 
 const RecommendMenteeItem = ({ recommendList }) => {
   return (

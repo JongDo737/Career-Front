@@ -127,7 +127,6 @@ const PostList = ({ posts, setPosts, postStyle }) => {
     else document.body.style.overflow = "hidden";
   }, [deletePost]);
 
-  console.log("posts ", posts);
   return (
     <>
       {posts.length ? (

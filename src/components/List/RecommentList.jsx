@@ -1,6 +1,5 @@
 import React from "react";
 import ProfileImage from "../Image/ProfileImage";
-import { DefaultImg } from "../../settings/config";
 import {
   CommentContainer,
   CommentHeader,
@@ -18,7 +17,6 @@ const RecommentList = (props) => {
     comment,
     commentIdx,
     setComments,
-    originalPost,
     comments,
     setEditRecommentContent,
     editRecommentContent,
@@ -64,6 +62,7 @@ const RecommentList = (props) => {
                 }}
                 activeOptionId={activeOptionId}
                 setActiveOptionId={setActiveOptionId}
+                setUpdate={setUpdate}
               />
             </CommentHeader>
             <CommentMain>
@@ -109,21 +108,22 @@ const RecommentList = (props) => {
                   style={{ margin: "0" }}
                   onClick={() => {
                     setEditRecommentContent("");
-                    const updatedComments = [...comments];
-                    const updatedComment = {
-                      ...updatedComments[commentIdx],
-                    };
-                    const updatedRecomments = [...updatedComment.recomments];
-                    updatedRecomments[recommentIdx] = {
-                      ...updatedRecomments[recommentIdx],
-                      content:
-                        originalPost.comments[commentIdx].recomments[
-                          recommentIdx
-                        ].content,
-                    };
-                    updatedComment.recomments = updatedRecomments;
-                    updatedComments[commentIdx] = updatedComment;
-                    setComments(updatedComments);
+                    // const updatedComments = [...comments];
+                    // const updatedComment = {
+                    //   ...updatedComments[commentIdx],
+                    // };
+                    // const updatedRecomments = [...updatedComment.recomments];
+                    // updatedRecomments[recommentIdx] = {
+                    //   ...updatedRecomments[recommentIdx],
+                    //   content:
+                    //     originalPost.comments[commentIdx].recomments[
+                    //       recommentIdx
+                    //     ].content,
+                    // };
+                    // updatedComment.recomments = updatedRecomments;
+                    // updatedComments[commentIdx] = updatedComment;
+                    // setComments(updatedComments);
+                    setUpdate(true);
                   }}
                 >
                   취소
