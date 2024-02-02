@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MenteeMentorLinkList, MenteeMentorMenu } from "../../settings/config";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import styled from "styled-components";
@@ -10,7 +10,7 @@ import MentorCard from "../../components/List/MentorCard";
 import { useQuery } from "react-query";
 import { fetchMentor } from "../../api/fetchMentor";
 import { fetchMajorAutoComplete } from "../../api/fetchMajorList";
-import { yScrollStyle } from "../../styles/common/Scroll";
+import KeywordAutoComplete from "../../components/List/KeywordAutoComplete";
 
 const FindMentor = () => {
   const subMenuList = MenteeMentorMenu;
@@ -76,22 +76,13 @@ const FindMentor = () => {
           />
           <Button height="auto">검색</Button>
           {isInputFocused && keywordData && (
-            <KeywordAutoComplete top={INPUT_HEIGHT} width={INPUT_WIDTH}>
-              {keywordData.map((keywordItem, idx) => (
-                <li
-                  key={idx}
-                  onClick={() => {
-                    setTmpKeyword(keywordItem);
-                  }}
-                  style={{
-                    display:
-                      tmpKeyword && tmpKeyword === keywordItem ? "none" : "",
-                  }}
-                >
-                  {keywordItem}
-                </li>
-              ))}
-            </KeywordAutoComplete>
+            <KeywordAutoComplete
+              keywordData={keywordData}
+              inputWidth={INPUT_WIDTH}
+              inputHeight={INPUT_HEIGHT}
+              inputValue={tmpKeyword}
+              setInputValue={setTmpKeyword}
+            />
           )}
         </SearchContainer>
         <SortList>
@@ -133,30 +124,6 @@ const SearchContainer = styled.form`
   display: flex;
   gap: 1rem;
   position: relative;
-`;
-
-const KeywordAutoComplete = styled.ul`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: ${(prop) => prop.top};
-  width: ${(prop) => prop.width};
-  background-color: #f8f8f8df;
-  z-index: 99;
-  font-size: 1.1rem;
-  max-height: 20rem;
-  overflow-y: auto;
-  box-sizing: border-box;
-  ${yScrollStyle}
-  > li {
-    padding: 0.7rem;
-    cursor: pointer;
-    border: 1px solid #b9b9b9df;
-    border-top: none;
-    &:hover {
-      background-color: #d8d8d8df;
-    }
-  }
 `;
 
 const SortList = styled.div`
