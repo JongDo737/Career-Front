@@ -10,11 +10,12 @@ import {
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { dateParse } from "../../utils/ParseFormat";
 import axios from "axios";
 import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";
+import ProfileImage from "../Image/ProfileImage";
 
 const PostList = ({ posts, setPosts, postStyle }) => {
   const [deletePost, setDeletePost] = useState(null);
@@ -126,7 +127,6 @@ const PostList = ({ posts, setPosts, postStyle }) => {
     else document.body.style.overflow = "hidden";
   }, [deletePost]);
 
-  console.log("posts ", posts);
   return (
     <>
       {posts.length ? (
@@ -134,12 +134,11 @@ const PostList = ({ posts, setPosts, postStyle }) => {
           <Post
             key={idx}
             img={item.user.profileImg}
-            // to={`/community/post/${item.id}`}
             onClick={() => navigate(`/community/post/${item.id}`)}
           >
             <header>
               <div className="header-left">
-                <div className="img-container"></div>
+                <ProfileImage profileImg={item.user.profileImg} />
                 <div className="info">
                   <span className="name">
                     {item.user.nickname || "익명"} (
@@ -159,7 +158,8 @@ const PostList = ({ posts, setPosts, postStyle }) => {
               </main>
               <div className="image-wrapper">
                 {item.imgs.map(
-                  (img, imgIdx) => imgIdx < 2 && <img src={img} key={imgIdx} />
+                  (img, imgIdx) =>
+                    imgIdx < 2 && <img src={img} key={imgIdx} alt={imgIdx} />
                 )}
                 {item.imgs.length > 2 && (
                   <div

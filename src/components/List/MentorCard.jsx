@@ -6,9 +6,10 @@ import { colors } from "../../styles/common/Theme";
 import { MentorCardSize } from "../../styles/common/Size";
 import { setDefaultImage } from "../../utils/DefaultValue";
 import { calculateAge } from "../../utils/ParseFormat";
+import { DefaultImg } from "../../settings/config";
 
 const MentorCard = ({ mentor, rank }) => {
-  const { profileImg, name, nickname, birth, schoolList } = mentor;
+  const { profileImg, name, birth, schoolList } = mentor;
   const majorList = [
     mentor.consultMajor1,
     mentor.consultMajor2,
@@ -25,10 +26,17 @@ const MentorCard = ({ mentor, rank }) => {
       ) : (
         ""
       )}
-      <img alt="" src={setDefaultImage(profileImg)} />
+      <img
+        alt=""
+        src={setDefaultImage(profileImg)}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = DefaultImg;
+        }}
+      />
       <div className="content">
         <header>
-          {name} ({calculateAge(birth)})
+          {name} {!!birth && `(${calculateAge(birth)})`}
         </header>
         {!!schoolList && schoolList.length ? (
           schoolList.map((school, idx) =>
@@ -93,7 +101,7 @@ const StyledContainer = styled.div`
     justify-content: space-between;
     gap: 0.5rem;
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
     background-color: #f5f5f5;
     box-sizing: border-box;
     border-bottom-left-radius: 10px;
@@ -102,7 +110,7 @@ const StyledContainer = styled.div`
     flex: 1;
     padding: 1rem;
     header {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       height: 20%;
     }
     main {
@@ -116,7 +124,7 @@ const StyledContainer = styled.div`
       display: flex;
       gap: 3px;
       width: 100%;
-      font-size: 1rem;
+      font-size: 0.9rem;
       flex-wrap: wrap;
       white-space: nowrap;
       overflow: hidden;

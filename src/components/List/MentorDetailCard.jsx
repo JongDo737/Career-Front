@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/common/Theme";
-import { dateTimeParse, localToIsoParse, pad } from "../../utils/ParseFormat";
+import {
+  calculateAge,
+  dateTimeParse,
+  localToIsoParse,
+  pad,
+} from "../../utils/ParseFormat";
 import { WhiteButton } from "../Button/WhiteButton";
+import { setDefaultImage } from "../../utils/DefaultValue";
+import { DefaultImg } from "../../settings/config";
 
 const MentorDetailCard = ({ mentor, consult }) => {
-  const { image, name, age, school, state, tags } = mentor;
+  const { profileImg, name, birth, schoolList } = mentor;
+  const majorList = [
+    mentor.consultMajor1,
+    mentor.consultMajor2,
+    mentor.consultMajor3,
+  ];
   const [IsDetailOpen, setIsDetailOpen] = useState(false);
   const [btnDisable, setBtnDisable] = useState(false);
   const item = {
@@ -48,19 +60,39 @@ const MentorDetailCard = ({ mentor, consult }) => {
   return (
     <StyledContainer>
       <ProfileWrapper>
-        <img alt="" src={image} />
+        <img
+          alt=""
+          src={setDefaultImage(profileImg)}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = DefaultImg;
+          }}
+        />
         <div className="content">
           <header>
-            {name} ({age})
+            {name} {!!birth && `(${calculateAge(birth)})`}
           </header>
-          <main>
-            <span>{school}</span>
-            <span>{state}</span>
-          </main>
+          {!!schoolList && schoolList.length ? (
+            schoolList.map((school, idx) =>
+              school.schoolType === "대학교" ? (
+                <main key={idx}>
+                  <span>{school.schoolName}대학교</span>
+                  <span>
+                    {school.majorName} ({school.state})
+                  </span>
+                </main>
+              ) : null
+            )
+          ) : (
+            <main>
+              <span>학교 미입력</span>
+            </main>
+          )}
           <footer>
-            {tags.map((tag, idx) => {
-              return <span key={idx}>#{tag}</span>;
-            })}
+            {!!majorList &&
+              majorList.map(
+                (major, idx) => !!major && <span key={idx}>#{major}</span>
+              )}
           </footer>
         </div>
       </ProfileWrapper>
