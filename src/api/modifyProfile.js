@@ -40,7 +40,6 @@ export const modifyMenteeProfile = async (changeObject, imageFile) => {
         },
       }
     );
-    console.log(response);
     return response;
   } catch (err) {
     console.error(err);

@@ -18,9 +18,14 @@ const TagList = ({ tagList, setTagList, view }) => {
     setTagList(tagList.filter((a) => a.idx !== idx));
   };
 
+  console.log(tagList);
   const onSubmit = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    tagId.current = tagList.length + 1;
+  }, [tagList]);
   return (
     <StyledForm onSubmit={onSubmit}>
       <InputForm>

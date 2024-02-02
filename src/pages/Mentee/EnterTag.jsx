@@ -17,9 +17,9 @@ const EnterTag = () => {
     },
   });
 
-  const onChangeEdit = async (e) => {
+  const onChangeEdit = (e) => {
     console.log({ tagList: tagList });
-    await modifyMenteeProfile({ tagList: [...tagList] }, null);
+    modifyMenteeProfile({ tagList: [...tagList] }, null);
   };
 
   return (
