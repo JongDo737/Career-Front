@@ -10,7 +10,7 @@ import MentorCard from "../../components/List/MentorCard";
 import { useQuery } from "react-query";
 import { fetchMentor } from "../../api/fetchMentor";
 import { fetchMajorAutoComplete } from "../../api/fetchMajorList";
-import KeywordAutoComplete from "../../components/List/KeywordAutoComplete";
+import MajorAutoComplete from "../../components/List/MajorAutoComplete";
 
 const FindMentor = () => {
   const subMenuList = MenteeMentorMenu;
@@ -20,7 +20,7 @@ const FindMentor = () => {
   const [keyword, setKeyword] = useState("");
   const [tmpKeyword, setTmpKeyword] = useState("");
   const [sort, setSort] = useState(1);
-  const [isInputFocused, setIsInputFocused] = useState(false); // Input 포커스 상태 추적
+  const [isInputFocused, setIsInputFocused] = useState(false);
   const INPUT_WIDTH = "35rem";
   const INPUT_HEIGHT = "3rem";
 
@@ -76,7 +76,7 @@ const FindMentor = () => {
           />
           <Button height="auto">검색</Button>
           {isInputFocused && keywordData && (
-            <KeywordAutoComplete
+            <MajorAutoComplete
               keywordData={keywordData}
               inputWidth={INPUT_WIDTH}
               inputHeight={INPUT_HEIGHT}

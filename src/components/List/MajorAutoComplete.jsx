@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { yScrollStyle } from "../../styles/common/Scroll";
 
-const KeywordAutoComplete = (props) => {
+const MajorAutoComplete = (props) => {
   const { keywordData, inputWidth, inputHeight, inputValue, setInputValue } =
     props;
   return (
@@ -24,7 +24,7 @@ const KeywordAutoComplete = (props) => {
   );
 };
 
-export default KeywordAutoComplete;
+export default MajorAutoComplete;
 
 const StyledContainer = styled.ul`
   display: flex;
@@ -38,12 +38,16 @@ const StyledContainer = styled.ul`
   max-height: 20rem;
   overflow-y: auto;
   box-sizing: border-box;
+  border: 1px solid #b9b9b9df;
   ${yScrollStyle}
   > li {
     padding: 0.7rem;
     cursor: pointer;
     border: 1px solid #b9b9b9df;
     border-top: none;
+    &:last-child {
+      border-bottom: none;
+    }
     &:hover {
       background-color: #d8d8d8df;
     }

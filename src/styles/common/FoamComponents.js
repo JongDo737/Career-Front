@@ -31,6 +31,7 @@ export const InputForm = styled.div`
   align-items: center;
   margin-bottom: 5px;
   gap: 0.8rem;
+  position: relative;
 `;
 
 export const Wrapper = styled.div`
