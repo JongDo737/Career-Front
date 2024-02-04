@@ -17,9 +17,14 @@ const EnterTag = () => {
     },
   });
 
-  const onChangeEdit = async (e) => {
-    console.log({ tagList: tagList });
-    await modifyMenteeProfile({ tagList: [...tagList] }, null);
+  const onInsertTag = (e) => {
+    modifyMenteeProfile({ tagList: [...tagList] }, null);
+    window.alert("태그를 등록했습니다.");
+  };
+
+  const onDeleteTag = (e) => {
+    modifyMenteeProfile({ tagList: [...tagList] }, null);
+    window.alert("태그를 등록했습니다.");
   };
 
   return (
@@ -38,7 +43,12 @@ const EnterTag = () => {
       {!!tagList && (
         <TagList tagList={tagList} setTagList={setTagList} view={false} />
       )}
-      <ButtonDiv size="large" height="2.7rem" onClick={onChangeEdit}>
+      <ButtonDiv
+        size="large"
+        height="2.7rem"
+        onInsert={onInsertTag}
+        onDelete={onDeleteTag}
+      >
         등록하기
       </ButtonDiv>
     </StyledLayout>
@@ -62,4 +72,20 @@ const Content = styled.div`
   font-size: 1.5rem;
   font-weight: 600;
   gap: 1rem;
+`;
+
+const EnterButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${colors.primaryBlue};
+  border-radius: 5px;
+  color: white;
+  border: 1px solid #2f5383;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.5rem 2rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 3rem;
 `;

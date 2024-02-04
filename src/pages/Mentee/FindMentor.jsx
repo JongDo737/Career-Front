@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  MenteeMentorLinkList,
-  MenteeMentorMenu,
-  PopularMentors,
-  RecommendMentors,
-  TotalMentors,
-} from "../../settings/config";
+import React, { useState } from "react";
+import { MenteeMentorLinkList, MenteeMentorMenu } from "../../settings/config";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import { colors } from "../../styles/common/Theme";
@@ -15,6 +9,8 @@ import { Button } from "../../components/Button/Button";
 import MentorCard from "../../components/List/MentorCard";
 import { useQuery } from "react-query";
 import { fetchMentor } from "../../api/fetchMentor";
+import { fetchMajorAutoComplete } from "../../api/fetchMajorList";
+import MajorAutoComplete from "../../components/List/MajorAutoComplete";
 
 const FindMentor = () => {
   const subMenuList = MenteeMentorMenu;
@@ -24,6 +20,17 @@ const FindMentor = () => {
   const [keyword, setKeyword] = useState("");
   const [tmpKeyword, setTmpKeyword] = useState("");
   const [sort, setSort] = useState(1);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const INPUT_WIDTH = "35rem";
+  const INPUT_HEIGHT = "3rem";
+
+  const handleInputFocus = () => {
+    setIsInputFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsInputFocused(false);
+  };
 
   const { data: mentorData } = useQuery(["findMentor", { sort, keyword }], () =>
     fetchMentor({
@@ -34,10 +41,17 @@ const FindMentor = () => {
     })
   );
 
+  const { data: keywordData } = useQuery(tmpKeyword, () =>
+    fetchMajorAutoComplete(tmpKeyword)
+  );
+
+  // console.log(keywordData);
+
   const onSearch = (e) => {
     e.preventDefault();
     setKeyword(tmpKeyword);
   };
+
   return (
     <>
       <SubMenubar
@@ -55,8 +69,21 @@ const FindMentor = () => {
             placeholder="전공 태그를 입력해 주세요."
             onChange={(e) => setTmpKeyword(e.target.value)}
             value={tmpKeyword}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            height={INPUT_HEIGHT}
+            width={INPUT_WIDTH}
           />
           <Button height="auto">검색</Button>
+          {isInputFocused && keywordData && (
+            <MajorAutoComplete
+              keywordData={keywordData}
+              inputWidth={INPUT_WIDTH}
+              inputHeight={INPUT_HEIGHT}
+              inputValue={tmpKeyword}
+              setInputValue={setTmpKeyword}
+            />
+          )}
         </SearchContainer>
         <SortList>
           {SortOptions &&
@@ -96,6 +123,7 @@ const StyledLayout = styled.div`
 const SearchContainer = styled.form`
   display: flex;
   gap: 1rem;
+  position: relative;
 `;
 
 const SortList = styled.div`
