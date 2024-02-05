@@ -113,6 +113,21 @@ export const Review = [
   },
 ];
 
+export const FAQ = [
+  {
+    question: "상담은 어떻게 진행되나요?",
+    answer: "줌을 통한 비대면 상담으로 진행됩니다.",
+  },
+  {
+    question: "상담시간은 얼마나 걸리나요?",
+    answer: "20분, 40분 중에 선택하여 상담할 수 있습니다.",
+  },
+  {
+    question: "이른 아침 상담이나 새벽 상담도 가능한가요?",
+    answer:
+      "제 상담 가능시간은 보통 저녁시간이지만 매월 마지막주는 모든 시간대를 상담 가능 시간으로 열어두고 있습니다.",
+  },
+];
 export const RecommendMentors = [
   {
     name: "김성애",
