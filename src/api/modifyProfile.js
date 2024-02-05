@@ -24,11 +24,16 @@ export const modifyMentorProfile = async (changeObject, imageFile) => {
   }
 };
 
-export const modifyMenteeProfile = async (changeObject, imageFile) => {
+export const modifyMenteeProfile = async (
+  changeObject,
+  deleteObject,
+  imageFile
+) => {
   try {
     const formData = new FormData();
     const jsonData = { ...changeObject };
     formData.append("json", JSON.stringify(jsonData));
+    formData.append("delete", JSON.stringify({ ...deleteObject }));
     if (!!imageFile) formData.append("image", imageFile);
     const response = await axios.post(
       `${SV_LOCAL}/user/mentee/modify_profile`,
@@ -41,6 +46,24 @@ export const modifyMenteeProfile = async (changeObject, imageFile) => {
       }
     );
     return response;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const deleteMenteeTag = async (tagList) => {
+  const formData = new FormData();
+  // {tagList = [{ idx: 3}]} 형식으로 보내야함
+  const jsonData = { tagList: [...tagList] };
+  console.log(jsonData);
+  formData.append("delete", JSON.stringify(jsonData));
+  try {
+    await axios.post(`${SV_LOCAL}/user/mentee/modify_profile`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${getCookie("jwtToken")}`,
+      },
+    });
   } catch (err) {
     console.error(err);
   }

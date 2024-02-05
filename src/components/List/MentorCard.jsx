@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +7,10 @@ import { MentorCardSize } from "../../styles/common/Size";
 import { setDefaultImage } from "../../utils/DefaultValue";
 import { calculateAge } from "../../utils/ParseFormat";
 import { DefaultImg } from "../../settings/config";
+import { fetchUserInfo } from "../../api/fetchUser";
+import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { USER_CARD_INFO } from "../../settings/url";
 
 const MentorCard = ({ mentor, rank }) => {
   const { profileImg, name, birth, schoolList } = mentor;
@@ -15,53 +19,74 @@ const MentorCard = ({ mentor, rank }) => {
     mentor.consultMajor2,
     mentor.consultMajor3,
   ];
+  // const [isDetailOpen, setIsDetailOpen] = useState(false);
+  // const [userId, setUserId] = useState(null);
+  // let userData;
+
+  // const setModalOpen = () => {
+  //   setIsDetailOpen(true);
+  //   if (userId === null) {
+  //     userData = fetchUserInfo(mentor.id);
+  //     setUserId(mentor.id);
+  //   }
+  // };
+  // const setModalClose = () => {
+  //   setIsDetailOpen(false);
+  // };
+  const navigate = useNavigate();
+  const onMoveUserPage = () => {
+    navigate(`/${USER_CARD_INFO}?userId=${mentor.id}`);
+  };
   return (
-    <StyledContainer>
-      {rank ? (
-        <FontAwesomeIcon
-          className="icon"
-          icon={faCrown}
-          style={{ color: "#ffec00" }}
-        />
-      ) : (
-        ""
-      )}
-      <img
-        alt=""
-        src={setDefaultImage(profileImg)}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = DefaultImg;
-        }}
-      />
-      <div className="content">
-        <header>
-          {name} {!!birth && `(${calculateAge(birth)})`}
-        </header>
-        {!!schoolList && schoolList.length ? (
-          schoolList.map((school, idx) =>
-            school.schoolType === "대학교" ? (
-              <main key={idx}>
-                <span>{school.schoolName}대학교</span>
-                <span>
-                  {school.majorName} ({school.state})
-                </span>
-              </main>
-            ) : null
-          )
+    <>
+      <StyledContainer onClick={onMoveUserPage}>
+        {rank ? (
+          <FontAwesomeIcon
+            className="icon"
+            icon={faCrown}
+            style={{ color: "#ffec00" }}
+          />
         ) : (
-          <main>
-            <span>학교 미입력</span>
-          </main>
+          ""
         )}
-        <footer>
-          {!!majorList &&
-            majorList.map(
-              (major, idx) => !!major && <span key={idx}>#{major}</span>
-            )}
-        </footer>
-      </div>
-    </StyledContainer>
+        <img
+          alt=""
+          src={setDefaultImage(profileImg)}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = DefaultImg;
+          }}
+        />
+        <div className="content">
+          <header>
+            {name} {!!birth && `(${calculateAge(birth)})`}
+          </header>
+          {!!schoolList && schoolList.length ? (
+            schoolList.map((school, idx) =>
+              school.schoolType === "대학교" ? (
+                <main key={idx}>
+                  <span>{school.schoolName}대학교</span>
+                  <span>
+                    {school.majorName} ({school.state})
+                  </span>
+                </main>
+              ) : null
+            )
+          ) : (
+            <main>
+              <span>학교 미입력</span>
+            </main>
+          )}
+          <footer>
+            {!!majorList &&
+              majorList.map(
+                (major, idx) => !!major && <span key={idx}>#{major}</span>
+              )}
+          </footer>
+        </div>
+      </StyledContainer>
+      {/* {isDetailOpen && <MentorDetailInfo setModalClose={setModalClose} />} */}
+    </>
   );
 };
 
