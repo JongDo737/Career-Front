@@ -43,8 +43,9 @@ import FindMentor from "./pages/Mentee/FindMentor";
 import MyMentor from "./pages/Mentee/MyMentor";
 import LikeMentor from "./pages/Mentee/LikeMentor";
 import ConsultMenteeMentor from "./pages/Mentee/ConsultMentor";
-import { USER_CARD_INFO } from "./settings/url";
+import { CONSULT_MENTOR_INFO, USER_CARD_INFO } from "./settings/url";
 import UserCard from "./pages/UserCard";
+import ConsultMentorCard from "./pages/ConsultMentorCard";
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
   const isMentor = useSelector((state) => state.isMentor.value);
@@ -83,6 +84,10 @@ function App() {
               <Route path="/community/post/:id" element={<PostDetail />} />
               <Route path="/schedule" element={<Schedule />} />
               <Route path={`/${USER_CARD_INFO}`} element={<UserCard />} />
+              <Route
+                path={`/${CONSULT_MENTOR_INFO}`}
+                element={<ConsultMentorCard />}
+              />
               {isMentor ? (
                 <>
                   <Route path="/" element={<HomeMentor />} />

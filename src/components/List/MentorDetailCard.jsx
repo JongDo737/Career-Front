@@ -10,6 +10,8 @@ import {
 import { WhiteButton } from "../Button/WhiteButton";
 import { setDefaultImage } from "../../utils/DefaultValue";
 import { DefaultImg } from "../../settings/config";
+import { useNavigate } from "react-router-dom";
+import { CONSULT_MENTOR_INFO } from "../../settings/url";
 
 const MentorDetailCard = ({ mentor, consult }) => {
   const { profileImg, name, birth, schoolList } = mentor;
@@ -27,7 +29,10 @@ const MentorDetailCard = ({ mentor, consult }) => {
     questions: "전망이 좋나요?\n 공부를 어떻게 하면 좋을지 모르겠어요.",
   };
   const [leftTime, setLeftTime] = useState("");
-
+  const navigate = useNavigate();
+  const onMoveUserPage = () => {
+    navigate(`/${CONSULT_MENTOR_INFO}?userId=${mentor.id}`);
+  };
   const checkConsultTime = () => {
     // 시간 렌더링 부분 생각해보기
     const now = new Date();
@@ -129,7 +134,7 @@ const MentorDetailCard = ({ mentor, consult }) => {
               disabled={btnDisable}
             />
           )}
-          <div className="button" onClick={() => setIsDetailOpen(true)}>
+          <div className="button" onClick={onMoveUserPage}>
             자세히 보기
           </div>
         </div>
