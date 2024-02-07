@@ -7,7 +7,7 @@ export const UserCardLayout = styled.div`
   margin: 5rem auto 10rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 4rem;
 `;
 
 export const ProfileContainer = styled.div`
@@ -57,13 +57,15 @@ export const ProfileImgWrapper = styled.div`
 
 export const TextBox = styled.div`
   width: 50rem;
-  height: 10rem;
+  min-height: 5rem;
   border: 1px solid gray;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem 2rem;
   overflow-y: auto;
+  line-height: 1.3;
   ${yScrollStyle}
 `;
 
@@ -71,9 +73,10 @@ export const CenterContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1rem;
   > .title {
     font-size: 1.6rem;
     font-weight: 600;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
   }
 `;
