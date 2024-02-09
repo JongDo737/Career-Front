@@ -35,6 +35,7 @@ export const modifyMenteeProfile = async (
     formData.append("json", JSON.stringify(jsonData));
     formData.append("delete", JSON.stringify({ ...deleteObject }));
     if (!!imageFile) formData.append("image", imageFile);
+    console.log(changeObject);
     const response = await axios.post(
       `${SV_LOCAL}/user/mentee/modify_profile`,
       formData,
