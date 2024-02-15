@@ -172,6 +172,7 @@ const ProfileWrapper = styled.div`
     width: 100%;
     height: 13rem;
     object-fit: cover;
+    object-position: center;
     border-top-left-radius: 10px;
   }
   .content {

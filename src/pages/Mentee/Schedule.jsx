@@ -2,13 +2,17 @@ import React from "react";
 import "../../styles/calendar.css";
 import styled from "styled-components";
 import MyCalendar from "../../components/MyCalendar";
-import ScheduleList from "../../components/List/ScheduleList";
+import MenteeScheduleList from "../../components/List/MenteeScheduleList";
+import MentorRecommendList from "../../components/List/MentorRecommendList";
 
 const MenteeSchedule = () => {
   return (
     <ScheduleLayout>
       <MyCalendar />
-      <ScheduleList />
+      <Right>
+        <MenteeScheduleList />
+        <MentorRecommendList />
+      </Right>
     </ScheduleLayout>
   );
 };
@@ -23,4 +27,10 @@ const ScheduleLayout = styled.div`
   min-height: 50rem;
   justify-content: center;
   box-sizing: border-box;
+`;
+
+const Right = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 `;

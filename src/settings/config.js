@@ -95,7 +95,7 @@ export const Review = [
   {
     id: 0,
     writer: "신종민",
-    content: "멘토님 너무 친절하고 재밌으셔서 시간 가는 줄 몰랐습니다.",
+    content: "친절하고 재밌으셔서 시간 가는 줄 몰랐습니다.",
     score: 5,
   },
   {
@@ -131,7 +131,7 @@ export const FAQ = [
 export const RecommendMentors = [
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -143,11 +143,11 @@ export const RecommendMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -159,11 +159,11 @@ export const RecommendMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -179,7 +179,7 @@ export const RecommendMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -198,7 +198,7 @@ export const RecommendMentors = [
 export const TotalRecommendMentors = [
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -210,11 +210,11 @@ export const TotalRecommendMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -226,11 +226,11 @@ export const TotalRecommendMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -246,7 +246,7 @@ export const TotalRecommendMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -262,7 +262,7 @@ export const TotalRecommendMentors = [
   },
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -274,11 +274,11 @@ export const TotalRecommendMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -290,11 +290,11 @@ export const TotalRecommendMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -310,7 +310,7 @@ export const TotalRecommendMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -326,7 +326,7 @@ export const TotalRecommendMentors = [
   },
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -338,11 +338,11 @@ export const TotalRecommendMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -354,11 +354,11 @@ export const TotalRecommendMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -374,7 +374,7 @@ export const TotalRecommendMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -393,7 +393,7 @@ export const TotalRecommendMentors = [
 export const PopularMentors = [
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -405,11 +405,11 @@ export const PopularMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -421,11 +421,11 @@ export const PopularMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -441,7 +441,7 @@ export const PopularMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -460,7 +460,7 @@ export const PopularMentors = [
 export const TotalPopularMentors = [
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -472,11 +472,11 @@ export const TotalPopularMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -488,11 +488,11 @@ export const TotalPopularMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -508,7 +508,7 @@ export const TotalPopularMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -524,7 +524,7 @@ export const TotalPopularMentors = [
   },
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -536,11 +536,11 @@ export const TotalPopularMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -552,11 +552,11 @@ export const TotalPopularMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -572,7 +572,7 @@ export const TotalPopularMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -588,7 +588,7 @@ export const TotalPopularMentors = [
   },
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -600,11 +600,11 @@ export const TotalPopularMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -616,11 +616,11 @@ export const TotalPopularMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -636,7 +636,7 @@ export const TotalPopularMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -652,7 +652,7 @@ export const TotalPopularMentors = [
   },
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -664,11 +664,11 @@ export const TotalPopularMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -680,11 +680,11 @@ export const TotalPopularMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -700,7 +700,7 @@ export const TotalPopularMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -719,7 +719,7 @@ export const TotalPopularMentors = [
 export const TotalMentors = [
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -731,11 +731,11 @@ export const TotalMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -747,11 +747,11 @@ export const TotalMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -767,7 +767,7 @@ export const TotalMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -783,7 +783,7 @@ export const TotalMentors = [
   },
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -795,11 +795,11 @@ export const TotalMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -811,11 +811,11 @@ export const TotalMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -831,7 +831,7 @@ export const TotalMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -847,7 +847,7 @@ export const TotalMentors = [
   },
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -859,11 +859,11 @@ export const TotalMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -875,11 +875,11 @@ export const TotalMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -895,7 +895,7 @@ export const TotalMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -911,7 +911,7 @@ export const TotalMentors = [
   },
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -923,11 +923,11 @@ export const TotalMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -939,11 +939,11 @@ export const TotalMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -959,7 +959,7 @@ export const TotalMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
@@ -975,7 +975,7 @@ export const TotalMentors = [
   },
   {
     name: "김성애",
-    age: 20,
+    birth: "19980513",
     schoolList: [
       {
         schoolName: "한양",
@@ -987,11 +987,11 @@ export const TotalMentors = [
     consultMajor1: "컴퓨터공학과",
     consultMajor2: "심리학과",
     profileImg:
-      "https://profileImg.ytn.co.kr/general/jpg/2022/1118/202211181457199274_d.jpg",
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
   },
   {
     name: "신종민",
-    age: 21,
+    birth: "20001031",
     schoolList: [
       {
         schoolName: "고려",
@@ -1003,11 +1003,11 @@ export const TotalMentors = [
     consultMajor1: "물리학과",
     consultMajor2: "철학과",
     profileImg:
-      "https://profileImg.xportsnews.com/contents/images/upload/article/2021/1125/mb_1637825577788244.jpg",
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
   },
   {
     name: "한재준",
-    age: 22,
+    birth: "19960211",
     schoolList: [
       {
         schoolName: "연세",
@@ -1023,7 +1023,7 @@ export const TotalMentors = [
   },
   {
     name: "채희문",
-    age: 23,
+    birth: "20021107",
     schoolList: [
       {
         schoolName: "서울",
