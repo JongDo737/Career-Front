@@ -70,12 +70,12 @@ const Menubar = () => {
         ]);
         setRightLink([`${FRONT_LOCAL}/mentor`, `${FRONT_LOCAL}/mentor`]);
       } else {
-        setLeftMenu(["홈", "멘토", "게시판", "상담", "커뮤니티"]);
+        setLeftMenu(["홈", "멘토", "시간표", "상담", "커뮤니티"]);
         setRightMenu(["초대하기", "이용권 구매"]);
         setLeftLink([
           `${FRONT_LOCAL}/mentee`,
           `${FRONT_LOCAL}/mentee/mentor`,
-          `${FRONT_LOCAL}/mentee`,
+          `${FRONT_LOCAL}/mentee/schedule`,
           `${FRONT_LOCAL}/mentee`,
           `${FRONT_LOCAL}/community`,
         ]);

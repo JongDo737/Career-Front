@@ -1,10 +1,10 @@
 import React from "react";
-import "../styles/calendar.css";
+import "../../styles/calendar.css";
 import styled from "styled-components";
-import MyCalendar from "../components/MyCalendar";
-import ScheduleList from "../components/List/ScheduleList";
+import MyCalendar from "../../components/MyCalendar";
+import ScheduleList from "../../components/List/ScheduleList";
 
-const Schedule = () => {
+const MenteeSchedule = () => {
   return (
     <ScheduleLayout>
       <MyCalendar />
@@ -13,7 +13,7 @@ const Schedule = () => {
   );
 };
 
-export default Schedule;
+export default MenteeSchedule;
 
 const ScheduleLayout = styled.div`
   display: flex;

@@ -33,7 +33,8 @@ export const modifyMenteeProfile = async (
     const formData = new FormData();
     const jsonData = { ...changeObject };
     formData.append("json", JSON.stringify(jsonData));
-    formData.append("delete", JSON.stringify({ ...deleteObject }));
+    if (!!deleteObject)
+      formData.append("delete", JSON.stringify({ ...deleteObject }));
     if (!!imageFile) formData.append("image", imageFile);
     console.log(changeObject);
     const response = await axios.post(

@@ -43,9 +43,14 @@ import FindMentor from "./pages/Mentee/FindMentor";
 import MyMentor from "./pages/Mentee/MyMentor";
 import LikeMentor from "./pages/Mentee/LikeMentor";
 import ConsultMenteeMentor from "./pages/Mentee/ConsultMentor";
-import { CONSULT_MENTOR_INFO, USER_CARD_INFO } from "./settings/url";
+import {
+  CONSULT_MENTOR_INFO,
+  MENTEE_SCHEDULE,
+  USER_CARD_INFO,
+} from "./settings/url";
 import UserCard from "./pages/UserCard";
 import ConsultMentorCard from "./pages/ConsultMentorCard";
+import MenteeSchedule from "./pages/Mentee/Schedule";
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
   const isMentor = useSelector((state) => state.isMentor.value);
@@ -139,6 +144,10 @@ function App() {
                     element={<MyMentor />}
                   />
                   <Route path="/mentee/profile" element={<MenteeProfile />} />
+                  <Route
+                    path={`/${MENTEE_SCHEDULE}`}
+                    element={<MenteeSchedule />}
+                  />
                 </>
               ) : (
                 <>
