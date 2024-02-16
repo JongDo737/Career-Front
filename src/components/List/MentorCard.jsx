@@ -49,14 +49,7 @@ const MentorCard = ({ mentor, rank }) => {
         ) : (
           ""
         )}
-        <img
-          alt=""
-          src={setDefaultImage(profileImg)}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = DefaultImg;
-          }}
-        />
+        <img alt="" src={setDefaultImage(profileImg)} />
         <div className="content">
           <header>
             {name} {!!birth && `(${calculateAge(birth)})`}

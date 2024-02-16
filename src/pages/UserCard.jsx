@@ -125,7 +125,7 @@ const UserCard = () => {
             </CenterContainer>
           )}
         </UserCardLayout>
-        <BottomFixButton text="상담 신청하기" />
+        <BottomFixButton>상담 신청하기</BottomFixButton>
       </>
     );
 };

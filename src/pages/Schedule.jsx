@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import Calendar from "react-calendar";
+import React from "react";
 import "../styles/calendar.css";
 import styled from "styled-components";
 import MyCalendar from "../components/MyCalendar";
 import ScheduleList from "../components/List/ScheduleList";
 
 const Schedule = () => {
-  const [date, setDate] = useState(new Date());
   return (
     <ScheduleLayout>
       <MyCalendar />

@@ -32,6 +32,7 @@ import {
   modifyMentorProfile,
 } from "../../api/modifyProfile";
 import AlertModal from "../../components/Modal/AlertModal";
+import BottomFixButton from "../../components/Button/BottomFixButton";
 
 const MenteeProfile = (props) => {
   const [numberCode, setNumberCode] = useState("");
@@ -81,7 +82,7 @@ const MenteeProfile = (props) => {
     setImgFile(null);
   };
 
-  console.log(data);
+  // console.log(data);
 
   const onChangeEdit = async (e) => {
     e.preventDefault();
@@ -411,7 +412,7 @@ const MenteeProfile = (props) => {
                     interestingMajor3: e.target.value,
                   }));
                 }}
-                value={user.interestingMajor2}
+                value={user.interestingMajor3}
                 disabled={view}
               />
             </InputForm>
@@ -419,9 +420,9 @@ const MenteeProfile = (props) => {
         </FormHalf>
       </Form>
       <Form style={{ marginBottom: "8rem" }}>
-        <ButtonDiv onClick={onChangeEdit} size="large" height="3rem">
+        <BottomFixButton onClick={onChangeEdit}>
           {view ? "수정하기" : "저장하기"}
-        </ButtonDiv>
+        </BottomFixButton>
       </Form>
       {alertOpen && (
         <AlertModal

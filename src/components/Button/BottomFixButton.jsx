@@ -3,10 +3,14 @@ import styled from "styled-components";
 import { colors } from "../../styles/common/Theme";
 
 const BottomFixButton = (props) => {
-  const { backgroundColor, color, text } = props;
+  const { backgroundColor, color, children, onClick } = props;
   return (
-    <BottomButton backgroundColor={backgroundColor} color={color}>
-      {text}
+    <BottomButton
+      backgroundColor={backgroundColor}
+      color={color}
+      onClick={onClick}
+    >
+      {children}
     </BottomButton>
   );
 };

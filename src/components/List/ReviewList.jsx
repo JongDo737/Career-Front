@@ -34,7 +34,7 @@ const ReviewList = ({ review }) => {
         </tr>
       </thead>
       <tbody>
-        {review.map((item, i) => (
+        {review.map((item) => (
           <tr key={item.id}>
             <td>{item.content}</td>
             <td>{middleNameParse(item.writer)}</td>

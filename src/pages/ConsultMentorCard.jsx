@@ -159,7 +159,7 @@ const ConsultMentorCard = () => {
             </CenterContainer>
           )}
         </UserCardLayout>
-        <BottomFixButton text="상담 입장하기" />
+        <BottomFixButton>상담 입장하기</BottomFixButton>
       </>
     );
 };
