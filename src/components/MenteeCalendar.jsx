@@ -7,41 +7,16 @@ import { SV_LOCAL } from "../constants";
 import axios from "axios";
 import { getCookie } from "../cookie";
 import { ButtonDiv } from "./Button/Button";
+import { PossibleDateList } from "../settings/config";
+import { ModalWrapper } from "../styles/common/ModalComponent";
+import ApplyConsultModal from "./Modal/ApplyConsultModal";
 
 const localizer = momentLocalizer(moment);
 const MenteeCalendar = (props) => {
   const { target, setTarget } = props;
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
   const [events, setEvents] = useState([]);
-  const [possibleTimeList, setPossibleTimeList] = useState([
-    {
-      possibleTimeList: [
-        {
-          start: "10:0",
-          end: "18:0",
-        },
-      ],
-      date: "2024-02-16",
-    },
-    {
-      possibleTimeList: [
-        {
-          start: "14:0",
-          end: "21:0",
-        },
-      ],
-      date: "2024-02-17",
-    },
-    {
-      possibleTimeList: [
-        {
-          start: "11:0",
-          end: "19:0",
-        },
-      ],
-      date: "2024-02-18",
-    },
-  ]);
+  const [possibleTimeList, setPossibleTimeList] = useState(PossibleDateList);
   const [isUpdatePossibleTime, setIsUpdatePossibleTime] = useState(true);
   const today = moment();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -49,7 +24,8 @@ const MenteeCalendar = (props) => {
     start: "",
     end: "",
   });
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [applyModalOpen, setApplyModalOpen] = useState(false);
+  const [applyFormOpen, setApplyFormOpen] = useState(false);
   const isCustomTimeCell = (start) => {
     let customStartTime = new Date();
     let customEndTime = new Date();
@@ -190,7 +166,7 @@ const MenteeCalendar = (props) => {
     setSelectedSlot({ start: formattedStartDate, end: formattedEndDate });
     const today = new Date();
     const beforeToday = date.start <= today;
-    if (!beforeToday) setIsEditModalOpen(true);
+    if (!beforeToday) setApplyModalOpen(true);
   };
 
   const onApplyConsult = () => {
@@ -271,14 +247,14 @@ const MenteeCalendar = (props) => {
         max={new Date(0, 0, 0, 23, 59, 59)} // 표시할 최대 시간
         step={30}
       />
-      {isEditModalOpen && (
-        <DeleteWrapper
+      {applyModalOpen && (
+        <ModalWrapper
           onClick={() => {
-            setIsEditModalOpen(false);
+            setApplyModalOpen(false);
             setSelectedSlot({ start: "", end: "" });
           }}
         >
-          <DeleteModal onClick={(e) => e.stopPropagation()}>
+          <Modal onClick={(e) => e.stopPropagation()}>
             <header>
               <span>{selectedSlot.start}</span>
               <span>~ {selectedSlot.end}</span>
@@ -287,16 +263,27 @@ const MenteeCalendar = (props) => {
               <div
                 className="button"
                 onClick={() => {
-                  onApplyConsult();
-                  setIsEditModalOpen(false);
-                  setSelectedSlot({ start: "", end: "" });
+                  //   onApplyConsult();
+                  setApplyModalOpen(false);
+                  setApplyFormOpen(true);
                 }}
               >
                 상담 신청하기
               </div>
             </main>
-          </DeleteModal>
-        </DeleteWrapper>
+          </Modal>
+        </ModalWrapper>
+      )}
+      {applyFormOpen && (
+        <ApplyConsultModal
+          setModalClose={() => {
+            setApplyFormOpen(false);
+            setSelectedSlot({ start: "", end: "" });
+          }}
+          startTime={selectedSlot.start}
+          endTime={selectedSlot.end}
+          mentor={target}
+        />
       )}
     </CalendarContainer>
   );
@@ -316,23 +303,10 @@ const CalendarContainer = styled.div`
     margin-bottom: 8px;
   }
 `;
-const DeleteWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: #8080806d;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
 
-const DeleteModal = styled.div`
-  width: 15rem;
+const Modal = styled.div`
   background-color: white;
-  padding: 2rem;
+  padding: 2rem 5rem;
   border-radius: 1rem;
   > header {
     width: 100%;

@@ -1102,3 +1102,33 @@ export const TotalMentors = [
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
+
+export const PossibleDateList = [
+  {
+    possibleTimeList: [
+      {
+        start: "10:0",
+        end: "18:0",
+      },
+    ],
+    date: "2024-02-16",
+  },
+  {
+    possibleTimeList: [
+      {
+        start: "14:0",
+        end: "21:0",
+      },
+    ],
+    date: "2024-02-17",
+  },
+  {
+    possibleTimeList: [
+      {
+        start: "11:0",
+        end: "19:0",
+      },
+    ],
+    date: "2024-02-18",
+  },
+];
