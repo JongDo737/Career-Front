@@ -27,7 +27,7 @@ const MenteeCalendar = (props) => {
       possibleTimeList: [
         {
           start: "14:0",
-          end: "17:0",
+          end: "21:0",
         },
       ],
       date: "2024-02-17",
@@ -35,8 +35,8 @@ const MenteeCalendar = (props) => {
     {
       possibleTimeList: [
         {
-          start: "14:0",
-          end: "17:0",
+          start: "11:0",
+          end: "19:0",
         },
       ],
       date: "2024-02-18",
@@ -50,7 +50,7 @@ const MenteeCalendar = (props) => {
     end: "",
   });
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const isCustomTimeCell = (start, end) => {
+  const isCustomTimeCell = (start) => {
     let customStartTime = new Date();
     let customEndTime = new Date();
     let check = false;

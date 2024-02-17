@@ -6,6 +6,7 @@ import {
   onDeleteRecomment,
 } from "../../api/deletePost";
 import { useParams } from "react-router-dom";
+import { ModalWrapper } from "../../styles/common/ModalComponent";
 
 const DeleteCheckModal = (props) => {
   const { ids, setIsDeleteInfo, option, setUpdate } = props;
@@ -31,7 +32,7 @@ const DeleteCheckModal = (props) => {
     }
   };
   return (
-    <DeleteWrapper
+    <ModalWrapper
       onClick={() => {
         setIsDeleteInfo(false);
       }}
@@ -54,25 +55,11 @@ const DeleteCheckModal = (props) => {
           </div>
         </main>
       </DeleteModal>
-    </DeleteWrapper>
+    </ModalWrapper>
   );
 };
 
 export default DeleteCheckModal;
-
-const DeleteWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: #8080806d;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  z-index: 100;
-`;
 
 const DeleteModal = styled.div`
   width: 20rem;
