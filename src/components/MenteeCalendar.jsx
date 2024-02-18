@@ -10,6 +10,8 @@ import { ButtonDiv } from "./Button/Button";
 import { PossibleDateList } from "../settings/config";
 import { ModalWrapper } from "../styles/common/ModalComponent";
 import ApplyConsultModal from "./Modal/ApplyConsultModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const localizer = momentLocalizer(moment);
 const MenteeCalendar = (props) => {
@@ -67,16 +69,18 @@ const MenteeCalendar = (props) => {
         ? "#dcdcdc98"
         : "white",
     };
-    if (
-      // 드래그할때
-      new Date(date) >= new Date(selectedSlot.start) &&
-      new Date(date) < new Date(selectedSlot.end)
-    ) {
-      if (!moment(selectedSlot.start).isBefore(today)) {
-        style = { backgroundColor: "#526684", border: "none" };
+    if (!!target) {
+      if (
+        // 드래그할때
+        new Date(date) >= new Date(selectedSlot.start) &&
+        new Date(date) < new Date(selectedSlot.end)
+      ) {
+        if (!moment(selectedSlot.start).isBefore(today)) {
+          style = { backgroundColor: "#526684", border: "none" };
+        }
       }
-    }
-    return { style };
+      return { style };
+    } else return null;
   };
 
   const eventPropGetter = (event, start) => {
@@ -166,7 +170,56 @@ const MenteeCalendar = (props) => {
     setSelectedSlot({ start: formattedStartDate, end: formattedEndDate });
     const today = new Date();
     const beforeToday = date.start <= today;
-    if (!beforeToday) setApplyModalOpen(true);
+    if (!beforeToday) {
+      setApplyModalOpen(true);
+    }
+  };
+
+  const renderApplyModal = () => {
+    const isSelected = isCustomTimeCell(selectedSlot.start);
+    if (target === null) onCloseModal();
+    else if (isSelected) {
+      return (
+        <ModalWrapper onClick={onCloseModal}>
+          <Modal onClick={(e) => e.stopPropagation()}>
+            <FontAwesomeIcon
+              icon={faXmark}
+              className="x-icon"
+              onClick={onCloseModal}
+            />
+            <header>
+              <span>{selectedSlot.start}</span>
+              <span>~ {selectedSlot.end}</span>
+            </header>
+            <main>
+              <div
+                className="button"
+                onClick={() => {
+                  //   onApplyConsult();
+                  setApplyModalOpen(false);
+                  setApplyFormOpen(true);
+                }}
+              >
+                상담 신청하기
+              </div>
+            </main>
+          </Modal>
+        </ModalWrapper>
+      );
+    } else {
+      return (
+        <ModalWrapper onClick={onCloseModal}>
+          <Modal onClick={(e) => e.stopPropagation()}>
+            <FontAwesomeIcon
+              icon={faXmark}
+              className="x-icon"
+              onClick={onCloseModal}
+            />
+            <main>상담이 불가능한 시간대입니다.</main>
+          </Modal>
+        </ModalWrapper>
+      );
+    }
   };
 
   const onApplyConsult = () => {
@@ -221,6 +274,11 @@ const MenteeCalendar = (props) => {
       .catch((err) => console.error(err));
   };
 
+  const onCloseModal = () => {
+    setApplyModalOpen(false);
+    setSelectedSlot({ start: "", end: "" });
+  };
+
   return (
     <CalendarContainer>
       <header>
@@ -247,33 +305,7 @@ const MenteeCalendar = (props) => {
         max={new Date(0, 0, 0, 23, 59, 59)} // 표시할 최대 시간
         step={30}
       />
-      {applyModalOpen && (
-        <ModalWrapper
-          onClick={() => {
-            setApplyModalOpen(false);
-            setSelectedSlot({ start: "", end: "" });
-          }}
-        >
-          <Modal onClick={(e) => e.stopPropagation()}>
-            <header>
-              <span>{selectedSlot.start}</span>
-              <span>~ {selectedSlot.end}</span>
-            </header>
-            <main>
-              <div
-                className="button"
-                onClick={() => {
-                  //   onApplyConsult();
-                  setApplyModalOpen(false);
-                  setApplyFormOpen(true);
-                }}
-              >
-                상담 신청하기
-              </div>
-            </main>
-          </Modal>
-        </ModalWrapper>
-      )}
+      {applyModalOpen && renderApplyModal()}
       {applyFormOpen && (
         <ApplyConsultModal
           setModalClose={() => {
@@ -308,6 +340,14 @@ const Modal = styled.div`
   background-color: white;
   padding: 2rem 5rem;
   border-radius: 1rem;
+  position: relative;
+  .x-icon {
+    position: absolute;
+    font-size: 1.4rem;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+  }
   > header {
     width: 100%;
     height: 5rem;

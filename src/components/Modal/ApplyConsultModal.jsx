@@ -51,8 +51,9 @@ const ApplyConsultModal = (props) => {
       flow: "#" + consultFlow.replace(", ", ",").split(",").join("#"),
       questions: consultQuestion,
     };
-    applyConsult(data);
-    setModalClose();
+    console.log(data);
+    // applyConsult(data);
+    // setModalClose();
   };
   return (
     <ModalWrapper>
