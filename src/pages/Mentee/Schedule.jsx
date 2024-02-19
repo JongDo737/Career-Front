@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/calendar.css";
 import styled from "styled-components";
-import MyCalendar from "../../components/MyCalendar";
 import MenteeScheduleList from "../../components/List/MenteeScheduleList";
 import MentorRecommendList from "../../components/List/MentorRecommendList";
+import MenteeCalendar from "../../components/MenteeCalendar";
 
 const MenteeSchedule = () => {
+  const [target, setTarget] = useState(null); // 타겟 시간표. 디폴트는 본인
+
   return (
     <ScheduleLayout>
-      <MyCalendar />
+      <MenteeCalendar target={target} setTarget={setTarget} />
       <Right>
         <MenteeScheduleList />
-        <MentorRecommendList />
+        <MentorRecommendList target={target} setTarget={setTarget} />
       </Right>
     </ScheduleLayout>
   );

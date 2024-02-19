@@ -1,3 +1,5 @@
+// jwt 토큰 decode
+
 export function decodeJwt(token) {
   try {
     return JSON.parse(atob(token.split(".")[1]));

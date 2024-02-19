@@ -53,14 +53,15 @@ export const modifyMenteeProfile = async (
   }
 };
 
-export const deleteMenteeTag = async (tagList) => {
+export const modifyMenteeTag = async (tagList) => {
   const formData = new FormData();
   // {tagList = [{ idx: 3}]} 형식으로 보내야함
+  console.log(tagList);
   const jsonData = { tagList: [...tagList] };
   console.log(jsonData);
-  formData.append("delete", JSON.stringify(jsonData));
+  formData.append("json", JSON.stringify(jsonData));
   try {
-    await axios.post(`${SV_LOCAL}/user/mentee/modify_profile`, formData, {
+    await axios.post(`${SV_LOCAL}/user/mentee/modify_tagList`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${getCookie("jwtToken")}`,

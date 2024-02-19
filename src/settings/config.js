@@ -455,6 +455,70 @@ export const PopularMentors = [
     consultMajor2: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
+  {
+    name: "김성애",
+    birth: "19980513",
+    schoolList: [
+      {
+        schoolName: "한양",
+        schoolType: "대학교",
+        majorName: "컴퓨터소프트웨어학부",
+        state: "졸업",
+      },
+    ],
+    consultMajor1: "컴퓨터공학과",
+    consultMajor2: "심리학과",
+    profileImg:
+      "https://i.namu.wiki/i/3-KkBTJPKKcJhZ843jaHKml1ACBrS76wyrtrNIpXgOgApnxW0a9FOdwcIewvu1mmUY0-8uQRoz2ulAr-1pbrmw.webp",
+  },
+  {
+    name: "신종민",
+    birth: "20001031",
+    schoolList: [
+      {
+        schoolName: "고려",
+        schoolType: "대학교",
+        majorName: "물리학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "물리학과",
+    consultMajor2: "철학과",
+    profileImg:
+      "https://dimg.donga.com/wps/SPORTS/IMAGE/2024/01/09/122959302.1.jpg",
+  },
+  {
+    name: "한재준",
+    birth: "19960211",
+    schoolList: [
+      {
+        schoolName: "연세",
+        schoolType: "대학교",
+        majorName: "천문학과",
+        state: "졸업예정",
+      },
+    ],
+    consultMajor1: "천문학과",
+    consultMajor2: "우주과학과",
+    profileImg:
+      "https://file.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1097541_16378776624856653.jpg",
+  },
+  {
+    name: "채희문",
+    birth: "20021107",
+    schoolList: [
+      {
+        schoolName: "서울",
+        schoolType: "대학교",
+        majorName: "화학과",
+        state: "재학중",
+      },
+    ],
+    consultMajor1: "화학과",
+    consultMajor2: "화학공학과",
+    consultMajor2: "물리학과",
+    profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
 ];
 
 export const TotalPopularMentors = [
@@ -1036,5 +1100,35 @@ export const TotalMentors = [
     consultMajor2: "화학공학과",
     consultMajor2: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
+  },
+];
+
+export const PossibleDateList = [
+  {
+    possibleTimeList: [
+      {
+        start: "10:0",
+        end: "18:0",
+      },
+    ],
+    date: "2024-02-16",
+  },
+  {
+    possibleTimeList: [
+      {
+        start: "14:0",
+        end: "21:0",
+      },
+    ],
+    date: "2024-02-17",
+  },
+  {
+    possibleTimeList: [
+      {
+        start: "11:0",
+        end: "19:0",
+      },
+    ],
+    date: "2024-02-18",
   },
 ];

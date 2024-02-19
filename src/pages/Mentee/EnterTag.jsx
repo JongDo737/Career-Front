@@ -5,7 +5,7 @@ import { colors } from "../../styles/common/Theme";
 import TagList from "../../components/List/TagList";
 import { fetchMenteeProfile } from "../../api/fetchProfile";
 import { useQuery } from "react-query";
-import { modifyMenteeProfile } from "../../api/modifyProfile";
+import { modifyMenteeProfile, modifyMenteeTag } from "../../api/modifyProfile";
 import { ButtonDiv } from "../../components/Button/Button";
 
 const EnterTag = () => {
@@ -17,13 +17,8 @@ const EnterTag = () => {
     },
   });
 
-  const onInsertTag = (e) => {
-    modifyMenteeProfile({ tagList: [...tagList] }, null);
-    window.alert("태그를 등록했습니다.");
-  };
-
-  const onDeleteTag = (e) => {
-    modifyMenteeProfile({ tagList: [...tagList] }, null);
+  const onInsertTag = () => {
+    modifyMenteeTag({ tagList: [...tagList] }, null);
     window.alert("태그를 등록했습니다.");
   };
 
@@ -43,12 +38,7 @@ const EnterTag = () => {
       {!!tagList && (
         <TagList tagList={tagList} setTagList={setTagList} view={false} />
       )}
-      <ButtonDiv
-        size="large"
-        height="2.7rem"
-        onInsert={onInsertTag}
-        onDelete={onDeleteTag}
-      >
+      <ButtonDiv size="large" height="2.7rem" onClick={onInsertTag}>
         등록하기
       </ButtonDiv>
     </StyledLayout>

@@ -12,6 +12,7 @@ import {
   SV_LOCAL,
   UPCOMING_CONSULT_TYPE,
 } from "../../constants";
+import { ModalWrapper } from "../../styles/common/ModalComponent";
 const DetailedModal = (props) => {
   const { setModalOpen, item, type } = props;
   const [detailObject, setDetailObject] = useState({
@@ -189,19 +190,6 @@ const DetailedModal = (props) => {
 
 export default DetailedModal;
 
-const ModalWrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: #8080806d;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
 const DetailModal = styled.div`
   width: 55rem;
   background-color: white;
