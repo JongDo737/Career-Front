@@ -23,6 +23,7 @@ const Signup = (props) => {
     username: "", //필수
     nickname: "", //필수
     password: "", //필수
+    confirmPassword: "",
     birth: "", //필수
     gender: true, //필수
     introduce: "",
@@ -96,6 +97,7 @@ const Signup = (props) => {
               <Input
                 required={true}
                 placehaolder="이름을 입력하세요."
+                value={user.name}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, name: e.target.value }))
                 }
@@ -112,6 +114,7 @@ const Signup = (props) => {
               <Input
                 required={true}
                 placeholder="아이디를 입력하세요."
+                value={user.username}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, username: e.target.value }));
                   setValidUsername(undefined);
@@ -148,6 +151,7 @@ const Signup = (props) => {
               <Input
                 required={true}
                 placeholder="닉네임을 입력하세요."
+                value={user.nickname}
                 // onChange={(e) => setNickname(e.target.value)}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, nickname: e.target.value }));
@@ -187,6 +191,7 @@ const Signup = (props) => {
                 required={true}
                 type="password"
                 placeholder="비밀번호를 입력하세요."
+                value={user.password}
                 // onChange={(e) => setPassword(e.target.value)}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, password: e.target.value }))
@@ -205,7 +210,12 @@ const Signup = (props) => {
                 required={true}
                 type="password"
                 placeholder="비밀번호를 다시 입력하세요."
+                value={user.confirmPassword}
                 onChange={(e) => {
+                  setUser((user) => ({
+                    ...user,
+                    confirmPassword: e.target.value,
+                  }));
                   user.password === e.target.value
                     ? setConfirmPassword(true)
                     : setConfirmPassword(false);
@@ -229,6 +239,7 @@ const Signup = (props) => {
                 required={true}
                 type="date"
                 placeholder="1900"
+                value={user.birth}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, birth: e.target.value }));
                 }}
@@ -245,6 +256,7 @@ const Signup = (props) => {
               <Input
                 required={true}
                 placeholder="010-1234-5678"
+                value={user.telephone}
                 onChange={(e) =>
                   setUser((user) => ({
                     ...user,
@@ -263,6 +275,7 @@ const Signup = (props) => {
               <Input
                 required={true}
                 placeholder="인증코드를 입력하세요."
+                value={numberCode}
                 onChange={(e) => setNumberCode(e.target.value)}
               />
               <ButtonDiv height="3rem">확인</ButtonDiv>
@@ -279,6 +292,7 @@ const Signup = (props) => {
                 required={true}
                 placeholder="이메일을 입력하세요."
                 type="email"
+                value={user.email}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, email: e.target.value }))
                 }
