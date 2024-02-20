@@ -15,18 +15,16 @@ import TitleWithBar from "../../components/Input/InputWithTitle";
 import { Label, Radio, ValidWrapper } from "../../styles/common/FoamComponents";
 function Signup() {
   const navigator = useNavigate();
-  const [confirmPassword, setConfirmPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState();
   const [validUsername, setValidUsername] = useState(false);
   const [validNickname, setValidNickname] = useState(false);
   const [numberCode, setNumberCode] = useState("");
-  const [consult, setConsult] = useState([]);
-  const [profileImg, setProfileImg] = useState("/initProfileImg.jpg");
-  const [visibleImg, setVisibleImg] = useState("/initProfileImg.jpg");
   const [user, setUser] = useState({
     name: "", //필수
     username: "", //필수
     nickname: "", //필수
     password: "", //필수
+    confirmPassword: "",
     birth: "", //필수
     gender: true, //필수
     introduce: "",
@@ -44,54 +42,8 @@ function Signup() {
     email: "",
     // activeImg: [],
   });
-  const [schoolList, setSchoolList] = useState([
-    {
-      idx: 0,
-      school: "고등학교",
-      schoolName: "",
-      startDate: "",
-      endDate: "",
-      state: "졸업",
-    },
-  ]);
-  const [careerList, setCareerList] = useState([
-    {
-      idx: 0,
-      career: "교내활동",
-      careerName: "",
-      startDate: "",
-      endDate: "",
-      state: "수료",
-    },
-  ]);
 
   const [careerFile, setCareerFile] = useState([]);
-  const [isFile, setIsFile] = useState(false);
-  const fileInput = useRef(null);
-
-  const onChangeImg = (e) => {
-    if (e.target.files[0]) setProfileImg(e.target.files[0]);
-    // setUser((user) => ({ ...user, profileImg: e.target.files[0] }));
-    else return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) setVisibleImg(reader.result);
-
-      // setUser((user) => ({ ...user, profileImg: reader.result }));
-      // setProfileImg(reader.result);
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  };
-  const onResetImg = () => {
-    // setUser((user) => ({
-    //   ...user,
-    //   profileImg:
-    //     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    // }));
-    setProfileImg("/initProfileImg.jpg");
-    setVisibleImg("/initProfileImg.jpg");
-  };
 
   const fileUploadIdx = useRef(0);
   const onUploadFile = (e) => {
@@ -129,13 +81,9 @@ function Signup() {
     else {
       setUser((user) => ({
         ...user,
-        schoolList: schoolList,
-        careerList: careerList,
-        tagList: [...tag],
       }));
 
       const formData = new FormData();
-      // formData.append("image", profileImg);
 
       const jsonData = {
         name: user.name, //필수
@@ -162,15 +110,6 @@ function Signup() {
     }
   };
 
-  const [tag, setTag] = useState([]);
-  const tagIdx = useRef(0);
-  const onUpdateTag = (value) => {
-    setTag((current) => [...current, { idx: tagIdx.current, name: value }]);
-    tagIdx.current += 1;
-  };
-  const onDeleteTag = (idx) => {
-    setTag(tag.filter((a) => a.idx !== idx));
-  };
   return (
     <>
       <Title>
@@ -189,6 +128,7 @@ function Signup() {
               <Input
                 required={true}
                 placehaolder="이름을 입력하세요."
+                value={user.name}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, name: e.target.value }))
                 }
@@ -203,6 +143,7 @@ function Signup() {
               <Input
                 required={true}
                 placeholder="아이디를 입력하세요."
+                value={user.username}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, username: e.target.value }));
                   setValidUsername(undefined);
@@ -237,6 +178,7 @@ function Signup() {
               <Input
                 required={true}
                 placeholder="닉네임을 입력하세요."
+                value={user.nickname}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, nickname: e.target.value }));
                   setValidNickname(undefined);
@@ -273,7 +215,7 @@ function Signup() {
                 required={true}
                 type="password"
                 placeholder="비밀번호를 입력하세요."
-                // onChange={(e) => setPassword(e.target.value)}
+                value={user.password}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, password: e.target.value }))
                 }
@@ -289,14 +231,13 @@ function Signup() {
                 required={true}
                 type="password"
                 placeholder="비밀번호를 다시 입력하세요."
+                value={confirmPassword}
                 onChange={(e) => {
-                  user.password === e.target.value
-                    ? setConfirmPassword(true)
-                    : setConfirmPassword(false);
+                  setConfirmPassword(e.target.value);
                 }}
               />
             </InputForm>
-            {!confirmPassword && user.password && (
+            {confirmPassword !== user.password && user.password && (
               <ValidWrapper>
                 <span>비밀번호가 일치하지 않습니다.</span>
               </ValidWrapper>
@@ -310,7 +251,7 @@ function Signup() {
               <Input
                 required={true}
                 type="date"
-                placeholder="1900"
+                value={user.birth}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, birth: e.target.value }));
                 }}
@@ -325,6 +266,7 @@ function Signup() {
               <Input
                 required={true}
                 placeholder="010-1234-5678"
+                value={user.telephone}
                 onChange={(e) =>
                   setUser((user) => ({
                     ...user,
@@ -343,6 +285,7 @@ function Signup() {
               <Input
                 required={true}
                 placeholder="인증코드를 입력하세요."
+                value={numberCode}
                 onChange={(e) => setNumberCode(e.target.value)}
               />
               <ButtonDiv height="3rem">확인</ButtonDiv>
@@ -357,6 +300,7 @@ function Signup() {
                 required={true}
                 placeholder="이메일을 입력하세요."
                 type="email"
+                value={user.email}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, email: e.target.value }))
                 }
