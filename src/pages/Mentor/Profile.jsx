@@ -183,9 +183,9 @@ const MentorProfile = (props) => {
         ...data,
         birth: birthHypenParse(data.birth),
       });
-      setSchoolList([...data.schoolList]);
-      setTagList([...data.tagList]);
-      setCareerList([...data.careerList]);
+      data.schoolList && setSchoolList([...data.schoolList]);
+      data.tagList && setTagList([...data.tagList]);
+      data.careerList && setCareerList([...data.careerList]);
       setImage(
         data.profileImg ||
           "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
@@ -309,11 +309,11 @@ const MentorProfile = (props) => {
                   setValidNickname(undefined);
                 }}
                 disabled={view}
-                onBlur={(e) => {
-                  if (e.target.value === "") {
-                    setUser((prev) => ({ ...prev, nickname: data.nickname }));
-                  }
-                }}
+                // onBlur={(e) => {
+                //   if (e.target.value === "") {
+                //     setUser((prev) => ({ ...prev, nickname: data.nickname }));
+                //   }
+                // }}
               />
               {!view && user.nickname && user.nickname !== data.nickname && (
                 <ButtonDiv
@@ -355,11 +355,11 @@ const MentorProfile = (props) => {
               onChange={(e) =>
                 setUser((prev) => ({ ...prev, email: e.target.value }))
               }
-              onBlur={(e) => {
-                if (e.target.value === "") {
-                  setUser((prev) => ({ ...prev, email: data.email }));
-                }
-              }}
+              // onBlur={(e) => {
+              //   if (e.target.value === "") {
+              //     setUser((prev) => ({ ...prev, email: data.email }));
+              //   }
+              // }}
               disabled={view}
             />
           </Wrapper>
@@ -414,11 +414,11 @@ const MentorProfile = (props) => {
                     telephone: withHypenNumber,
                   }));
                 }}
-                onBlur={(e) => {
-                  if (e.target.value === "") {
-                    setUser((prev) => ({ ...prev, telephone: data.telephone }));
-                  }
-                }}
+                // onBlur={(e) => {
+                //   if (e.target.value === "") {
+                //     setUser((prev) => ({ ...prev, telephone: data.telephone }));
+                //   }
+                // }}
                 disabled={view}
               />
 

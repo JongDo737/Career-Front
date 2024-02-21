@@ -51,6 +51,7 @@ import {
 import UserCard from "./pages/UserCard";
 import ConsultMentorCard from "./pages/ConsultMentorCard";
 import MenteeSchedule from "./pages/Mentee/Schedule";
+import { FRONT_URL } from "./constants";
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
   const isMentor = useSelector((state) => state.isMentor.value);
@@ -64,7 +65,6 @@ function App() {
       dispatch(setIsMentor(payload.isTutor));
     }
   }, []);
-
   return (
     <>
       <BrowserRouter>

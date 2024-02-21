@@ -5,7 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getCookie, setCookie } from "../../cookie";
-import { FRONT_LOCAL } from "../../constants";
+import { FRONT_URL } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsLogin } from "../../store/isLoginSlice";
 import { colors } from "../../styles/common/Theme";
@@ -24,14 +24,11 @@ const Menubar = () => {
   const isMentor = useSelector((state) => state.isMentor.value);
   const isLogin = useSelector((state) => state.isLogin.value);
   const [leftLink, setLeftLink] = useState([
-    `${FRONT_LOCAL}`,
-    `${FRONT_LOCAL}`,
-    `${FRONT_LOCAL}`,
+    `${FRONT_URL}`,
+    `${FRONT_URL}`,
+    `${FRONT_URL}`,
   ]);
-  const [rightLink, setRightLink] = useState([
-    `${FRONT_LOCAL}`,
-    `${FRONT_LOCAL}`,
-  ]);
+  const [rightLink, setRightLink] = useState([`${FRONT_URL}`, `${FRONT_URL}`]);
   const [subSelect, setSubSelect] = useState(false);
 
   const dispatch = useDispatch();
@@ -57,29 +54,29 @@ const Menubar = () => {
     if (!isLogin) {
       setLeftMenu(["홈", "멘토", "게시판"]);
       setRightMenu([]);
-      setLeftLink([`${FRONT_LOCAL}`, `${FRONT_LOCAL}`, `${FRONT_LOCAL}`]);
+      setLeftLink([`${FRONT_URL}`, `${FRONT_URL}`, `${FRONT_URL}`]);
     } else {
       if (isMentor) {
         setLeftMenu(["홈", "상담내역", "시간표", "커뮤니티"]);
         setRightMenu(["초대하기", "추가메뉴"]);
         setLeftLink([
-          `${FRONT_LOCAL}/mentor`,
-          `${FRONT_LOCAL}/mentor/consult`,
-          `${FRONT_LOCAL}/schedule`,
-          `${FRONT_LOCAL}/community`,
+          `${FRONT_URL}/mentor`,
+          `${FRONT_URL}/mentor/consult`,
+          `${FRONT_URL}/schedule`,
+          `${FRONT_URL}/community`,
         ]);
-        setRightLink([`${FRONT_LOCAL}/mentor`, `${FRONT_LOCAL}/mentor`]);
+        setRightLink([`${FRONT_URL}/mentor`, `${FRONT_URL}/mentor`]);
       } else {
         setLeftMenu(["홈", "멘토", "시간표", "상담", "커뮤니티"]);
         setRightMenu(["초대하기", "이용권 구매"]);
         setLeftLink([
-          `${FRONT_LOCAL}/mentee`,
-          `${FRONT_LOCAL}/mentee/mentor`,
-          `${FRONT_LOCAL}/mentee/schedule`,
-          `${FRONT_LOCAL}/mentee`,
-          `${FRONT_LOCAL}/community`,
+          `${FRONT_URL}/mentee`,
+          `${FRONT_URL}/mentee/mentor`,
+          `${FRONT_URL}/mentee/schedule`,
+          `${FRONT_URL}/mentee`,
+          `${FRONT_URL}/community`,
         ]);
-        setRightLink([`${FRONT_LOCAL}/mentee`, `${FRONT_LOCAL}/mentee`]);
+        setRightLink([`${FRONT_URL}/mentee`, `${FRONT_URL}/mentee`]);
       }
     }
   }, [isLogin, isMentor]);
@@ -141,8 +138,8 @@ const Menubar = () => {
                       }}
                       to={
                         isMentor
-                          ? `${FRONT_LOCAL}/mentor/setting`
-                          : `${FRONT_LOCAL}/mentee/setting`
+                          ? `${FRONT_URL}/mentor/setting`
+                          : `${FRONT_URL}/mentee/setting`
                       }
                       className={
                         subMenu === "설정"
@@ -160,8 +157,8 @@ const Menubar = () => {
                       }}
                       to={
                         isMentor
-                          ? `${FRONT_LOCAL}/mentor/profile`
-                          : `${FRONT_LOCAL}/mentee/profile`
+                          ? `${FRONT_URL}/mentor/profile`
+                          : `${FRONT_URL}/mentee/profile`
                       }
                       className={
                         subMenu === "내 프로필"
@@ -173,7 +170,7 @@ const Menubar = () => {
                     </Link>
                     <hr />
                     <Link
-                      to={`${FRONT_LOCAL}/`}
+                      to={`${FRONT_URL}/`}
                       className={
                         subMenu === "로그아웃"
                           ? "right-menu right-menu__selected"
@@ -202,7 +199,7 @@ const Menubar = () => {
                 <FontAwesomeIcon icon={faCircle} />
               </div>
               <Link
-                to={`${FRONT_LOCAL}/login`}
+                to={`${FRONT_URL}/login`}
                 className="menubar-content"
                 onClick={() => {
                   setSignup("회원가입");
@@ -223,7 +220,7 @@ const Menubar = () => {
                         setSignup("멘토 회원가입");
                         toggleSignup();
                       }}
-                      to={`${FRONT_LOCAL}/signMentor`}
+                      to={`${FRONT_URL}/signMentor`}
                       className={
                         signup === "멘토 회원가입"
                           ? "right-menu right-menu__selected"
@@ -238,7 +235,7 @@ const Menubar = () => {
                         setSignup("멘티 회원가입");
                         toggleSignup();
                       }}
-                      to={`${FRONT_LOCAL}/signMentee`}
+                      to={`${FRONT_URL}/signMentee`}
                       className={
                         signup === "멘티 회원가입"
                           ? "right-menu right-menu__selected"

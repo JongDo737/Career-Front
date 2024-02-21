@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { checkValidNickname, checkValidUsername } from "../../api/checkValid";
 import TitleWithBar from "../../components/Input/InputWithTitle";
 import { Label, Radio, ValidWrapper } from "../../styles/common/FoamComponents";
+import { phoneNumberParse } from "../../utils/ParseFormat";
 function Signup() {
   const navigator = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState();
@@ -45,33 +46,33 @@ function Signup() {
 
   const [careerFile, setCareerFile] = useState([]);
 
-  const fileUploadIdx = useRef(0);
-  const onUploadFile = (e) => {
-    //재학 증명서 업로드
-    if (!e.target.files?.length) return;
-    const files = e.target.files;
-    const len = files.length;
+  // const fileUploadIdx = useRef(0);
+  // const onUploadFile = (e) => {
+  //   //재학 증명서 업로드
+  //   if (!e.target.files?.length) return;
+  //   const files = e.target.files;
+  //   const len = files.length;
 
-    for (let i = 0; i < len; i++) {
-      const file_name = files[i].name.toLowerCase();
-      setCareerFile((current) => {
-        return [
-          ...current,
-          { idx: fileUploadIdx.current + i, name: file_name },
-        ];
-      });
-    }
-    e.target.value = ""; //for firing onChange;
-    setIsFile(true);
-  };
+  //   for (let i = 0; i < len; i++) {
+  //     const file_name = files[i].name.toLowerCase();
+  //     setCareerFile((current) => {
+  //       return [
+  //         ...current,
+  //         { idx: fileUploadIdx.current + i, name: file_name },
+  //       ];
+  //     });
+  //   }
+  //   e.target.value = ""; //for firing onChange;
+  //   setIsFile(true);
+  // };
 
-  useEffect(() => {
-    fileUploadIdx.current = careerFile.length;
-  }, [careerFile]);
+  // useEffect(() => {
+  //   fileUploadIdx.current = careerFile.length;
+  // }, [careerFile]);
 
-  const onDeleteFile = (idx) => {
-    setCareerFile(careerFile.filter((a) => a.idx !== idx));
-  };
+  // const onDeleteFile = (idx) => {
+  //   setCareerFile(careerFile.filter((a) => a.idx !== idx));
+  // };
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -267,12 +268,13 @@ function Signup() {
                 required={true}
                 placeholder="010-1234-5678"
                 value={user.telephone}
-                onChange={(e) =>
+                onChange={(e) => {
+                  const withHypenNumber = phoneNumberParse(e.target.value);
                   setUser((user) => ({
                     ...user,
-                    telephone: e.target.value,
-                  }))
-                }
+                    telephone: withHypenNumber,
+                  }));
+                }}
               />
               <ButtonDiv
                 height="3rem"
